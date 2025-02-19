@@ -1,0 +1,14 @@
+{
+    "home":{
+        "title": "An sayfa"
+    },
+    "general":{
+        "button":{
+            "save":"kaydet"
+        },
+    "dialog":{
+        "title":"Versiyon",
+        "content":"Versiyon Bilgisi"
+    }
+    }
+}

@@ -1,0 +1,72 @@
+name: my_architecture_template
+description: "A new Flutter project."
+
+
+publish_to: 'none'
+version: 1.0.0+1
+
+
+environment:
+  sdk: ^3.5.4
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  #Core
+  flutter_launcher_icons: ^0.14.1
+  equatable: ^2.0.7
+  get_it: ^8.0.3
+
+  #Config
+  easy_localization: ^3.0.7
+
+  #Network
+  vexana: ^5.0.1
+
+  #State
+  flutter_bloc: ^9.0.0
+
+  #Utility
+  kartal: ^3.5.0
+  easy_logger: ^0.0.2
+  logger: ^2.5.0
+  google_fonts: ^6.2.1
+
+  #Navigation
+  auto_route: ^9.3.0+1
+
+  widgets:
+    path: module/widgets
+  
+  gen:
+    path: module/gen
+  
+  common: 
+    path: module/common
+
+  core:
+    path: module/core
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: ture
+  image_path: "assets/app/app_icon.png"
+  min_sdk_android: 21
+  remove_alpha_ios: ture
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^6.0.0
+  auto_route_generator: ^9.0.0
+  build_runner: ^2.4.6
+  
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - asset/translations/
