@@ -17,8 +17,8 @@ void main() {
 
   test('Post User Login', () async {
     final loginModel = UserLoginModel(
-      userName: 'hipocapp',
-      password: 'A8717101a',
+      userName: '',
+      password: '',
     );
 
     final networkResult = await manager.sendRequest<BaseResponseModel, dynamic>(
