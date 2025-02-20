@@ -8,9 +8,11 @@ final class LoginService extends AuthenticationOperation {
 
   final INetworkManager<EmptyModel> _networkManager;
 
-  Future<List<User>> users() async {
-    final response = await _networkManager.send<User, List<User>>(ProductServicePath.post.value, parseModel: User(), method: RequestType.GET);
+  @override
+  Future<User?> userLogin() async {
+    final response =
+        await _networkManager.send<UserLoginModel, User>(ProductServicePath.login.value, parseModel: UserLoginModel(), method: RequestType.POST);
 
-    return response.data ?? [];
+    return response.data;
   }
 }

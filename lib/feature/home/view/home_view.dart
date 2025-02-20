@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gen/gen.dart';
-import 'package:auto_route/annotations.dart';
 import 'package:my_architecture_template/feature/home/view/mixin/home_view_mixin.dart';
 import 'package:my_architecture_template/feature/home/view_model/home_view_model.dart';
 import 'package:my_architecture_template/feature/home/view_model/state/home_view_state.dart';
 import 'package:my_architecture_template/product/state/base/base_state.dart';
 
 /// My Home Page
-@RoutePage()
+
 final class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -55,9 +54,9 @@ class _UserList extends StatelessWidget {
             itemCount: state.length,
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(state[index].userId.toString()),
-                subtitle: Text(state[index].body.toString()),
-              );
+                  // title: Text(state[index].userId.toString()),
+                  // subtitle: Text(state[index].body.toString()),
+                  );
             },
           );
         },

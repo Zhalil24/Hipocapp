@@ -21,12 +21,7 @@ enum AppEnvironmentItems {
   /// Get application environment item value
   String get value {
     try {
-      switch (this) {
-        case AppEnvironmentItems.baseUrl:
-          return AppEnvironment._config.baseUrl;
-        case AppEnvironmentItems.apiKey:
-          return AppEnvironment._config.apiKey;
-      }
+      return AppEnvironment._config.baseUrl;
     } catch (e) {
       throw Exception('AppEnvironment is not initalized');
     }

@@ -10,20 +10,20 @@
 part of 'app_router.dart';
 
 /// generated route for
-/// [HomeView]
-class HomeRoute extends PageRouteInfo<void> {
-  const HomeRoute({List<PageRouteInfo>? children})
+/// [LoginView]
+class LoginRoute extends PageRouteInfo<void> {
+  const LoginRoute({List<PageRouteInfo>? children})
       : super(
-          HomeRoute.name,
+          LoginRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'HomeRoute';
+  static const String name = 'LoginRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const HomeView();
+      return const LoginView();
     },
   );
 }

@@ -1,7 +1,8 @@
 /// Product Service Path
 enum ProductServicePath {
   users('/user'),
-  post('/posts');
+  post('/posts'),
+  login('api/user/Login');
 
   final String value;
   const ProductServicePath(this.value);
