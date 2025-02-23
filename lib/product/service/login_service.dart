@@ -9,10 +9,19 @@ final class LoginService extends AuthenticationOperation {
   final INetworkManager<EmptyModel> _networkManager;
 
   @override
-  Future<User?> userLogin() async {
-    final response =
-        await _networkManager.send<UserLoginModel, User>(ProductServicePath.login.value, parseModel: UserLoginModel(), method: RequestType.POST);
+  Future<User?> userLogin({required UserLoginModel userLoginModel}) async {
+    final response = await _networkManager.send<UserResponseModel, dynamic>(
+      ProductServicePath.login.value,
+      parseModel: UserResponseModel(),
+      method: RequestType.POST,
+      data: userLoginModel.toJson(),
+    );
 
-    return response.data;
+    if (response.data != null) {
+      final userResponse = response.data as UserResponseModel;
+      return userResponse.user;
+    } else {
+      return null;
+    }
   }
 }

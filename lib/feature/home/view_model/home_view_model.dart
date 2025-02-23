@@ -23,12 +23,12 @@ final class HomeViewModel extends BaseCubit<HomeViewState> {
   }
 
   /// Get Users
-  Future<void> fetchUsers() async {
-    print(usersFromCache);
-    final response = await _authenticationOperationService.users();
-    _saveItems(response);
-    emit(state.copyWith(users: response));
-  }
+  // Future<void> fetchUsers() async {
+  //   print(usersFromCache);
+  //   final response = await _authenticationOperationService.users();
+  //   _saveItems(response);
+  //   emit(state.copyWith(users: response));
+  // }
 
   /// Save users to cache
   void _saveItems(List<User> user) {

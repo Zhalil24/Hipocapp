@@ -24,7 +24,6 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             productViewModel.changeThemeMode(ThemeMode.light);
-            homeViewModel.fetchUsers();
           },
         ),
         appBar: AppBar(),

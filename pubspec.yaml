@@ -23,8 +23,8 @@ dependencies:
   easy_localization: ^3.0.7
 
   #Network
-  vexana: ^5.0.1
-  
+  vexana: ^5.0.3
+
   #State
   flutter_bloc: ^9.0.0
 

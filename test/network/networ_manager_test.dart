@@ -8,7 +8,7 @@ import 'package:my_architecture_template/product/service/manager/product_service
 import 'package:vexana/vexana.dart';
 
 void main() {
-  late final ProductNetworkManager manager;
+  ProductNetworkManager? manager;
 
   setUp(() {
     AppEnvironment.general();
@@ -17,11 +17,11 @@ void main() {
 
   test('Post User Login', () async {
     final loginModel = UserLoginModel(
-      userName: '',
-      password: '',
+      userName: 'hipocapp',
+      password: 'A8717101a',
     );
 
-    final networkResult = await manager.sendRequest<BaseResponseModel, dynamic>(
+    final networkResult = await manager!.sendRequest<BaseResponseModel, dynamic>(
       ProductServicePath.login.value,
       parseModel: BaseResponseModel(),
       method: RequestType.POST,
@@ -33,13 +33,13 @@ void main() {
   });
 
   test('Post login user from api with error', () async {
-    manager.listenErrorState(
+    manager!.listenErrorState(
       onErrorStatus: (value) {
         if (value == HttpStatus.unauthorized) {}
         expect(value, isNotNull);
       },
     );
-    final resp = await manager.send<UserLoginModel, User>(
+    final resp = await manager!.send<UserLoginModel, User>(
       ProductServicePath.post.value,
       parseModel: UserLoginModel(),
       method: RequestType.POST,
