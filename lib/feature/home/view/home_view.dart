@@ -1,13 +1,13 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gen/gen.dart';
 import 'package:my_architecture_template/feature/home/view/mixin/home_view_mixin.dart';
 import 'package:my_architecture_template/feature/home/view_model/home_view_model.dart';
 import 'package:my_architecture_template/feature/home/view_model/state/home_view_state.dart';
 import 'package:my_architecture_template/product/state/base/base_state.dart';
 
 /// My Home Page
-
+@RoutePage()
 final class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -23,7 +23,7 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            productViewModel.changeThemeMode(ThemeMode.light);
+            productViewModel.changeThemeMode(ThemeMode.dark);
           },
         ),
         appBar: AppBar(),
@@ -42,20 +42,46 @@ class _UserList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<HomeViewModel, HomeViewState>(
-      listener: (context, state) {},
-      child: BlocSelector<HomeViewModel, HomeViewState, List<User>>(
-        selector: (state) {
-          return state.users ?? [];
-        },
+      listener: (context, state) {
+        if (state.lastEntries == null) {
+          context.read<HomeViewModel>().getLastEntries();
+        }
+      },
+      child: BlocBuilder<HomeViewModel, HomeViewState>(
         builder: (context, state) {
-          if (state.isEmpty) return const SizedBox();
           return ListView.builder(
-            itemCount: state.length,
+            itemCount: state.lastEntries?.length ?? 0,
             itemBuilder: (context, index) {
-              return ListTile(
-                  // title: Text(state[index].userId.toString()),
-                  // subtitle: Text(state[index].body.toString()),
-                  );
+              return Card(
+                margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6), // Kenarlardan boşluk bırak
+                elevation: 4, // Hafif bir gölgelendirme ekle
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), // Köşeleri yuvarla
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(12), // İçeriği daha rahat okutmak için padding ekle
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        state.lastEntries![index].titleName.toString(),
+                      ),
+                      SizedBox(height: 6), // Boşluk ekle
+                      Text(
+                        state.lastEntries![index].entryDescription.toString(),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        'Kullanıcı: ${state.lastEntries![index].userName}',
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        'Tarih: ${state.lastEntries![index].date}',
+                      )
+                    ],
+                  ),
+                ),
+              );
             },
           );
         },

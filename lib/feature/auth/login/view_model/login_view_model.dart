@@ -22,14 +22,18 @@ final class LoginViewModel extends BaseCubit<LoginViewState> {
   }
 
   Future<void> fetchLogin({required String userName, required String password}) async {
+    changeLoading();
     final userLoginModel = UserLoginModel(
       userName: userName,
       password: password,
     );
 
     final response = await _authenticationOperationService.userLogin(userLoginModel: userLoginModel);
-    print(response?.accessToken);
-
+    _saveItem(response?.accessToken?.token ?? '');
     changeLoading();
+  }
+
+  void _saveItem(String token) {
+    _userCacheOperation.add(UserCacheModel(token: token));
   }
 }

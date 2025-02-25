@@ -1,7 +1,6 @@
 /// Product Service Path
 enum ProductServicePath {
-  users('/user'),
-  post('/posts'),
+  lastEntries('Entry/GetLastEntries'),
   login('api/user/Login');
 
   final String value;

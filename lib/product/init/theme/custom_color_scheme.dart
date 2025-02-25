@@ -7,100 +7,70 @@ final class CustomColorScheme {
   /// Light Color Scheme
   static const lightColorScheme = ColorScheme(
     brightness: Brightness.light,
-    primary: Color(4282474385),
-    surfaceTint: Color(4282474385),
-    onPrimary: Color(4294967295),
-    primaryContainer: Color(4292273151),
-    onPrimaryContainer: Color(4280829815),
-    secondary: Color(4283850609),
-    onSecondary: Color(4294967295),
-    secondaryContainer: Color(4292535033),
-    onSecondaryContainer: Color(4282271577),
-    tertiary: Color(4285551989),
-    onTertiary: Color(4294967295),
-    tertiaryContainer: Color(4294629629),
-    onTertiaryContainer: Color(4283907676),
-    error: Color(4290386458),
-    onError: Color(4294967295),
-    errorContainer: Color(4294957782),
-    onErrorContainer: Color(4287823882),
-    surface: Color(4294572543),
-    onSurface: Color(4279835680),
-    onSurfaceVariant: Color(4282664782),
-    outline: Color(4285822847),
-    outlineVariant: Color(4291086032),
-    shadow: Color(4278190080),
-    scrim: Color(4278190080),
-    inverseSurface: Color(4281217078),
-    inversePrimary: Color(4289382399),
-    primaryFixed: Color(4292273151),
-    onPrimaryFixed: Color(4278197054),
-    primaryFixedDim: Color(4289382399),
-    onPrimaryFixedVariant: Color(4280829815),
-    secondaryFixed: Color(4292535033),
-    onSecondaryFixed: Color(4279442475),
-    secondaryFixedDim: Color(4290692828),
-    onSecondaryFixedVariant: Color(4282271577),
-    tertiaryFixed: Color(4294629629),
-    onTertiaryFixed: Color(4280816430),
-    tertiaryFixedDim: Color(4292721888),
-    onTertiaryFixedVariant: Color(4283907676),
-    surfaceDim: Color(4292467168),
-    surfaceBright: Color(4294572543),
-    surfaceContainerLowest: Color(4294967295),
-    surfaceContainerLow: Color(4294177786),
-    surfaceContainer: Color(4293783028),
-    surfaceContainerHigh: Color(4293388526),
-    surfaceContainerHighest: Color(4293059305),
+    primary: Color(0xFFFFC107), // Sarı (Amber)
+    surfaceTint: Color(0xFFFFD54F), // Açık sarı yüzey
+    onPrimary: Colors.white, // Beyaz yazı
+    primaryContainer: Color(0xFFFFE082), // Hafif sarı
+    onPrimaryContainer: Colors.black, // Siyah yazı
+
+    secondary: Color(0xFFFFA000), // Turuncu
+    onSecondary: Colors.white,
+    secondaryContainer: Color(0xFFFFB74D),
+    onSecondaryContainer: Colors.black,
+
+    tertiary: Color(0xFFFFD700), // Daha parlak sarı
+    onTertiary: Colors.black,
+    tertiaryContainer: Color(0xFFFFE57F),
+    onTertiaryContainer: Colors.black,
+
+    error: Color(0xFFD32F2F), // Kırmızı hata rengi
+    onError: Colors.white,
+    errorContainer: Color(0xFFF44336),
+    onErrorContainer: Colors.black,
+
+    surface: Color(0xFFFFF8E1), // Çok açık sarı arka plan
+    onSurface: Colors.black,
+    onSurfaceVariant: Color(0xFF757575),
+    outline: Color(0xFFBDBDBD),
+
+    shadow: Colors.black45,
+    scrim: Colors.black54,
+    inverseSurface: Color(0xFF303030), // Koyu gri
+    inversePrimary: Colors.black, // Siyah
   );
 
   /// Dark Color Scheme
   static const darkColorScheme = ColorScheme(
     brightness: Brightness.dark,
-    primary: Color(4289382399),
-    surfaceTint: Color(4289382399),
-    onPrimary: Color(4278857823),
-    primaryContainer: Color(4280829815),
-    onPrimaryContainer: Color(4292273151),
-    secondary: Color(4290692828),
-    onSecondary: Color(4280824129),
-    secondaryContainer: Color(4282271577),
-    onSecondaryContainer: Color(4292535033),
-    tertiary: Color(4292721888),
-    onTertiary: Color(4282329156),
-    tertiaryContainer: Color(4283907676),
-    onTertiaryContainer: Color(4294629629),
-    error: Color(4294948011),
-    onError: Color(4285071365),
-    errorContainer: Color(4287823882),
-    onErrorContainer: Color(4294957782),
-    surface: Color(4279309080),
-    onSurface: Color(4293059305),
-    onSurfaceVariant: Color(4291086032),
-    outline: Color(4287533209),
-    outlineVariant: Color(4282664782),
-    shadow: Color(4278190080),
-    scrim: Color(4278190080),
-    inverseSurface: Color(4293059305),
-    inversePrimary: Color(4282474385),
-    primaryFixed: Color(4292273151),
-    onPrimaryFixed: Color(4278197054),
-    primaryFixedDim: Color(4289382399),
-    onPrimaryFixedVariant: Color(4280829815),
-    secondaryFixed: Color(4292535033),
-    onSecondaryFixed: Color(4279442475),
-    secondaryFixedDim: Color(4290692828),
-    onSecondaryFixedVariant: Color(4282271577),
-    tertiaryFixed: Color(4294629629),
-    onTertiaryFixed: Color(4280816430),
-    tertiaryFixedDim: Color(4292721888),
-    onTertiaryFixedVariant: Color(4283907676),
-    surfaceDim: Color(4279309080),
-    surfaceBright: Color(4281809214),
-    surfaceContainerLowest: Color(4278980115),
-    surfaceContainerLow: Color(4279835680),
-    surfaceContainer: Color(4280098852),
-    surfaceContainerHigh: Color(4280822319),
-    surfaceContainerHighest: Color(4281546042),
+    primary: Color(0xFFFFD700), // Altın sarısı
+    surfaceTint: Color(0xFFFFA000), // Turuncu sarı
+    onPrimary: Colors.black, // Siyah yazılar
+    primaryContainer: Color(0xFFFFD54F),
+    onPrimaryContainer: Colors.black,
+
+    secondary: Color(0xFFFFC107), // Sarı
+    onSecondary: Colors.black,
+    secondaryContainer: Color(0xFFFFD54F),
+    onSecondaryContainer: Colors.black,
+
+    tertiary: Color(0xFFFFA000), // Turuncu vurgu
+    onTertiary: Colors.black,
+    tertiaryContainer: Color(0xFFFFD54F),
+    onTertiaryContainer: Colors.black,
+
+    error: Color(0xFFB71C1C), // Koyu kırmızı
+    onError: Colors.white,
+    errorContainer: Color(0xFFD32F2F),
+    onErrorContainer: Colors.black,
+
+    surface: Color(0xFF000000), // Tam siyah arka plan
+    onSurface: Color(0xFFFFEB3B), // Sarı yazılar
+    onSurfaceVariant: Color(0xFFFFC107),
+    outline: Color(0xFFFFD54F),
+
+    shadow: Colors.black,
+    scrim: Colors.black87,
+    inverseSurface: Color(0xFFFFEB3B), // Sarı
+    inversePrimary: Colors.white, // Beyaz
   );
 }

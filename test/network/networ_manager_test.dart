@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:gen/gen.dart';
 import 'package:my_architecture_template/product/init/config/app_environment.dart';
 import 'package:my_architecture_template/product/service/manager/product_network_manager.dart';
@@ -8,7 +6,7 @@ import 'package:my_architecture_template/product/service/manager/product_service
 import 'package:vexana/vexana.dart';
 
 void main() {
-  ProductNetworkManager? manager;
+  ProductNetworkManager? manager = ProductNetworkManager.base();
 
   setUp(() {
     AppEnvironment.general();
@@ -17,13 +15,13 @@ void main() {
 
   test('Post User Login', () async {
     final loginModel = UserLoginModel(
-      userName: 'hipocapp',
-      password: 'A8717101a',
+      userName: '',
+      password: '',
     );
 
-    final networkResult = await manager!.sendRequest<BaseResponseModel, dynamic>(
+    final networkResult = await manager!.sendRequest<UserResponseModel, dynamic>(
       ProductServicePath.login.value,
-      parseModel: BaseResponseModel(),
+      parseModel: UserResponseModel(),
       method: RequestType.POST,
       data: loginModel.toJson(),
     );
@@ -32,19 +30,13 @@ void main() {
     expect(networkResult.isSuccess, isTrue);
   });
 
-  test('Post login user from api with error', () async {
-    manager!.listenErrorState(
-      onErrorStatus: (value) {
-        if (value == HttpStatus.unauthorized) {}
-        expect(value, isNotNull);
-      },
-    );
-    final resp = await manager!.send<UserLoginModel, User>(
-      ProductServicePath.post.value,
-      parseModel: UserLoginModel(),
-      method: RequestType.POST,
+  test('Get Last Entries', () async {
+    final response = await manager!.send<LastEntiresResponseModel, dynamic>(
+      ProductServicePath.lastEntries.value,
+      parseModel: LastEntiresResponseModel(),
+      method: RequestType.GET,
     );
 
-    expect(resp.data, isNotNull);
+    expect(response.data, isNotNull);
   });
 }

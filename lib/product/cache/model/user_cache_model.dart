@@ -1,36 +1,34 @@
 import 'package:core/core.dart';
-import 'package:gen/gen.dart';
 import 'package:kartal/kartal.dart';
 
 final class UserCacheModel with CacheModel {
-  UserCacheModel({required this.user});
-  UserCacheModel.empty() : user = User();
+  UserCacheModel({required this.token});
+  UserCacheModel.empty() : token = '';
 
-  final User user;
+  final String token;
 
   @override
   UserCacheModel fromDynamicJson(dynamic json) {
     final jsonMap = json as Map<String, dynamic>?;
-    if (jsonMap == null) {
-      CustomLogger.showError<User>('Json cannot be null');
+    if (jsonMap == null || !jsonMap.containsKey('token')) {
+      CustomLogger.showError<UserCacheModel>('Json cannot be null or missing token field');
       return this;
     }
     return copyWith(
-      user: User.fromJson(jsonMap),
+      token: jsonMap['token'] as String,
     );
   }
 
   @override
-  String get id => user.id.toString();
-
+  String get id => token;
   @override
   Map<String, dynamic> toJson() {
-    return user.toJson();
+    return {'token': token};
   }
 
   UserCacheModel copyWith({
-    User? user,
+    String? token,
   }) {
-    return UserCacheModel(user: user ?? this.user);
+    return UserCacheModel(token: token ?? this.token);
   }
 }

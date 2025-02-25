@@ -7,8 +7,9 @@ final class CustomLightTheme implements CustomTheme {
   @override
   ThemeData get themedata => ThemeData(
         useMaterial3: true,
-        fontFamily: GoogleFonts.zcoolXiaoWei().fontFamily,
+        fontFamily: GoogleFonts.roboto().fontFamily,
         colorScheme: CustomColorScheme.lightColorScheme,
+        scaffoldBackgroundColor: CustomColorScheme.darkColorScheme.primary,
       );
 
   @override
