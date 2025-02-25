@@ -4,7 +4,7 @@ import 'package:my_architecture_template/product/service/manager/product_service
 import 'package:vexana/vexana.dart';
 
 /// Get last entries service
-final class LastEntriesService extends EntryOperation {
+final class LastEntriesService extends LastEntryOperation {
   LastEntriesService(INetworkManager<EmptyModel> networkManager) : _networkManager = networkManager;
 
   final INetworkManager<EmptyModel> _networkManager;

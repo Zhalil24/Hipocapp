@@ -39,8 +39,11 @@ class $AssetsImagesGen {
   /// File path: assets/images/img_mtu.png
   AssetGenImage get imgMtu => const AssetGenImage('assets/images/img_mtu.png');
 
+  /// File path: assets/images/logo.png
+  AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [imgMtu];
+  List<AssetGenImage> get values => [imgMtu, logo];
 }
 
 class $AssetsLottieGen {

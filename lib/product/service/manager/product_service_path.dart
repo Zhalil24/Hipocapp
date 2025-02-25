@@ -1,6 +1,7 @@
 /// Product Service Path
 enum ProductServicePath {
   lastEntries('Entry/GetLastEntries'),
+  randomEntries('Entry/GetRandomEntries'),
   login('api/user/Login');
 
   final String value;
