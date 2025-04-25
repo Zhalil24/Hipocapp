@@ -1,5 +1,5 @@
 import 'package:core/core.dart';
-import 'package:my_architecture_template/product/cache/model/user_cache_model.dart';
+import 'package:hipocapp/product/cache/model/user_cache_model.dart';
 
 final class ProductCache {
   ProductCache({required CacheManager cacheManager}) : _cacheManager = cacheManager;

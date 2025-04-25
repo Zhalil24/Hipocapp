@@ -1,6 +1,6 @@
-import 'package:my_architecture_template/feature/home/view_model/state/home_view_state.dart';
-import 'package:my_architecture_template/product/service/interface/entry_operation.dart';
-import 'package:my_architecture_template/product/state/base/base_cuibt.dart';
+import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
+import 'package:hipocapp/product/service/interface/entry_operation.dart';
+import 'package:hipocapp/product/state/base/base_cuibt.dart';
 
 /// Manage your home view business login-c
 final class HomeViewModel extends BaseCubit<HomeViewState> {

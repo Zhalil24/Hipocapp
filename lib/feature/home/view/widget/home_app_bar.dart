@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_architecture_template/feature/home/view_model/home_view_model.dart';
-import 'package:my_architecture_template/feature/home/view_model/state/home_view_state.dart';
+import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
+import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key});

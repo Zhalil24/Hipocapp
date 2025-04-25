@@ -20,7 +20,7 @@ final class UserCacheModel with CacheModel {
   }
 
   @override
-  String get id => token;
+  String get id => 'user_token';
   @override
   Map<String, dynamic> toJson() {
     return {'token': token};

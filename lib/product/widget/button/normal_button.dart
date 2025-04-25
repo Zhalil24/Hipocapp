@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_architecture_template/product/utility/constans/project_radius/project_radius.dart';
+import 'package:hipocapp/product/utility/constans/project_radius/project_radius.dart';
 
 /// Project is NormalButton
 final class NormalButton extends StatelessWidget {

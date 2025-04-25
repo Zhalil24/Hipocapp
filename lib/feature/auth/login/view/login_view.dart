@@ -2,10 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gen/gen.dart';
-import 'package:my_architecture_template/feature/auth/login/view/mixin/login_view_mixin.dart';
-import 'package:my_architecture_template/feature/auth/login/view_model/login_view_model.dart';
-import 'package:my_architecture_template/feature/auth/login/view_model/state/login_view_state.dart';
-import 'package:my_architecture_template/product/navigation/app_router.dart';
+import 'package:hipocapp/feature/auth/login/view/mixin/login_view_mixin.dart';
+import 'package:hipocapp/feature/auth/login/view_model/login_view_model.dart';
+import 'package:hipocapp/feature/auth/login/view_model/state/login_view_state.dart';
 import '../../../../product/state/base/base_state.dart';
 
 @RoutePage()
@@ -24,7 +23,12 @@ class _LoginViewState extends BaseState<LoginView> with LoginViewMixin {
     return BlocProvider(
         create: (context) => loginViewModel,
         child: Scaffold(
-          appBar: AppBar(title: Center(child: const Text("HipocApp"))),
+          appBar: AppBar(
+              title: Center(
+                  child: const Text(
+            "Hipocapp",
+            style: TextStyle(fontWeight: FontWeight.w700),
+          ))),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: BlocBuilder<LoginViewModel, LoginViewState>(
@@ -40,11 +44,14 @@ class _LoginViewState extends BaseState<LoginView> with LoginViewMixin {
                               height: 300,
                               child: Assets.images.logo.image(package: 'gen'),
                             ),
+                            SizedBox(
+                              height: 70,
+                            ),
                             TextFormField(
                               controller: _userNameController,
                               style: const TextStyle(color: Colors.black),
                               decoration: InputDecoration(
-                                labelText: "User Name",
+                                labelText: "Kullanıcı Adı",
                                 labelStyle: const TextStyle(color: Colors.black),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -60,7 +67,7 @@ class _LoginViewState extends BaseState<LoginView> with LoginViewMixin {
                               obscureText: true,
                               style: const TextStyle(color: Colors.black),
                               decoration: InputDecoration(
-                                labelText: "Password",
+                                labelText: "Şifre",
                                 labelStyle: const TextStyle(color: Colors.black),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -73,14 +80,20 @@ class _LoginViewState extends BaseState<LoginView> with LoginViewMixin {
                             const SizedBox(height: 24),
                             ElevatedButton(
                               onPressed: () async {
-                                await context.read<LoginViewModel>().fetchLogin(
-                                      userName: _userNameController.text,
-                                      password: _passwordController.text,
-                                    );
-                                await context.router.replace(const HomeRoute());
+                                final success = await loginViewModel.loginAndNavigate(
+                                  context: context,
+                                  userName: _userNameController.text,
+                                  password: _passwordController.text,
+                                );
+
+                                if (!success) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Giriş başarısız. Lütfen bilgilerinizi kontrol edin.')),
+                                  );
+                                }
                               },
-                              child: const Text("Login"),
-                            ),
+                              child: const Text("Giriş"),
+                            )
                           ],
                         ),
                       );

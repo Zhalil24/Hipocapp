@@ -1,9 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:core/core.dart';
+import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
-import 'package:my_architecture_template/feature/auth/login/view_model/state/login_view_state.dart';
-import 'package:my_architecture_template/product/cache/model/user_cache_model.dart';
-import 'package:my_architecture_template/product/service/interface/authentication_operation.dart';
-import 'package:my_architecture_template/product/state/base/base_cuibt.dart';
+import 'package:hipocapp/feature/auth/login/view_model/state/login_view_state.dart';
+import 'package:hipocapp/product/cache/model/user_cache_model.dart';
+import 'package:hipocapp/product/service/interface/authentication_operation.dart';
+import 'package:hipocapp/product/state/base/base_cuibt.dart';
+
+import '../../../../product/navigation/app_router.dart';
 
 final class LoginViewModel extends BaseCubit<LoginViewState> {
   LoginViewModel({
@@ -21,16 +25,34 @@ final class LoginViewModel extends BaseCubit<LoginViewState> {
     emit(state.copyWith(isLoading: !state.isLoading));
   }
 
-  Future<void> fetchLogin({required String userName, required String password}) async {
+  Future<bool> fetchLogin({required String userName, required String password}) async {
     changeLoading();
     final userLoginModel = UserLoginModel(
       userName: userName,
       password: password,
     );
-
     final response = await _authenticationOperationService.userLogin(userLoginModel: userLoginModel);
-    _saveItem(response?.accessToken?.token ?? '');
+    if (response != null) {
+      _saveItem(response.accessToken?.token ?? '');
+      return true;
+    }
     changeLoading();
+    return false;
+  }
+
+  Future<bool> loginAndNavigate({
+    required BuildContext context,
+    required String userName,
+    required String password,
+  }) async {
+    final isSuccess = await fetchLogin(
+      userName: userName,
+      password: password,
+    );
+    if (isSuccess && context.mounted) {
+      await context.router.replace(const HomeRoute());
+    }
+    return isSuccess;
   }
 
   void _saveItem(String token) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_architecture_template/product/widget/button/normal_button.dart';
+import 'package:hipocapp/product/widget/button/normal_button.dart';
 import 'package:widgets/widgets.dart';
 
 final class DialogNormalButton extends StatelessWidget {

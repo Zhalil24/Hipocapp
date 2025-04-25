@@ -1,6 +1,6 @@
 import 'package:gen/gen.dart';
-import 'package:my_architecture_template/product/service/interface/entry_operation.dart';
-import 'package:my_architecture_template/product/service/manager/product_service_path.dart';
+import 'package:hipocapp/product/service/interface/entry_operation.dart';
+import 'package:hipocapp/product/service/manager/product_service_path.dart';
 import 'package:vexana/vexana.dart';
 
 /// Get last entries service

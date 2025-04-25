@@ -1,10 +1,10 @@
-import 'package:my_architecture_template/feature/home/view/home_view.dart';
-import 'package:my_architecture_template/feature/home/view_model/home_view_model.dart';
-import 'package:my_architecture_template/product/service/last_entries_service.dart';
-import 'package:my_architecture_template/product/service/manager/product_network_error_manager.dart';
-import 'package:my_architecture_template/product/service/random_entries_servise.dart';
-import 'package:my_architecture_template/product/state/base/base_state.dart';
-import 'package:my_architecture_template/product/state/container/product_satate_items.dart';
+import 'package:hipocapp/feature/home/view/home_view.dart';
+import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
+import 'package:hipocapp/product/service/last_entries_service.dart';
+import 'package:hipocapp/product/service/manager/product_network_error_manager.dart';
+import 'package:hipocapp/product/service/random_entries_servise.dart';
+import 'package:hipocapp/product/state/base/base_state.dart';
+import 'package:hipocapp/product/state/container/product_satate_items.dart';
 
 mixin HomeViewMixin on BaseState<HomeView> {
   late final ProductNetworkErrorManager _productNetworkErrorManager;

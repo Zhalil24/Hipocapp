@@ -1,8 +1,8 @@
 import 'package:core/core.dart';
 import 'package:get_it/get_it.dart';
-import 'package:my_architecture_template/product/cache/product_cache.dart';
-import 'package:my_architecture_template/product/service/manager/product_network_manager.dart';
-import 'package:my_architecture_template/product/state/view_model/product_view_model.dart';
+import 'package:hipocapp/product/cache/product_cache.dart';
+import 'package:hipocapp/product/service/manager/product_network_manager.dart';
+import 'package:hipocapp/product/state/view_model/product_view_model.dart';
 
 /// Prodcut container for dependency injection
 final class ProductStateContainer {

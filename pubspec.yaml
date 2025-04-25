@@ -1,5 +1,5 @@
-name: my_architecture_template
-description: "A new Flutter project."
+name: hipocapp
+description: "The official HipocApp Flutter project."
 
 
 publish_to: 'none'
@@ -15,10 +15,14 @@ dependencies:
     sdk: flutter
 
   #Core
-  flutter_launcher_icons: ^0.14.1
+  icons_launcher: ^3.0.0
+  flutter_native_splash: ^2.4.4
   equatable: ^2.0.7
   get_it: ^8.0.3
 
+  #Button
+  toggle_switch: ^2.3.0
+  
   #Config
   easy_localization: ^3.0.7
 
@@ -33,6 +37,9 @@ dependencies:
   easy_logger: ^0.0.2
   logger: ^2.5.0
   google_fonts: ^6.2.1
+
+  #Animated Text
+  animated_text_kit: ^4.2.3
 
   #Navigation
   auto_route: ^9.3.0+1
@@ -49,13 +56,6 @@ dependencies:
   core:
     path: module/core
 
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: ture
-  image_path: "assets/app/app_icon.png"
-  min_sdk_android: 21
-  remove_alpha_ios: ture
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -70,3 +70,4 @@ flutter:
 
   assets:
     - asset/translations/
+    - asset/images/

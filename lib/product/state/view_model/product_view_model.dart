@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_architecture_template/product/state/base/base_cuibt.dart';
-import 'package:my_architecture_template/product/state/view_model/prodcut_state.dart';
+import 'package:hipocapp/product/state/base/base_cuibt.dart';
+import 'package:hipocapp/product/state/view_model/prodcut_state.dart';
 
 final class ProductViewModel extends BaseCubit<ProdcutState> {
   ProductViewModel() : super(const ProdcutState());

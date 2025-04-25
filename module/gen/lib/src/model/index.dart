@@ -6,3 +6,7 @@ export 'last_entires/last_entries_model.dart';
 export 'last_entires/last_entries_response_model.dart';
 export 'random_entries/random_entries_model.dart';
 export 'random_entries/random_entries_response_model.dart';
+export 'header/header_model.dart';
+export 'header/header_response_model.dart';
+export 'title/title_model.dart';
+export 'title/title_response_model.dart';

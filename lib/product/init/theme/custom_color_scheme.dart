@@ -6,71 +6,86 @@ final class CustomColorScheme {
 
   /// Light Color Scheme
   static const lightColorScheme = ColorScheme(
-    brightness: Brightness.light,
-    primary: Color(0xFFFFC107), // Sarı (Amber)
-    surfaceTint: Color(0xFFFFD54F), // Açık sarı yüzey
-    onPrimary: Colors.white, // Beyaz yazı
-    primaryContainer: Color(0xFFFFE082), // Hafif sarı
-    onPrimaryContainer: Colors.black, // Siyah yazı
+    brightness: Brightness.light, // Tema türü: Açık tema
 
-    secondary: Color(0xFFFFA000), // Turuncu
-    onSecondary: Colors.white,
-    secondaryContainer: Color(0xFFFFB74D),
-    onSecondaryContainer: Colors.black,
+    primary: Color(0xFF7B1E3A), // Ana renk — Butonlar, AppBar, Seçili bileşenler
+    onPrimary: Colors.white, // Primary üzerinde yazı/icon — Kontrast için beyaz
+    primaryContainer: Color(0xFFFFE082), // Primary arka planı (kartlar, kutular)
+    onPrimaryContainer: Colors.black, // PrimaryContainer üzerindeki yazılar
 
-    tertiary: Color(0xFFFFD700), // Daha parlak sarı
-    onTertiary: Colors.black,
-    tertiaryContainer: Color(0xFFFFE57F),
-    onTertiaryContainer: Colors.black,
+    secondary: Color(0xFFFFA000), // İkincil vurgu (FAB, toggle, ikonlar)
+    onSecondary: Colors.white, // Secondary üstü (ikon/yazı) rengi
+    secondaryContainer: Color(0xFFFFB74D), // Secondary arka planı (kart, etiket)
+    onSecondaryContainer: Colors.black, // SecondaryContainer üstündeki yazılar
 
-    error: Color(0xFFD32F2F), // Kırmızı hata rengi
-    onError: Colors.white,
-    errorContainer: Color(0xFFF44336),
-    onErrorContainer: Colors.black,
+    tertiary: Color(0xFFFFD700), // Üçüncül renk (bazı uyarılar, sekmeler)
+    onTertiary: Colors.black, // Tertiary üstündeki yazı/icon
+    tertiaryContainer: Color(0xFFFFE57F), // Üçüncül arka planlar
+    onTertiaryContainer: Colors.black, // TertiaryContainer üstü yazı/icon
 
-    surface: Color(0xFFFFF8E1), // Çok açık sarı arka plan
-    onSurface: Colors.black,
-    onSurfaceVariant: Color(0xFF757575),
-    outline: Color(0xFFBDBDBD),
+    error: Color(0xFFD32F2F), // Hata durumu — Formlar, uyarılar
+    onError: Colors.white, // Hata rengi üstünde yazı/icon
+    errorContainer: Color(0xFFF44336), // Hatalı alanlar için arka plan
+    onErrorContainer: Colors.black, // ErrorContainer içindeki metinler
 
-    shadow: Colors.black45,
-    scrim: Colors.black54,
-    inverseSurface: Color(0xFF303030), // Koyu gri
-    inversePrimary: Colors.black, // Siyah
+    surface: Color(0xFFFDF6EC), // Sayfa arka planı / kartlar
+    onSurface: Colors.black, // Yüzey (surface) üzerindeki yazılar
+    onSurfaceVariant: Color(0xFF757575), // Alternatif yazı rengi (ikincil yazılar)
+
+    outline: Color(0xFFBDBDBD), // Çizgiler / kenarlar / sınır çizgileri
+
+    shadow: Colors.black45, // Gölge efekti (kart, buton vs.)
+    scrim: Colors.black54, // Arka plan maskesi (dialog vs.)
+
+    inverseSurface: Color(0xFF303030), // Dark mod arka plan (örn. snackbar)
+    onInverseSurface: Colors.white, // InverseSurface üstündeki yazılar
+    inversePrimary: Colors.black, // Primary rengin dark mode karşılığı
+
+    // NOT: `surfaceTint` Material 3'te kart gölge efektiyle kullanılır
+    surfaceTint: Color(0xFFFFD54F), // Hafif sarı – yüzeylere sıcaklık katmak için
   );
 
   /// Dark Color Scheme
+  /// 🌙 Dark Color Scheme — Uygulama genelinde karanlık tema için renk ayarları
   static const darkColorScheme = ColorScheme(
-    brightness: Brightness.dark,
-    primary: Color(0xFFFFD700), // Altın sarısı
-    surfaceTint: Color(0xFFFFA000), // Turuncu sarı
-    onPrimary: Colors.black, // Siyah yazılar
-    primaryContainer: Color(0xFFFFD54F),
-    onPrimaryContainer: Colors.black,
+    brightness: Brightness.dark, // Tema türü: Karanlık tema
 
-    secondary: Color(0xFFFFC107), // Sarı
-    onSecondary: Colors.black,
-    secondaryContainer: Color(0xFFFFD54F),
-    onSecondaryContainer: Colors.black,
+    primary: Color(0xFF7B1E3A), // Altın sarısı — AppBar, butonlar, seçili öğeler
+    onPrimary: Colors.black, // Primary üzerine yazılar/iconlar
 
-    tertiary: Color(0xFFFFA000), // Turuncu vurgu
-    onTertiary: Colors.black,
-    tertiaryContainer: Color(0xFFFFD54F),
-    onTertiaryContainer: Colors.black,
+    primaryContainer: Color(0xFFFFD54F), // Daha yumuşak sarı — container arka planı
+    onPrimaryContainer: Colors.black, // PrimaryContainer üstü yazı/icon
 
-    error: Color(0xFFB71C1C), // Koyu kırmızı
-    onError: Colors.white,
-    errorContainer: Color(0xFFD32F2F),
+    secondary: Color(0xFFFFC107), // Sarı — FAB, toggle, aktif simgeler
+    onSecondary: Colors.black, // Secondary üstü yazılar
+
+    secondaryContainer: Color(0xFF665252), // Secondary için arka plan
+    onSecondaryContainer: Colors.black, // SecondaryContainer içi metinler
+
+    tertiary: Color(0xFF1A264F),
+    // Lacivert — alternatif vurgu rengi (ikon uyumu için)
+    onTertiary: Colors.white, // Lacivert üzeri yazı/icon
+    tertiaryContainer: Color(0xFF5A74AC), // Hafif açık lacivert
+    onTertiaryContainer: Colors.white, // Container içi metin
+
+    error: Color(0xFFB71C1C), // Koyu kırmızı — hata durumu
+    onError: Colors.white, // Hata yazısı
+    errorContainer: Color(0xFFD32F2F), // Hatalı alan arka planı
     onErrorContainer: Colors.black,
 
-    surface: Color(0xFF000000), // Tam siyah arka plan
-    onSurface: Color(0xFFFFEB3B), // Sarı yazılar
-    onSurfaceVariant: Color(0xFFFFC107),
-    outline: Color(0xFFFFD54F),
+    surface: Color(0xFF121212), // Koyu gri/siyah — zemin, kartlar, scaffold
+    onSurface: Color(0xFFE0B53A), // Sarımsı yazılar (ikonla uyum)
+    onSurfaceVariant: Color(0xFFFFC107), // İkincil yazı rengi
 
-    shadow: Colors.black,
-    scrim: Colors.black87,
-    inverseSurface: Color(0xFFFFEB3B), // Sarı
-    inversePrimary: Colors.white, // Beyaz
+    outline: Color(0xFF9E9E9E), // Kenarlıklar, divider çizgileri
+
+    shadow: Colors.black, // Gölge efekti
+    scrim: Colors.black87, // Dialog arkası / maske
+
+    inverseSurface: Color(0xFFFFEB3B), // Light mod yüzey (örn. snackbar)
+    onInverseSurface: Colors.black, // Inverse üzeri yazı
+
+    inversePrimary: Colors.white, // Primary’nin zıt modu (light için)
+    surfaceTint: Color(0xFFFFA000), // Sarı-turuncu gölge efekti (Material 3)
   );
 }

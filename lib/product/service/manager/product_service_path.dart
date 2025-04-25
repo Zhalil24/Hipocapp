@@ -2,6 +2,7 @@
 enum ProductServicePath {
   lastEntries('Entry/GetLastEntries'),
   randomEntries('Entry/GetRandomEntries'),
+  headers("Header/GetHeaderIdByHeaderName"),
   login('api/user/Login');
 
   final String value;

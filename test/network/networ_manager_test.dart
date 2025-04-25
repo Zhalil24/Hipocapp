@@ -1,8 +1,8 @@
 import 'package:gen/gen.dart';
-import 'package:my_architecture_template/product/init/config/app_environment.dart';
-import 'package:my_architecture_template/product/service/manager/product_network_manager.dart';
+import 'package:hipocapp/product/init/config/app_environment.dart';
+import 'package:hipocapp/product/service/manager/product_network_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_architecture_template/product/service/manager/product_service_path.dart';
+import 'package:hipocapp/product/service/manager/product_service_path.dart';
 import 'package:vexana/vexana.dart';
 
 void main() {

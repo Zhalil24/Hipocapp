@@ -1,6 +1,6 @@
 import 'package:gen/gen.dart';
-import 'package:my_architecture_template/product/service/interface/authentication_operation.dart';
-import 'package:my_architecture_template/product/service/manager/index.dart';
+import 'package:hipocapp/product/service/interface/authentication_operation.dart';
+import 'package:hipocapp/product/service/manager/index.dart';
 import 'package:vexana/vexana.dart';
 
 final class LoginService extends AuthenticationOperation {
@@ -10,7 +10,7 @@ final class LoginService extends AuthenticationOperation {
 
   @override
   Future<User?> userLogin({required UserLoginModel userLoginModel}) async {
-    final response = await _networkManager.send<UserResponseModel, dynamic>(
+    final response = await _networkManager.send<UserResponseModel, UserResponseModel>(
       ProductServicePath.login.value,
       parseModel: UserResponseModel(),
       method: RequestType.POST,

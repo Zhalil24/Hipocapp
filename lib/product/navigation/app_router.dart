@@ -1,7 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:my_architecture_template/feature/auth/login/view/login_view.dart';
-import 'package:my_architecture_template/feature/home/view/home_view.dart';
+import 'package:hipocapp/feature/auth/login/view/login_view.dart';
+import 'package:hipocapp/feature/home/view/home_view.dart';
+import 'package:hipocapp/feature/splash/view/splah_view.dart';
 
 part 'app_router.gr.dart';
 
@@ -12,7 +13,8 @@ class AppRouter extends RootStackRouter {
   static const _replaceRouteName = 'View,Route';
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: LoginRoute.page, initial: true),
+        AutoRoute(page: SplashRoute.page, initial: true),
+        AutoRoute(page: LoginRoute.page),
         AutoRoute(page: HomeRoute.page),
       ];
 }

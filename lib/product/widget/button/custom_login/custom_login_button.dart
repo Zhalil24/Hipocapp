@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:my_architecture_template/product/widget/button/normal_button.dart';
+import 'package:hipocapp/product/widget/button/normal_button.dart';
 import 'package:widgets/widgets.dart';
 
 part 'custom_login_button_mixin.dart';

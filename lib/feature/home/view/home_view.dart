@@ -1,12 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_architecture_template/feature/home/view/mixin/home_view_mixin.dart';
-import 'package:my_architecture_template/feature/home/view_model/home_view_model.dart';
-import 'package:my_architecture_template/feature/home/view_model/state/home_view_state.dart';
-import 'package:my_architecture_template/product/state/base/base_state.dart';
-import 'package:my_architecture_template/product/widget/appbar/custom_appbar_widget.dart';
-
+import 'package:hipocapp/feature/drawer/view/drawer_view.dart';
+import 'package:hipocapp/feature/home/view/mixin/home_view_mixin.dart';
+import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
+import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
+import 'package:hipocapp/product/state/base/base_state.dart';
+import 'package:hipocapp/product/widget/appbar/custom_appbar_widget.dart';
 import 'widget/entry_bar_widget.dart';
 
 /// My Home Page
@@ -24,12 +24,8 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
     return BlocProvider(
       create: (context) => homeViewModel,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            productViewModel.changeThemeMode(ThemeMode.dark);
-          },
-        ),
         appBar: CustomAppBar(),
+        drawer: const DrawerView(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

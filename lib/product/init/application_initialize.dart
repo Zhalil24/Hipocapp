@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kartal/kartal.dart';
 import 'package:logger/logger.dart';
-import 'package:my_architecture_template/product/init/config/app_environment.dart';
-import 'package:my_architecture_template/product/state/container/product_satate_items.dart';
-import 'package:my_architecture_template/product/state/container/product_state_container.dart';
+import 'package:hipocapp/product/init/config/app_environment.dart';
+import 'package:hipocapp/product/state/container/product_satate_items.dart';
+import 'package:hipocapp/product/state/container/product_state_container.dart';
 
 @immutable
 

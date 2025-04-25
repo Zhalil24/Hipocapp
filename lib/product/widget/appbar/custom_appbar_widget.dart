@@ -10,7 +10,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       leading: IconButton(
         icon: const Icon(Icons.menu),
-        onPressed: () {},
+        onPressed: () {
+          // Scaffold'daki drawer'ı aç
+          Scaffold.of(context).openDrawer();
+        },
       ),
       actions: [
         IconButton(
