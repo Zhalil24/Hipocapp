@@ -33,7 +33,7 @@ final class LoginViewModel extends BaseCubit<LoginViewState> {
     );
     final response = await _authenticationOperationService.userLogin(userLoginModel: userLoginModel);
     if (response != null) {
-      _saveItem(response.accessToken?.token ?? '');
+      _saveItem(response.accessToken?.token ?? '', response.id ?? 0);
       return true;
     }
     changeLoading();
@@ -55,7 +55,7 @@ final class LoginViewModel extends BaseCubit<LoginViewState> {
     return isSuccess;
   }
 
-  void _saveItem(String token) {
-    _userCacheOperation.add(UserCacheModel(token: token));
+  void _saveItem(String token, int userId) {
+    _userCacheOperation.add(UserCacheModel(token: token, userId: userId));
   }
 }

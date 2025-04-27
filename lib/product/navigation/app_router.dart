@@ -1,6 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hipocapp/feature/auth/login/view/login_view.dart';
+import 'package:hipocapp/feature/entry_list/view/entry_list_view.dart';
 import 'package:hipocapp/feature/home/view/home_view.dart';
 import 'package:hipocapp/feature/splash/view/splah_view.dart';
 
@@ -16,5 +18,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: SplashRoute.page, initial: true),
         AutoRoute(page: LoginRoute.page),
         AutoRoute(page: HomeRoute.page),
+        AutoRoute(page: EntryListRoute.page)
       ];
 }

@@ -7,3 +7,11 @@ abstract class LastEntryOperation {
 abstract class RandomEntryOperation {
   Future<List<RandomEntriesModel>?> getRandomEntries();
 }
+
+abstract class EntryOperation {
+  Future<EntryModel?> createEntry(EntryModel entryModel);
+}
+
+abstract class EntryListOperation {
+  Future<List<EntryListModel>?> getEntryList(String name);
+}

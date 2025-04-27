@@ -9,10 +9,10 @@ part 'header_response_model.g.dart';
 class HeaderResponseModel extends INetworkModel<HeaderResponseModel> with EquatableMixin {
   final bool? isSuccess;
   @JsonKey(name: "data")
-  final List<HeaderModel>? headers;
+  final HeaderModel? header;
   final String? message;
 
-  HeaderResponseModel({this.isSuccess, this.headers, this.message});
+  HeaderResponseModel({this.isSuccess, this.header, this.message});
 
   factory HeaderResponseModel.fromJson(Map<String, dynamic> json) => _$HeaderResponseModelFromJson(json);
 
@@ -25,5 +25,5 @@ class HeaderResponseModel extends INetworkModel<HeaderResponseModel> with Equata
   }
 
   @override
-  List<Object?> get props => [isSuccess, headers, message];
+  List<Object?> get props => [isSuccess, header, message];
 }

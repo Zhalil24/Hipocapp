@@ -9,15 +9,15 @@ final class HeaderService extends HeaderOperation {
 
   final INetworkManager<EmptyModel> _networkManager;
   @override
-  Future<List<HeaderModel>?> getHeaderIdByHeaderName(String name) async {
+  Future<HeaderModel?> getHeaderIdByHeaderName(String name) async {
     final response = await _networkManager.send<HeaderResponseModel, HeaderResponseModel>(
-      ProductServicePath.lastEntries.value,
+      ProductServicePath.headers.value,
       parseModel: HeaderResponseModel(),
       method: RequestType.GET,
       queryParameters: {
         'name': name,
       },
     );
-    return response.data?.headers ?? [];
+    return response.data!.header;
   }
 }

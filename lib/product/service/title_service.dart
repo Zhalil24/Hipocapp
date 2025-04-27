@@ -11,7 +11,7 @@ final class TitleService extends TitleOperation {
   @override
   Future<List<TitleModel>?> getAllTitles(int id) async {
     final response = await _networkManager.send<TitleResponseModel, TitleResponseModel>(
-      ProductServicePath.lastEntries.value,
+      ProductServicePath.titles.value,
       parseModel: TitleResponseModel(),
       method: RequestType.GET,
       queryParameters: {

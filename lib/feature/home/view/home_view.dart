@@ -7,6 +7,7 @@ import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
 import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/widget/appbar/custom_appbar_widget.dart';
+import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
 import 'widget/entry_bar_widget.dart';
 
 /// My Home Page
@@ -54,35 +55,11 @@ class _LastEntriesList extends StatelessWidget {
         return ListView.builder(
           itemCount: state.lastEntries?.length ?? 0,
           itemBuilder: (context, index) {
-            return Card(
-              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6), // Kenarlardan boşluk bırak
-              elevation: 4, // Hafif bir gölgelendirme ekle
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12), // Köşeleri yuvarla
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(12), // İçeriği daha rahat okutmak için padding ekle
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      state.lastEntries![index].titleName.toString(),
-                    ),
-                    SizedBox(height: 6), // Boşluk ekle
-                    Text(
-                      state.lastEntries![index].entryDescription.toString(),
-                    ),
-                    SizedBox(height: 6),
-                    Text(
-                      'Kullanıcı: ${state.lastEntries![index].userName}',
-                    ),
-                    SizedBox(height: 6),
-                    Text(
-                      'Tarih: ${state.lastEntries![index].date}',
-                    )
-                  ],
-                ),
-              ),
+            return CustomCardWidget(
+              title: state.lastEntries![index].titleName.toString(),
+              description: state.lastEntries![index].entryDescription.toString(),
+              userName: 'Kullanıcı: ${state.lastEntries![index].userName}',
+              date: 'Tarih: ${state.lastEntries![index].date}',
             );
           },
         );
@@ -109,29 +86,10 @@ class _RandomEntriesList extends StatelessWidget {
           itemCount: state.randomEntries!.length,
           itemBuilder: (context, index) {
             final entry = state.randomEntries![index];
-
-            return Card(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      entry.titleName.toString(),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(entry.description.toString()),
-                    const SizedBox(height: 6),
-                    Text('Tarih: ${entry.createDate}'),
-                  ],
-                ),
-              ),
+            return CustomCardWidget(
+              title: entry.titleName.toString(),
+              description: entry.description.toString(),
+              date: 'Tarih: ${entry.createDate}',
             );
           },
         );

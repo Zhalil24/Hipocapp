@@ -10,3 +10,6 @@ export 'header/header_model.dart';
 export 'header/header_response_model.dart';
 export 'title/title_model.dart';
 export 'title/title_response_model.dart';
+export 'entry/entry_model.dart';
+export 'entry_list/entry_list_model.dart';
+export 'entry_list/entry_list_response_model.dart';

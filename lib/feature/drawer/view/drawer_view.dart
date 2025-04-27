@@ -1,8 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/drawer/view/mixin/drawer_viwe_mixin.dart';
+import 'package:hipocapp/feature/drawer/view/widget/input_dialog_widget.dart';
 import 'package:hipocapp/feature/drawer/view/widget/toggle_button.dart';
+import 'package:hipocapp/feature/drawer/view_model/drawer_view_model.dart';
+import 'package:hipocapp/feature/drawer/view_model/state/drawer_view_state.dart';
+import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
+import 'package:hipocapp/product/utility/constans/titles/titles.dart';
 
 class DrawerView extends StatefulWidget {
   const DrawerView({super.key});
@@ -17,7 +23,8 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
     return BlocProvider(
       create: (context) => drawerViewModel,
       child: Drawer(
-        child: Column(
+        child: ListView(
+          padding: EdgeInsets.zero, // DrawerHeader kenarlık taşmasın
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
@@ -38,49 +45,112 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
                 ),
               ),
             ),
-            ExpansionTile(
-              leading: Icon(Icons.school),
-              title: Text('Tıp'),
-              children: [
-                ListTile(title: Text('Temel Tıp'), onTap: () {}),
-                ListTile(title: Text('Dahili Tıp'), onTap: () {}),
-                ListTile(title: Text('Cerrahi Tıp'), onTap: () {}),
-                ListTile(title: Text('Pratisyen'), onTap: () {}),
-                ListTile(title: Text('Diş Hekimliği'), onTap: () {}),
-                ListTile(title: Text('Eczacılık'), onTap: () {}),
-              ],
+
+            // 🔽 Menü yapısı
+            ...menuStructure.entries.map((mainEntry) {
+              final mainTitle = mainEntry.key;
+              final subItems = mainEntry.value;
+
+              return ExpansionTile(
+                leading: const Icon(Icons.arrow_right),
+                title: Text(mainTitle),
+                children: subItems.entries.map((subEntry) {
+                  final visibleText = subEntry.key;
+                  final backendValue = subEntry.value;
+
+                  return Builder(
+                    builder: (context) => ListTile(
+                      title: Text(visibleText),
+                      onTap: () async {
+                        await drawerViewModel.getHeaderId(backendValue);
+                      },
+                    ),
+                  );
+                }).toList(),
+              );
+            }),
+
+            BlocBuilder<DrawerViewModel, DrawerViewState>(
+              builder: (context, state) {
+                if (!state.isSubItemSelected) return const SizedBox.shrink();
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        showDialog<void>(
+                          context: context,
+                          builder: (context) => InputDialogWidget(
+                            onSubmit: (title, desc) {
+                              drawerViewModel.createEntry(title, desc);
+                            },
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.blue),
+                        ),
+                        child: const Text(
+                          'Başlık Aç',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                );
+              },
             ),
-            ExpansionTile(
-              leading: Icon(Icons.settings),
-              title: Text('Kültür ve Sanat'),
-              children: [
-                ListTile(title: Text('Müzik'), onTap: () {}),
-                ListTile(title: Text('Edebiyat'), onTap: () {}),
-                ListTile(title: Text('Sinema ve Tiyatro'), onTap: () {}),
-                ListTile(title: Text('Dil'), onTap: () {}),
-                ListTile(title: Text('Kitap Dergi ve Gazetecilik'), onTap: () {}),
-              ],
-            ),
-            ExpansionTile(
-              leading: Icon(Icons.bar_chart),
-              title: Text('Bilim'),
-              children: [
-                ListTile(title: Text('Mühendislik - Mimari'), onTap: () {}),
-                ListTile(title: Text('Matematik Fizik'), onTap: () {}),
-                ListTile(title: Text('Kimya - Biyoloji'), onTap: () {}),
-                ListTile(title: Text('Dil Tarhi Coğrafya'), onTap: () {}),
-                ListTile(title: Text('Eğitim Psikoloji Felsefe'), onTap: () {}),
-                ListTile(title: Text('Ekonomi Hukuk'), onTap: () {}),
-              ],
-            ),
-            ExpansionTile(
-              leading: Icon(Icons.person),
-              title: Text('Öğrenci'),
-              children: [
-                ListTile(title: Text('Üniversiteler ve Bölümler'), onTap: () {}),
-                ListTile(title: Text('Denklikler vev Geçişler'), onTap: () {}),
-                ListTile(title: Text('Genel Konular'), onTap: () {}),
-              ],
+
+            // 🔽 Titles listesi
+            BlocBuilder<DrawerViewModel, DrawerViewState>(
+              builder: (context, state) {
+                final titles = state.titles;
+
+                if (titles.isEmpty) {
+                  return const Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Text('Başlık Bulunmamaktadır'),
+                  );
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Divider(),
+                      const Text(
+                        'Başlıklar',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      ...titles.map((title) => TextButton(
+                            onPressed: () {
+                              context.router.push(EntryListRoute(titleName: title.name ?? ""));
+                            },
+                            style: TextButton.styleFrom(
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.zero,
+                            ),
+                            child: Text('• ${title.name} >',
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                )),
+                          )),
+                    ],
+                  ),
+                );
+              },
             ),
           ],
         ),

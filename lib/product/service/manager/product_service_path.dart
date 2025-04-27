@@ -1,8 +1,11 @@
 /// Product Service Path
 enum ProductServicePath {
+  titles("Title/GetAllTitles"),
   lastEntries('Entry/GetLastEntries'),
   randomEntries('Entry/GetRandomEntries'),
-  headers("Header/GetHeaderIdByHeaderName"),
+  headers("api/header/GetHeaderIdByHeaderName"),
+  createEntry("api/entry/create"),
+  entryList('Entry/GetEntriesByTitleName'),
   login('api/user/Login');
 
   final String value;
