@@ -135,7 +135,10 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
                     ),
                     ...titles.map((title) => TextButton(
                         onPressed: () {
-                          context.router.push(EntryListRoute(titleName: title.name ?? ""));
+                          context.router.push(EntryListRoute(
+                            titleName: title.name ?? '',
+                            headerId: title.headerId ?? 0,
+                          ));
                         },
                         child: MenuButtonTextWidget(
                           text: '• ${title.name} >',

@@ -7,17 +7,21 @@ import 'package:hipocapp/feature/entry_list/view_model/state/entry_list_view_sta
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/widget/appbar/custom_appbar_widget.dart';
 import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
+import 'package:kartal/kartal.dart';
 
 @RoutePage()
 class EntryListView extends StatefulWidget {
   final String titleName;
-  const EntryListView({super.key, required this.titleName});
+  final int headerId;
+  const EntryListView({super.key, required this.titleName, required this.headerId});
 
   @override
   State<EntryListView> createState() => _EntryListViewState();
 }
 
 class _EntryListViewState extends BaseState<EntryListView> with EntryListViewMixin {
+  final TextEditingController _entryController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -26,8 +30,45 @@ class _EntryListViewState extends BaseState<EntryListView> with EntryListViewMix
         appBar: const CustomAppBar(isDrawer: false),
         body: Column(
           children: [
+            // 🆕 Entry yazma alanı
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: context.padding.horizontalLow.horizontal,
+                vertical: context.padding.verticalLow.vertical,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: TextField(
+                    controller: _entryController,
+                    minLines: 2,
+                    maxLines: 10,
+                    decoration: const InputDecoration(
+                      hintText: 'Yeni entry yaz...',
+                      border: OutlineInputBorder(),
+                    ),
+                  )),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      final text = _entryController.text.trim();
+                      if (text.isNotEmpty) {
+                        entryListViewModel.createEntry(
+                          widget.titleName,
+                          text,
+                          widget.headerId,
+                        );
+                        _entryController.clear();
+                      }
+                    },
+                    child: const Text('Ekle'),
+                  ),
+                ],
+              ),
+            ),
+
+            // Liste bölümü
             Expanded(
-              // ListView'ı kapsasın diye
               child: BlocBuilder<EntryListViewModel, EntryListViewState>(
                 builder: (context, state) {
                   if (state.isLoading) {
@@ -41,11 +82,12 @@ class _EntryListViewState extends BaseState<EntryListView> with EntryListViewMix
                   return ListView.builder(
                     itemCount: state.entryListModel!.length,
                     itemBuilder: (context, index) {
+                      final entry = state.entryListModel![index];
                       return CustomCardWidget(
-                        title: state.entryListModel![index].titleName.toString(),
-                        description: state.entryListModel![index].entryDescription.toString(),
-                        userName: '${state.entryListModel![index].userName}',
-                        date: '${state.entryListModel![index].date}',
+                        title: entry.titleName.toString(),
+                        description: entry.entryDescription.toString(),
+                        userName: '${entry.userName}',
+                        date: '${entry.date}',
                       );
                     },
                   );

@@ -15,12 +15,14 @@ class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
   EntryListRoute({
     Key? key,
     required String titleName,
+    required int headerId,
     List<PageRouteInfo>? children,
   }) : super(
           EntryListRoute.name,
           args: EntryListRouteArgs(
             key: key,
             titleName: titleName,
+            headerId: headerId,
           ),
           initialChildren: children,
         );
@@ -34,6 +36,7 @@ class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
       return EntryListView(
         key: args.key,
         titleName: args.titleName,
+        headerId: args.headerId,
       );
     },
   );
@@ -43,15 +46,18 @@ class EntryListRouteArgs {
   const EntryListRouteArgs({
     this.key,
     required this.titleName,
+    required this.headerId,
   });
 
   final Key? key;
 
   final String titleName;
 
+  final int headerId;
+
   @override
   String toString() {
-    return 'EntryListRouteArgs{key: $key, titleName: $titleName}';
+    return 'EntryListRouteArgs{key: $key, titleName: $titleName, headerId: $headerId}';
   }
 }
 
