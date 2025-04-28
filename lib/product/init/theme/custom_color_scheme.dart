@@ -74,8 +74,8 @@ final class CustomColorScheme {
     onErrorContainer: Colors.black,
 
     surface: Color(0xFF121212), // Koyu gri/siyah — zemin, kartlar, scaffold
-    onSurface: Color(0xFFE0B53A), // Sarımsı yazılar (ikonla uyum)
-    onSurfaceVariant: Color(0xFFFFC107), // İkincil yazı rengi
+    onSurface: Colors.white, // Sarımsı yazılar (ikonla uyum)
+    onSurfaceVariant: Colors.white, // İkincil yazı rengi
 
     outline: Color(0xFF9E9E9E), // Kenarlıklar, divider çizgileri
 

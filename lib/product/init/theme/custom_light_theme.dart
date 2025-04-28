@@ -11,7 +11,6 @@ final class CustomLightTheme implements CustomTheme {
         colorScheme: CustomColorScheme.lightColorScheme,
         scaffoldBackgroundColor: CustomColorScheme.lightColorScheme.onPrimary,
         appBarTheme: AppBarTheme(color: CustomColorScheme.lightColorScheme.primary),
-        buttonTheme: ButtonThemeData(buttonColor: CustomColorScheme.lightColorScheme.primary),
         floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: CustomColorScheme.lightColorScheme.primary),
         drawerTheme: DrawerThemeData(
           backgroundColor: CustomColorScheme.lightColorScheme.surface,
@@ -21,6 +20,11 @@ final class CustomLightTheme implements CustomTheme {
           style: ButtonStyle(
             iconColor: MaterialStateProperty.all(CustomColorScheme.lightColorScheme.onPrimary),
           ),
+        ),
+        textTheme: GoogleFonts.robotoTextTheme().apply(
+          bodyColor: Colors.black,
+          displayColor: Colors.black,
+          decorationColor: Colors.black,
         ),
       );
 

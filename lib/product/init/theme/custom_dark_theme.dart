@@ -16,14 +16,16 @@ final class CustomDarkTheme implements CustomTheme {
           textColor: Colors.white,
           iconColor: Colors.white,
         ),
-        textTheme: ThemeData.dark().textTheme.apply(
-              bodyColor: Colors.white,
-              displayColor: Colors.white,
-              decorationColor: Colors.white,
-            ),
+        textTheme: GoogleFonts.robotoTextTheme().apply(
+          bodyColor: Colors.white,
+          displayColor: Colors.white,
+          decorationColor: Colors.white,
+        ),
         cardTheme: CardTheme(color: CustomColorScheme.darkColorScheme.tertiary),
         floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: CustomColorScheme.darkColorScheme.primary),
-        drawerTheme: DrawerThemeData(backgroundColor: CustomColorScheme.darkColorScheme.tertiary),
+        drawerTheme: DrawerThemeData(
+          backgroundColor: CustomColorScheme.darkColorScheme.tertiary,
+        ),
         iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
             iconColor: MaterialStateProperty.all(CustomColorScheme.darkColorScheme.onPrimary),

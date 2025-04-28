@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/drawer/view/mixin/drawer_viwe_mixin.dart';
 import 'package:hipocapp/feature/drawer/view/widget/input_dialog_widget.dart';
+import 'package:hipocapp/feature/drawer/view/widget/menu_button_text_widget.dart';
 import 'package:hipocapp/feature/drawer/view/widget/toggle_button.dart';
 import 'package:hipocapp/feature/drawer/view_model/drawer_view_model.dart';
 import 'package:hipocapp/feature/drawer/view_model/state/drawer_view_state.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/constans/titles/titles.dart';
+import 'package:kartal/kartal.dart';
 
 class DrawerView extends StatefulWidget {
   const DrawerView({super.key});
@@ -26,7 +28,7 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
         child: ListView(
           padding: EdgeInsets.zero, // DrawerHeader kenarlık taşmasın
           children: [
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(
                 color: Color(0xFF7B1E3A),
               ),
@@ -39,7 +41,7 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
                     ToggleButton(),
                     Text(
                       'Menü',
-                      style: TextStyle(color: Colors.white, fontSize: 24),
+                      style: TextStyle(color: Colors.white, fontSize: context.sized.normalValue),
                     ),
                   ],
                 ),
@@ -53,14 +55,16 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
 
               return ExpansionTile(
                 leading: const Icon(Icons.arrow_right),
-                title: Text(mainTitle),
+                title: MenuButtonTextWidget(
+                  text: mainTitle,
+                ),
                 children: subItems.entries.map((subEntry) {
                   final visibleText = subEntry.key;
                   final backendValue = subEntry.value;
 
                   return Builder(
                     builder: (context) => ListTile(
-                      title: Text(visibleText),
+                      title: MenuButtonTextWidget(text: visibleText),
                       onTap: () async {
                         await drawerViewModel.getHeaderId(backendValue);
                       },
@@ -122,33 +126,21 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
                   );
                 }
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Divider(),
-                      const Text(
-                        'Başlıklar',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8),
-                      ...titles.map((title) => TextButton(
-                            onPressed: () {
-                              context.router.push(EntryListRoute(titleName: title.name ?? ""));
-                            },
-                            style: TextButton.styleFrom(
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.zero,
-                            ),
-                            child: Text('• ${title.name} >',
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                )),
-                          )),
-                    ],
-                  ),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Divider(),
+                    const MenuButtonTextWidget(
+                      text: 'Başlıklar:',
+                    ),
+                    ...titles.map((title) => TextButton(
+                        onPressed: () {
+                          context.router.push(EntryListRoute(titleName: title.name ?? ""));
+                        },
+                        child: MenuButtonTextWidget(
+                          text: '• ${title.name} >',
+                        ))),
+                  ],
                 );
               },
             ),
