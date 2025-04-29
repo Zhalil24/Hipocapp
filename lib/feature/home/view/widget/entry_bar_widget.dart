@@ -33,12 +33,8 @@ class _EntryBar extends StatelessWidget {
                 context.read<HomeViewModel>().changeEntries(true);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: state.isLastEntries
-                    ? colorScheme.primary // Seçili buton arka plan
-                    : colorScheme.surface, // Seçili olmayan
-                foregroundColor: state.isLastEntries
-                    ? colorScheme.onPrimary // Seçili yazı
-                    : colorScheme.primary, // Diğer yazı
+                backgroundColor: state.isLastEntries ? colorScheme.primary : colorScheme.surface,
+                foregroundColor: state.isLastEntries ? colorScheme.onPrimary : colorScheme.primary,
               ),
               child: const Text(
                 "Daily",

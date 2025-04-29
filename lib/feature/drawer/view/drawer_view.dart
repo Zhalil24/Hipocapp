@@ -26,7 +26,7 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
       create: (context) => drawerViewModel,
       child: Drawer(
         child: ListView(
-          padding: EdgeInsets.zero, // DrawerHeader kenarlık taşmasın
+          padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
               decoration: BoxDecoration(

@@ -19,10 +19,14 @@ dependencies:
   flutter_native_splash: ^2.4.4
   equatable: ^2.0.7
   get_it: ^8.0.3
-
-  #Button
-  toggle_switch: ^2.3.0
+  intl: ^0.19.0
   
+  #Widgets
+  toggle_switch: ^2.3.0
+  convex_bottom_bar: ^3.2.0
+  url_launcher: ^6.3.1
+
+
   #Config
   easy_localization: ^3.0.7
 

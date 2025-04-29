@@ -6,6 +6,7 @@ enum ProductServicePath {
   headers("api/header/GetHeaderIdByHeaderName"),
   createEntry("api/entry/create"),
   entryList('Entry/GetEntriesByTitleName'),
+  content('api/draw/'),
   login('api/user/Login');
 
   final String value;

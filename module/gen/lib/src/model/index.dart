@@ -13,3 +13,5 @@ export 'title/title_response_model.dart';
 export 'entry/entry_model.dart';
 export 'entry_list/entry_list_model.dart';
 export 'entry_list/entry_list_response_model.dart';
+export 'content/content_model.dart';
+export 'content/content_response_model.dart';

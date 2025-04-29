@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:kartal/kartal.dart';
 
-class CustomCardWidget extends StatelessWidget {
+class CustomCardWidget extends StatefulWidget {
   final String title;
   final String description;
   final String? userName;
@@ -15,30 +17,41 @@ class CustomCardWidget extends StatelessWidget {
   });
 
   @override
+  State<CustomCardWidget> createState() => _CustomCardWidgetState();
+}
+
+class _CustomCardWidgetState extends State<CustomCardWidget> {
+  @override
   Widget build(BuildContext context) {
+    String formatDate(String dateString) {
+      final cleanedDateString = dateString.replaceFirst('Tarih: ', '').split('.').first;
+      final inputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
+      final outputFormat = DateFormat('dd.MM.yyyy HH:mm');
+      final dateTime = inputFormat.parse(cleanedDateString);
+      return outputFormat.format(dateTime);
+    }
+
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      margin: EdgeInsets.all(context.sized.normalValue),
+      elevation: context.padding.medium.bottom,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(context.sized.normalValue)),
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.w800),
+              widget.title,
+              style: const TextStyle(fontWeight: FontWeight.w800),
             ),
-            const SizedBox(height: 6),
-            Text(description),
-            if (userName != null) ...[
+            SizedBox(height: context.sized.mediumValue),
+            Text(widget.description),
+            if (widget.userName != null) ...[
               const SizedBox(height: 6),
-              Text('Kullanıcı: $userName'),
+              Text('${widget.userName}'),
             ],
-            const SizedBox(height: 6),
-            Text('Tarih: $date'),
+            SizedBox(height: context.sized.mediumValue),
+            Text('Tarih: ${formatDate(widget.date)}')
           ],
         ),
       ),
