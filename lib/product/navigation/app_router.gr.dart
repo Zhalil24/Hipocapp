@@ -100,6 +100,25 @@ class LoginRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ProfilView]
+class ProfilRoute extends PageRouteInfo<void> {
+  const ProfilRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfilRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfilRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfilView();
+    },
+  );
+}
+
+/// generated route for
 /// [SplashView]
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})

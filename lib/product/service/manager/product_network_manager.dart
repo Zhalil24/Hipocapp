@@ -19,6 +19,8 @@ final class ProductNetworkManager extends NetworkManager<EmptyModel> {
       onError: (error, handler) {
         onErrorStatus(error.response?.statusCode ?? HttpStatus.notFound);
       },
-    ));
+    )
+    
+    );
   }
 }

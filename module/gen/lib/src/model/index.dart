@@ -15,3 +15,7 @@ export 'entry_list/entry_list_model.dart';
 export 'entry_list/entry_list_response_model.dart';
 export 'content/content_model.dart';
 export 'content/content_response_model.dart';
+export 'profile/profile_model.dart';
+export 'profile/profile_response_model.dart';
+export 'profile/profile_update_model.dart';
+export 'change_password/change_password_model.dart';

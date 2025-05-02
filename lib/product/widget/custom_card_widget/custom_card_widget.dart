@@ -6,14 +6,14 @@ class CustomCardWidget extends StatefulWidget {
   final String title;
   final String description;
   final String? userName;
-  final String date;
+  final String? date;
 
   const CustomCardWidget({
     super.key,
     required this.title,
     required this.description,
     this.userName,
-    required this.date,
+    this.date,
   });
 
   @override
@@ -51,7 +51,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
               Text('${widget.userName}'),
             ],
             SizedBox(height: context.sized.mediumValue),
-            Text('Tarih: ${formatDate(widget.date)}')
+            if (widget.date != null) Text('Tarih: ${formatDate(widget.date ?? '')}')
           ],
         ),
       ),

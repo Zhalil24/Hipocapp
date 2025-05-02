@@ -25,4 +25,16 @@ final class EntryService extends EntryOperation {
     if (json == null) return null;
     return EntryModel.fromJson(json);
   }
+
+  @override
+  Future<EntryModel?> deleteEntry(int id) async {
+    final response = await _networkManager.send<EntryModel, EntryModel>(
+      ProductServicePath.deleteEntry.value,
+      parseModel: EntryModel(),
+      method: RequestType.DELETE,
+      queryParameters: {'id': id},
+    );
+
+    return response.data;
+  }
 }

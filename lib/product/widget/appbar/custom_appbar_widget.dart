@@ -1,5 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:gen/gen.dart';
+import 'package:hipocapp/product/navigation/app_router.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isDrawer;
@@ -26,12 +27,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
       actions: [
         IconButton(
-          icon: SizedBox(
-            width: 60,
-            height: 50,
-            child: Assets.images.logo.image(package: 'gen'),
-          ),
-          onPressed: () {},
+          icon: const Icon(Icons.person),
+          onPressed: () {
+            context.router.push(const ProfilRoute());
+          },
         ),
       ],
     );

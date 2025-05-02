@@ -7,7 +7,11 @@ enum ProductServicePath {
   createEntry("api/entry/create"),
   entryList('Entry/GetEntriesByTitleName'),
   content('api/draw/'),
-  login('api/user/Login');
+  login('api/user/Login'),
+  updateProfile('api/user/Edit'),
+  changePassword('api/user/PasswordChange'),
+  deleteEntry('api/Entry/DeleteEntry'),
+  profile('api/User/GetProfile');
 
   final String value;
   const ProductServicePath(this.value);
