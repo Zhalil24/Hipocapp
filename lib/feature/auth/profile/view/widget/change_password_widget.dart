@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
 import 'package:kartal/kartal.dart';
 
 class ChangePasswordWidget extends StatefulWidget {
@@ -8,12 +9,14 @@ class ChangePasswordWidget extends StatefulWidget {
     required this.newPasswordChangeController,
     required this.newPasswordReChangeController,
     required this.onChangePressed,
+    required this.message,
   });
 
   final TextEditingController passwordChangeController;
   final TextEditingController newPasswordChangeController;
   final TextEditingController newPasswordReChangeController;
   final VoidCallback onChangePressed;
+  final String message;
 
   @override
   State<ChangePasswordWidget> createState() => _ChangePasswordWidgetState();
@@ -31,10 +34,8 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
           _buildPasswordField('Yeni Şifre', widget.newPasswordChangeController),
           SizedBox(height: context.sized.normalValue),
           _buildPasswordField('Yeni Şifre (Tekrar)', widget.newPasswordReChangeController),
-          ElevatedButton(
-            onPressed: widget.onChangePressed,
-            child: const Text('Şifreyi Değiştir'),
-          ),
+          SizedBox(height: context.sized.normalValue),
+          CustomActionButton(onTop: widget.onChangePressed, text: 'Şifreyi Değiştir', message: widget.message)
         ],
       ),
     );

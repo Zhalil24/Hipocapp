@@ -33,6 +33,11 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     emit(state.copyWith(isLoading: !state.isLoading));
   }
 
+  /// Saves the service response message.
+  void serviceResponseMessageSave(String? message) {
+    emit(state.copyWith(seviceResultMessage: message));
+  }
+
   /// Set selected photo
   void updateSelectedPhoto(File photo) {
     selectedPhoto = photo;
@@ -49,7 +54,8 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     changeLoading();
     int id = _getUserId();
     final response = await _profileOperation.getProfile(id);
-    emit(state.copyWith(profileModel: response));
+    emit(state.copyWith(profileModel: response?.profileModel));
+    emit(state.copyWith(seviceResultMessage: response?.message));
     changeLoading();
     return false;
   }
@@ -104,16 +110,12 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   }
 
   Future<void> deleteEntry(int id) async {
-    changeLoading();
-    await _entryOperation.deleteEntry(id);
-
+    var response = await _entryOperation.deleteEntry(id);
     final updatedEntries = List<EntryModel>.from(state.profileModel?.entries ?? []);
     updatedEntries.removeWhere((entry) => entry.id == id);
-
     final updatedProfile = state.profileModel?.copyWith(entries: updatedEntries);
     emit(state.copyWith(profileModel: updatedProfile));
     emit(state.copyWith(activeTab: ProfileTabType.entries));
-
-    changeLoading();
+    serviceResponseMessageSave(response?.message);
   }
 }

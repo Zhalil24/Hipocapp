@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
 import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
 import 'package:kartal/kartal.dart';
 
 class MyEntriesWidget extends StatefulWidget {
-  const MyEntriesWidget({super.key, required this.titleName, required this.desc, required this.onPressed});
+  const MyEntriesWidget({super.key, required this.titleName, required this.desc, required this.onPressed, required this.message});
   final String titleName;
   final String desc;
+  final String message;
   final VoidCallback onPressed;
   @override
   State<MyEntriesWidget> createState() => _MyEntriesWidgetState();
@@ -17,7 +19,7 @@ class _MyEntriesWidgetState extends State<MyEntriesWidget> {
     return Column(
       children: [
         CustomCardWidget(description: widget.desc, title: widget.titleName),
-        TextButton(onPressed: widget.onPressed, child: Text('Silmek için tıklayınız.')),
+        CustomActionButton(onTop: widget.onPressed, text: 'Silmek için tıklayınız.', message: widget.message),
         Divider(
           color: Colors.grey,
           thickness: 3,

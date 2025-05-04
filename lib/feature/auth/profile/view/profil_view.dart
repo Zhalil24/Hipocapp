@@ -64,6 +64,7 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           onTop: () {
             profileViewModel.logout(context);
           },
+          message: state.seviceResultMessage ?? '',
           imageURL: state.profileModel?.photoURL ?? '',
           name: state.profileModel?.name ?? '',
           surname: state.profileModel?.surname ?? '',
@@ -72,6 +73,7 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
         );
       case ProfileTabType.editProfile:
         return EditProfileWidget(
+          message: state.seviceResultMessage ?? '',
           passwordController: passwordController,
           passwordReController: passwordReController,
           selectedPhoto: state.photo,
@@ -93,6 +95,7 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
         );
       case ProfileTabType.changePassword:
         return ChangePasswordWidget(
+          message: state.seviceResultMessage ?? '',
           passwordChangeController: passwordChangeController,
           newPasswordChangeController: newPasswordChangeController,
           newPasswordReChangeController: newPasswordReChangeController,
@@ -107,6 +110,7 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           itemCount: state.profileModel?.entries?.length,
           itemBuilder: (context, index) {
             return MyEntriesWidget(
+              message: state.seviceResultMessage ?? '',
               desc: state.profileModel?.entries?[index].description ?? '',
               titleName: state.profileModel?.entries?[index].titleName ?? '',
               onPressed: () => profileViewModel.deleteEntry(

@@ -8,7 +8,7 @@ final class ProfileService extends ProfileOperation {
 
   final INetworkManager<EmptyModel> _networkManager;
   @override
-  Future<ProfileModel?> getProfile(int id) async {
+  Future<ProfileResponseModel?> getProfile(int id) async {
     final response = await _networkManager.send<ProfileResponseModel, ProfileResponseModel>(
       ProductServicePath.profile.value,
       parseModel: ProfileResponseModel(),
@@ -17,7 +17,7 @@ final class ProfileService extends ProfileOperation {
         'id': id,
       },
     );
-    return response.data?.profileModel;
+    return response.data;
   }
 
   @override

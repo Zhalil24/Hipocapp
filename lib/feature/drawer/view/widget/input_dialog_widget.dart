@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
 
 class InputDialogWidget extends StatefulWidget {
   final void Function(String titleText, String descText) onSubmit;
-
-  const InputDialogWidget({required this.onSubmit});
+  final String message;
+  const InputDialogWidget({required this.onSubmit, required this.message});
 
   @override
   State<InputDialogWidget> createState() => _InputDialogWidgetState();
@@ -51,15 +52,15 @@ class _InputDialogWidgetState extends State<InputDialogWidget> {
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('İptal'),
         ),
-        ElevatedButton(
-          onPressed: () {
-            if (titleText.trim().isNotEmpty || descText.trim().isNotEmpty) {
-              widget.onSubmit(titleText.trim(), descText.trim());
-            }
-            Navigator.of(context).pop();
-          },
-          child: const Text('Gönder'),
-        ),
+        CustomActionButton(
+            onTop: () {
+              if (titleText.trim().isNotEmpty || descText.trim().isNotEmpty) {
+                widget.onSubmit(titleText.trim(), descText.trim());
+              }
+              Navigator.of(context).pop();
+            },
+            text: 'Gönder',
+            message: widget.message)
       ],
     );
   }

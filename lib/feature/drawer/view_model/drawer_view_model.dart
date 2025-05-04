@@ -20,12 +20,7 @@ final class DrawerViewModel extends BaseCubit<DrawerViewState> {
         _titleOperation = titleOperation,
         _entryOperation = enryOperation,
         _userCacheOperation = userCacheOperation,
-        super(DrawerViewState(
-          isLoading: false,
-          headers: HeaderModel(),
-          titles: [],
-          isSubItemSelected: false,
-        ));
+        super(DrawerViewState(isLoading: false, headers: HeaderModel(), titles: [], isSubItemSelected: false, serviceResultMessage: ''));
   late final HeaderOperation _headerOperation;
   late final TitleOperation _titleOperation;
   late final EntryOperation _entryOperation;
@@ -34,6 +29,11 @@ final class DrawerViewModel extends BaseCubit<DrawerViewState> {
   /// Change loading state
   void changeLoading() {
     emit(state.copyWith(isLoading: !state.isLoading));
+  }
+
+  /// Saves the service response message.
+  void serviceResponseMessageSave(String? message) {
+    emit(state.copyWith(serviceResultMessage: message));
   }
 
   Future<void> getHeaderId(String name) async {
@@ -63,7 +63,8 @@ final class DrawerViewModel extends BaseCubit<DrawerViewState> {
       userId: _getUserId(),
     );
 
-    await _entryOperation.createEntry(entryModel);
+    var resp = await _entryOperation.createEntry(entryModel);
+    serviceResponseMessageSave(resp?.message);
     await getTitles(state.headers.id);
     changeLoading();
   }

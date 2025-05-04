@@ -9,7 +9,7 @@ final class EntryService extends EntryOperation {
 
   final INetworkManager<EmptyModel> _networkManager;
   @override
-  Future<EntryModel?> createEntry(EntryModel entryModel) async {
+  Future<EntryResponseModel?> createEntry(EntryModel entryModel) async {
     final formData = FormData.fromMap({
       'titleName': entryModel.titleName,
       'description': entryModel.description,
@@ -23,14 +23,14 @@ final class EntryService extends EntryOperation {
     );
     final json = response.data;
     if (json == null) return null;
-    return EntryModel.fromJson(json);
+    return EntryResponseModel.fromJson(json);
   }
 
   @override
-  Future<EntryModel?> deleteEntry(int id) async {
-    final response = await _networkManager.send<EntryModel, EntryModel>(
+  Future<EntryResponseModel?> deleteEntry(int id) async {
+    final response = await _networkManager.send<EntryResponseModel, EntryResponseModel>(
       ProductServicePath.deleteEntry.value,
-      parseModel: EntryModel(),
+      parseModel: EntryResponseModel(),
       method: RequestType.DELETE,
       queryParameters: {'id': id},
     );

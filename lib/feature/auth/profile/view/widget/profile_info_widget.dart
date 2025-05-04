@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
 import 'package:hipocapp/product/widget/circle_avatar/custom_circle_avatar.dart';
 import 'package:kartal/kartal.dart';
 import '../../../../../product/widget/toggle_buton/toggle_button.dart';
@@ -10,6 +11,7 @@ class ProfileInfoWidget extends StatefulWidget {
       required this.surname,
       required this.username,
       required this.email,
+      required this.message,
       required this.imageURL,
       required this.onTop});
   final String name;
@@ -17,6 +19,7 @@ class ProfileInfoWidget extends StatefulWidget {
   final String username;
   final String email;
   final String imageURL;
+  final String message;
   final VoidCallback onTop;
   @override
   State<ProfileInfoWidget> createState() => _ProfileInfoWidgetState();
@@ -41,27 +44,7 @@ class _ProfileInfoWidgetState extends State<ProfileInfoWidget> {
           ProfileInfoRow(label: 'Kullanıcı Adı', value: widget.username),
           ProfileInfoRow(label: 'Email', value: widget.email),
           SizedBox(height: context.sized.mediumValue),
-          GestureDetector(
-            onTap: widget.onTop,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: context.sized.highValue,
-                vertical: context.sized.lowValue,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(context.sized.normalValue),
-                border: Border.all(color: Colors.blue),
-              ),
-              child: const Text(
-                'Çıkış Yap',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
-            ),
-          ),
+          CustomActionButton(onTop: widget.onTop, text: 'Çıkış Yap', message: widget.message)
         ],
       ),
     );

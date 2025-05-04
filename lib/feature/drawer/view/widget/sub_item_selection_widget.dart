@@ -4,6 +4,7 @@ import 'package:kartal/kartal.dart';
 
 class SubItemSelectionWidget extends StatelessWidget {
   final bool isSubItemSelected;
+  final String message;
 
   /// A function that handles the creation of a new entry.
   ///
@@ -15,6 +16,7 @@ class SubItemSelectionWidget extends StatelessWidget {
     Key? key,
     required this.isSubItemSelected,
     required this.onCreateEntry,
+    required this.message,
   }) : super(key: key);
 
   @override
@@ -30,6 +32,7 @@ class SubItemSelectionWidget extends StatelessWidget {
               context: context,
               builder: (context) => InputDialogWidget(
                 onSubmit: onCreateEntry,
+                message: message,
               ),
             );
           },

@@ -9,8 +9,8 @@ abstract class RandomEntryOperation {
 }
 
 abstract class EntryOperation {
-  Future<EntryModel?> createEntry(EntryModel entryModel);
-  Future<EntryModel?> deleteEntry(int id);
+  Future<EntryResponseModel?> createEntry(EntryModel entryModel);
+  Future<EntryResponseModel?> deleteEntry(int id);
 }
 
 abstract class EntryListOperation {
