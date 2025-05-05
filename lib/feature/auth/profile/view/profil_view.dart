@@ -64,7 +64,6 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           onTop: () {
             profileViewModel.logout(context);
           },
-          message: state.seviceResultMessage ?? '',
           imageURL: state.profileModel?.photoURL ?? '',
           name: state.profileModel?.name ?? '',
           surname: state.profileModel?.surname ?? '',
@@ -73,7 +72,6 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
         );
       case ProfileTabType.editProfile:
         return EditProfileWidget(
-          message: state.seviceResultMessage ?? '',
           selectedPhoto: state.photo,
           onPickImage: pickImageFromGallery,
           nameController: nameController,
@@ -91,30 +89,27 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
         );
       case ProfileTabType.changePassword:
         return ChangePasswordWidget(
-          message: state.seviceResultMessage ?? '',
           passwordChangeController: passwordChangeController,
           newPasswordChangeController: newPasswordChangeController,
           newPasswordReChangeController: newPasswordReChangeController,
-          onChangePressed: () => profileViewModel.changePassword(
-            passwordChangeController.text,
-            newPasswordChangeController.text,
-            newPasswordReChangeController.text,
-          ),
+          onChangePressed: () async {
+            await profileViewModel.changePassword(
+              passwordChangeController.text,
+              newPasswordChangeController.text,
+              newPasswordReChangeController.text,
+            );
+          },
         );
       case ProfileTabType.entries:
         return ListView.builder(
           itemCount: state.profileModel?.entries?.length,
           itemBuilder: (context, index) {
             return MyEntriesWidget(
-              message: state.seviceResultMessage ?? '',
               desc: state.profileModel?.entries?[index].description ?? '',
               titleName: state.profileModel?.entries?[index].titleName ?? '',
-              onPressed: () async {
+              onPressed: () {
                 final entryId = state.profileModel?.entries?[index].id;
-                if (entryId != null) {
-                  return await profileViewModel.deleteEntry(entryId);
-                }
-                return 'Entry silinemedi. ID bulunamadı.';
+                profileViewModel.deleteEntry(entryId ?? 0);
               },
             );
           },

@@ -58,21 +58,17 @@ class _EntryListViewState extends BaseState<EntryListView> with EntryListViewMix
                       )),
                       const SizedBox(width: 8),
                       CustomActionButton(
-                        controllers: [_entryController],
-                        onTop: () {
-                          final text = _entryController.text.trim();
-                          if (text.isNotEmpty) {
-                            entryListViewModel.createEntry(
-                              widget.titleName,
-                              text,
-                              widget.headerId,
-                            );
-                            _entryController.clear();
-                          }
-                        },
                         text: 'Ekle',
-                        message: state.serviceResultMessage ?? '',
-                      )
+                        onTop: () async {
+                          final text = _entryController.text.trim();
+                          await entryListViewModel.createEntry(
+                            widget.titleName,
+                            text,
+                            widget.headerId,
+                          );
+                          _entryController.clear();
+                        },
+                      ),
                     ],
                   );
                 },

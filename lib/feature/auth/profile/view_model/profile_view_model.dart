@@ -33,11 +33,6 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     emit(state.copyWith(isLoading: !state.isLoading));
   }
 
-  /// Saves the service response message.
-  void serviceResponseMessageSave(String? message) {
-    emit(state.copyWith(seviceResultMessage: message));
-  }
-
   /// Set selected photo
   void updateSelectedPhoto(File photo) {
     selectedPhoto = photo;
@@ -55,12 +50,11 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     int id = _getUserId();
     final response = await _profileOperation.getProfile(id);
     emit(state.copyWith(profileModel: response?.profileModel));
-    emit(state.copyWith(seviceResultMessage: response?.message));
     changeLoading();
     return false;
   }
 
-  Future<void> updateProfile(
+  Future<String> updateProfile(
     String name,
     String surname,
     String email,
@@ -76,9 +70,9 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
       surname: surname,
     );
     var response = await _profileOperation.updateProfile(model);
-    emit(state.copyWith(seviceResultMessage: response?.message));
 
     changeLoading();
+    return response?.message ?? '';
   }
 
   /// Change tab bar
@@ -89,7 +83,7 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   }
 
   /// Logout
-  Future<void> logout(BuildContext context) async {
+  Future<String> logout(BuildContext context) async {
     _userCacheOperation.clear();
     if (context.mounted) {
       await context.router.pushAndPopUntil(
@@ -97,9 +91,10 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
         predicate: (_) => false,
       );
     }
+    return 'Başarıyla çıkış yapıldı';
   }
 
-  Future<void> changePassword(String password, String newpassword, String newrepassword) async {
+  Future<String> changePassword(String password, String newpassword, String newrepassword) async {
     changeLoading();
     final model = ChangePasswordModel(
       newpassword: newpassword,
@@ -108,8 +103,8 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
       userid: _getUserId(),
     );
     var response = await _profileOperation.changePassword(model);
-    emit(state.copyWith(seviceResultMessage: response));
     changeLoading();
+    return response ?? '';
   }
 
   Future<String> deleteEntry(int id) async {
@@ -120,7 +115,6 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     final updatedProfile = state.profileModel?.copyWith(entries: updatedEntries);
     emit(state.copyWith(profileModel: updatedProfile));
     emit(state.copyWith(activeTab: ProfileTabType.entries));
-    serviceResponseMessageSave(response?.message);
     changeLoading();
 
     return response?.message ?? '';

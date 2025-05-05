@@ -28,11 +28,6 @@ final class EntryListViewModel extends BaseCubit<EntryListViewState> {
     emit(state.copyWith(isLoading: !state.isLoading));
   }
 
-  /// Saves the service response message.
-  void serviceResponseMessageSave(String? message) {
-    emit(state.copyWith(serviceResultMessage: message));
-  }
-
   /// Get random entries
   Future<void> getEntryList(String name) async {
     changeLoading();
@@ -50,7 +45,6 @@ final class EntryListViewModel extends BaseCubit<EntryListViewState> {
       userId: _getUserId(),
     );
     var resp = await _entryOperation.createEntry(entryModel);
-    serviceResponseMessageSave(resp?.message);
     await getEntryList(title);
     return resp?.message ?? '';
   }

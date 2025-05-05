@@ -4,11 +4,10 @@ import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.da
 import 'package:kartal/kartal.dart';
 
 class MyEntriesWidget extends StatefulWidget {
-  const MyEntriesWidget({super.key, required this.titleName, required this.desc, required this.onPressed, required this.message});
+  const MyEntriesWidget({super.key, required this.titleName, required this.desc, required this.onPressed});
   final String titleName;
   final String desc;
-  final String message;
-  final Future<String> Function() onPressed;
+  final VoidCallback onPressed;
   @override
   State<MyEntriesWidget> createState() => _MyEntriesWidgetState();
 }
@@ -19,7 +18,7 @@ class _MyEntriesWidgetState extends State<MyEntriesWidget> {
     return Column(
       children: [
         CustomCardWidget(description: widget.desc, title: widget.titleName),
-        CustomActionButton(onTop: widget.onPressed, text: 'Silmek için tıklayınız.', message: widget.message),
+        CustomActionButton(onTop: widget.onPressed, text: 'Silmek için tıklayınız.'),
         Divider(
           color: Colors.grey,
           thickness: 3,

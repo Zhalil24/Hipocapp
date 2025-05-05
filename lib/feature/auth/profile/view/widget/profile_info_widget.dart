@@ -11,7 +11,6 @@ class ProfileInfoWidget extends StatefulWidget {
       required this.surname,
       required this.username,
       required this.email,
-      required this.message,
       required this.imageURL,
       required this.onTop});
   final String name;
@@ -19,7 +18,6 @@ class ProfileInfoWidget extends StatefulWidget {
   final String username;
   final String email;
   final String imageURL;
-  final String message;
   final VoidCallback onTop;
   @override
   State<ProfileInfoWidget> createState() => _ProfileInfoWidgetState();
@@ -44,7 +42,7 @@ class _ProfileInfoWidgetState extends State<ProfileInfoWidget> {
           ProfileInfoRow(label: 'Kullanıcı Adı', value: widget.username),
           ProfileInfoRow(label: 'Email', value: widget.email),
           SizedBox(height: context.sized.mediumValue),
-          CustomActionButton(onTop: widget.onTop, text: 'Çıkış Yap', message: widget.message)
+          CustomActionButton(onTop: widget.onTop, text: 'Çıkış Yap')
         ],
       ),
     );

@@ -10,7 +10,6 @@ class EditProfileWidget extends StatelessWidget {
   final TextEditingController usernameController;
   final TextEditingController emailController;
 
-  final String message;
   final void Function(String name, String surname, String username, String email) onUpdate;
   final Future<File?> Function() onPickImage;
   final File? selectedPhoto;
@@ -24,7 +23,6 @@ class EditProfileWidget extends StatelessWidget {
     required this.onUpdate,
     required this.onPickImage,
     required this.selectedPhoto,
-    required this.message,
   });
 
   @override
@@ -60,12 +58,10 @@ class EditProfileWidget extends StatelessWidget {
             _buildTextField('Email', emailController, context),
             SizedBox(height: context.sized.mediumValue),
             CustomActionButton(
-              controllers: [nameController, surnameController, usernameController, emailController],
               onTop: () {
                 onUpdate(nameController.text, surnameController.text, usernameController.text, emailController.text);
               },
               text: 'Güncelle',
-              message: message,
             )
           ],
         ),

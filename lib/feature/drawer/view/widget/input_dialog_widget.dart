@@ -3,13 +3,11 @@ import 'package:hipocapp/product/widget/button/custom_action_button/custom_actio
 
 class InputDialogWidget extends StatefulWidget {
   final void Function(String titleText, String descText) onSubmit;
-  final String message;
   final TextEditingController titleController;
   final TextEditingController descController;
 
   const InputDialogWidget({
     required this.onSubmit,
-    required this.message,
     required this.titleController,
     required this.descController,
   });
@@ -63,16 +61,14 @@ class _InputDialogWidgetState extends State<InputDialogWidget> {
           child: const Text('İptal'),
         ),
         CustomActionButton(
-          controllers: [widget.titleController, widget.descController],
+          text: 'Gönder',
           onTop: () {
-            if (titleText.trim().isNotEmpty || descText.trim().isNotEmpty) {
-              widget.onSubmit(titleText.trim(), descText.trim());
-            }
+            final title = widget.titleController.text.trim();
+            final desc = widget.descController.text.trim();
+            widget.onSubmit(title, desc);
             Navigator.of(context).pop();
           },
-          text: 'Gönder',
-          message: widget.message,
-        )
+        ),
       ],
     );
   }

@@ -9,14 +9,12 @@ class ChangePasswordWidget extends StatefulWidget {
     required this.newPasswordChangeController,
     required this.newPasswordReChangeController,
     required this.onChangePressed,
-    required this.message,
   });
 
   final TextEditingController passwordChangeController;
   final TextEditingController newPasswordChangeController;
   final TextEditingController newPasswordReChangeController;
   final VoidCallback onChangePressed;
-  final String message;
 
   @override
   State<ChangePasswordWidget> createState() => _ChangePasswordWidgetState();
@@ -38,16 +36,6 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
           CustomActionButton(
             onTop: widget.onChangePressed,
             text: 'Şifreyi Değiştir',
-            message: widget.message,
-            controllers: [
-              widget.passwordChangeController,
-              widget.newPasswordChangeController,
-              widget.newPasswordReChangeController,
-            ],
-            passwordMatchControllers: [
-              widget.newPasswordChangeController,
-              widget.newPasswordReChangeController,
-            ],
           )
         ],
       ),
