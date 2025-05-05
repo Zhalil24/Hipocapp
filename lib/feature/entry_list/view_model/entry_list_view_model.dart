@@ -41,7 +41,7 @@ final class EntryListViewModel extends BaseCubit<EntryListViewState> {
     changeLoading();
   }
 
-  Future<void> createEntry(String title, String desc, int headerId) async {
+  Future<String> createEntry(String title, String desc, int headerId) async {
     final entryModel = EntryModel(
       headerId: headerId,
       titleName: title,
@@ -52,6 +52,7 @@ final class EntryListViewModel extends BaseCubit<EntryListViewState> {
     var resp = await _entryOperation.createEntry(entryModel);
     serviceResponseMessageSave(resp?.message);
     await getEntryList(title);
+    return resp?.message ?? '';
   }
 
   int _getUserId() {

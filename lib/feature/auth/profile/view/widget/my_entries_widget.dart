@@ -8,7 +8,7 @@ class MyEntriesWidget extends StatefulWidget {
   final String titleName;
   final String desc;
   final String message;
-  final VoidCallback onPressed;
+  final Future<String> Function() onPressed;
   @override
   State<MyEntriesWidget> createState() => _MyEntriesWidgetState();
 }

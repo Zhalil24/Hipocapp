@@ -21,7 +21,7 @@ final class ProfileService extends ProfileOperation {
   }
 
   @override
-  Future<ProfileModel?> updateProfile(ProfileUpdateModel model) async {
+  Future<UserResponseModel?> updateProfile(ProfileUpdateModel model) async {
     final formData = FormData.fromMap({
       'Id': model.id.toString(),
       'Name': model.name,
@@ -44,7 +44,7 @@ final class ProfileService extends ProfileOperation {
 
     final json = response.data;
     if (json == null) return null;
-    return ProfileModel.fromJson(json);
+    return UserResponseModel.fromJson(json);
   }
 
   @override

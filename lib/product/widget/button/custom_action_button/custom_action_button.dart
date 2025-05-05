@@ -51,19 +51,31 @@ class _CustomActionButtonState extends State<CustomActionButton> {
   }
 
   void _handleTap() {
+    // Boş alan kontrolü
     if (widget.controllers != null && widget.controllers!.any((c) => c.text.trim().isEmpty)) {
-      _showAwesomeOverlay(context, "Lütfen tüm alanları doldurunuz.", ContentType.failure);
+      _showAwesomeOverlay(context, 'Lütfen tüm alanları doldurunuz.', ContentType.failure);
       return;
     }
+
+    // Şifre kontrolü (isteğe bağlı)
     if (widget.passwordMatchControllers != null && widget.passwordMatchControllers!.length == 2) {
       final pass = widget.passwordMatchControllers![0].text.trim();
       final confirm = widget.passwordMatchControllers![1].text.trim();
 
+      // 🔒 Boş şifre kontrolü
+      if (pass.isEmpty || confirm.isEmpty) {
+        _showAwesomeOverlay(context, 'Şifre alanları boş bırakılamaz.', ContentType.failure);
+        return;
+      }
+
+      // 🔁 Eşleşme kontrolü
       if (pass != confirm) {
-        _showAwesomeOverlay(context, "Yeni şifreler uyuşmuyor.", ContentType.warning);
+        _showAwesomeOverlay(context, 'Yeni şifreler uyuşmuyor.', ContentType.warning);
         return;
       }
     }
+
+    // Başarılıysa mesaj ve işlemi çağır
     _showAwesomeOverlay(context, widget.message, ContentType.success);
     Future<void>.delayed(const Duration(seconds: 2)).then((_) => widget.onTop());
   }

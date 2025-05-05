@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:hipocapp/product/navigation/app_router.dart';
+import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
+import 'package:hipocapp/product/widget/info_widget/info_widget.dart';
 import 'package:kartal/kartal.dart';
 
 class EditProfileWidget extends StatelessWidget {
@@ -9,25 +9,23 @@ class EditProfileWidget extends StatelessWidget {
   final TextEditingController surnameController;
   final TextEditingController usernameController;
   final TextEditingController emailController;
-  final TextEditingController passwordController;
-  final TextEditingController passwordReController;
+
   final String message;
-  final void Function(String name, String surname, String username, String email, String password, String passwordRe) onUpdate;
+  final void Function(String name, String surname, String username, String email) onUpdate;
   final Future<File?> Function() onPickImage;
   final File? selectedPhoto;
 
-  const EditProfileWidget(
-      {super.key,
-      required this.nameController,
-      required this.surnameController,
-      required this.usernameController,
-      required this.emailController,
-      required this.onUpdate,
-      required this.onPickImage,
-      required this.selectedPhoto,
-      required this.message,
-      required this.passwordController,
-      required this.passwordReController});
+  const EditProfileWidget({
+    super.key,
+    required this.nameController,
+    required this.surnameController,
+    required this.usernameController,
+    required this.emailController,
+    required this.onUpdate,
+    required this.onPickImage,
+    required this.selectedPhoto,
+    required this.message,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +48,9 @@ class EditProfileWidget extends StatelessWidget {
                     onPressed: onPickImage,
                     child: const Text('Fotoğraf Seç'),
                   ),
+                  const InfoWidget(
+                    text: 'Kullanıcı adınızı değiştirmeden profilinizi güncelleyemezsiniz.',
+                  ),
                 ],
               ),
             ),
@@ -58,32 +59,14 @@ class EditProfileWidget extends StatelessWidget {
             _buildTextField('Kullanıcı Adı', usernameController, context),
             _buildTextField('Email', emailController, context),
             SizedBox(height: context.sized.mediumValue),
-            GestureDetector(
-              onTap: () async {
-                await showDialog<void>(
-                  context: context,
-                  builder: _buildPasswordDialog,
-                );
+            CustomActionButton(
+              controllers: [nameController, surnameController, usernameController, emailController],
+              onTop: () {
+                onUpdate(nameController.text, surnameController.text, usernameController.text, emailController.text);
               },
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: context.sized.highValue,
-                  vertical: context.sized.lowValue,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(context.sized.normalValue),
-                  border: Border.all(color: Colors.blue),
-                ),
-                child: const Text(
-                  'Güncelle',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                ),
-              ),
-            ),
+              text: 'Güncelle',
+              message: message,
+            )
           ],
         ),
       ),
@@ -97,66 +80,6 @@ class EditProfileWidget extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(labelText: label),
       ),
-    );
-  }
-
-  Widget _buildPasswordDialog(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Parolanızı Giriniz'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(labelText: 'Parola'),
-          ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: passwordReController,
-            obscureText: true,
-            decoration: const InputDecoration(labelText: 'Parola (Tekrar)'),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('İptal'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            String snackbarMessage;
-            bool isSuccess = false;
-
-            if (passwordController.text == passwordReController.text) {
-              snackbarMessage = message;
-              isSuccess = true;
-              onUpdate(
-                nameController.text,
-                surnameController.text,
-                usernameController.text,
-                emailController.text,
-                passwordController.text,
-                passwordReController.text,
-              );
-            } else {
-              snackbarMessage = "Şifreler uyuşmuyor!";
-            }
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(snackbarMessage)),
-            );
-
-            if (isSuccess) {
-              Future.delayed(const Duration(seconds: 2), () {
-                context.router.replace(const HomeRoute());
-              });
-            }
-          },
-          child: const Text('Tamam'),
-        ),
-      ],
     );
   }
 }

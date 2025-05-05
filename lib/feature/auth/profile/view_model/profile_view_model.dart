@@ -65,8 +65,6 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     String surname,
     String email,
     String username,
-    String password,
-    String passwordRe,
   ) async {
     changeLoading();
     var model = ProfileUpdateModel(
@@ -76,15 +74,18 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
       photo: state.photo,
       username: username,
       surname: surname,
-      password: password,
-      passwordRe: passwordRe,
     );
-    await _profileOperation.updateProfile(model);
+    var response = await _profileOperation.updateProfile(model);
+    emit(state.copyWith(seviceResultMessage: response?.message));
+
+    changeLoading();
   }
 
   /// Change tab bar
   void changeTab(ProfileTabType tab) {
+    changeLoading();
     emit(state.copyWith(activeTab: tab));
+    changeLoading();
   }
 
   /// Logout
@@ -106,10 +107,13 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
       password: password,
       userid: _getUserId(),
     );
-    await _profileOperation.changePassword(model);
+    var response = await _profileOperation.changePassword(model);
+    emit(state.copyWith(seviceResultMessage: response));
+    changeLoading();
   }
 
-  Future<void> deleteEntry(int id) async {
+  Future<String> deleteEntry(int id) async {
+    changeLoading();
     var response = await _entryOperation.deleteEntry(id);
     final updatedEntries = List<EntryModel>.from(state.profileModel?.entries ?? []);
     updatedEntries.removeWhere((entry) => entry.id == id);
@@ -117,5 +121,8 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     emit(state.copyWith(profileModel: updatedProfile));
     emit(state.copyWith(activeTab: ProfileTabType.entries));
     serviceResponseMessageSave(response?.message);
+    changeLoading();
+
+    return response?.message ?? '';
   }
 }

@@ -63,15 +63,16 @@ class _InputDialogWidgetState extends State<InputDialogWidget> {
           child: const Text('İptal'),
         ),
         CustomActionButton(
-            controllers: [widget.titleController, widget.descController],
-            onTop: () {
-              if (titleText.trim().isNotEmpty || descText.trim().isNotEmpty) {
-                widget.onSubmit(titleText.trim(), descText.trim());
-              }
-              Navigator.of(context).pop();
-            },
-            text: 'Gönder',
-            message: widget.message)
+          controllers: [widget.titleController, widget.descController],
+          onTop: () {
+            if (titleText.trim().isNotEmpty || descText.trim().isNotEmpty) {
+              widget.onSubmit(titleText.trim(), descText.trim());
+            }
+            Navigator.of(context).pop();
+          },
+          text: 'Gönder',
+          message: widget.message,
+        )
       ],
     );
   }

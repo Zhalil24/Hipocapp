@@ -74,22 +74,18 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
       case ProfileTabType.editProfile:
         return EditProfileWidget(
           message: state.seviceResultMessage ?? '',
-          passwordController: passwordController,
-          passwordReController: passwordReController,
           selectedPhoto: state.photo,
           onPickImage: pickImageFromGallery,
           nameController: nameController,
           surnameController: surnameController,
           usernameController: usernameController,
           emailController: emailController,
-          onUpdate: (name, surname, username, email, password, passwordRe) {
+          onUpdate: (name, surname, username, email) {
             profileViewModel.updateProfile(
               name,
               surname,
               email,
               username,
-              password,
-              passwordRe,
             );
           },
         );
@@ -113,9 +109,13 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
               message: state.seviceResultMessage ?? '',
               desc: state.profileModel?.entries?[index].description ?? '',
               titleName: state.profileModel?.entries?[index].titleName ?? '',
-              onPressed: () => profileViewModel.deleteEntry(
-                state.profileModel?.entries?[index].id ?? 0,
-              ),
+              onPressed: () async {
+                final entryId = state.profileModel?.entries?[index].id;
+                if (entryId != null) {
+                  return await profileViewModel.deleteEntry(entryId);
+                }
+                return 'Entry silinemedi. ID bulunamadı.';
+              },
             );
           },
         );
