@@ -3,16 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
 class CustomActionButton extends StatefulWidget {
-  const CustomActionButton({super.key, required this.onTop, required this.text, required this.message});
+  const CustomActionButton({
+    super.key,
+    required this.onTop,
+    required this.text,
+    required this.message,
+    this.controllers,
+    this.passwordMatchControllers,
+  });
   final VoidCallback onTop;
   final String text;
   final String message;
+  final List<TextEditingController>? controllers;
+  final List<TextEditingController>? passwordMatchControllers;
+
   @override
   State<CustomActionButton> createState() => _CustomActionButtonState();
 }
 
 class _CustomActionButtonState extends State<CustomActionButton> {
-  void _showAwesomeOverlay(BuildContext context) {
+  void _showAwesomeOverlay(BuildContext context, String message, ContentType type) {
     final overlay = Overlay.of(context);
     late OverlayEntry overlayEntry;
 
@@ -25,8 +35,8 @@ class _CustomActionButtonState extends State<CustomActionButton> {
           color: Colors.transparent,
           child: AwesomeSnackbarContent(
             title: 'Sayın Kullanıcımız',
-            message: widget.message,
-            contentType: ContentType.success,
+            message: message,
+            contentType: type,
             inMaterialBanner: true,
           ),
         ),
@@ -37,14 +47,31 @@ class _CustomActionButtonState extends State<CustomActionButton> {
 
     Future<void>.delayed(const Duration(seconds: 2)).then((_) {
       overlayEntry.remove();
-      widget.onTop();
     });
+  }
+
+  void _handleTap() {
+    if (widget.controllers != null && widget.controllers!.any((c) => c.text.trim().isEmpty)) {
+      _showAwesomeOverlay(context, "Lütfen tüm alanları doldurunuz.", ContentType.failure);
+      return;
+    }
+    if (widget.passwordMatchControllers != null && widget.passwordMatchControllers!.length == 2) {
+      final pass = widget.passwordMatchControllers![0].text.trim();
+      final confirm = widget.passwordMatchControllers![1].text.trim();
+
+      if (pass != confirm) {
+        _showAwesomeOverlay(context, "Yeni şifreler uyuşmuyor.", ContentType.warning);
+        return;
+      }
+    }
+    _showAwesomeOverlay(context, widget.message, ContentType.success);
+    Future<void>.delayed(const Duration(seconds: 2)).then((_) => widget.onTop());
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _showAwesomeOverlay(context),
+      onTap: _handleTap,
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: context.sized.highValue,

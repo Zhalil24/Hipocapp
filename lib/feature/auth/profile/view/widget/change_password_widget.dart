@@ -35,7 +35,20 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
           SizedBox(height: context.sized.normalValue),
           _buildPasswordField('Yeni Şifre (Tekrar)', widget.newPasswordReChangeController),
           SizedBox(height: context.sized.normalValue),
-          CustomActionButton(onTop: widget.onChangePressed, text: 'Şifreyi Değiştir', message: widget.message)
+          CustomActionButton(
+            onTop: widget.onChangePressed,
+            text: 'Şifreyi Değiştir',
+            message: widget.message,
+            controllers: [
+              widget.passwordChangeController,
+              widget.newPasswordChangeController,
+              widget.newPasswordReChangeController,
+            ],
+            passwordMatchControllers: [
+              widget.newPasswordChangeController,
+              widget.newPasswordReChangeController,
+            ],
+          )
         ],
       ),
     );

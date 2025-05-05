@@ -36,6 +36,8 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
             BlocBuilder<DrawerViewModel, DrawerViewState>(
               builder: (context, state) {
                 return SubItemSelectionWidget(
+                  descController: descController,
+                  titleController: titleController,
                   message: state.serviceResultMessage,
                   isSubItemSelected: state.isSubItemSelected,
                   onCreateEntry: (title, desc) {

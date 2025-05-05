@@ -57,21 +57,8 @@ class _EntryListViewState extends BaseState<EntryListView> with EntryListViewMix
                         ),
                       )),
                       const SizedBox(width: 8),
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     final text = _entryController.text.trim();
-                      //     if (text.isNotEmpty) {
-                      //       entryListViewModel.createEntry(
-                      //         widget.titleName,
-                      //         text,
-                      //         widget.headerId,
-                      //       );
-                      //       _entryController.clear();
-                      //     }
-                      //   },
-                      //   child: const Text('Ekle'),
-                      // ),
                       CustomActionButton(
+                        controllers: [_entryController],
                         onTop: () {
                           final text = _entryController.text.trim();
                           if (text.isNotEmpty) {
