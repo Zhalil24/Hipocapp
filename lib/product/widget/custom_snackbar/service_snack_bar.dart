@@ -1,5 +1,6 @@
 // lib/widgets/service_snack_bar.dart
 import 'package:flutter/material.dart';
+import 'package:kartal/kartal.dart';
 
 enum SnackType { success, error, info }
 
@@ -13,6 +14,22 @@ class ServiceSnackBar extends StatefulWidget {
     this.type = SnackType.success,
   }) : super(key: key);
 
+  static void show(BuildContext context, String message) {
+    final overlay = Overlay.of(context);
+
+    final entry = OverlayEntry(builder: (ctx) {
+      return Positioned(
+        top: MediaQuery.of(ctx).padding.top + context.sized.normalValue,
+        left: context.sized.normalValue,
+        right: context.sized.normalValue,
+        child: ServiceSnackBar(message: message),
+      );
+    });
+
+    overlay.insert(entry);
+    Future<void>.delayed(const Duration(seconds: 1)).then((_) => entry.remove());
+  }
+
   @override
   _ServiceSnackBarState createState() => _ServiceSnackBarState();
 }
@@ -20,7 +37,7 @@ class ServiceSnackBar extends StatefulWidget {
 class _ServiceSnackBarState extends State<ServiceSnackBar> with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 300),
+    duration: const Duration(milliseconds: 150),
   );
   late final Animation<Offset> _offsetAnim = Tween<Offset>(
     begin: const Offset(0, -1),
@@ -32,7 +49,7 @@ class _ServiceSnackBarState extends State<ServiceSnackBar> with SingleTickerProv
       case SnackType.error:
         return Colors.red.shade600;
       case SnackType.info:
-        return Colors.blue.shade600;
+        return Colors.orange.shade600;
       case SnackType.success:
       default:
         return Colors.green.shade600;
@@ -54,14 +71,7 @@ class _ServiceSnackBarState extends State<ServiceSnackBar> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    _ctrl.forward().then((_) {
-      Future.delayed(const Duration(seconds: 3), () {
-        _ctrl.reverse().then((_) {
-          // SnackBar içindeki content widget’ı tamamen kaybolduğunda
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-        });
-      });
-    });
+    _ctrl.forward();
   }
 
   @override
@@ -77,20 +87,21 @@ class _ServiceSnackBarState extends State<ServiceSnackBar> with SingleTickerProv
       child: Material(
         color: _bgColor,
         borderRadius: BorderRadius.circular(12),
+        elevation: 6,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: context.sized.normalValue, vertical: context.sized.normalValue),
           child: Row(
             children: [
               Icon(_iconData, color: Colors.white),
-              const SizedBox(width: 12),
+              SizedBox(width: context.sized.normalValue),
               Expanded(
                 child: Text(
                   widget.message,
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  style: TextStyle(color: Colors.white, fontSize: context.sized.normalValue),
                 ),
               ),
               GestureDetector(
-                onTap: () => ScaffoldMessenger.of(context).removeCurrentSnackBar(),
+                onTap: () => Overlay.of(context).dispose(),
                 child: const Icon(Icons.close, color: Colors.white),
               ),
             ],
