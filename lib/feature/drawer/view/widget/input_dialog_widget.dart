@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
 
 class InputDialogWidget extends StatefulWidget {
@@ -19,41 +20,47 @@ class InputDialogWidget extends StatefulWidget {
 class _InputDialogWidgetState extends State<InputDialogWidget> {
   String titleText = '';
   String descText = '';
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 8),
-          TextField(
-            controller: widget.titleController,
-            decoration: const InputDecoration(labelText: 'Başlık'),
-            onChanged: (value) {
-              setState(() {
-                titleText = value;
-              });
-            },
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: widget.descController,
-            decoration: const InputDecoration(
-              labelText: 'Entry',
-              alignLabelWithHint: true,
-              border: OutlineInputBorder(),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 8),
+            TextFormField(
+              validator: Validators.notEmpty,
+              controller: widget.titleController,
+              decoration: const InputDecoration(labelText: 'Başlık'),
+              onChanged: (value) {
+                setState(() {
+                  titleText = value;
+                });
+              },
             ),
-            minLines: 10,
-            maxLines: null,
-            onChanged: (value) {
-              setState(() {
-                descText = value;
-              });
-            },
-          ),
-        ],
+            const SizedBox(height: 8),
+            TextFormField(
+              validator: Validators.notEmpty,
+              controller: widget.descController,
+              decoration: const InputDecoration(
+                labelText: 'Entry',
+                alignLabelWithHint: true,
+                border: OutlineInputBorder(),
+              ),
+              minLines: 10,
+              maxLines: null,
+              onChanged: (value) {
+                setState(() {
+                  descText = value;
+                });
+              },
+            ),
+          ],
+        ),
       ),
       actions: [
         TextButton(
@@ -63,10 +70,12 @@ class _InputDialogWidgetState extends State<InputDialogWidget> {
         CustomActionButton(
           text: 'Gönder',
           onTop: () {
-            final title = widget.titleController.text.trim();
-            final desc = widget.descController.text.trim();
-            widget.onSubmit(title, desc);
-            Navigator.of(context).pop();
+            if (_formKey.currentState?.validate() ?? false) {
+              final title = widget.titleController.text.trim();
+              final desc = widget.descController.text.trim();
+              widget.onSubmit(title, desc);
+              Navigator.of(context).pop();
+            }
           },
         ),
       ],

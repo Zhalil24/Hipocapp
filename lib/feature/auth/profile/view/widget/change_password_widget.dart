@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/utility/extension/form_decoration.dart';
+import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
 import 'package:kartal/kartal.dart';
 
@@ -21,34 +23,57 @@ class ChangePasswordWidget extends StatefulWidget {
 }
 
 class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(context.sized.normalValue),
-      child: Column(
-        children: [
-          _buildPasswordField('Mevcut Şifre', widget.passwordChangeController),
-          SizedBox(height: context.sized.normalValue),
-          _buildPasswordField('Yeni Şifre', widget.newPasswordChangeController),
-          SizedBox(height: context.sized.normalValue),
-          _buildPasswordField('Yeni Şifre (Tekrar)', widget.newPasswordReChangeController),
-          SizedBox(height: context.sized.normalValue),
-          CustomActionButton(
-            onTop: widget.onChangePressed,
-            text: 'Şifreyi Değiştir',
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPasswordField(String label, TextEditingController controller) {
-    return TextField(
-      controller: controller,
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: widget.passwordChangeController,
+              obscureText: true,
+              decoration: 'Mevcut Şifre'.formFieldDecoration,
+              validator: Validators.notEmpty,
+            ),
+            SizedBox(height: context.sized.normalValue),
+            TextFormField(
+              controller: widget.newPasswordChangeController,
+              obscureText: true,
+              decoration: 'Yeni Şifre'.formFieldDecoration,
+              validator: Validators.notEmpty,
+            ),
+            SizedBox(height: context.sized.normalValue),
+            TextFormField(
+              controller: widget.newPasswordReChangeController,
+              obscureText: true,
+              decoration: 'Yeni Şifre (Tekrar)'.formFieldDecoration,
+              validator: (v) {
+                // önce boş mu?
+                final emptyError = Validators.notEmpty(v);
+                if (emptyError != null) return emptyError;
+                // sonra eşleşiyor mu?
+                return Validators.match(
+                  v,
+                  widget.newPasswordChangeController.text,
+                  'Yeni şifre',
+                );
+              },
+            ),
+            SizedBox(height: context.sized.normalValue),
+            CustomActionButton(
+              text: 'Şifreyi Değiştir',
+              onTop: () {
+                if (_formKey.currentState?.validate() ?? false) {
+                  widget.onChangePressed();
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
