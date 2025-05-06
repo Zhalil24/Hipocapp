@@ -1,16 +1,17 @@
 /// Product Service Path
 enum ProductServicePath {
-  titles("Title/GetAllTitles"),
+  titles('Title/GetAllTitles'),
   lastEntries('Entry/GetLastEntries'),
   randomEntries('Entry/GetRandomEntries'),
-  headers("api/header/GetHeaderIdByHeaderName"),
-  createEntry("api/entry/create"),
+  headers('api/header/GetHeaderIdByHeaderName'),
+  createEntry('api/entry/create'),
   entryList('Entry/GetEntriesByTitleName'),
   content('api/draw/'),
   login('api/user/Login'),
   updateProfile('api/user/Edit'),
   changePassword('api/user/PasswordChange'),
   deleteEntry('api/Entry/DeleteEntry'),
+  forgotPassword('api/user/ForgotPasswordApi'),
   profile('api/User/GetProfile');
 
   final String value;

@@ -100,10 +100,6 @@ class _ServiceSnackBarState extends State<ServiceSnackBar> with SingleTickerProv
                   style: TextStyle(color: Colors.white, fontSize: context.sized.normalValue),
                 ),
               ),
-              GestureDetector(
-                onTap: () => Overlay.of(context).dispose(),
-                child: const Icon(Icons.close, color: Colors.white),
-              ),
             ],
           ),
         ),

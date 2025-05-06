@@ -1,5 +1,6 @@
 import 'package:gen/gen.dart';
 
 abstract class AuthenticationOperation {
-  Future<User?> userLogin({required UserLoginModel userLoginModel});
+  Future<UserResponseModel?> userLogin({required UserLoginModel userLoginModel});
+  Future<ProfileResponseModel?> forgotPasswordService(String email);
 }

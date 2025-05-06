@@ -6,19 +6,23 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User extends INetworkModel<User> with EquatableMixin {
-  User(
-      {this.id,
-      this.rolId,
-      this.iconId,
-      this.degreeId,
-      this.username,
-      this.name,
-      this.surname,
-      this.identityNumber,
-      this.imageURL,
-      this.image,
-      this.photoURL,
-      this.accessToken});
+  User({
+    this.id,
+    this.rolId,
+    this.iconId,
+    this.degreeId,
+    this.username,
+    this.name,
+    this.surname,
+    this.identityNumber,
+    this.imageURL,
+    this.image,
+    this.photoURL,
+    this.email,
+    this.password,
+    this.passwordRe,
+    this.accessToken,
+  });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -33,10 +37,14 @@ class User extends INetworkModel<User> with EquatableMixin {
   final String? imageURL;
   final String? image;
   final String? photoURL;
+  final String? password;
+  final String? passwordRe;
+  final String? email;
   final AccessTokenModel? accessToken;
 
   @override
-  List<Object?> get props => [id, rolId, iconId, degreeId, username, name, surname, identityNumber, imageURL, image, photoURL, accessToken];
+  List<Object?> get props =>
+      [id, rolId, iconId, degreeId, username, name, surname, identityNumber, imageURL, image, photoURL, accessToken, password, passwordRe, email];
 
   @override
   User fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -56,11 +64,9 @@ class User extends INetworkModel<User> with EquatableMixin {
     String? imageURL,
     String? image,
     String? photoURL,
-    String? photo,
     String? email,
     String? passwordRe,
     String? password,
-    String? passwordRefreshToken,
     AccessTokenModel? accessToken,
   }) {
     return User(
@@ -75,6 +81,9 @@ class User extends INetworkModel<User> with EquatableMixin {
         imageURL: imageURL ?? this.imageURL,
         image: image ?? this.image,
         photoURL: photoURL ?? this.photoURL,
+        email: email ?? this.email,
+        password: password ?? this.password,
+        passwordRe: passwordRe ?? this.passwordRe,
         accessToken: accessToken ?? this.accessToken);
   }
 }

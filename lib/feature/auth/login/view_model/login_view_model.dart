@@ -25,6 +25,16 @@ final class LoginViewModel extends BaseCubit<LoginViewState> {
     emit(state.copyWith(isLoading: !state.isLoading));
   }
 
+  /// Clear service message
+  void clearServiceMessage() {
+    emit(state.copyWith(serviceResponseMessage: null));
+  }
+
+  /// Set service response
+  void setServiceRespnonse(String? message) {
+    emit(state.copyWith(serviceResponseMessage: message));
+  }
+
   Future<bool> fetchLogin({required String userName, required String password}) async {
     changeLoading();
     final userLoginModel = UserLoginModel(
@@ -32,8 +42,9 @@ final class LoginViewModel extends BaseCubit<LoginViewState> {
       password: password,
     );
     final response = await _authenticationOperationService.userLogin(userLoginModel: userLoginModel);
-    if (response != null) {
-      _saveItem(response.accessToken?.token ?? '', response.id ?? 0);
+    setServiceRespnonse(response?.message);
+    if (response?.user != null) {
+      _saveItem(response?.user?.accessToken?.token ?? '', response?.user?.id ?? 0);
       return true;
     }
     changeLoading();
