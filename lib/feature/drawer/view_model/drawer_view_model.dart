@@ -36,6 +36,16 @@ final class DrawerViewModel extends BaseCubit<DrawerViewState> {
     emit(state.copyWith(isLoading: !state.isLoading));
   }
 
+  /// Clear service message
+  void clearServiceMessage() {
+    emit(state.copyWith(serviceResponseMessage: null));
+  }
+
+  /// Set service response
+  void setServiceRespnonse(String? message) {
+    emit(state.copyWith(serviceResponseMessage: message));
+  }
+
   Future<void> getHeaderId(String name) async {
     changeLoading();
     var response = await _headerOperation.getHeaderIdByHeaderName(name);
@@ -53,7 +63,7 @@ final class DrawerViewModel extends BaseCubit<DrawerViewState> {
     changeLoading();
   }
 
-  Future<String> createEntry(String title, String desc) async {
+  Future<void> createEntry(String title, String desc) async {
     changeLoading();
     final entryModel = EntryModel(
       headerId: state.headers.id,
@@ -64,9 +74,9 @@ final class DrawerViewModel extends BaseCubit<DrawerViewState> {
     );
 
     var resp = await _entryOperation.createEntry(entryModel);
+    setServiceRespnonse(resp?.message ?? '');
     await getTitles(state.headers.id);
     changeLoading();
-    return resp?.message ?? '';
   }
 
   int _getUserId() {

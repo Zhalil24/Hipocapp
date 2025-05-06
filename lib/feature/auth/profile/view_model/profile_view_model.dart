@@ -39,6 +39,16 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     emit(state.copyWith(photo: photo));
   }
 
+  /// Clear service message
+  void clearServiceMessage() {
+    emit(state.copyWith(serviceResponseMessage: null));
+  }
+
+  /// Set service response
+  void setServiceRespnonse(String? message) {
+    emit(state.copyWith(serviceResponseMessage: message));
+  }
+
   int _getUserId() {
     final cachedUser = _userCacheOperation.get('user_token');
     int userId = cachedUser!.userId;
@@ -54,7 +64,7 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     return false;
   }
 
-  Future<String> updateProfile(
+  Future<void> updateProfile(
     String name,
     String surname,
     String email,
@@ -72,7 +82,7 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     var response = await _profileOperation.updateProfile(model);
 
     changeLoading();
-    return response?.message ?? '';
+    setServiceRespnonse(response?.message);
   }
 
   /// Change tab bar
@@ -83,7 +93,7 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   }
 
   /// Logout
-  Future<String> logout(BuildContext context) async {
+  Future<void> logout(BuildContext context) async {
     _userCacheOperation.clear();
     if (context.mounted) {
       await context.router.pushAndPopUntil(
@@ -91,10 +101,10 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
         predicate: (_) => false,
       );
     }
-    return 'Başarıyla çıkış yapıldı';
+    setServiceRespnonse('Başarıyla çıkış yapıldı');
   }
 
-  Future<String> changePassword(String password, String newpassword, String newrepassword) async {
+  Future<void> changePassword(String password, String newpassword, String newrepassword) async {
     changeLoading();
     final model = ChangePasswordModel(
       newpassword: newpassword,
@@ -102,21 +112,20 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
       password: password,
       userid: _getUserId(),
     );
-    var response = await _profileOperation.changePassword(model);
+    var message = await _profileOperation.changePassword(model);
+    setServiceRespnonse(message);
     changeLoading();
-    return response ?? '';
   }
 
-  Future<String> deleteEntry(int id) async {
+  Future<void> deleteEntry(int id) async {
     changeLoading();
-    var response = await _entryOperation.deleteEntry(id);
+    var resp = await _entryOperation.deleteEntry(id);
+    setServiceRespnonse(resp?.message);
     final updatedEntries = List<EntryModel>.from(state.profileModel?.entries ?? []);
     updatedEntries.removeWhere((entry) => entry.id == id);
     final updatedProfile = state.profileModel?.copyWith(entries: updatedEntries);
     emit(state.copyWith(profileModel: updatedProfile));
     emit(state.copyWith(activeTab: ProfileTabType.entries));
     changeLoading();
-
-    return response?.message ?? '';
   }
 }

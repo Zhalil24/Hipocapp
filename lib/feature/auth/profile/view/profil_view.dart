@@ -11,6 +11,7 @@ import 'package:hipocapp/feature/auth/profile/view_model/profile_view_model.dart
 import 'package:hipocapp/feature/auth/profile/view_model/state/profile_view_state.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
+import 'package:hipocapp/product/utility/extension/service_snack_bar.dart';
 import 'package:kartal/kartal.dart';
 
 @RoutePage()
@@ -25,33 +26,46 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => profileViewModel,
-      child: Scaffold(
-        appBar: AppBar(),
-        body: BlocBuilder<ProfileViewModel, ProfileViewState>(
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (nameController.text.isEmpty && state.profileModel != null) {
-              nameController.text = state.profileModel!.name.toString();
-              surnameController.text = state.profileModel!.surname.toString();
-              usernameController.text = state.profileModel!.username.toString();
-              emailController.text = state.profileModel!.email.toString();
-            }
-            return Column(
-              children: [
-                TabButtonsWidget(
-                  activeTabIndex: state.activeTab.index,
-                  onTap: (index) => profileViewModel.changeTab(ProfileTabType.values[index]),
-                ),
-                SizedBox(height: context.sized.normalValue),
-                Expanded(
-                  child: _buildTabContent(state.activeTab, profileViewModel.state),
-                ),
-              ],
+      create: (_) => profileViewModel,
+      child: BlocListener<ProfileViewModel, ProfileViewState>(
+        listenWhen: (prev, curr) => prev.serviceResponseMessage != curr.serviceResponseMessage && curr.serviceResponseMessage != null,
+        listener: (context, state) {
+          final msg = state.serviceResponseMessage;
+          context.read<ProfileViewModel>().clearServiceMessage();
+          if (msg != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              createServiceSnackBar(msg),
             );
-          },
+            context.read<ProfileViewModel>().clearServiceMessage();
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(),
+          body: BlocBuilder<ProfileViewModel, ProfileViewState>(
+            builder: (context, state) {
+              if (state.isLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (nameController.text.isEmpty && state.profileModel != null) {
+                nameController.text = state.profileModel!.name.toString();
+                surnameController.text = state.profileModel!.surname.toString();
+                usernameController.text = state.profileModel!.username.toString();
+                emailController.text = state.profileModel!.email.toString();
+              }
+              return Column(
+                children: [
+                  TabButtonsWidget(
+                    activeTabIndex: state.activeTab.index,
+                    onTap: (index) => profileViewModel.changeTab(ProfileTabType.values[index]),
+                  ),
+                  SizedBox(height: context.sized.normalValue),
+                  Expanded(
+                    child: _buildTabContent(state.activeTab, profileViewModel.state),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

@@ -9,6 +9,7 @@ import 'package:hipocapp/feature/drawer/view_model/drawer_view_model.dart';
 import 'package:hipocapp/feature/drawer/view_model/state/drawer_view_state.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/constans/titles/titles.dart';
+import 'package:hipocapp/product/utility/extension/service_snack_bar.dart';
 
 class DrawerView extends StatefulWidget {
   const DrawerView({super.key});
@@ -22,38 +23,50 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => drawerViewModel,
-      child: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const CustomDrawerHeader(),
-            MenuStructureWidget(
-              menuStructure: menuStructure,
-              onItemSelected: (backendValue) async {
-                await drawerViewModel.getHeaderId(backendValue);
-              },
-            ),
-            BlocBuilder<DrawerViewModel, DrawerViewState>(
-              builder: (context, state) {
-                return SubItemSelectionWidget(
-                  descController: descController,
-                  titleController: titleController,
-                  isSubItemSelected: state.isSubItemSelected,
-                  onCreateEntry: (title, desc) {
-                    drawerViewModel.createEntry(title, desc);
-                  },
-                );
-              },
-            ),
-            BlocBuilder<DrawerViewModel, DrawerViewState>(
-              builder: (context, state) {
-                return DrawerTitlesWidget(
-                  titles: state.titles,
-                  isLoading: state.isLoading,
-                );
-              },
-            )
-          ],
+      child: BlocListener<DrawerViewModel, DrawerViewState>(
+        listenWhen: (prev, curr) => prev.serviceResponseMessage != curr.serviceResponseMessage && curr.serviceResponseMessage != null,
+        listener: (context, state) {
+          final msg = state.serviceResponseMessage;
+          if (msg != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              createServiceSnackBar(msg),
+            );
+            context.read<DrawerViewModel>().clearServiceMessage();
+          }
+        },
+        child: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const CustomDrawerHeader(),
+              MenuStructureWidget(
+                menuStructure: menuStructure,
+                onItemSelected: (backendValue) async {
+                  await drawerViewModel.getHeaderId(backendValue);
+                },
+              ),
+              BlocBuilder<DrawerViewModel, DrawerViewState>(
+                builder: (context, state) {
+                  return SubItemSelectionWidget(
+                    descController: descController,
+                    titleController: titleController,
+                    isSubItemSelected: state.isSubItemSelected,
+                    onCreateEntry: (title, desc) {
+                      drawerViewModel.createEntry(title, desc);
+                    },
+                  );
+                },
+              ),
+              BlocBuilder<DrawerViewModel, DrawerViewState>(
+                builder: (context, state) {
+                  return DrawerTitlesWidget(
+                    titles: state.titles,
+                    isLoading: state.isLoading,
+                  );
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
