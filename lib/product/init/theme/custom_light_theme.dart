@@ -8,6 +8,7 @@ final class CustomLightTheme implements CustomTheme {
   ThemeData get themedata => ThemeData(
         useMaterial3: true,
         fontFamily: GoogleFonts.roboto().fontFamily,
+        listTileTheme: const ListTileThemeData(textColor: Colors.black),
         colorScheme: CustomColorScheme.lightColorScheme,
         scaffoldBackgroundColor: CustomColorScheme.lightColorScheme.onPrimary,
         appBarTheme: AppBarTheme(color: CustomColorScheme.lightColorScheme.primary),

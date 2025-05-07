@@ -20,4 +20,18 @@ final class TitleService extends TitleOperation {
     );
     return response.data?.titles ?? [];
   }
+
+  @override
+  Future<TitleResponseModel?> searchEntriesByTitleName(String name) async {
+    final response = await _networkManager.send<TitleResponseModel, TitleResponseModel>(
+      ProductServicePath.entriesByTitleName.value,
+      parseModel: TitleResponseModel(),
+      method: RequestType.GET,
+      queryParameters: {
+        'name': name,
+      },
+    );
+
+    return response.data;
+  }
 }

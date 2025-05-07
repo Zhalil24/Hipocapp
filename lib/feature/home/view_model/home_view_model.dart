@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
 import 'package:hipocapp/product/service/interface/content_operarion.dart';
 import 'package:hipocapp/product/service/interface/entry_operation.dart';
+import 'package:hipocapp/product/service/interface/title_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
 import 'package:hipocapp/product/utility/enums/content_type.dart';
 
@@ -12,19 +13,23 @@ final class HomeViewModel extends BaseCubit<HomeViewState> {
     required LastEntryOperation lastEntriesOperation,
     required ContentOperarion contentOperation,
     required RandomEntryOperation randomEntryOperation,
+    required TitleOperation titleOperation,
   })  : _lastEntriesOperation = lastEntriesOperation,
         _randomEntryOperation = randomEntryOperation,
         _contentOperarion = contentOperation,
+        _titleOperation = titleOperation,
         super(HomeViewState(isLoading: false));
   late final LastEntryOperation _lastEntriesOperation;
   late final RandomEntryOperation _randomEntryOperation;
   late final ContentOperarion _contentOperarion;
+  late final TitleOperation _titleOperation;
 
   /// Change loading state
   void changeLoading() {
     emit(state.copyWith(isLoading: !state.isLoading));
   }
 
+  /// Change entries to last entries or random entries.
   void changeEntries(bool isChange) {
     emit(state.copyWith(
       isLastEntries: isChange,
@@ -81,5 +86,18 @@ final class HomeViewModel extends BaseCubit<HomeViewState> {
     final resp = await _contentOperarion.getContentList(contentName);
     emit(state.copyWith(contentModel: resp));
     changeLoading();
+  }
+
+  /// Searches for entries by title name.
+  Future<void> searchEntriesByTitleName(String name) async {
+    emit(state.copyWith(isLoadingSearchbar: true));
+    final resp = await _titleOperation.searchEntriesByTitleName(name);
+    emit(state.copyWith(titleModel: resp?.titles));
+    emit(state.copyWith(isLoadingSearchbar: false));
+  }
+
+  /// Clears the list of titles that are the result of a search by title name.
+  void clearTitleResults() {
+    emit(state.copyWith(titleModel: []));
   }
 }

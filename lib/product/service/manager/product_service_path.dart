@@ -12,6 +12,7 @@ enum ProductServicePath {
   changePassword('api/user/PasswordChange'),
   deleteEntry('api/Entry/DeleteEntry'),
   forgotPassword('api/user/ForgotPasswordApi'),
+  entriesByTitleName('api/Title/SearchEntriesByTitleName'),
   profile('api/User/GetProfile');
 
   final String value;
