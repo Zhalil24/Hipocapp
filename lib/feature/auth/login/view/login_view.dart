@@ -8,6 +8,7 @@ import 'package:hipocapp/feature/auth/login/view/widget/logo_banner.dart';
 import 'package:hipocapp/feature/auth/login/view_model/login_view_model.dart';
 import 'package:hipocapp/feature/auth/login/view_model/state/login_view_state.dart';
 import 'package:hipocapp/product/utility/extension/service_snack_bar.dart';
+import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import '../../../../product/state/base/base_state.dart';
 
 @RoutePage()
@@ -41,7 +42,7 @@ class _LoginViewState extends BaseState<LoginView> with LoginViewMixin {
           body: BlocBuilder<LoginViewModel, LoginViewState>(
             builder: (context, state) {
               return state.isLoading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(child: CustomLoader())
                   : SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,

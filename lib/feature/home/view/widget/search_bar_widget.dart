@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hipocapp/product/utility/constans/search_bar/serarch_bar_constants.dart';
+import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:auto_route/auto_route.dart';
@@ -45,7 +46,7 @@ class SearchBarWidget extends HookWidget {
             return Center(
               child: Padding(
                 padding: EdgeInsets.all(context.sized.normalValue),
-                child: CircularProgressIndicator(),
+                child: CustomLoader(),
               ),
             );
           }

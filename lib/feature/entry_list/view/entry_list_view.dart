@@ -10,6 +10,7 @@ import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:hipocapp/product/widget/appbar/custom_appbar_widget.dart';
 import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
 import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
+import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
 
 @RoutePage()
@@ -99,7 +100,7 @@ class _EntryListViewState extends BaseState<EntryListView> with EntryListViewMix
                   child: BlocBuilder<EntryListViewModel, EntryListViewState>(
                     builder: (context, state) {
                       if (state.isLoading) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(child: CustomLoader());
                       }
 
                       if (state.entryListModel == null || state.entryListModel!.isEmpty) {

@@ -12,6 +12,7 @@ import 'package:hipocapp/feature/auth/profile/view_model/state/profile_view_stat
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
 import 'package:hipocapp/product/utility/extension/service_snack_bar.dart';
+import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
 
 @RoutePage()
@@ -44,7 +45,7 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           body: BlocBuilder<ProfileViewModel, ProfileViewState>(
             builder: (context, state) {
               if (state.isLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: CustomLoader());
               }
               if (nameController.text.isEmpty && state.profileModel != null) {
                 nameController.text = state.profileModel!.name.toString();

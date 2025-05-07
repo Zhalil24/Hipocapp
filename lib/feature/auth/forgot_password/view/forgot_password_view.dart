@@ -9,6 +9,7 @@ import 'package:hipocapp/feature/auth/login/view/widget/appbar_widget.dart';
 import 'package:hipocapp/feature/auth/login/view/widget/logo_banner.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/extension/service_snack_bar.dart';
+import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 
 @RoutePage()
 class ForgotPasswordView extends StatefulWidget {
@@ -41,7 +42,7 @@ class _ForgotPasswordViewState extends BaseState<ForgotPasswordView> with Forgot
           body: BlocBuilder<ForgotPasswordViewModel, ForgotPasswordViewState>(
             builder: (context, state) {
               return state.isLoading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(child: CustomLoader())
                   : SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,

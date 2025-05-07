@@ -14,6 +14,7 @@ import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/enums/content_type.dart';
 import 'package:hipocapp/product/widget/appbar/custom_appbar_widget.dart';
 import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
+import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
 import 'widget/entry_bar_widget.dart';
 
@@ -55,7 +56,7 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
             Padding(
               padding: EdgeInsets.only(top: context.sized.mediumValue * 3.5),
               child: state.isLoading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(child: CustomLoader())
                   : _HomeContent(
                       isLastEntries: state.isLastEntries,
                     ),

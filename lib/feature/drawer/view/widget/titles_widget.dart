@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/drawer/view/widget/menu_button_text_widget.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
+import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
 
 class DrawerTitlesWidget extends StatelessWidget {
@@ -18,7 +19,7 @@ class DrawerTitlesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(child: CustomLoader());
     }
     if (titles.isEmpty) {
       return Padding(
