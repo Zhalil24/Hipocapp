@@ -11,14 +11,14 @@ class CustomLoader extends StatelessWidget {
     final circleColor = isDark ? Colors.white : Colors.black;
 
     return SizedBox(
-      width: context.sized.height * 5,
-      height: context.sized.height * 5,
+      width: context.sized.height * 0.1,
+      height: context.sized.height * 0.1,
       child: Stack(
         alignment: Alignment.center,
         children: [
           SizedBox(
-            width: context.sized.height * 5,
-            height: context.sized.height * 5,
+            width: context.sized.height * 0.1,
+            height: context.sized.height * 0.1,
             child: CircularProgressIndicator(
               strokeWidth: 3,
               valueColor: AlwaysStoppedAnimation<Color>(circleColor),

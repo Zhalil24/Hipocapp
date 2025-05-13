@@ -27,6 +27,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
       actions: [
         IconButton(
+          icon: const Icon(Icons.chat),
+          onPressed: () {
+            context.router.push(const ChatUserListRoute());
+          },
+        ),
+        IconButton(
           icon: const Icon(Icons.person),
           onPressed: () {
             context.router.push(const ProfilRoute());

@@ -10,6 +10,71 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [ChatUserListView]
+class ChatUserListRoute extends PageRouteInfo<void> {
+  const ChatUserListRoute({List<PageRouteInfo>? children})
+      : super(
+          ChatUserListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatUserListRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ChatUserListView();
+    },
+  );
+}
+
+/// generated route for
+/// [ChatView]
+class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
+  ChatRoute({
+    required int toUserId,
+    required String toUserName,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChatRoute.name,
+          args: ChatRouteArgs(
+            toUserId: toUserId,
+            toUserName: toUserName,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<ChatRouteArgs>();
+      return ChatView(
+        toUserId: args.toUserId,
+        toUserName: args.toUserName,
+      );
+    },
+  );
+}
+
+class ChatRouteArgs {
+  const ChatRouteArgs({
+    required this.toUserId,
+    required this.toUserName,
+  });
+
+  final int toUserId;
+
+  final String toUserName;
+
+  @override
+  String toString() {
+    return 'ChatRouteArgs{toUserId: $toUserId, toUserName: $toUserName}';
+  }
+}
+
+/// generated route for
 /// [EntryListView]
 class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
   EntryListRoute({

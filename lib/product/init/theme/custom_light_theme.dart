@@ -11,7 +11,10 @@ final class CustomLightTheme implements CustomTheme {
         listTileTheme: const ListTileThemeData(textColor: Colors.black),
         colorScheme: CustomColorScheme.lightColorScheme,
         scaffoldBackgroundColor: CustomColorScheme.lightColorScheme.onPrimary,
-        appBarTheme: AppBarTheme(color: CustomColorScheme.lightColorScheme.primary),
+        appBarTheme: AppBarTheme(
+          color: CustomColorScheme.lightColorScheme.primary,
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+        ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: CustomColorScheme.lightColorScheme.primary),
         drawerTheme: DrawerThemeData(
           backgroundColor: CustomColorScheme.lightColorScheme.surface,

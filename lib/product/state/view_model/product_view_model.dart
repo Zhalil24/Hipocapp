@@ -9,9 +9,4 @@ final class ProductViewModel extends BaseCubit<ProdcutState> {
   void changeThemeMode(ThemeMode themeMode) {
     emit(state.copyWith(themeMode: themeMode));
   }
-
-  /// Set service result message
-  void setServiceResultMessage(String message) {
-    emit(state.copyWith(serviceMessage: message));
-  }
 }

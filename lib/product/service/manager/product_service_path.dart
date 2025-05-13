@@ -13,6 +13,13 @@ enum ProductServicePath {
   deleteEntry('api/Entry/DeleteEntry'),
   forgotPassword('api/user/ForgotPasswordApi'),
   entriesByTitleName('api/Title/SearchEntriesByTitleName'),
+  allUser('api/user/all'),
+  getByUserId('api/chat/GetByUserId'),
+  lastMessageList('api/chat/LastMessages'),
+  saveMessage('api/chat/MessageSave'),
+  unReadMessageCount('api/chat/GetUnreadMessagesForUser'),
+  markMessage('api/chat/MarkMessagesAsRead'),
+  getMessageList('api/chat/MessageList'),
   profile('api/User/GetProfile');
 
   final String value;

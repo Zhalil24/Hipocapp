@@ -6,7 +6,7 @@ import 'package:hipocapp/feature/auth/profile/view/widget/change_password_widget
 import 'package:hipocapp/feature/auth/profile/view/widget/edit_profile_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/my_entries_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/profile_info_widget.dart';
-import 'package:hipocapp/feature/auth/profile/view/widget/tab_buttons_widget.dart';
+import 'package:hipocapp/product/widget/tab_buttons/tab_buttons_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/profile_view_model.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/state/profile_view_state.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
@@ -55,9 +55,12 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
               }
               return Column(
                 children: [
-                  TabButtonsWidget(
+                  TabButtonsWidget<ProfileTabType>(
                     activeTabIndex: state.activeTab.index,
-                    onTap: (index) => profileViewModel.changeTab(ProfileTabType.values[index]),
+                    tabs: ProfileTabType.values,
+                    onTap: (index) => profileViewModel.changeTab(
+                      ProfileTabType.values[index],
+                    ),
                   ),
                   SizedBox(height: context.sized.normalValue),
                   Expanded(
@@ -72,6 +75,19 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
     );
   }
 
+  /// Returns the widget based on the given [tab] and [state].
+  ///
+  /// If [tab] is [ProfileTabType.profile], it returns [ProfileInfoWidget] with
+  /// the profile information of the user.
+  ///
+  /// If [tab] is [ProfileTabType.editProfile], it returns [EditProfileWidget]
+  /// with the ability to edit the user's profile information.
+  ///
+  /// If [tab] is [ProfileTabType.changePassword], it returns [ChangePasswordWidget]
+  /// with the ability to change the user's password.
+  ///
+  /// If [tab] is [ProfileTabType.entries], it returns a [ListView] with the
+  /// entries of the user.
   Widget _buildTabContent(ProfileTabType tab, ProfileViewState state) {
     switch (tab) {
       case ProfileTabType.profile:

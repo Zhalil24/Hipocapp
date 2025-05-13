@@ -11,7 +11,10 @@ final class CustomDarkTheme implements CustomTheme {
         fontFamily: GoogleFonts.roboto().fontFamily,
         scaffoldBackgroundColor: CustomColorScheme.darkColorScheme.surface,
         colorScheme: CustomColorScheme.darkColorScheme,
-        appBarTheme: AppBarTheme(color: CustomColorScheme.darkColorScheme.primary),
+        appBarTheme: AppBarTheme(
+          color: CustomColorScheme.darkColorScheme.primary,
+          titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
+        ),
         listTileTheme: const ListTileThemeData(
           textColor: Colors.white,
           iconColor: Colors.white,

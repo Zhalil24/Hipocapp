@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hipocapp/product/cache/product_cache.dart';
+import 'package:hipocapp/product/hub/signalr_service.dart';
 import 'package:hipocapp/product/service/manager/product_network_manager.dart';
 import 'package:hipocapp/product/state/view_model/product_view_model.dart';
 
@@ -14,6 +15,7 @@ final class ProductStateContainer {
     _getIt
       ..registerSingleton(ProductCache(cacheManager: HiveCacheManager()))
       ..registerSingleton<ProductNetworkManager>(ProductNetworkManager.base())
+      ..registerLazySingleton<SignalRService>(SignalRService.new)
       ..registerLazySingleton<ProductViewModel>(ProductViewModel.new);
   }
 
