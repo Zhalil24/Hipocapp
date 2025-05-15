@@ -34,12 +34,14 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
   ChatRoute({
     required int toUserId,
     required String toUserName,
+    required bool isOnline,
     List<PageRouteInfo>? children,
   }) : super(
           ChatRoute.name,
           args: ChatRouteArgs(
             toUserId: toUserId,
             toUserName: toUserName,
+            isOnline: isOnline,
           ),
           initialChildren: children,
         );
@@ -53,6 +55,7 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
       return ChatView(
         toUserId: args.toUserId,
         toUserName: args.toUserName,
+        isOnline: args.isOnline,
       );
     },
   );
@@ -62,15 +65,18 @@ class ChatRouteArgs {
   const ChatRouteArgs({
     required this.toUserId,
     required this.toUserName,
+    required this.isOnline,
   });
 
   final int toUserId;
 
   final String toUserName;
 
+  final bool isOnline;
+
   @override
   String toString() {
-    return 'ChatRouteArgs{toUserId: $toUserId, toUserName: $toUserName}';
+    return 'ChatRouteArgs{toUserId: $toUserId, toUserName: $toUserName, isOnline: $isOnline}';
   }
 }
 

@@ -55,19 +55,57 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     changeLoading();
   }
 
-  /// Get all users from server, and set to state's profileModel.
-  /// Show loading indicator while fetching data.
-  Future<void> getAllUser() async {
-    changeLoading();
-    var resp = await _userOperation.getAllUsers();
-    emit(state.copyWith(profileModel: resp));
-    changeLoading();
-  }
-
   int _getUserId() {
     final cachedUser = _userCacheOperation.get('user_token');
     int userId = cachedUser!.userId;
     return userId;
+  }
+
+  /// Connect to the SignalR hub and register the user.
+  ///
+  /// This is a no-op if the hub is already connected.
+  ///
+  /// After connecting, this will invoke the 'RegisterUser' method on the hub,
+  /// passing the user's id as an argument.
+  Future<void> connect() async {
+    changeLoading();
+    if (!isConnected) await _hubConnection.start();
+    await _hubConnection.invoke(HubMethods.registerUser, args: [_getUserId()]);
+    _setupSignalREvents();
+    changeLoading();
+  }
+
+  /// Disconnect from the SignalR hub and remove the user's registration from the hub.
+  Future<void> disconnect() async {
+    changeLoading();
+    await _hubConnection.invoke(HubMethods.disconnectUserMobil, args: [_getUserId()]);
+    await _hubConnection.stop();
+    changeLoading();
+  }
+
+  /// Get all users from server, and set to state's profileModel.
+  /// Show loading indicator while fetching data.
+  // Future<void> getAllUser() async {
+  //   changeLoading();
+  //   var resp = await _userOperation.getAllUsers();
+  //   emit(state.copyWith(profileModel: resp));
+  //   changeLoading();
+  // }
+
+  Future<void> getAllUser() async {
+    changeLoading();
+    var resp = await _userOperation.getAllUsers();
+
+    final result = await _hubConnection.invoke(HubMethods.getOnlineUsers);
+    final List<int> onlineUserIds = (result as List<dynamic>).map((e) => e as int).toList();
+
+    final updatedUsers = resp?.map((user) {
+      return user.copyWith(isOnline: onlineUserIds.contains(user.id));
+    }).toList();
+
+    emit(state.copyWith(profileModel: updatedUsers));
+
+    changeLoading();
   }
 
   /// Fetch all users and last messages from server, and set to state's lastMessageUsers and messageModel.
@@ -109,23 +147,6 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     changeLoading();
   }
 
-  /// Connect to the SignalR hub and register the user.
-  ///
-  /// This is a no-op if the hub is already connected.
-  ///
-  /// After connecting, this will invoke the 'RegisterUser' method on the hub,
-  /// passing the user's id as an argument.
-  Future<void> connect() async {
-    if (!isConnected) await _hubConnection.start();
-    await _hubConnection.invoke(HubMethods.registerUser, args: [_getUserId()]);
-  }
-
-  /// Disconnect from the SignalR hub and remove the user's registration from the hub.
-  Future<void> disconnect() async {
-    await _hubConnection.invoke(HubMethods.disconnectUserMobil, args: [_getUserId()]);
-    await _hubConnection.stop();
-  }
-
   /// Fetch the unread message count for the current user from the server, and
   /// update the state with the fetched data.
   ///
@@ -164,5 +185,51 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   void clearUnreadMessageCountForUser(int userId) {
     final updatedList = state.unreadCount?.where((e) => e.fromUserId != userId).toList();
     emit(state.copyWith(unreadCount: updatedList));
+  }
+
+  void _markUserOnline(int userId) {
+    final updatedProfiles = state.profileModel?.map((user) {
+      return user.id == userId ? user.copyWith(isOnline: true) : user;
+    }).toList();
+
+    final updatedLastMessages = state.lastMessageUsers?.map((user) {
+      return user.id == userId ? user.copyWith(isOnline: true) : user;
+    }).toList();
+
+    emit(state.copyWith(
+      profileModel: updatedProfiles,
+      lastMessageUsers: updatedLastMessages,
+    ));
+  }
+
+  void _markUserOffline(int userId) {
+    final updatedProfiles = state.profileModel?.map((user) {
+      return user.id == userId ? user.copyWith(isOnline: false) : user;
+    }).toList();
+
+    final updatedLastMessages = state.lastMessageUsers?.map((user) {
+      return user.id == userId ? user.copyWith(isOnline: false) : user;
+    }).toList();
+
+    emit(state.copyWith(
+      profileModel: updatedProfiles,
+      lastMessageUsers: updatedLastMessages,
+    ));
+  }
+
+  void _setupSignalREvents() {
+    _hubConnection
+      ..on(HubMethods.userConnected, (args) {
+        if (args != null && args.isNotEmpty) {
+          final userId = args.first! as int;
+          _markUserOnline(userId);
+        }
+      })
+      ..on(HubMethods.userDisconnected, (args) {
+        if (args != null && args.isNotEmpty) {
+          final userId = args.first! as int;
+          _markUserOffline(userId);
+        }
+      });
   }
 }

@@ -68,8 +68,10 @@ class _ChatUserListViewState extends BaseState<ChatUserListView> with ChatUserLi
             return UserListWidget(
               username: profile.username ?? 'Bilinmeyen',
               photoURL: profile.photoURL ?? '',
+              isOnline: profile.isOnline,
               onTop: () {
                 context.router.push(ChatRoute(
+                  isOnline: profile.isOnline ?? false,
                   toUserId: profile.id ?? 0,
                   toUserName: profile.username ?? '',
                 ));
@@ -87,10 +89,12 @@ class _ChatUserListViewState extends BaseState<ChatUserListView> with ChatUserLi
 
             return UserListWidget(
               unreadMessageCount: unreadCount,
+              isOnline: lastMessageUsers.isOnline,
               username: lastMessageUsers.username.toString(),
               photoURL: lastMessageUsers.photoURL ?? '',
               onTop: () {
                 context.router.push(ChatRoute(
+                  isOnline: lastMessageUsers.isOnline ?? false,
                   toUserId: lastMessageUsers.id ?? 0,
                   toUserName: lastMessageUsers.username ?? '',
                 ));

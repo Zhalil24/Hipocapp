@@ -22,10 +22,12 @@ mixin ChatUserListViewMixin on BaseState<ChatUserListView> {
       hubConnection: ProductStateItems.signalRService.connection,
       messageOperation: MessageService(ProductStateItems.productNetworkManager),
     );
-    chatUserListViewModel
-      ..getLastMessages()
-      ..getUnReadMessage()
-      ..connect();
+    Future.microtask(() async {
+      await chatUserListViewModel.connect();
+      await chatUserListViewModel.getAllUser();
+      await chatUserListViewModel.getLastMessages();
+      await chatUserListViewModel.getUnReadMessage();
+    });
   }
 
   @override
