@@ -27,6 +27,7 @@ mixin ChatUserListViewMixin on BaseState<ChatUserListView> {
       await chatUserListViewModel.getAllUser();
       await chatUserListViewModel.getLastMessages();
       await chatUserListViewModel.getUnReadMessage();
+      await chatUserListViewModel.getGroups();
     });
   }
 

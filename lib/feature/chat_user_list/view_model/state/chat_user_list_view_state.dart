@@ -10,6 +10,7 @@ final class ChatUserListViewState extends Equatable {
       this.profileModel,
       this.messageModel,
       this.lastMessageUsers,
+      this.groups,
       this.unreadCount});
 
   final bool isLoading;
@@ -19,6 +20,7 @@ final class ChatUserListViewState extends Equatable {
   final ChatTabType activeTab;
   final List<ProfileModel>? lastMessageUsers;
   final List<UnReadMessageModel>? unreadCount;
+  final List<GroupModel>? groups;
 
   @override
   List<Object?> get props => [
@@ -29,17 +31,18 @@ final class ChatUserListViewState extends Equatable {
         messageModel,
         lastMessageUsers,
         unreadCount,
+        groups,
       ];
 
-  ChatUserListViewState copyWith({
-    bool? isLoading,
-    List<MessageModel>? messageModel,
-    List<ProfileModel>? profileModel,
-    String? serviceResponseMessage,
-    ChatTabType? activeTab,
-    List<ProfileModel>? lastMessageUsers,
-    List<UnReadMessageModel>? unreadCount,
-  }) {
+  ChatUserListViewState copyWith(
+      {bool? isLoading,
+      List<MessageModel>? messageModel,
+      List<ProfileModel>? profileModel,
+      String? serviceResponseMessage,
+      ChatTabType? activeTab,
+      List<ProfileModel>? lastMessageUsers,
+      List<UnReadMessageModel>? unreadCount,
+      List<GroupModel>? groups}) {
     return ChatUserListViewState(
       isLoading: isLoading ?? this.isLoading,
       serviceResponseMessage: serviceResponseMessage ?? this.serviceResponseMessage,
@@ -48,6 +51,7 @@ final class ChatUserListViewState extends Equatable {
       messageModel: messageModel ?? this.messageModel,
       unreadCount: unreadCount ?? this.unreadCount,
       lastMessageUsers: lastMessageUsers ?? this.lastMessageUsers,
+      groups: groups ?? this.groups,
     );
   }
 }

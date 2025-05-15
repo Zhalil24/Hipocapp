@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/chat_user_list/view/mixin/chat_user_list_view_mixin.dart';
+import 'package:hipocapp/feature/chat_user_list/view/widget/group_list_widget.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/user_list_widget.dart';
 import 'package:hipocapp/feature/chat_user_list/view_model/chat_user_list_view_model.dart';
 import 'package:hipocapp/feature/chat_user_list/view_model/state/chat_user_list_view_state.dart';
@@ -105,8 +106,20 @@ class _ChatUserListViewState extends BaseState<ChatUserListView> with ChatUserLi
         );
 
       case ChatTabType.groups:
-        return const Center(
-          child: Text('Grup sohbetleri burada gösterilecek.'),
+        return ListView.builder(
+          itemCount: state.groups?.length,
+          itemBuilder: (context, index) {
+            final groups = state.groups![index];
+            return GroupListWidget(
+              groupName: groups.groupName,
+              onTop: () {
+                context.router.push(ChatRoute(
+                  toUserId: groups.id ?? 0,
+                  toUserName: groups.groupName,
+                ));
+              },
+            );
+          },
         );
 
       default:

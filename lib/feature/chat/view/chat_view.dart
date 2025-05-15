@@ -14,10 +14,10 @@ import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart'
 
 @RoutePage()
 class ChatView extends StatefulWidget {
-  const ChatView({required this.toUserId, required this.toUserName, required this.isOnline});
+  const ChatView({required this.toUserId, required this.toUserName, this.isOnline});
   final int toUserId;
-  final String toUserName;
-  final bool isOnline;
+  final String? toUserName;
+  final bool? isOnline;
   @override
   State<ChatView> createState() => _ChatViewState();
 }
@@ -29,8 +29,8 @@ class _ChatViewState extends BaseState<ChatView> with ChatViewMixin {
       create: (context) => chatViewModel,
       child: Scaffold(
         appBar: ChatAppBar(
-          userName: widget.toUserName,
-          isOnline: widget.isOnline,
+          userName: widget.toUserName ?? '',
+          isOnline: widget.isOnline ?? false,
         ),
         body: BlocBuilder<ChatViewModel, ChatViewState>(
           builder: (context, state) {

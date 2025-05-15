@@ -232,4 +232,17 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
         }
       });
   }
+
+  /// Fetch the groups that the user is a member of from the server, and
+  /// update the state with the fetched data.
+  ///
+  /// This method fetches the groups that the user is a member of, and
+  /// updates the state with the fetched groups. The method shows a loading
+  /// indicator while fetching the data.
+  Future<void> getGroups() async {
+    changeLoading();
+    final resp = await _messageOperation.getGroups(_getUserId());
+    emit(state.copyWith(groups: resp?.group));
+    changeLoading();
+  }
 }

@@ -33,8 +33,8 @@ class ChatUserListRoute extends PageRouteInfo<void> {
 class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
   ChatRoute({
     required int toUserId,
-    required String toUserName,
-    required bool isOnline,
+    required String? toUserName,
+    bool? isOnline,
     List<PageRouteInfo>? children,
   }) : super(
           ChatRoute.name,
@@ -65,14 +65,14 @@ class ChatRouteArgs {
   const ChatRouteArgs({
     required this.toUserId,
     required this.toUserName,
-    required this.isOnline,
+    this.isOnline,
   });
 
   final int toUserId;
 
-  final String toUserName;
+  final String? toUserName;
 
-  final bool isOnline;
+  final bool? isOnline;
 
   @override
   String toString() {

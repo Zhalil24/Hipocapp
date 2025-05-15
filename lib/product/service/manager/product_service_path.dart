@@ -18,6 +18,7 @@ enum ProductServicePath {
   lastMessageList('api/chat/LastMessages'),
   saveMessage('api/chat/MessageSave'),
   unReadMessageCount('api/chat/GetUnreadMessagesForUser'),
+  groups('api/chat/GetGroupsForMobile'),
   markMessage('api/chat/MarkMessagesAsRead'),
   getMessageList('api/chat/MessageList'),
   profile('api/User/GetProfile');

@@ -73,4 +73,17 @@ final class MessageService extends MessageOperation {
     );
     return response.data;
   }
+
+  @override
+  Future<GroupResponseModel?> getGroups(int userId) async {
+    final response = await _networkManager.send<GroupResponseModel, GroupResponseModel>(
+      ProductServicePath.groups.value,
+      parseModel: GroupResponseModel(),
+      method: RequestType.GET,
+      queryParameters: {
+        'userId': userId,
+      },
+    );
+    return response.data;
+  }
 }
