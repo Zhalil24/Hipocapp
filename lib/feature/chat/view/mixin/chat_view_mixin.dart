@@ -20,16 +20,22 @@ mixin ChatViewMixin on BaseState<ChatView> {
     _productNetworkErrorManager = ProductNetworkErrorManager(context: context);
     ProductStateItems.productNetworkManager.listenErrorState(onErrorStatus: _productNetworkErrorManager.handleError);
     _chatViewModel = ChatViewModel(
-      toUserId: widget.toUserId,
+      toUserId: widget.toUserId ?? 0,
       hubConnection: ProductStateItems.signalRService.connection,
       userCacheOperation: ProductStateItems.productCache.userCacheOperation,
       messageOperation: MessageService(ProductStateItems.productNetworkManager),
     );
 
-    chatViewModel
-      ..getMessageList(widget.toUserId)
-      ..markMessage(widget.toUserId)
-      ..startListeningMessages();
+    if (widget.groupId != null) {
+      chatViewModel.getGroupMessage(widget.groupId!);
+    } else {
+      final toUserId = widget.toUserId ?? 0;
+      chatViewModel
+        ..getMessageList(toUserId)
+        ..markMessage(toUserId);
+    }
+
+    chatViewModel.startListeningMessages();
   }
 
   @override

@@ -32,9 +32,11 @@ class ChatUserListRoute extends PageRouteInfo<void> {
 /// [ChatView]
 class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
   ChatRoute({
-    required int toUserId,
-    required String? toUserName,
+    int? toUserId,
+    String? toUserName,
     bool? isOnline,
+    int? groupId,
+    String? groupName,
     List<PageRouteInfo>? children,
   }) : super(
           ChatRoute.name,
@@ -42,6 +44,8 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
             toUserId: toUserId,
             toUserName: toUserName,
             isOnline: isOnline,
+            groupId: groupId,
+            groupName: groupName,
           ),
           initialChildren: children,
         );
@@ -51,11 +55,14 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<ChatRouteArgs>();
+      final args =
+          data.argsAs<ChatRouteArgs>(orElse: () => const ChatRouteArgs());
       return ChatView(
         toUserId: args.toUserId,
         toUserName: args.toUserName,
         isOnline: args.isOnline,
+        groupId: args.groupId,
+        groupName: args.groupName,
       );
     },
   );
@@ -63,20 +70,26 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
 
 class ChatRouteArgs {
   const ChatRouteArgs({
-    required this.toUserId,
-    required this.toUserName,
+    this.toUserId,
+    this.toUserName,
     this.isOnline,
+    this.groupId,
+    this.groupName,
   });
 
-  final int toUserId;
+  final int? toUserId;
 
   final String? toUserName;
 
   final bool? isOnline;
 
+  final int? groupId;
+
+  final String? groupName;
+
   @override
   String toString() {
-    return 'ChatRouteArgs{toUserId: $toUserId, toUserName: $toUserName, isOnline: $isOnline}';
+    return 'ChatRouteArgs{toUserId: $toUserId, toUserName: $toUserName, isOnline: $isOnline, groupId: $groupId, groupName: $groupName}';
   }
 }
 

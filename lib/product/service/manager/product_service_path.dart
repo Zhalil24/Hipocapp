@@ -19,6 +19,8 @@ enum ProductServicePath {
   saveMessage('api/chat/MessageSave'),
   unReadMessageCount('api/chat/GetUnreadMessagesForUser'),
   groups('api/chat/GetGroupsForMobile'),
+  getGroupMessages('api/chat/GroupMessagesList'),
+  gorupMessageSave('api/chat/GroupMessageSave'),
   markMessage('api/chat/MarkMessagesAsRead'),
   getMessageList('api/chat/MessageList'),
   profile('api/User/GetProfile');

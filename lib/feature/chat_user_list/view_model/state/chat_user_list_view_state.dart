@@ -5,7 +5,7 @@ import 'package:hipocapp/product/utility/enums/chat_tab_type.dart';
 final class ChatUserListViewState extends Equatable {
   ChatUserListViewState(
       {required this.isLoading,
-      this.activeTab = ChatTabType.users,
+      this.activeTab = ChatTabType.pastMessages,
       this.serviceResponseMessage,
       this.profileModel,
       this.messageModel,

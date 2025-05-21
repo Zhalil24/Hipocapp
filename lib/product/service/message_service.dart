@@ -6,7 +6,6 @@ import 'package:hipocapp/product/service/interface/message_operation.dart';
 import 'package:hipocapp/product/service/manager/product_service_path.dart';
 import 'package:vexana/vexana.dart';
 
-/// Get last entries service
 final class MessageService extends MessageOperation {
   MessageService(INetworkManager<EmptyModel> networkManager) : _networkManager = networkManager;
 
@@ -52,7 +51,7 @@ final class MessageService extends MessageOperation {
   @override
   Future<String?> markMessage(MarkMessageModel model) async {
     final dio = Dio();
-    final fullUrl = "${AppEnvironmentItems.baseUrl.value + ProductServicePath.markMessage.value}";
+    final fullUrl = '${AppEnvironmentItems.baseUrl.value + ProductServicePath.markMessage.value}';
 
     final response = await dio.put<String>(
       fullUrl,
@@ -85,5 +84,32 @@ final class MessageService extends MessageOperation {
       },
     );
     return response.data;
+  }
+
+  @override
+  Future<GroupMessageResponseModel?> groupMessageSave(GroupMessageModel model) async {
+    print('📤 Gönderilen JSON: ${model.toJson()}');
+
+    final response = await _networkManager.send<GroupMessageResponseModel, GroupMessageResponseModel>(
+      ProductServicePath.gorupMessageSave.value,
+      parseModel: GroupMessageResponseModel(),
+      method: RequestType.POST,
+      data: model,
+    );
+
+    return response.data;
+  }
+
+  @override
+  Future<List<GroupMessageModel>?> getGroupMessage(int groupId) async {
+    final response = await _networkManager.send<GroupMessageListResponseModel, GroupMessageListResponseModel>(
+      ProductServicePath.getGroupMessages.value,
+      parseModel: GroupMessageListResponseModel(),
+      method: RequestType.GET,
+      queryParameters: {
+        'groupId': groupId,
+      },
+    );
+    return response.data?.groupMessageModel;
   }
 }

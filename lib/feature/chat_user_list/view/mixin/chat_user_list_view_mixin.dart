@@ -22,6 +22,7 @@ mixin ChatUserListViewMixin on BaseState<ChatUserListView> {
       hubConnection: ProductStateItems.signalRService.connection,
       messageOperation: MessageService(ProductStateItems.productNetworkManager),
     );
+
     Future.microtask(() async {
       await chatUserListViewModel.connect();
       await chatUserListViewModel.getAllUser();
@@ -34,6 +35,7 @@ mixin ChatUserListViewMixin on BaseState<ChatUserListView> {
   @override
   void dispose() {
     chatUserListViewModel.disconnect();
+
     super.dispose();
   }
 }
