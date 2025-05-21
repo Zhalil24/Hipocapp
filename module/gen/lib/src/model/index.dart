@@ -29,3 +29,6 @@ export 'unread_message/unread_message_model.dart';
 export 'unread_message/unread_message_response_model.dart';
 export 'group/group_model.dart';
 export 'group/group_model_response.dart';
+export 'group_message/group_message_model.dart';
+export 'group_message/group_message_list_response_model.dart';
+export 'group_message/group_message_response_model.dart';

@@ -114,8 +114,8 @@ class _ChatUserListViewState extends BaseState<ChatUserListView> with ChatUserLi
               groupName: groups.groupName,
               onTop: () {
                 context.router.push(ChatRoute(
-                  toUserId: groups.id ?? 0,
-                  toUserName: groups.groupName,
+                  groupId: groups.id,
+                  groupName: groups.groupName,
                 ));
               },
             );

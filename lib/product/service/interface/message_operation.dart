@@ -7,4 +7,6 @@ abstract class MessageOperation {
   Future<String?> markMessage(MarkMessageModel model);
   Future<UnReadMessageResponseModel?> getUnReadMessagCount(int userId);
   Future<GroupResponseModel?> getGroups(int userId);
+  Future<GroupMessageResponseModel?> groupMessageSave(GroupMessageModel model);
+  Future<List<GroupMessageModel>?> getGroupMessage(int groupId);
 }

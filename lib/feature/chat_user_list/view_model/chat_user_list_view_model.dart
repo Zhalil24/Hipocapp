@@ -72,6 +72,7 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     if (!isConnected) await _hubConnection.start();
     await _hubConnection.invoke(HubMethods.registerUser, args: [_getUserId()]);
     _setupSignalREvents();
+
     changeLoading();
   }
 
@@ -83,18 +84,9 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     changeLoading();
   }
 
-  /// Get all users from server, and set to state's profileModel.
-  /// Show loading indicator while fetching data.
-  // Future<void> getAllUser() async {
-  //   changeLoading();
-  //   var resp = await _userOperation.getAllUsers();
-  //   emit(state.copyWith(profileModel: resp));
-  //   changeLoading();
-  // }
-
   Future<void> getAllUser() async {
     changeLoading();
-    var resp = await _userOperation.getAllUsers();
+    final resp = await _userOperation.getAllUsers();
 
     final result = await _hubConnection.invoke(HubMethods.getOnlineUsers);
     final List<int> onlineUserIds = (result as List<dynamic>).map((e) => e as int).toList();
@@ -112,26 +104,20 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   /// Show loading indicator while fetching data.
   Future<void> getLastMessages() async {
     await getAllUser();
-    changeLoading();
     final userId = _getUserId();
     final messages = await _messageOperation.getLastMessageFromUserId(userId);
     final users = state.profileModel ?? [];
-
     final otherUserIds = messages!.map((m) {
       return m.fromUserId == userId ? m.toUserId! : m.fromUserId!;
     }).toSet();
-
     final matchedUsers = users.where((u) {
       final id = u.id;
       return id != null && otherUserIds.contains(id);
     }).toList();
-
     emit(state.copyWith(
       lastMessageUsers: matchedUsers,
       messageModel: messages,
     ));
-
-    changeLoading();
   }
 
   /// Get user by id from server, and show loading indicator while fetching data.
@@ -240,9 +226,7 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   /// updates the state with the fetched groups. The method shows a loading
   /// indicator while fetching the data.
   Future<void> getGroups() async {
-    changeLoading();
     final resp = await _messageOperation.getGroups(_getUserId());
     emit(state.copyWith(groups: resp?.group));
-    changeLoading();
   }
 }
