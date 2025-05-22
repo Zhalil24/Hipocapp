@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
-import 'package:hipocapp/product/widget/info_widget/info_widget.dart';
 import 'package:kartal/kartal.dart';
 
 class EditProfileWidget extends StatelessWidget {
@@ -45,9 +44,6 @@ class EditProfileWidget extends StatelessWidget {
                   TextButton(
                     onPressed: onPickImage,
                     child: const Text('Fotoğraf Seç'),
-                  ),
-                  const InfoWidget(
-                    text: 'Kullanıcı adınızı değiştirmeden profilinizi güncelleyemezsiniz.',
                   ),
                 ],
               ),

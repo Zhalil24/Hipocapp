@@ -9,16 +9,16 @@ part 'access_token_model.g.dart';
 /// Access Token Model
 class AccessTokenModel extends INetworkModel<AccessTokenModel> with EquatableMixin {
   AccessTokenModel({
-    required this.token,
+    this.token,
     this.reToken,
-    required this.expiration,
+    this.expiration,
   });
 
   factory AccessTokenModel.fromJson(Map<String, dynamic> json) => _$AccessTokenModelFromJson(json);
 
-  final String token;
+  final String? token;
   final String? reToken;
-  final DateTime expiration;
+  final DateTime? expiration;
 
   @override
   List<Object?> get props => [token, reToken, expiration];

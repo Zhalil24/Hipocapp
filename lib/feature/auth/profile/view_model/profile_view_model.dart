@@ -59,6 +59,11 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     return userId;
   }
 
+  /// Fetch user profile from server with user id from cache.
+  ///
+  /// After fetching data, emit a new state with the fetched profile model.
+  ///
+  /// Returns false.
   Future<bool> getProfile() async {
     changeLoading();
     int id = _getUserId();
@@ -68,6 +73,17 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     return false;
   }
 
+  /// Update profile with given parameters.
+  ///
+  /// [name] is the new name of the user.
+  ///
+  /// [surname] is the new surname of the user.
+  ///
+  /// [email] is the new email of the user.
+  ///
+  /// [username] is the new username of the user.
+  ///
+  /// After updating profile, emit a new state with the updated profile model.
   Future<void> updateProfile(
     String name,
     String surname,
@@ -82,6 +98,8 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
       photo: state.photo,
       username: username,
       surname: surname,
+      password: 'a',
+      passwordRe: 'a',
     );
     var response = await _profileOperation.updateProfile(model);
 
@@ -122,6 +140,11 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     changeLoading();
   }
 
+  /// Delete an entry with the given [id].
+  ///
+  /// After deleting the entry, update the profile model with the new entry list.
+  /// Also, update the active tab to [ProfileTabType.entries].
+  ///
   Future<void> deleteEntry(int id) async {
     changeLoading();
     var resp = await _entryOperation.deleteEntry(id);

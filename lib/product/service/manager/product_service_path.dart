@@ -8,7 +8,7 @@ enum ProductServicePath {
   entryList('Entry/GetEntriesByTitleName'),
   content('api/draw/'),
   login('api/user/Login'),
-  updateProfile('api/user/Edit'),
+  updateProfile('api/user/EditForMobile'),
   changePassword('api/user/PasswordChange'),
   deleteEntry('api/Entry/DeleteEntry'),
   forgotPassword('api/user/ForgotPasswordApi'),
