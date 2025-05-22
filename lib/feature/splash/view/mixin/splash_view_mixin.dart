@@ -23,6 +23,7 @@ mixin SplashViewMixin on BaseState<SplashView> {
 
   Future<void> _initControl() async {
     if (!mounted) return;
+    await productViewModel.loadCachedTheme();
     await Future<void>.delayed(const Duration(seconds: 3));
     if (_splashViewModel.state.isLoggedIn) {
       await context.router.replace(const HomeRoute());

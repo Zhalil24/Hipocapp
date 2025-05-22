@@ -29,7 +29,6 @@ class _FormWidgetState extends State<FormWidget> {
             children: [
               TextFormField(
                 controller: widget.userNameController,
-                style: const TextStyle(color: Colors.black),
                 decoration: 'Kullanıcı Adı'.formFieldDecoration,
                 validator: Validators.notEmpty,
               ),
@@ -37,7 +36,6 @@ class _FormWidgetState extends State<FormWidget> {
               TextFormField(
                 controller: widget.passwordController,
                 obscureText: true,
-                style: const TextStyle(color: Colors.black),
                 decoration: 'Şifre'.formFieldDecoration,
                 validator: Validators.notEmpty,
               ),
@@ -52,7 +50,7 @@ class _FormWidgetState extends State<FormWidget> {
                     'Şifremi Unuttum',
                     style: TextStyle(
                       fontSize: context.sized.normalValue,
-                      color: Theme.of(context).primaryColor,
+                      // color: Theme.of(context).primaryColor,
                     ),
                   ),
                 ),
@@ -77,7 +75,7 @@ class _FormWidgetState extends State<FormWidget> {
                   child: Text(
                     'Hesabınız yok mu? Kayıt ol',
                     style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      // color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

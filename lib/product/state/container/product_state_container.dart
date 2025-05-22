@@ -16,7 +16,11 @@ final class ProductStateContainer {
       ..registerSingleton(ProductCache(cacheManager: HiveCacheManager()))
       ..registerSingleton<ProductNetworkManager>(ProductNetworkManager.base())
       ..registerLazySingleton<SignalRService>(SignalRService.new)
-      ..registerLazySingleton<ProductViewModel>(ProductViewModel.new);
+      ..registerLazySingleton<ProductViewModel>(
+        () => ProductViewModel(
+          themeCache: _getIt<ProductCache>().themeCacheOperation,
+        ),
+      );
   }
 
   static T read<T extends Object>() => _getIt<T>();

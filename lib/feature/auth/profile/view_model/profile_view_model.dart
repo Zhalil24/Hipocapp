@@ -5,6 +5,7 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/state/profile_view_state.dart';
+import 'package:hipocapp/product/cache/model/theme_cache_model.dart';
 import 'package:hipocapp/product/cache/model/user_cache_model.dart';
 import 'package:hipocapp/product/service/interface/entry_operation.dart';
 import 'package:hipocapp/product/service/interface/profile_operation.dart';
@@ -18,8 +19,10 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     required ProfileOperation profileOperation,
     required EntryOperation entryOperation,
     required HiveCacheOperation<UserCacheModel> userCacheOperation,
+    required HiveCacheOperation<ThemeCacheModel> themeCacheOperation,
   })  : _profileOperation = profileOperation,
         _userCacheOperation = userCacheOperation,
+        _themeCacheOperation = themeCacheOperation,
         _entryOperation = entryOperation,
         super(ProfileViewState(isLoading: false));
 
@@ -27,6 +30,7 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   late final EntryOperation _entryOperation;
   late final HiveCacheOperation<UserCacheModel> _userCacheOperation;
   late final File? selectedPhoto;
+  late final HiveCacheOperation<ThemeCacheModel> _themeCacheOperation;
 
   /// Change loading state
   void changeLoading() {
@@ -95,6 +99,7 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   /// Logout
   Future<void> logout(BuildContext context) async {
     _userCacheOperation.clear();
+    _themeCacheOperation.clear();
     if (context.mounted) {
       await context.router.pushAndPopUntil(
         const LoginRoute(),

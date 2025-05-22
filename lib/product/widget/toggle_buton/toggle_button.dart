@@ -14,9 +14,10 @@ class ToggleButton extends StatefulWidget {
 class _ToggleButtonState extends BaseState<ToggleButton> {
   @override
   Widget build(BuildContext context) {
+    final initialIndex = productViewModel.state.themeMode == ThemeMode.dark ? 1 : 0;
     return ToggleSwitch(
       minWidth: context.sized.width * 0.5,
-      initialLabelIndex: 0,
+      initialLabelIndex: initialIndex,
       activeFgColor: Colors.white,
       inactiveBgColor: Colors.grey,
       inactiveFgColor: Colors.white,
