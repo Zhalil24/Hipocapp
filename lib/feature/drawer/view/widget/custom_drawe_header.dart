@@ -30,6 +30,7 @@ class CustomDrawerHeader extends StatelessWidget {
                   'HipocApp',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
+                    color: Colors.white,
                     fontSize: context.sized.mediumValue,
                   ),
                 )

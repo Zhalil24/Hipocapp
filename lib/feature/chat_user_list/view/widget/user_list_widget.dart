@@ -26,7 +26,10 @@ class _UserListWidgetState extends State<UserListWidget> {
           imageURL: widget.photoURL ?? '',
           radius: context.sized.normalValue * 1.3,
         ),
-        title: Text(widget.username ?? 'Bilinmeyen'),
+        title: Text(
+          widget.username ?? 'Bilinmeyen',
+          style: TextStyle(color: Colors.black),
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -49,7 +52,6 @@ class _UserListWidgetState extends State<UserListWidget> {
                 child: Text(
                   '${widget.unreadMessageCount}',
                   style: const TextStyle(
-                    color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
