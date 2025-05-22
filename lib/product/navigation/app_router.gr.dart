@@ -11,10 +11,19 @@ part of 'app_router.dart';
 
 /// generated route for
 /// [ChatUserListView]
-class ChatUserListRoute extends PageRouteInfo<void> {
-  const ChatUserListRoute({List<PageRouteInfo>? children})
-      : super(
+class ChatUserListRoute extends PageRouteInfo<ChatUserListRouteArgs> {
+  ChatUserListRoute({
+    Key? key,
+    ChatTabType? tab,
+    String? query,
+    List<PageRouteInfo>? children,
+  }) : super(
           ChatUserListRoute.name,
+          args: ChatUserListRouteArgs(
+            key: key,
+            tab: tab,
+            query: query,
+          ),
           initialChildren: children,
         );
 
@@ -23,9 +32,34 @@ class ChatUserListRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const ChatUserListView();
+      final args = data.argsAs<ChatUserListRouteArgs>(
+          orElse: () => const ChatUserListRouteArgs());
+      return ChatUserListView(
+        key: args.key,
+        tab: args.tab,
+        query: args.query,
+      );
     },
   );
+}
+
+class ChatUserListRouteArgs {
+  const ChatUserListRouteArgs({
+    this.key,
+    this.tab,
+    this.query,
+  });
+
+  final Key? key;
+
+  final ChatTabType? tab;
+
+  final String? query;
+
+  @override
+  String toString() {
+    return 'ChatUserListRouteArgs{key: $key, tab: $tab, query: $query}';
+  }
 }
 
 /// generated route for
@@ -100,6 +134,7 @@ class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
     Key? key,
     required String titleName,
     required int headerId,
+    required int userId,
     List<PageRouteInfo>? children,
   }) : super(
           EntryListRoute.name,
@@ -107,6 +142,7 @@ class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
             key: key,
             titleName: titleName,
             headerId: headerId,
+            userId: userId,
           ),
           initialChildren: children,
         );
@@ -121,6 +157,7 @@ class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
         key: args.key,
         titleName: args.titleName,
         headerId: args.headerId,
+        userId: args.userId,
       );
     },
   );
@@ -131,6 +168,7 @@ class EntryListRouteArgs {
     this.key,
     required this.titleName,
     required this.headerId,
+    required this.userId,
   });
 
   final Key? key;
@@ -139,9 +177,11 @@ class EntryListRouteArgs {
 
   final int headerId;
 
+  final int userId;
+
   @override
   String toString() {
-    return 'EntryListRouteArgs{key: $key, titleName: $titleName, headerId: $headerId}';
+    return 'EntryListRouteArgs{key: $key, titleName: $titleName, headerId: $headerId, userId: $userId}';
   }
 }
 

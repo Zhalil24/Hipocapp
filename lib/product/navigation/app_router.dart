@@ -9,6 +9,7 @@ import 'package:hipocapp/feature/chat_user_list/view/chat_user_list_view.dart';
 import 'package:hipocapp/feature/entry_list/view/entry_list_view.dart';
 import 'package:hipocapp/feature/home/view/home_view.dart';
 import 'package:hipocapp/feature/splash/view/splah_view.dart';
+import 'package:hipocapp/product/utility/enums/chat_tab_type.dart';
 
 part 'app_router.gr.dart';
 

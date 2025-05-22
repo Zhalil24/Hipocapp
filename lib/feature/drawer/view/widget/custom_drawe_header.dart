@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/theme/custom_color_scheme.dart';
 import 'package:hipocapp/product/widget/toggle_buton/toggle_button.dart';
 import 'package:kartal/kartal.dart';
 
@@ -8,8 +10,8 @@ class CustomDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
-      decoration: const BoxDecoration(
-        color: Color(0xFF7B1E3A),
+      decoration: BoxDecoration(
+        color: CustomColorScheme.darkColorScheme.primary,
       ),
       child: Align(
         alignment: Alignment.bottomLeft,
@@ -17,10 +19,29 @@ class CustomDrawerHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: context.sized.height * 0.06,
+                  height: context.sized.height * 0.06,
+                  child: Assets.images.logo.image(package: 'gen'),
+                ),
+                Text(
+                  'HipocApp',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: context.sized.mediumValue,
+                  ),
+                )
+              ],
+            ),
             const ToggleButton(),
             Text(
               'Menü',
-              style: TextStyle(color: Colors.white, fontSize: context.sized.normalValue),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: context.sized.normalValue,
+              ),
             ),
           ],
         ),

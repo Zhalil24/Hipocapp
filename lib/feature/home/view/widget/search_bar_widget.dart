@@ -38,15 +38,12 @@ class SearchBarWidget extends HookWidget {
         debounceDelay: SearchBarConstants.searchBarDebounceDelay,
         onQueryChanged: onChanged,
         transition: CircularFloatingSearchBarTransition(),
-        actions: [
-          FloatingSearchBarAction.searchToClear(showIfClosed: false),
-        ],
         builder: (context, transition) {
           if (isLoading) {
             return Center(
               child: Padding(
                 padding: EdgeInsets.all(context.sized.normalValue),
-                child: CustomLoader(),
+                child: const CustomLoader(),
               ),
             );
           }
@@ -56,7 +53,7 @@ class SearchBarWidget extends HookWidget {
           }
 
           return ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(context.sized.lowValue),
             child: Material(
               color: Colors.transparent,
               elevation: SearchBarConstants.searchBarElevation,
@@ -78,6 +75,7 @@ class SearchBarWidget extends HookWidget {
                                 EntryListRoute(
                                   titleName: title.name ?? '',
                                   headerId: title.headerId ?? 0,
+                                  userId: title.userId ?? 0,
                                 ),
                               );
                             },

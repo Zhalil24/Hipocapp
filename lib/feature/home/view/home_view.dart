@@ -33,7 +33,9 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
     return BlocProvider(
       create: (context) => homeViewModel,
       child: Scaffold(
-        appBar: const CustomAppBar(),
+        appBar: const CustomAppBar(
+          title: 'Anasayfa',
+        ),
         drawer: const DrawerView(),
         bottomNavigationBar: BottomNavigationBarWidget(
           onItemSelected: (value) {
@@ -118,8 +120,10 @@ class _LastEntriesList extends StatelessWidget {
             return CustomCardWidget(
               title: state.lastEntries![index].titleName.toString(),
               description: state.lastEntries![index].entryDescription.toString(),
-              userName: 'Kullanıcı: ${state.lastEntries![index].userName}',
+              userName: state.lastEntries![index].userName,
               date: 'Tarih: ${state.lastEntries![index].date}',
+              userId: state.lastEntries![index].userId,
+              isHomeCard: true,
             );
           },
         );
@@ -140,6 +144,7 @@ class _RandomEntriesList extends StatelessWidget {
           itemBuilder: (context, index) {
             final entry = state.randomEntries![index];
             return CustomCardWidget(
+              isHomeCard: false,
               title: entry.titleName.toString(),
               description: entry.description.toString(),
               date: 'Tarih: ${entry.createDate}',
@@ -158,8 +163,15 @@ class ContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeViewModel, HomeViewState>(
       builder: (context, state) {
+        if (state.isLoading) {
+          return const Center(
+            child: CustomLoader(),
+          );
+        }
         if (state.contentModel.isEmpty) {
-          return const Center(child: Text("İçerik Bulunmamaktadır"));
+          return const Center(
+            child: Text('İçerik Bulunmamaktadır'),
+          );
         }
         return ListView.builder(
           padding: const EdgeInsets.all(12),
@@ -167,7 +179,7 @@ class ContentWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             final item = state.contentModel[index];
             return ContentCard(
-              imageUrl: "https:${item.imageURL}",
+              imageUrl: 'https:${item.imageURL}',
               title: item.title ?? '',
               link: item.link ?? '',
               description: item.description ?? '',

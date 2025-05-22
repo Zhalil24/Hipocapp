@@ -1,4 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/navigation/app_router.dart';
+import 'package:hipocapp/product/utility/enums/chat_tab_type.dart';
 import 'package:intl/intl.dart';
 import 'package:kartal/kartal.dart';
 
@@ -7,13 +10,16 @@ class CustomCardWidget extends StatefulWidget {
   final String description;
   final String? userName;
   final String? date;
-
+  final int? userId;
+  final bool isHomeCard;
   const CustomCardWidget({
     super.key,
     required this.title,
     required this.description,
     this.userName,
     this.date,
+    this.userId,
+    required this.isHomeCard,
   });
 
   @override
@@ -51,7 +57,32 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
               Text('${widget.userName}'),
             ],
             SizedBox(height: context.sized.mediumValue),
-            if (widget.date != null) Text('Tarih: ${formatDate(widget.date ?? '')}')
+            if (widget.date != null) Text('Tarih: ${formatDate(widget.date ?? '')}'),
+            if (widget.isHomeCard)
+              TextButton(
+                  onPressed: () {
+                    // context.router.push(ChatRoute(
+                    //   toUserId: widget.userId,
+                    //   toUserName: widget.userName,
+                    // )
+                    context.router.push(ChatUserListRoute(
+                      tab: ChatTabType.users,
+                      query: widget.userName,
+                    ));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Bu kişiye mesaj gönder ',
+                        style: TextStyle(
+                          fontSize: context.sized.normalValue * 0.8,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const Icon(Icons.chat),
+                    ],
+                  ))
           ],
         ),
       ),

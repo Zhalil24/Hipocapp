@@ -8,7 +8,7 @@ final class CustomColorScheme {
   static const lightColorScheme = ColorScheme(
     brightness: Brightness.light, // Tema türü: Açık tema
 
-    primary: Color(0xFF7B1E3A), // Ana renk — Butonlar, AppBar, Seçili bileşenler
+    primary: Color(0xFF2b4560), // Ana renk — Butonlar, AppBar, Seçili bileşenler
     onPrimary: Colors.white, // Primary üzerinde yazı/icon — Kontrast için beyaz
     primaryContainer: Color(0xFFFFE082), // Primary arka planı (kartlar, kutular)
     onPrimaryContainer: Colors.black, // PrimaryContainer üzerindeki yazılar
@@ -50,7 +50,7 @@ final class CustomColorScheme {
   static const darkColorScheme = ColorScheme(
     brightness: Brightness.dark, // Tema türü: Karanlık tema
 
-    primary: Color(0xFF7B1E3A), // Altın sarısı — AppBar, butonlar, seçili öğeler
+    primary: Color(0xFF2b4560), // Altın sarısı — AppBar, butonlar, seçili öğeler
     onPrimary: Colors.black, // Primary üzerine yazılar/iconlar
 
     primaryContainer: Color(0xFFFFD54F), // Daha yumuşak sarı — container arka planı
@@ -62,7 +62,7 @@ final class CustomColorScheme {
     secondaryContainer: Color(0xFF665252), // Secondary için arka plan
     onSecondaryContainer: Colors.black, // SecondaryContainer içi metinler
 
-    tertiary: Color(0xFF1A264F),
+    tertiary: Color.fromARGB(255, 28, 28, 31),
     // Lacivert — alternatif vurgu rengi (ikon uyumu için)
     onTertiary: Colors.white, // Lacivert üzeri yazı/icon
     tertiaryContainer: Color(0xFF5A74AC), // Hafif açık lacivert

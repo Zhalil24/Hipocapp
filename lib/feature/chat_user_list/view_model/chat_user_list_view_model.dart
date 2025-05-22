@@ -84,6 +84,15 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     changeLoading();
   }
 
+  /// Fetches all users from the server and updates their online status.
+  ///
+  /// This method retrieves a list of all users and checks which users are
+  /// currently online by invoking the 'getOnlineUsers' method on the SignalR
+  /// hub. It then updates each user's online status based on the retrieved
+  /// list of online user IDs and emits a new state with the updated user list.
+  ///
+  /// While fetching data, a loading indicator is shown.
+
   Future<void> getAllUser() async {
     changeLoading();
     final resp = await _userOperation.getAllUsers();
@@ -228,5 +237,27 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   Future<void> getGroups() async {
     final resp = await _messageOperation.getGroups(_getUserId());
     emit(state.copyWith(groups: resp?.group));
+  }
+
+  /// Set the filtered profiles to the full list of profiles. This is useful for clearing the
+  /// filter.
+  void setProfiles() {
+    emit(state.copyWith(filteredProfiles: state.profileModel));
+  }
+
+  /// Filter the profiles in the state based on the given [query].
+  ///
+  /// This method takes a [query] string, and filters the profiles in the state
+  /// to only include those whose username contains the given query (case
+  /// insensitive). The filtered list is then emitted as a new state.
+  ///
+  void filterProfiles(String query) {
+    final lowercaseQuery = query.toLowerCase();
+    final filtered = state.profileModel?.where((profile) {
+      final name = profile.username?.toLowerCase() ?? '';
+      return name.contains(lowercaseQuery);
+    }).toList();
+
+    emit(state.copyWith(filteredProfiles: filtered));
   }
 }

@@ -39,8 +39,6 @@ class _UserListWidgetState extends State<UserListWidget> {
                 shape: BoxShape.circle,
               ),
             ),
-
-            // 🔴 unread count varsa göster
             if ((widget.unreadMessageCount ?? 0) > 0)
               Container(
                 padding: EdgeInsets.symmetric(horizontal: context.sized.lowValue, vertical: context.sized.lowValue * 0.5),

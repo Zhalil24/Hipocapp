@@ -11,12 +11,14 @@ final class ChatUserListViewState extends Equatable {
       this.messageModel,
       this.lastMessageUsers,
       this.groups,
+      this.filteredProfiles,
       this.unreadCount});
 
   final bool isLoading;
   final String? serviceResponseMessage;
   final List<ProfileModel>? profileModel;
   final List<MessageModel>? messageModel;
+  final List<ProfileModel>? filteredProfiles;
   final ChatTabType activeTab;
   final List<ProfileModel>? lastMessageUsers;
   final List<UnReadMessageModel>? unreadCount;
@@ -30,6 +32,7 @@ final class ChatUserListViewState extends Equatable {
         activeTab,
         messageModel,
         lastMessageUsers,
+        filteredProfiles,
         unreadCount,
         groups,
       ];
@@ -42,6 +45,7 @@ final class ChatUserListViewState extends Equatable {
       ChatTabType? activeTab,
       List<ProfileModel>? lastMessageUsers,
       List<UnReadMessageModel>? unreadCount,
+      List<ProfileModel>? filteredProfiles,
       List<GroupModel>? groups}) {
     return ChatUserListViewState(
       isLoading: isLoading ?? this.isLoading,
@@ -51,6 +55,7 @@ final class ChatUserListViewState extends Equatable {
       messageModel: messageModel ?? this.messageModel,
       unreadCount: unreadCount ?? this.unreadCount,
       lastMessageUsers: lastMessageUsers ?? this.lastMessageUsers,
+      filteredProfiles: filteredProfiles ?? this.filteredProfiles,
       groups: groups ?? this.groups,
     );
   }

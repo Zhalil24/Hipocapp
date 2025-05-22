@@ -40,6 +40,7 @@ class DrawerTitlesWidget extends StatelessWidget {
                 context.router.push(EntryListRoute(
                   titleName: title.name ?? '',
                   headerId: title.headerId ?? 0,
+                  userId: title.userId ?? 0,
                 ));
               },
               child: MenuButtonTextWidget(

@@ -41,7 +41,10 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           }
         },
         child: Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text('Profilim'),
+          ),
           body: BlocBuilder<ProfileViewModel, ProfileViewState>(
             builder: (context, state) {
               if (state.isLoading) {

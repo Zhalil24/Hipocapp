@@ -17,11 +17,13 @@ import 'package:kartal/kartal.dart';
 class EntryListView extends StatefulWidget {
   final String titleName;
   final int headerId;
+  final int userId;
 
   const EntryListView({
     super.key,
     required this.titleName,
     required this.headerId,
+    required this.userId,
   });
 
   @override
@@ -48,7 +50,10 @@ class _EntryListViewState extends BaseState<EntryListView> with EntryListViewMix
           }
         },
         child: Scaffold(
-          appBar: const CustomAppBar(isDrawer: false),
+          appBar: CustomAppBar(
+            isDrawer: false,
+            title: widget.titleName,
+          ),
           body: Form(
             key: _formKey,
             child: Column(
@@ -112,10 +117,12 @@ class _EntryListViewState extends BaseState<EntryListView> with EntryListViewMix
                         itemBuilder: (context, index) {
                           final entry = state.entryListModel![index];
                           return CustomCardWidget(
+                            isHomeCard: true,
                             title: entry.titleName.toString(),
                             description: entry.entryDescription.toString(),
                             userName: '${entry.userName}',
                             date: '${entry.date}',
+                            userId: widget.userId,
                           );
                         },
                       );

@@ -4,7 +4,8 @@ import 'package:hipocapp/product/navigation/app_router.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isDrawer;
-  const CustomAppBar({super.key, this.isDrawer = true});
+  final String? title;
+  const CustomAppBar({super.key, this.isDrawer = true, this.title});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -12,6 +13,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
+      title: Text(
+        title ?? '',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
       leading: isDrawer
           ? IconButton(
               icon: const Icon(Icons.menu),
@@ -29,7 +35,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: const Icon(Icons.chat),
           onPressed: () {
-            context.router.push(const ChatUserListRoute());
+            context.router.push(ChatUserListRoute());
           },
         ),
         IconButton(

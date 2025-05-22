@@ -15,8 +15,9 @@ import 'package:kartal/kartal.dart';
 
 @RoutePage()
 class ChatUserListView extends StatefulWidget {
-  const ChatUserListView({super.key});
-
+  const ChatUserListView({super.key, this.tab, this.query});
+  final ChatTabType? tab;
+  final String? query;
   @override
   State<ChatUserListView> createState() => _ChatUserListViewState();
 }
@@ -62,23 +63,43 @@ class _ChatUserListViewState extends BaseState<ChatUserListView> with ChatUserLi
   Widget _buildTabContent(ChatTabType? tab, ChatUserListViewState state) {
     switch (tab) {
       case ChatTabType.users:
-        return ListView.builder(
-          itemCount: state.profileModel?.length ?? 0,
-          itemBuilder: (context, index) {
-            final profile = state.profileModel![index];
-            return UserListWidget(
-              username: profile.username ?? 'Bilinmeyen',
-              photoURL: profile.photoURL ?? '',
-              isOnline: profile.isOnline,
-              onTop: () {
-                context.router.push(ChatRoute(
-                  isOnline: profile.isOnline ?? false,
-                  toUserId: profile.id ?? 0,
-                  toUserName: profile.username ?? '',
-                ));
-              },
-            );
-          },
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(context.sized.lowValue),
+              child: TextField(
+                controller: searchController,
+                onChanged: (value) {
+                  chatUserListViewModel.filterProfiles(value);
+                },
+                decoration: InputDecoration(
+                  hintText: 'Kullanıcı ara...',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: state.filteredProfiles?.length,
+                itemBuilder: (context, index) {
+                  final profile = state.filteredProfiles?[index];
+                  return UserListWidget(
+                    username: profile?.username ?? 'Bilinmeyen',
+                    photoURL: profile?.photoURL ?? '',
+                    isOnline: profile?.isOnline,
+                    onTop: () {
+                      context.router.push(ChatRoute(
+                        isOnline: profile?.isOnline ?? false,
+                        toUserId: profile?.id ?? 0,
+                        toUserName: profile?.username ?? '',
+                      ));
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         );
 
       case ChatTabType.pastMessages:
@@ -106,12 +127,15 @@ class _ChatUserListViewState extends BaseState<ChatUserListView> with ChatUserLi
         );
 
       case ChatTabType.groups:
+        if (state.groups == null) {
+          return const Center(child: Text('Grup bulunamadı'));
+        }
         return ListView.builder(
           itemCount: state.groups?.length,
           itemBuilder: (context, index) {
-            final groups = state.groups![index];
+            final groups = state.groups?[index];
             return GroupListWidget(
-              groupName: groups.groupName,
+              groupName: groups!.groupName,
               onTop: () {
                 context.router.push(ChatRoute(
                   groupId: groups.id,

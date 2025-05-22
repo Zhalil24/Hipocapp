@@ -17,7 +17,11 @@ class _MyEntriesWidgetState extends State<MyEntriesWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomCardWidget(description: widget.desc, title: widget.titleName),
+        CustomCardWidget(
+          description: widget.desc,
+          title: widget.titleName,
+          isHomeCard: false,
+        ),
         CustomActionButton(onTop: widget.onPressed, text: 'Silmek için tıklayınız.'),
         Divider(
           color: Colors.grey,
