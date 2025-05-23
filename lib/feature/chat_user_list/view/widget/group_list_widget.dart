@@ -17,11 +17,21 @@ class _GroupListWidgetState extends State<GroupListWidget> {
   Widget build(BuildContext context) {
     return ListTile(
       title: Container(
-          padding: EdgeInsets.all(context.sized.lowValue),
-          decoration: titleListDecoration(),
-          child: Text(
-            widget.groupName ?? 'Bilinmeyen',
-          )),
+        padding: EdgeInsets.all(context.sized.lowValue),
+        decoration: titleListDecoration(),
+        child: Row(
+          children: [
+            Icon(Icons.group, size: context.sized.normalValue),
+            SizedBox(width: context.sized.lowValue),
+            Expanded(
+              child: Text(
+                widget.groupName ?? 'Bilinmeyen',
+                style: TextStyle(fontSize: context.sized.normalValue),
+              ),
+            ),
+          ],
+        ),
+      ),
       onTap: widget.onTop,
     );
   }

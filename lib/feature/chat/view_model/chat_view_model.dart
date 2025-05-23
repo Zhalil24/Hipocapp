@@ -62,6 +62,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     final fromUserId = _getUserId();
     final resp = await _messageOperation.getMessageList(fromUserId, toUserId);
     emit(state.copyWith(messageList: resp));
+
     changeLoading();
   }
 
@@ -173,6 +174,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
   /// [groupId] - The id of the group whose messages are to be fetched.
 
   Future<void> getGroupMessage(int groupId) async {
+    _getUserId();
     final resp = await _messageOperation.getGroupMessage(groupId);
     emit(state.copyWith(groupMessageList: resp));
   }
@@ -202,9 +204,22 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
       fromUserName: state.userName,
       sentOn: DateTime.now().toIso8601String(),
     );
-    await _hubConnection.invoke(HubMethods.sendGroupMessage, args: [groupName, message]);
-    final updatedList = List<GroupMessageModel>.from(state.groupMessageList ?? [])..add(model);
-    emit(state.copyWith(groupMessageList: updatedList));
+    final jsonString = jsonEncode(model.toJson());
+    await _hubConnection.invoke(HubMethods.sendGroupMessage, args: [groupName, jsonString]);
     await _messageOperation.groupMessageSave(model);
+  }
+
+  /// Leave a SignalR group.
+  ///
+  /// This method sends a request to the SignalR hub to leave the specified group.
+  /// It toggles the loading state before and after the request to indicate the
+  /// operation is in progress.
+  ///
+  /// [groupName] - The name of the group to leave.
+
+  Future<void> leaveGroup(String groupName) async {
+    changeLoading();
+    await _hubConnection.invoke(HubMethods.leaveGroup, args: [groupName]);
+    changeLoading();
   }
 }

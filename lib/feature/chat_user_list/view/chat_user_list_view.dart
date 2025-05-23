@@ -136,8 +136,9 @@ class _ChatUserListViewState extends BaseState<ChatUserListView> with ChatUserLi
             final groups = state.groups?[index];
             return GroupListWidget(
               groupName: groups!.groupName,
-              onTop: () {
-                context.router.push(ChatRoute(
+              onTop: () async {
+                await chatUserListViewModel.joinGroup(groups.groupName ?? '');
+                await context.router.push(ChatRoute(
                   groupId: groups.id,
                   groupName: groups.groupName,
                 ));

@@ -84,6 +84,16 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     changeLoading();
   }
 
+  /// Joins a group with the given name on the SignalR hub.
+  ///
+  /// This method invokes the 'JoinGroup' method on the hub, passing the group
+  /// name as an argument. This method is usually called when a user is joining
+  /// a group from the group list screen.
+  ///
+  Future<void> joinGroup(String groupName) async {
+    await _hubConnection.invoke(HubMethods.joinGroup, args: [groupName]);
+  }
+
   /// Fetches all users from the server and updates their online status.
   ///
   /// This method retrieves a list of all users and checks which users are

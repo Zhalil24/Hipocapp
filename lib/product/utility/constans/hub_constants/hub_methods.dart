@@ -8,7 +8,7 @@ class HubMethods {
   static const String getOnlineUsers = 'GetOnlineUsers';
   static const String sendGroupMessage = 'SendGroupMessage';
   static const String receiveGroupMessage = 'ReceiveMessageForGroupClients';
-  static const String joinGroup = 'JoinGroup';
+  static const String joinGroup = 'JoinGroupMobil';
   static const String leaveGroup = 'LeaveGroup';
   static const String createGroup = 'CreateGroup';
 }

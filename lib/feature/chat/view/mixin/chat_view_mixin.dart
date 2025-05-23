@@ -41,6 +41,7 @@ mixin ChatViewMixin on BaseState<ChatView> {
   @override
   void dispose() {
     controller.dispose();
+    chatViewModel.leaveGroup(widget.groupName ?? '');
     super.dispose();
   }
 }
