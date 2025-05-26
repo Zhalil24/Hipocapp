@@ -262,6 +262,25 @@ class ProfilRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [RegisterView]
+class RegisterRoute extends PageRouteInfo<void> {
+  const RegisterRoute({List<PageRouteInfo>? children})
+      : super(
+          RegisterRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const RegisterView();
+    },
+  );
+}
+
+/// generated route for
 /// [SplashView]
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})

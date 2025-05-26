@@ -32,3 +32,5 @@ export 'group/group_model_response.dart';
 export 'group_message/group_message_model.dart';
 export 'group_message/group_message_list_response_model.dart';
 export 'group_message/group_message_response_model.dart';
+export 'degree/degree_model.dart';
+export 'degree/degree_response_model.dart';

@@ -22,6 +22,7 @@ enum ProductServicePath {
   getGroupMessages('api/chat/GroupMessagesList'),
   gorupMessageSave('api/chat/GroupMessageSave'),
   markMessage('api/chat/MarkMessagesAsRead'),
+  getdegree('api/degree/GetDegree'),
   getMessageList('api/chat/MessageList'),
   profile('api/User/GetProfile');
 

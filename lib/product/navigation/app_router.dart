@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hipocapp/feature/auth/forgot_password/view/forgot_password_view.dart';
 import 'package:hipocapp/feature/auth/login/view/login_view.dart';
 import 'package:hipocapp/feature/auth/profile/view/profil_view.dart';
+import 'package:hipocapp/feature/auth/register/view/register_view.dart';
 import 'package:hipocapp/feature/chat/view/chat_view.dart';
 import 'package:hipocapp/feature/chat_user_list/view/chat_user_list_view.dart';
 import 'package:hipocapp/feature/entry_list/view/entry_list_view.dart';
@@ -28,5 +29,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: ForgotPasswordRoute.page),
         AutoRoute(page: ChatUserListRoute.page),
         AutoRoute(page: ChatRoute.page),
+        AutoRoute(page: RegisterRoute.page)
       ];
 }

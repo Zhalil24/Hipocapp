@@ -50,7 +50,6 @@ class _FormWidgetState extends State<FormWidget> {
                     'Şifremi Unuttum',
                     style: TextStyle(
                       fontSize: context.sized.normalValue,
-                      // color: Theme.of(context).primaryColor,
                     ),
                   ),
                 ),
@@ -70,12 +69,11 @@ class _FormWidgetState extends State<FormWidget> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    // TODO: Kayıt sayfasına yönlendir
+                    context.router.push(const RegisterRoute());
                   },
-                  child: Text(
+                  child: const Text(
                     'Hesabınız yok mu? Kayıt ol',
                     style: TextStyle(
-                      // color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

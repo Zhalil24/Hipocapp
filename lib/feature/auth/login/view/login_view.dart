@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/auth/login/view/mixin/login_view_mixin.dart';
 import 'package:hipocapp/feature/auth/login/view/widget/appbar_widget.dart';
 import 'package:hipocapp/feature/auth/login/view/widget/form_widget.dart';
-import 'package:hipocapp/feature/auth/login/view/widget/logo_banner.dart';
+import 'package:hipocapp/product/widget/logo/logo_banner.dart';
 import 'package:hipocapp/feature/auth/login/view_model/login_view_model.dart';
 import 'package:hipocapp/feature/auth/login/view_model/state/login_view_state.dart';
 import 'package:hipocapp/product/utility/extension/service_snack_bar.dart';
