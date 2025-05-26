@@ -11,6 +11,7 @@ import 'package:hipocapp/feature/home/view/widget/search_bar_widget.dart';
 import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
 import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
+import 'package:hipocapp/product/utility/constans/duration/duration_constants.dart';
 import 'package:hipocapp/product/utility/enums/content_type.dart';
 import 'package:hipocapp/product/widget/appbar/custom_appbar_widget.dart';
 import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
@@ -37,12 +38,24 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
           title: 'Anasayfa',
         ),
         drawer: const DrawerView(),
-        bottomNavigationBar: BottomNavigationBarWidget(
-          onItemSelected: (value) {
-            homeViewModel.handleNavigation(context, value);
-          },
+        body: Stack(
+          children: [
+            _buildHomeBody(),
+            AnimatedSlide(
+              duration: DurationConstants.animatedSlideDuration,
+              curve: Curves.fastOutSlowIn,
+              offset: isBottomBarVisible ? Offset.zero : const Offset(0, 1),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: BottomNavigationBarWidget(
+                  onItemSelected: (value) {
+                    homeViewModel.handleNavigation(context, value);
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
-        body: _buildHomeBody(),
       ),
     );
   }
@@ -51,7 +64,9 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
     return BlocBuilder<HomeViewModel, HomeViewState>(
       builder: (context, state) {
         if (state.contentType != ContentTypeEnum.home.value) {
-          return const ContentWidget();
+          return ContentWidget(
+            scrollController: scrollController,
+          );
         }
         return Stack(
           children: [
@@ -60,6 +75,7 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
               child: state.isLoading
                   ? const Center(child: CustomLoader())
                   : _HomeContent(
+                      scrollController: scrollController,
                       isLastEntries: state.isLastEntries,
                     ),
             ),
@@ -91,8 +107,8 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
 
 class _HomeContent extends StatelessWidget {
   final bool isLastEntries;
-
-  const _HomeContent({required this.isLastEntries});
+  final ScrollController scrollController;
+  const _HomeContent({required this.isLastEntries, required this.scrollController});
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +116,13 @@ class _HomeContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
-          child: isLastEntries ? const _LastEntriesList() : const _RandomEntriesList(),
+          child: isLastEntries
+              ? _LastEntriesList(
+                  scrollController: scrollController,
+                )
+              : _RandomEntriesList(
+                  scrollController: scrollController,
+                ),
         ),
       ],
     );
@@ -108,13 +130,15 @@ class _HomeContent extends StatelessWidget {
 }
 
 class _LastEntriesList extends StatelessWidget {
-  const _LastEntriesList();
+  final ScrollController scrollController;
+  const _LastEntriesList({required this.scrollController});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeViewModel, HomeViewState>(
       builder: (context, state) {
         return ListView.builder(
+          controller: scrollController,
           itemCount: state.lastEntries?.length ?? 0,
           itemBuilder: (context, index) {
             return CustomCardWidget(
@@ -133,13 +157,15 @@ class _LastEntriesList extends StatelessWidget {
 }
 
 class _RandomEntriesList extends StatelessWidget {
-  const _RandomEntriesList();
+  final ScrollController scrollController;
+  const _RandomEntriesList({required this.scrollController});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeViewModel, HomeViewState>(
       builder: (context, state) {
         return ListView.builder(
+          controller: scrollController,
           itemCount: state.randomEntries!.length,
           itemBuilder: (context, index) {
             final entry = state.randomEntries![index];
@@ -157,7 +183,9 @@ class _RandomEntriesList extends StatelessWidget {
 }
 
 class ContentWidget extends StatelessWidget {
-  const ContentWidget({super.key});
+  final ScrollController scrollController;
+
+  const ContentWidget({required this.scrollController});
 
   @override
   Widget build(BuildContext context) {
@@ -174,12 +202,13 @@ class ContentWidget extends StatelessWidget {
           );
         }
         return ListView.builder(
+          controller: scrollController,
           padding: const EdgeInsets.all(12),
           itemCount: state.contentModel.length,
           itemBuilder: (context, index) {
             final item = state.contentModel[index];
             return ContentCard(
-              imageUrl: 'https:${item.imageURL}',
+              imageUrl: item.imageURL ?? '',
               title: item.title ?? '',
               link: item.link ?? '',
               description: item.description ?? '',

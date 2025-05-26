@@ -60,6 +60,8 @@ class SearchBarWidget extends HookWidget {
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * SearchBarConstants.searchBarListHeightFactor,
                 child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
                   itemCount: titles.length,
                   itemBuilder: (context, index) {

@@ -26,7 +26,8 @@ class CustomCardWidget extends StatefulWidget {
   State<CustomCardWidget> createState() => _CustomCardWidgetState();
 }
 
-class _CustomCardWidgetState extends State<CustomCardWidget> {
+class _CustomCardWidgetState extends State<CustomCardWidget> with TickerProviderStateMixin {
+  bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
     String formatDate(String dateString) {
@@ -51,20 +52,35 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
               style: const TextStyle(fontWeight: FontWeight.w800),
             ),
             SizedBox(height: context.sized.mediumValue),
-            Text(widget.description),
+            Text(
+              widget.description,
+              maxLines: isExpanded ? null : 5,
+              overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+                child: Text(
+                  isExpanded ? 'Gizle' : 'Devamını Göster',
+                  style: TextStyle(
+                    fontSize: context.sized.normalValue * 0.9,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
             if (widget.userName != null) ...[
-              const SizedBox(height: 6),
               Text('${widget.userName}'),
             ],
-            SizedBox(height: context.sized.mediumValue),
             if (widget.date != null) Text('Tarih: ${formatDate(widget.date ?? '')}'),
             if (widget.isHomeCard)
               TextButton(
                   onPressed: () {
-                    // context.router.push(ChatRoute(
-                    //   toUserId: widget.userId,
-                    //   toUserName: widget.userName,
-                    // )
                     context.router.push(ChatUserListRoute(
                       tab: ChatTabType.users,
                       query: widget.userName,

@@ -84,17 +84,20 @@ class _ChatUserListViewState extends BaseState<ChatUserListView> with ChatUserLi
                 itemCount: state.filteredProfiles?.length,
                 itemBuilder: (context, index) {
                   final profile = state.filteredProfiles?[index];
-                  return UserListWidget(
-                    username: profile?.username ?? 'Bilinmeyen',
-                    photoURL: profile?.photoURL ?? '',
-                    isOnline: profile?.isOnline,
-                    onTop: () {
-                      context.router.push(ChatRoute(
-                        isOnline: profile?.isOnline ?? false,
-                        toUserId: profile?.id ?? 0,
-                        toUserName: profile?.username ?? '',
-                      ));
-                    },
+                  return Padding(
+                    padding: EdgeInsets.all(context.sized.lowValue),
+                    child: UserListWidget(
+                      username: profile?.username ?? 'Bilinmeyen',
+                      photoURL: profile?.photoURL ?? '',
+                      isOnline: profile?.isOnline,
+                      onTop: () {
+                        context.router.push(ChatRoute(
+                          isOnline: profile?.isOnline ?? false,
+                          toUserId: profile?.id ?? 0,
+                          toUserName: profile?.username ?? '',
+                        ));
+                      },
+                    ),
                   );
                 },
               ),

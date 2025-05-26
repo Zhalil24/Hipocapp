@@ -110,9 +110,10 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     final result = await _hubConnection.invoke(HubMethods.getOnlineUsers);
     final List<int> onlineUserIds = (result as List<dynamic>).map((e) => e as int).toList();
 
-    final updatedUsers = resp?.map((user) {
-      return user.copyWith(isOnline: onlineUserIds.contains(user.id));
-    }).toList();
+    final currentUserId = _getUserId();
+
+    final updatedUsers =
+        resp?.where((user) => user.id != currentUserId).map((user) => user.copyWith(isOnline: onlineUserIds.contains(user.id))).toList();
 
     emit(state.copyWith(profileModel: updatedUsers));
 

@@ -47,7 +47,7 @@ class _EntryBar extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: context.sized.lowValue),
             Expanded(
               child: ElevatedButton(
                 onPressed: () {

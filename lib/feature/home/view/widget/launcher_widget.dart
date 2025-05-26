@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kartal/kartal.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LauncherWidget extends StatefulWidget {
@@ -25,6 +26,7 @@ class _LauncherWidgetState extends State<LauncherWidget> {
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Colors.blue,
               decoration: TextDecoration.underline,
+              fontSize: context.sized.normalValue,
             ),
       ),
     );

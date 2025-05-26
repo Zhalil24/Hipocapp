@@ -17,6 +17,9 @@ mixin HomeViewMixin on BaseState<HomeView> {
   late Timer? timer;
 
   HomeViewModel get homeViewModel => _homeViewModel;
+  late final ScrollController scrollController = ScrollController();
+  bool isBottomBarVisible = true;
+
   @override
   void initState() {
     super.initState();
@@ -30,11 +33,24 @@ mixin HomeViewMixin on BaseState<HomeView> {
     _homeViewModel.changeEntries(true);
     textController = TextEditingController();
     timer = null;
+    double lastOffset = 0;
+    scrollController.addListener(() {
+      final currentOffset = scrollController.offset;
+      final delta = currentOffset - lastOffset;
+
+      if (delta > 10 && isBottomBarVisible) {
+        setState(() => isBottomBarVisible = false);
+      } else if (delta < -10 && !isBottomBarVisible) {
+        setState(() => isBottomBarVisible = true);
+      }
+      lastOffset = currentOffset;
+    });
   }
 
   @override
   void dispose() {
     textController.dispose();
+    scrollController.dispose();
     timer?.cancel();
     super.dispose();
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hipocapp/feature/home/view/widget/launcher_widget.dart';
+import 'package:hipocapp/product/init/config/app_environment.dart';
 import 'package:kartal/kartal.dart';
 
 class ContentCard extends StatefulWidget {
@@ -26,46 +27,50 @@ class _ContentCardState extends State<ContentCard> {
     return Card(
       margin: EdgeInsets.only(bottom: context.sized.normalValue),
       elevation: context.padding.medium.bottom,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(context.sized.normalValue)),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                widget.imageUrl,
-                width: context.sized.normalValue,
-                height: context.sized.normalValue,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.error);
-                },
-              ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(context.sized.normalValue),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Üstte büyük resim
+          ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(context.sized.normalValue)),
+            child: Image.network(
+              AppEnvironmentItems.baseUrl.value + widget.imageUrl,
+              width: double.infinity,
+              height: context.sized.highValue * 3,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return SizedBox(
+                  height: context.sized.highValue * 2,
+                  child: const Center(child: Icon(Icons.error)),
+                );
+              },
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.title,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: context.sized.normalValue),
-                  LauncherWidget(link: widget.link),
-                  SizedBox(height: context.sized.normalValue),
-                  Text(
-                    widget.description,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(context.sized.lowValue),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.title,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: context.sized.lowValue),
+                LauncherWidget(link: widget.link),
+                SizedBox(height: context.sized.lowValue),
+                Text(
+                  widget.description,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

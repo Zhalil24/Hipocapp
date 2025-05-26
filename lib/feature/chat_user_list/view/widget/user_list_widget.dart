@@ -28,7 +28,7 @@ class _UserListWidgetState extends State<UserListWidget> {
         ),
         title: Text(
           widget.username ?? 'Bilinmeyen',
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
