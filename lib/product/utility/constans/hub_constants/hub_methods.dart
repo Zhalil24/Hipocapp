@@ -11,4 +11,5 @@ class HubMethods {
   static const String joinGroup = 'JoinGroupMobil';
   static const String leaveGroup = 'LeaveGroup';
   static const String createGroup = 'CreateGroup';
+  static const String hub = 'exampleTypeSafeHub';
 }

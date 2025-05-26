@@ -29,7 +29,7 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   late final ProfileOperation _profileOperation;
   late final EntryOperation _entryOperation;
   late final HiveCacheOperation<UserCacheModel> _userCacheOperation;
-  late final File? selectedPhoto;
+  File? selectedPhoto;
   late final HiveCacheOperation<ThemeCacheModel> _themeCacheOperation;
 
   /// Change loading state

@@ -1,3 +1,5 @@
+import 'package:hipocapp/product/init/config/app_environment.dart';
+import 'package:hipocapp/product/utility/constans/hub_constants/hub_methods.dart';
 import 'package:signalr_netcore/hub_connection.dart';
 import 'package:signalr_netcore/hub_connection_builder.dart';
 import 'package:signalr_netcore/signalr_client.dart';
@@ -10,7 +12,7 @@ final class SignalRService {
   SignalRService() {
     _hubConnection = HubConnectionBuilder()
         .withUrl(
-          'https://hipocapp.com/exampleTypeSafeHub',
+          AppEnvironmentItems.baseUrl.value + HubMethods.hub,
           options: HttpConnectionOptions(
             transport: HttpTransportType.WebSockets,
           ),
