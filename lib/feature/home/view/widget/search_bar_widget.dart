@@ -21,7 +21,7 @@ class SearchBarWidget extends HookWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return FloatingSearchBar(
         hint: 'Başlık ara...',
-        backgroundColor: colorScheme.surface,
+        backgroundColor: colorScheme.onInverseSurface,
         hintStyle: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
         queryStyle: TextStyle(color: colorScheme.onSurface),
         iconColor: colorScheme.onSurface,
@@ -69,7 +69,7 @@ class SearchBarWidget extends HookWidget {
                     return Column(
                       children: [
                         Container(
-                          color: colorScheme.surface,
+                          color: colorScheme.onInverseSurface,
                           child: ListTile(
                             title: Text(title.name ?? 'Başlık Bulunmamaktadır'),
                             onTap: () {

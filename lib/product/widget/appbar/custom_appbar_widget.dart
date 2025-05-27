@@ -16,7 +16,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       title: Text(
         title ?? '',
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       leading: isDrawer
           ? IconButton(

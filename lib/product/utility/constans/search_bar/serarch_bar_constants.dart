@@ -3,7 +3,7 @@ final class SearchBarConstants {
 
   static const Duration searchBarTransitionDuration = Duration(milliseconds: 500);
   static const Duration searchBarDebounceDelay = Duration(milliseconds: 500);
-  static const double searchBarWidthPortrait = 600;
+  static const double searchBarWidthPortrait = 700;
   static const double searchBarWidthLandscape = 500;
   static const double searchBarAxisAlignmentPortrait = 0.0;
   static const double searchBarAxisAlignmentLandscape = -1.0;

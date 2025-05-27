@@ -36,9 +36,7 @@ class _EntryBar extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: state.isLastEntries ? colorScheme.primary : colorScheme.surface,
                   foregroundColor: state.isLastEntries ? colorScheme.onPrimary : colorScheme.primary,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
+                  shape: const RoundedRectangleBorder(),
                   padding: EdgeInsets.symmetric(vertical: context.sized.normalValue),
                 ),
                 child: const Text(

@@ -17,7 +17,7 @@ class _BottomNavigationBarWidgetState extends BaseState<BottomNavigationBarWidge
   Widget build(BuildContext context) {
     return ConvexAppBar(
         backgroundColor: CustomColorScheme.lightColorScheme.primary,
-        height: context.sized.height * 0.07,
+        height: context.sized.height * 0.055,
         initialActiveIndex: _selectedIndex,
         items: const [
           TabItem(icon: Icons.home, title: 'Anasayfa'),
