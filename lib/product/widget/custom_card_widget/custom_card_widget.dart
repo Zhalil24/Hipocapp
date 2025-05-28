@@ -30,6 +30,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> with TickerProvider
   bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     String formatDate(String dateString) {
       final cleanedDateString = dateString.replaceFirst('Tarih: ', '').split('.').first;
       final inputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -70,6 +71,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> with TickerProvider
                   style: TextStyle(
                     fontSize: context.sized.normalValue * 0.9,
                     fontWeight: FontWeight.w600,
+                    color: colorScheme.secondary,
                   ),
                 ),
               ),
@@ -94,9 +96,13 @@ class _CustomCardWidgetState extends State<CustomCardWidget> with TickerProvider
                         style: TextStyle(
                           fontSize: context.sized.normalValue * 0.8,
                           fontWeight: FontWeight.w700,
+                          color: colorScheme.secondary,
                         ),
                       ),
-                      const Icon(Icons.chat),
+                      Icon(
+                        Icons.chat,
+                        color: colorScheme.secondary,
+                      ),
                     ],
                   ))
           ],

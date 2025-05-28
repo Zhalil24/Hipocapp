@@ -13,8 +13,8 @@ final class CustomColorScheme {
     primaryContainer: Color(0xFFFFE082), // Primary arka planı (kartlar, kutular)
     onPrimaryContainer: Colors.black, // PrimaryContainer üzerindeki yazılar
 
-    secondary: Color(0xFFFFA000), // İkincil vurgu (FAB, toggle, ikonlar)
-    onSecondary: Colors.white, // Secondary üstü (ikon/yazı) rengi
+    secondary: Color(0xFF2b4560), // İkincil vurgu (FAB, toggle, ikonlar)
+    onSecondary: Colors.black, // Secondary üstü (ikon/yazı) rengi
     secondaryContainer: Color(0xFFFFB74D), // Secondary arka planı (kart, etiket)
     onSecondaryContainer: Colors.black, // SecondaryContainer üstündeki yazılar
 
@@ -50,19 +50,19 @@ final class CustomColorScheme {
   static const darkColorScheme = ColorScheme(
     brightness: Brightness.dark, // Tema türü: Karanlık tema
 
-    primary: Color(0xFF2b4560), // Altın sarısı — AppBar, butonlar, seçili öğeler
-    onPrimary: Colors.black, // Primary üzerine yazılar/iconlar
+    primary: Color(0xFF15202b), // Altın sarısı — AppBar, butonlar, seçili öğeler de8b32
+    onPrimary: Colors.white, // Primary üzerine yazılar/iconlar
 
     primaryContainer: Color(0xFFFFD54F), // Daha yumuşak sarı — container arka planı
     onPrimaryContainer: Colors.black, // PrimaryContainer üstü yazı/icon
 
-    secondary: Color(0xFFFFC107), // Sarı — FAB, toggle, aktif simgeler
-    onSecondary: Colors.black, // Secondary üstü yazılar
+    secondary: Color(0xFF8899ac), // Sarı — FAB, toggle, aktif simgeler
+    onSecondary: Colors.white, // Secondary üstü yazılar
 
     secondaryContainer: Color(0xFF665252), // Secondary için arka plan
     onSecondaryContainer: Colors.black, // SecondaryContainer içi metinler
 
-    tertiary: Color.fromARGB(255, 28, 28, 31),
+    tertiary: Color.fromARGB(255, 0, 0, 0),
     // Lacivert — alternatif vurgu rengi (ikon uyumu için)
     onTertiary: Colors.white, // Lacivert üzeri yazı/icon
     tertiaryContainer: Color(0xFF5A74AC), // Hafif açık lacivert
@@ -73,7 +73,7 @@ final class CustomColorScheme {
     errorContainer: Color(0xFFD32F2F), // Hatalı alan arka planı
     onErrorContainer: Colors.black,
 
-    surface: Color(0xFF121212), // Koyu gri/siyah — zemin, kartlar, scaffold
+    surface: Color(0xFF22303c), // Koyu gri/siyah — zemin, kartlar, scaffold
     onSurface: Colors.white, // Sarımsı yazılar (ikonla uyum)
     onSurfaceVariant: Colors.white, // İkincil yazı rengi
 

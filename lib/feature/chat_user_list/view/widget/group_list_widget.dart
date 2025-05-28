@@ -21,12 +21,19 @@ class _GroupListWidgetState extends State<GroupListWidget> {
         decoration: titleListDecoration(),
         child: Row(
           children: [
-            Icon(Icons.group, size: context.sized.normalValue),
+            Icon(
+              Icons.group,
+              size: context.sized.normalValue,
+              color: Colors.black,
+            ),
             SizedBox(width: context.sized.lowValue),
             Expanded(
               child: Text(
                 widget.groupName ?? 'Bilinmeyen',
-                style: TextStyle(fontSize: context.sized.normalValue),
+                style: TextStyle(
+                  fontSize: context.sized.normalValue,
+                  color: Colors.black,
+                ),
               ),
             ),
           ],

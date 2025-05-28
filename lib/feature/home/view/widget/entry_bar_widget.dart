@@ -34,14 +34,17 @@ class _EntryBar extends StatelessWidget {
                   context.read<HomeViewModel>().changeEntries(true);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: state.isLastEntries ? colorScheme.primary : colorScheme.surface,
-                  foregroundColor: state.isLastEntries ? colorScheme.onPrimary : colorScheme.primary,
+                  backgroundColor: state.isLastEntries ? colorScheme.secondary : colorScheme.surface,
+                  foregroundColor: state.isLastEntries ? colorScheme.onPrimary : colorScheme.onPrimary,
                   shape: const RoundedRectangleBorder(),
                   padding: EdgeInsets.symmetric(vertical: context.sized.normalValue),
                 ),
-                child: const Text(
+                child: Text(
                   'Daily',
-                  style: TextStyle(fontWeight: FontWeight.w900),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: colorScheme.onSecondary,
+                  ),
                 ),
               ),
             ),
@@ -52,14 +55,17 @@ class _EntryBar extends StatelessWidget {
                   context.read<HomeViewModel>().changeEntries(false);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: state.isRandomEntries ? colorScheme.primary : colorScheme.surface,
-                  foregroundColor: state.isRandomEntries ? colorScheme.onPrimary : colorScheme.primary,
+                  backgroundColor: state.isRandomEntries ? colorScheme.secondary : colorScheme.surface,
+                  foregroundColor: state.isRandomEntries ? colorScheme.onPrimary : colorScheme.onPrimary,
                   shape: const RoundedRectangleBorder(),
                   padding: EdgeInsets.symmetric(vertical: context.sized.normalValue),
                 ),
-                child: const Text(
+                child: Text(
                   'Stream',
-                  style: TextStyle(fontWeight: FontWeight.w900),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: colorScheme.onSecondary,
+                  ),
                 ),
               ),
             ),

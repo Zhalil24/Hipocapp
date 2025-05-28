@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
-import 'package:hipocapp/product/init/theme/custom_color_scheme.dart';
 import 'package:hipocapp/product/widget/toggle_buton/toggle_button.dart';
 import 'package:kartal/kartal.dart';
 
@@ -9,9 +8,10 @@ class CustomDrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return DrawerHeader(
       decoration: BoxDecoration(
-        color: CustomColorScheme.darkColorScheme.primary,
+        color: colorScheme.primary,
       ),
       child: Align(
         alignment: Alignment.bottomLeft,

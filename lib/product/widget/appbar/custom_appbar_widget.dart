@@ -20,26 +20,38 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       leading: isDrawer
           ? IconButton(
-              icon: const Icon(Icons.menu),
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
             )
           : IconButton(
-              icon: const Icon(Icons.arrow_back),
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.chat),
+          icon: const Icon(
+            Icons.chat,
+            color: Colors.white,
+          ),
           onPressed: () {
             context.router.push(ChatUserListRoute());
           },
         ),
         IconButton(
-          icon: const Icon(Icons.person),
+          icon: const Icon(
+            Icons.person,
+            color: Colors.white,
+          ),
           onPressed: () {
             context.router.push(const ProfilRoute());
           },
