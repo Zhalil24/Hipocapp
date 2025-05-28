@@ -9,6 +9,7 @@ enum ProductServicePath {
   content('api/draw/'),
   login('api/user/Login'),
   updateProfile('api/user/EditForMobile'),
+  userRegister('api/user/Register'),
   changePassword('api/user/PasswordChange'),
   deleteEntry('api/Entry/DeleteEntry'),
   forgotPassword('api/user/ForgotPasswordApi'),

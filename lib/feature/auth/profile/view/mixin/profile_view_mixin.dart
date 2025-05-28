@@ -63,6 +63,9 @@ mixin ProfileViewMixin on BaseState<ProfilView> {
     super.dispose();
   }
 
+  /// Pick a photo from the device gallery and update the selected photo in the view model.
+  ///
+  /// Returns the selected photo as a [File] if a photo is selected, otherwise null.
   Future<File?> pickImageFromGallery() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {

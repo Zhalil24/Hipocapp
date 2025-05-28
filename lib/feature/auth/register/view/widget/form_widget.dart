@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/feature/auth/register/view/widget/custom_checkbox_widget.dart';
+import 'package:hipocapp/feature/auth/register/view/widget/photo_picker_filed_widget.dart';
 import 'package:hipocapp/feature/auth/register/view/widget/text_input_widget.dart';
+import 'package:hipocapp/product/utility/constans/term/terms_constants.dart';
 import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
 import 'package:kartal/kartal.dart';
@@ -20,6 +23,8 @@ class FormWidget extends StatefulWidget {
       required this.selectedPhoto,
       required this.emailController,
       required this.degreeList,
+      required this.onToggle,
+      required this.isChecked,
       required this.onChangedDegree});
 
   final TextEditingController nameController;
@@ -33,7 +38,9 @@ class FormWidget extends StatefulWidget {
   final Future<File?> Function() onPickImage;
   final File? selectedPhoto;
   final List<DegreeModel>? degreeList;
+  final bool isChecked;
   final void Function(DegreeModel) onChangedDegree;
+  final void Function(bool) onToggle;
 
   @override
   State<FormWidget> createState() => _FormWidgetState();
@@ -41,46 +48,23 @@ class FormWidget extends StatefulWidget {
 
 class _FormWidgetState extends State<FormWidget> {
   final _formKey = GlobalKey<FormState>();
-  DegreeModel? _selectedDegree;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(context.sized.normalValue),
+      padding: EdgeInsets.all(context.sized.lowValue),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Column(
-                children: [
-                  Container(
-                    width: context.sized.highValue * 4,
-                    height: context.sized.highValue * 3,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      border: Border.all(color: Colors.grey.shade400),
-                      image: widget.selectedPhoto != null
-                          ? DecorationImage(
-                              image: FileImage(widget.selectedPhoto!),
-                              fit: BoxFit.cover,
-                            )
-                          : null,
-                    ),
-                    child: widget.selectedPhoto == null
-                        ? Icon(
-                            Icons.photo,
-                            size: context.sized.highValue,
-                            color: Colors.grey,
-                          )
-                        : null,
-                  ),
-                  SizedBox(height: context.sized.normalValue),
-                  TextButton(
-                    onPressed: widget.onPickImage,
-                    child: const Text('Kurum Kimliği Seçin'),
-                  ),
-                ],
+              PhotoPickerField(
+                selectedPhoto: widget.selectedPhoto,
+                onPickImage: widget.onPickImage,
+              ),
+              const Text(
+                'Kurum kimliği yüklemeniz gerekmektedir!',
+                style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
               SizedBox(height: context.sized.normalValue),
               TextInputWidget(
@@ -133,30 +117,64 @@ class _FormWidgetState extends State<FormWidget> {
                 ),
               ),
               SizedBox(height: context.sized.normalValue),
-              Padding(
-                padding: EdgeInsets.all(context.sized.normalValue),
-                child: DropdownButton<DegreeModel>(
-                  hint: const Text('Ünvan Seçiniz'),
-                  value: _selectedDegree,
-                  isExpanded: true,
-                  items: widget.degreeList?.map((degree) {
-                    return DropdownMenuItem<DegreeModel>(
-                      value: degree,
-                      child: Text(degree.degreeName ?? ''),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedDegree = value;
-                    });
-                    if (value != null) {
-                      widget.onChangedDegree(value);
-                    }
-                  },
-                ),
-              ),
               SizedBox(height: context.sized.normalValue),
-              CustomActionButton(onTop: widget.onRegister, text: 'Kayıt Ol'),
+              Row(
+                children: [
+                  Expanded(
+                    child: CheckboxFormField(
+                      title: Row(
+                        children: [
+                          const Text('Şartları kabul ediyorum'),
+                          GestureDetector(
+                            onTap: () {
+                              showDialog<void>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Şartlar ve Koşullar'),
+                                  content: const SingleChildScrollView(
+                                    child: Text(TermsConstants.termsAndConditions),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.of(context).pop(),
+                                      child: const Text('Kapat'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              '(Detayları Gör)',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      initialValue: widget.isChecked,
+                      validator: (value) {
+                        if (value != true) {
+                          return 'Devam etmek için şartları kabul etmelisiniz.';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        widget.onToggle(value ?? false);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              CustomActionButton(
+                onTop: () {
+                  if (_formKey.currentState!.validate()) {
+                    widget.onRegister();
+                  }
+                },
+                text: 'Kayıt Ol',
+              ),
               SizedBox(height: context.sized.normalValue),
             ],
           ),
