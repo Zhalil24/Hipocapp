@@ -34,80 +34,88 @@ class _CustomCardWidgetState extends State<CustomCardWidget> with TickerProvider
     String formatDate(String dateString) {
       final cleanedDateString = dateString.replaceFirst('Tarih: ', '').split('.').first;
       final inputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
-      final outputFormat = DateFormat('dd.MM.yyyy HH:mm');
+      final outputFormat = DateFormat('dd.MM.yyyy');
       final dateTime = inputFormat.parse(cleanedDateString);
       return outputFormat.format(dateTime);
     }
 
-    return Card(
-      margin: EdgeInsets.all(context.sized.normalValue),
-      elevation: context.padding.medium.bottom,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(context.sized.normalValue)),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.title,
-              style: const TextStyle(fontWeight: FontWeight.w800),
-            ),
-            SizedBox(height: context.sized.mediumValue),
-            Text(
-              widget.description,
-              maxLines: isExpanded ? null : 5,
-              overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-                child: Text(
-                  isExpanded ? 'Gizle' : 'Devamını Göster',
-                  style: TextStyle(
-                    fontSize: context.sized.normalValue * 0.9,
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.secondary,
-                  ),
+    return Column(
+      children: [
+        Card(
+          color: Colors.white, // kart rengi beyaz
+          margin: EdgeInsets.zero, // aralığı ListView üzerinden kontrol edelim
+          elevation: 0, // gölge kaldırıldı
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.zero, // köşe yuvarlama kaldırıldı
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.title,
+                  style: const TextStyle(fontWeight: FontWeight.w800),
                 ),
-              ),
-            ),
-            if (widget.userName != null) ...[
-              Text('${widget.userName}'),
-            ],
-            if (widget.date != null) Text('Tarih: ${formatDate(widget.date ?? '')}'),
-            if (widget.isHomeCard)
-              TextButton(
-                  onPressed: () {
-                    context.router.push(ChatUserListRoute(
-                      tab: ChatTabType.users,
-                      query: widget.userName,
-                    ));
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Bu kişiye mesaj gönder ',
-                        style: TextStyle(
-                          fontSize: context.sized.normalValue * 0.8,
-                          fontWeight: FontWeight.w700,
-                          color: colorScheme.secondary,
-                        ),
-                      ),
-                      Icon(
-                        Icons.chat,
+                SizedBox(height: context.sized.mediumValue),
+                Text(
+                  widget.description,
+                  maxLines: isExpanded ? null : 5,
+                  overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isExpanded = !isExpanded;
+                      });
+                    },
+                    child: Text(
+                      isExpanded ? 'Gizle' : 'Devamını Göster',
+                      style: TextStyle(
+                        fontSize: context.sized.normalValue * 0.8,
+                        fontWeight: FontWeight.w600,
                         color: colorScheme.secondary,
                       ),
-                    ],
-                  ))
-          ],
+                    ),
+                  ),
+                ),
+                if (widget.userName != null) Text('${widget.userName}'),
+                if (widget.date != null) Text('Tarih: ${formatDate(widget.date ?? '')}'),
+                if (widget.isHomeCard)
+                  TextButton(
+                    onPressed: () {
+                      context.router.push(ChatUserListRoute(
+                        tab: ChatTabType.users,
+                        query: widget.userName,
+                      ));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Mesaj gönder ',
+                          style: TextStyle(
+                            fontSize: context.sized.normalValue * 0.8,
+                            fontWeight: FontWeight.w700,
+                            color: colorScheme.secondary,
+                          ),
+                        ),
+                        Icon(
+                          Icons.chat,
+                          color: colorScheme.secondary,
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
         ),
-      ),
+        const Divider(height: 1, color: Colors.grey), // kartın altına çizgi
+      ],
     );
   }
 }

@@ -51,7 +51,6 @@ class _ServiceSnackBarState extends State<ServiceSnackBar> with SingleTickerProv
       case SnackType.info:
         return Colors.orange.shade600;
       case SnackType.success:
-      default:
         return Colors.green.shade600;
     }
   }
@@ -63,7 +62,6 @@ class _ServiceSnackBarState extends State<ServiceSnackBar> with SingleTickerProv
       case SnackType.info:
         return Icons.info_outline;
       case SnackType.success:
-      default:
         return Icons.check_circle_outline;
     }
   }

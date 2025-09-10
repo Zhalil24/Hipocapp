@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Project general Padding
 final class ProjectPadding extends EdgeInsets {
-  ProjectPadding._() : super.all(0);
-
   /// All Padding
   /// [ ProjectPadding.allNormal] is 8
   ProjectPadding.allNormal() : super.all(20);

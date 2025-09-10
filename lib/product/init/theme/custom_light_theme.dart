@@ -19,7 +19,7 @@ final class CustomLightTheme implements CustomTheme {
         drawerTheme: DrawerThemeData(
           backgroundColor: CustomColorScheme.lightColorScheme.surface,
         ),
-        cardTheme: CardTheme(color: CustomColorScheme.lightColorScheme.surface),
+        cardTheme: CardThemeData(color: CustomColorScheme.lightColorScheme.surface),
         iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
             iconColor: MaterialStateProperty.all(CustomColorScheme.lightColorScheme.onPrimary),

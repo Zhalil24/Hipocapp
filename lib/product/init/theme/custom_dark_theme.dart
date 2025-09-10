@@ -24,7 +24,7 @@ final class CustomDarkTheme implements CustomTheme {
           displayColor: Colors.white,
           decorationColor: Colors.white,
         ),
-        cardTheme: CardTheme(color: CustomColorScheme.darkColorScheme.tertiary),
+        cardTheme: CardThemeData(color: CustomColorScheme.darkColorScheme.tertiary),
         floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: CustomColorScheme.darkColorScheme.primary),
         drawerTheme: DrawerThemeData(
           backgroundColor: CustomColorScheme.darkColorScheme.tertiary,

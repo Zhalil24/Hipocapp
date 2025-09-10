@@ -3,7 +3,7 @@ description: "The official HipocApp Flutter project."
 
 
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.0+6
 
 
 environment:
@@ -19,7 +19,7 @@ dependencies:
   flutter_native_splash: ^2.4.4
   equatable: ^2.0.7
   get_it: ^8.0.3
-  intl: ^0.19.0
+  intl: ^0.20.2
   
   #Widgets
   toggle_switch: ^2.3.0

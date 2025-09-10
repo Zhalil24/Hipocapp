@@ -24,18 +24,23 @@ class ContentCard extends StatefulWidget {
 class _ContentCardState extends State<ContentCard> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.only(bottom: context.sized.normalValue),
-      elevation: context.padding.medium.bottom,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(context.sized.normalValue),
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white, // Kart rengi beyaz
+        border: Border(
+          top: BorderSide(color: Colors.black, width: 1), // Üst siyah çizgi
+          bottom: BorderSide(color: Colors.black, width: 1), // Alt siyah çizgi
+        ),
       ),
+      margin: EdgeInsets.only(bottom: context.sized.normalValue),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Üstte büyük resim
           ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(context.sized.normalValue)),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(context.sized.normalValue),
+            ),
             child: Image.network(
               AppEnvironmentItems.baseUrl.value + widget.imageUrl,
               width: double.infinity,

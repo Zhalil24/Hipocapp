@@ -8,7 +8,7 @@ final class CustomColorScheme {
   static const lightColorScheme = ColorScheme(
     brightness: Brightness.light, // Tema türü: Açık tema
 
-    primary: Color(0xFF2b4560), // Ana renk — Butonlar, AppBar, Seçili bileşenler
+    primary: Color(0xFF7C3AED), // Ana renk — Butonlar, AppBar, Seçili bileşenler
     onPrimary: Colors.white, // Primary üzerinde yazı/icon — Kontrast için beyaz
     primaryContainer: Color(0xFFFFE082), // Primary arka planı (kartlar, kutular)
     onPrimaryContainer: Colors.black, // PrimaryContainer üzerindeki yazılar

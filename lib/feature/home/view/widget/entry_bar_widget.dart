@@ -34,7 +34,7 @@ class _EntryBar extends StatelessWidget {
                   context.read<HomeViewModel>().changeEntries(true);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: state.isLastEntries ? colorScheme.secondary : colorScheme.surface,
+                  backgroundColor: state.isLastEntries ? Color(0xFF7C3AED) : Colors.white,
                   foregroundColor: state.isLastEntries ? colorScheme.onPrimary : colorScheme.onPrimary,
                   shape: const RoundedRectangleBorder(),
                   padding: EdgeInsets.symmetric(vertical: context.sized.normalValue),
@@ -55,7 +55,7 @@ class _EntryBar extends StatelessWidget {
                   context.read<HomeViewModel>().changeEntries(false);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: state.isRandomEntries ? colorScheme.secondary : colorScheme.surface,
+                  backgroundColor: state.isRandomEntries ? Color(0xFF7C3AED) : colorScheme.surface,
                   foregroundColor: state.isRandomEntries ? colorScheme.onPrimary : colorScheme.onPrimary,
                   shape: const RoundedRectangleBorder(),
                   padding: EdgeInsets.symmetric(vertical: context.sized.normalValue),
