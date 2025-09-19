@@ -17,6 +17,7 @@ final class ApplicationInitialize {
   /// Project basic required initialize
   Future<void> make() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     await runZonedGuarded<Future<void>>(
       _initialize,
       (error, stack) {
