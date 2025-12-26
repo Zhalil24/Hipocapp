@@ -14,7 +14,7 @@ final class ProductCache {
     ]);
   }
 
-  late final HiveCacheOperation<UserCacheModel> userCacheOperation = HiveCacheOperation(emptyModel: UserCacheModel.empty());
+  late final SharedCacheOperation<UserCacheModel> userCacheOperation = SharedCacheOperation<UserCacheModel>(emptyModel: UserCacheModel.empty());
 
-  late final HiveCacheOperation<ThemeCacheModel> themeCacheOperation = HiveCacheOperation(emptyModel: ThemeCacheModel.empty());
+  late final SharedCacheOperation<ThemeCacheModel> themeCacheOperation = SharedCacheOperation<ThemeCacheModel>(emptyModel: ThemeCacheModel.empty());
 }

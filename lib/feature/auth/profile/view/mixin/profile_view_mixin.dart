@@ -32,12 +32,12 @@ mixin ProfileViewMixin on BaseState<ProfilView> {
     _productNetworkErrorManager = ProductNetworkErrorManager(context: context);
     ProductStateItems.productNetworkManager.listenErrorState(onErrorStatus: _productNetworkErrorManager.handleError);
     _profileViewModel = ProfileViewModel(
+      productViewModel: productViewModel,
       themeCacheOperation: ProductStateItems.productCache.themeCacheOperation,
       profileOperation: ProfileService(ProductStateItems.productNetworkManager),
-      userCacheOperation: ProductStateItems.productCache.userCacheOperation,
       entryOperation: EntryService(ProductStateItems.productNetworkManager),
     );
-    _profileViewModel.getProfile();
+    _profileViewModel.getProfile(productViewModel.state.currentUserId!);
     nameController = TextEditingController();
     surnameController = TextEditingController();
     usernameController = TextEditingController();

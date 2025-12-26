@@ -13,7 +13,7 @@ import 'package:signalr_netcore/hub_connection.dart';
 final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   /// [LastEntryOperation] service
   ChatUserListViewModel({
-    required HiveCacheOperation<UserCacheModel> userCacheOperation,
+    required SharedCacheOperation<UserCacheModel> userCacheOperation,
     required UserOperation userOperation,
     required HubConnection hubConnection,
     required MessageOperation messageOperation,
@@ -26,7 +26,7 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
           activeTab: ChatTabType.pastMessages,
         ));
 
-  late final HiveCacheOperation<UserCacheModel> _userCacheOperation;
+  late final SharedCacheOperation<UserCacheModel> _userCacheOperation;
   late final UserOperation _userOperation;
   late final MessageOperation _messageOperation;
   late final HubConnection _hubConnection;
@@ -55,8 +55,8 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     changeLoading();
   }
 
-  int _getUserId() {
-    final cachedUser = _userCacheOperation.get('user_token');
+  Future<int> _getUserId() async {
+    final cachedUser = await _userCacheOperation.get('user_token');
     int userId = cachedUser!.userId;
     return userId;
   }
@@ -70,7 +70,8 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   Future<void> connect() async {
     changeLoading();
     if (!isConnected) await _hubConnection.start();
-    await _hubConnection.invoke(HubMethods.registerUser, args: [_getUserId()]);
+    final userId = await _getUserId();
+    await _hubConnection.invoke(HubMethods.registerUser, args: [userId]);
     _setupSignalREvents();
 
     changeLoading();
@@ -79,7 +80,8 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   /// Disconnect from the SignalR hub and remove the user's registration from the hub.
   Future<void> disconnect() async {
     changeLoading();
-    await _hubConnection.invoke(HubMethods.disconnectUserMobil, args: [_getUserId()]);
+    final userId = await _getUserId();
+    await _hubConnection.invoke(HubMethods.disconnectUserMobil, args: [userId]);
     await _hubConnection.stop();
     changeLoading();
   }
@@ -112,8 +114,9 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
 
     final currentUserId = _getUserId();
 
+    final currentUserIdValue = await currentUserId;
     final updatedUsers =
-        resp?.where((user) => user.id != currentUserId).map((user) => user.copyWith(isOnline: onlineUserIds.contains(user.id))).toList();
+        resp?.where((user) => user.id != currentUserIdValue).map((user) => user.copyWith(isOnline: onlineUserIds.contains(user.id))).toList();
 
     emit(state.copyWith(profileModel: updatedUsers));
 
@@ -124,7 +127,7 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   /// Show loading indicator while fetching data.
   Future<void> getLastMessages() async {
     await getAllUser();
-    final userId = _getUserId();
+    final userId = await _getUserId();
     final messages = await _messageOperation.getLastMessageFromUserId(userId);
     final users = state.profileModel ?? [];
     final otherUserIds = messages!.map((m) {
@@ -163,7 +166,7 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   /// After fetching data, emit a new state with the fetched unread message count
   /// added to state's unreadCount.
   Future<void> getUnReadMessage() async {
-    var resp = await _messageOperation.getUnReadMessagCount(_getUserId());
+    var resp = await _messageOperation.getUnReadMessagCount(await _getUserId());
     emit(state.copyWith(unreadCount: resp?.unreadCounts));
   }
 
@@ -246,7 +249,7 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   /// updates the state with the fetched groups. The method shows a loading
   /// indicator while fetching the data.
   Future<void> getGroups() async {
-    final resp = await _messageOperation.getGroups(_getUserId());
+    final resp = await _messageOperation.getGroups(await _getUserId());
     emit(state.copyWith(groups: resp?.group));
   }
 

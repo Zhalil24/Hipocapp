@@ -1,6 +1,5 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
-import 'package:hipocapp/product/init/theme/custom_color_scheme.dart';
 
 class TabButtonsWidget<T> extends StatelessWidget {
   const TabButtonsWidget({
@@ -16,6 +15,7 @@ class TabButtonsWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return DefaultTabController(
       length: tabs.length,
       initialIndex: activeTabIndex,
@@ -23,7 +23,7 @@ class TabButtonsWidget<T> extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ButtonsTabBar(
-            backgroundColor: CustomColorScheme.darkColorScheme.primary,
+            backgroundColor: colorScheme.primary,
             unselectedBackgroundColor: Colors.grey[300],
             unselectedLabelStyle: const TextStyle(color: Colors.black),
             labelStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),

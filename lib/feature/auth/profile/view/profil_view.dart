@@ -58,11 +58,14 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
               }
               return Column(
                 children: [
-                  TabButtonsWidget<ProfileTabType>(
-                    activeTabIndex: state.activeTab.index,
-                    tabs: ProfileTabType.values,
-                    onTap: (index) => profileViewModel.changeTab(
-                      ProfileTabType.values[index],
+                  Padding(
+                    padding: EdgeInsets.only(top: context.sized.mediumValue),
+                    child: TabButtonsWidget<ProfileTabType>(
+                      activeTabIndex: state.activeTab.index,
+                      tabs: ProfileTabType.values,
+                      onTap: (index) => profileViewModel.changeTab(
+                        ProfileTabType.values[index],
+                      ),
                     ),
                   ),
                   SizedBox(height: context.sized.normalValue),
@@ -118,6 +121,7 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
               surname,
               email,
               username,
+              productViewModel.state.currentUserId!,
             );
           },
         );
@@ -131,6 +135,7 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
               passwordChangeController.text,
               newPasswordChangeController.text,
               newPasswordReChangeController.text,
+              productViewModel.state.currentUserId!,
             );
           },
         );

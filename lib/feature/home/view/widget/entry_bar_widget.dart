@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
 import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
-import 'package:kartal/kartal.dart';
 
 class EntryBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const EntryBarWidget({super.key});
@@ -26,51 +25,43 @@ class _EntryBar extends StatelessWidget {
 
     return BlocBuilder<HomeViewModel, HomeViewState>(
       builder: (context, state) {
-        return Row(
-          children: [
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  context.read<HomeViewModel>().changeEntries(true);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: state.isLastEntries ? Color(0xFF7C3AED) : Colors.white,
-                  foregroundColor: state.isLastEntries ? colorScheme.onPrimary : colorScheme.onPrimary,
-                  shape: const RoundedRectangleBorder(),
-                  padding: EdgeInsets.symmetric(vertical: context.sized.normalValue),
-                ),
-                child: Text(
-                  'Daily',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    color: colorScheme.onSecondary,
-                  ),
-                ),
+        return SegmentedButton<bool>(
+            segments: const [
+              ButtonSegment(
+                value: true,
+                label: Text('Daily'),
+                icon: Icon(Icons.today_outlined),
               ),
-            ),
-            SizedBox(width: context.sized.lowValue),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  context.read<HomeViewModel>().changeEntries(false);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: state.isRandomEntries ? Color(0xFF7C3AED) : colorScheme.surface,
-                  foregroundColor: state.isRandomEntries ? colorScheme.onPrimary : colorScheme.onPrimary,
-                  shape: const RoundedRectangleBorder(),
-                  padding: EdgeInsets.symmetric(vertical: context.sized.normalValue),
-                ),
-                child: Text(
-                  'Stream',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    color: colorScheme.onSecondary,
-                  ),
-                ),
+              ButtonSegment(
+                value: false,
+                label: Text('Stream'),
+                icon: Icon(Icons.stream),
               ),
-            ),
-          ],
-        );
+            ],
+            selected: {
+              state.isLastEntries
+            },
+            onSelectionChanged: (newValue) {
+              context.read<HomeViewModel>().changeEntries(newValue.first);
+            },
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+                (states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return colorScheme.primary;
+                  }
+                  return colorScheme.onPrimary;
+                },
+              ),
+              foregroundColor: WidgetStateProperty.resolveWith<Color?>(
+                (states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return colorScheme.onPrimary;
+                  }
+                  return colorScheme.onSurface;
+                },
+              ),
+            ));
       },
     );
   }

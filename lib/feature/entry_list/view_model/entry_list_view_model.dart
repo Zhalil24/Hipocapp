@@ -1,7 +1,5 @@
-import 'package:core/core.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/entry_list/view_model/state/entry_list_view_state.dart';
-import 'package:hipocapp/product/cache/model/user_cache_model.dart';
 import 'package:hipocapp/product/service/interface/entry_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
 
@@ -10,10 +8,8 @@ final class EntryListViewModel extends BaseCubit<EntryListViewState> {
   /// [LastEntryOperation] service
   EntryListViewModel({
     required EntryListOperation entryListOperation,
-    required HiveCacheOperation<UserCacheModel> userCacheOperation,
     required EntryOperation entryOperation,
-  })  : _userCacheOperation = userCacheOperation,
-        _entryListOperation = entryListOperation,
+  })  : _entryListOperation = entryListOperation,
         _entryOperation = entryOperation,
         super(EntryListViewState(
           isLoading: false,
@@ -21,7 +17,6 @@ final class EntryListViewModel extends BaseCubit<EntryListViewState> {
         ));
   late final EntryListOperation _entryListOperation;
   late final EntryOperation _entryOperation;
-  late final HiveCacheOperation<UserCacheModel> _userCacheOperation;
 
   /// Change loading state
   void changeLoading() {
@@ -46,22 +41,16 @@ final class EntryListViewModel extends BaseCubit<EntryListViewState> {
     changeLoading();
   }
 
-  Future<void> createEntry(String title, String desc, int headerId) async {
+  Future<void> createEntry(String title, String desc, int headerId, int userId) async {
     final entryModel = EntryModel(
       headerId: headerId,
       titleName: title,
       description: desc,
       isEntry: true,
-      userId: _getUserId(),
+      userId: userId,
     );
     var resp = await _entryOperation.createEntry(entryModel);
     setServiceRespnonse(resp?.message ?? '');
     await getEntryList(title);
-  }
-
-  int _getUserId() {
-    final cachedUser = _userCacheOperation.get('user_token');
-    int userId = cachedUser!.userId;
-    return userId;
   }
 }

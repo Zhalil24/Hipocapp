@@ -18,7 +18,7 @@ class _InfoWidgetState extends State<InfoWidget> {
         horizontal: context.sized.normalValue,
       ),
       decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0.2),
+        color: Colors.orange.withValues(alpha: 0.2),
         border: Border.all(color: Colors.orange),
         borderRadius: BorderRadius.circular(context.sized.lowValue),
       ),

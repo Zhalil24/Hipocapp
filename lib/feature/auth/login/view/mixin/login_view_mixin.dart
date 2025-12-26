@@ -16,6 +16,7 @@ mixin LoginViewMixin on BaseState<LoginView> {
     _productNetworkErrorManager = ProductNetworkErrorManager(context: context);
     ProductStateItems.productNetworkManager.listenErrorState(onErrorStatus: _productNetworkErrorManager.handleError);
     _loginViewModel = LoginViewModel(
+      productViewModel: productViewModel,
       operationService: LoginService(ProductStateItems.productNetworkManager),
       userCacheOperation: ProductStateItems.productCache.userCacheOperation,
     );

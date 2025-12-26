@@ -8,7 +8,8 @@ final class CustomColorScheme {
   static const lightColorScheme = ColorScheme(
     brightness: Brightness.light, // Tema türü: Açık tema
 
-    primary: Color(0xFF7C3AED), // Ana renk — Butonlar, AppBar, Seçili bileşenler
+    //primary: Color(0xFF7C3AED), // Ana renk — Butonlar, AppBar, Seçili bileşenler
+    primary: Color.fromARGB(255, 102, 19, 247),
     onPrimary: Colors.white, // Primary üzerinde yazı/icon — Kontrast için beyaz
     primaryContainer: Color(0xFFFFE082), // Primary arka planı (kartlar, kutular)
     onPrimaryContainer: Colors.black, // PrimaryContainer üzerindeki yazılar
@@ -28,7 +29,7 @@ final class CustomColorScheme {
     errorContainer: Color(0xFFF44336), // Hatalı alanlar için arka plan
     onErrorContainer: Colors.black, // ErrorContainer içindeki metinler
 
-    surface: Color(0xFFFDF6EC), // Sayfa arka planı / kartlar
+    surface: Color.fromARGB(255, 255, 255, 255), // Sayfa arka planı / kartlar
     onSurface: Colors.black, // Yüzey (surface) üzerindeki yazılar
     onSurfaceVariant: Color(0xFF757575), // Alternatif yazı rengi (ikincil yazılar)
 
@@ -37,7 +38,7 @@ final class CustomColorScheme {
     shadow: Colors.black45, // Gölge efekti (kart, buton vs.)
     scrim: Colors.black54, // Arka plan maskesi (dialog vs.)
 
-    inverseSurface: Color(0xFF303030), // Dark mod arka plan (örn. snackbar)
+    inverseSurface: Color.fromARGB(255, 255, 255, 255), // Dark mod arka plan (örn. snackbar)
     onInverseSurface: Colors.white, // InverseSurface üstündeki yazılar
     inversePrimary: Colors.black, // Primary rengin dark mode karşılığı
 
@@ -50,8 +51,8 @@ final class CustomColorScheme {
   static const darkColorScheme = ColorScheme(
     brightness: Brightness.dark, // Tema türü: Karanlık tema
 
-    primary: Color(0xFF15202b), // Altın sarısı — AppBar, butonlar, seçili öğeler de8b32
-    onPrimary: Colors.white, // Primary üzerine yazılar/iconlar
+    primary: Color(0xFF2A4B65), // Altın sarısı — AppBar, butonlar, seçili öğeler de8b32
+    onPrimary: Color.fromARGB(255, 0, 0, 0), // Primary üzerine yazılar/iconlar
 
     primaryContainer: Color(0xFFFFD54F), // Daha yumuşak sarı — container arka planı
     onPrimaryContainer: Colors.black, // PrimaryContainer üstü yazı/icon
@@ -73,7 +74,7 @@ final class CustomColorScheme {
     errorContainer: Color(0xFFD32F2F), // Hatalı alan arka planı
     onErrorContainer: Colors.black,
 
-    surface: Color(0xFF22303c), // Koyu gri/siyah — zemin, kartlar, scaffold
+    surface: Color.fromARGB(255, 0, 0, 0), // Koyu gri/siyah — zemin, kartlar, scaffold
     onSurface: Colors.white, // Sarımsı yazılar (ikonla uyum)
     onSurfaceVariant: Colors.white, // İkincil yazı rengi
 
@@ -82,7 +83,7 @@ final class CustomColorScheme {
     shadow: Colors.black, // Gölge efekti
     scrim: Colors.black87, // Dialog arkası / maske
 
-    inverseSurface: Color(0xFFFFEB3B), // Light mod yüzey (örn. snackbar)
+    inverseSurface: Color(0xFF2A4B65), // Light mod yüzey (örn. snackbar)
     onInverseSurface: Colors.black, // Inverse üzeri yazı
 
     inversePrimary: Colors.white, // Primary’nin zıt modu (light için)

@@ -58,42 +58,45 @@ class _EntryListViewState extends BaseState<EntryListView> with EntryListViewMix
             key: _formKey,
             child: Column(
               children: [
-                // 🆕 Entry yazma alanı
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: context.padding.horizontalLow.horizontal,
-                    vertical: context.padding.verticalLow.vertical,
+                  padding: EdgeInsetsGeometry.only(
+                    left: context.sized.normalValue,
+                    right: context.sized.normalValue,
+                    top: context.sized.normalValue,
                   ),
                   child: BlocBuilder<EntryListViewModel, EntryListViewState>(
                     builder: (context, state) {
                       return Row(
                         children: [
-                          Expanded(
-                              child: TextFormField(
-                            validator: Validators.notEmpty,
-                            controller: _entryController,
-                            minLines: 2,
-                            maxLines: 10,
-                            decoration: const InputDecoration(
-                              hintText: 'Yeni entry yaz...',
-                              border: OutlineInputBorder(),
+                          if (productViewModel.state.isLogin) ...[
+                            Expanded(
+                                child: TextFormField(
+                              validator: Validators.notEmpty,
+                              controller: _entryController,
+                              minLines: 2,
+                              maxLines: 10,
+                              decoration: const InputDecoration(
+                                hintText: 'Yeni entry yaz...',
+                                border: OutlineInputBorder(),
+                              ),
+                            )),
+                            SizedBox(width: context.sized.lowValue),
+                            CustomActionButton(
+                              text: 'Ekle',
+                              onTop: () {
+                                if (_formKey.currentState?.validate() ?? false) {
+                                  final text = _entryController.text.trim();
+                                  entryListViewModel.createEntry(
+                                    widget.titleName,
+                                    text,
+                                    widget.headerId,
+                                    productViewModel.state.currentUserId!,
+                                  );
+                                  _entryController.clear();
+                                }
+                              },
                             ),
-                          )),
-                          const SizedBox(width: 8),
-                          CustomActionButton(
-                            text: 'Ekle',
-                            onTop: () {
-                              if (_formKey.currentState?.validate() ?? false) {
-                                final text = _entryController.text.trim();
-                                entryListViewModel.createEntry(
-                                  widget.titleName,
-                                  text,
-                                  widget.headerId,
-                                );
-                                _entryController.clear();
-                              }
-                            },
-                          ),
+                          ]
                         ],
                       );
                     },

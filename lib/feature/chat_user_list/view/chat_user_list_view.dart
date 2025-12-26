@@ -41,14 +41,16 @@ class _ChatUserListViewState extends BaseState<ChatUserListView> with ChatUserLi
 
             return Column(
               children: [
-                TabButtonsWidget<ChatTabType>(
-                  activeTabIndex: state.activeTab.index,
-                  tabs: ChatTabType.values,
-                  onTap: (index) => chatUserListViewModel.changeTab(
-                    ChatTabType.values[index],
+                Padding(
+                  padding: EdgeInsets.only(top: context.sized.lowValue),
+                  child: TabButtonsWidget<ChatTabType>(
+                    activeTabIndex: state.activeTab.index,
+                    tabs: ChatTabType.values,
+                    onTap: (index) => chatUserListViewModel.changeTab(
+                      ChatTabType.values[index],
+                    ),
                   ),
                 ),
-                SizedBox(height: context.sized.normalValue),
                 Expanded(
                   child: _buildTabContent(state.activeTab, chatUserListViewModel.state),
                 )

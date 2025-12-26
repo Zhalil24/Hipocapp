@@ -2,11 +2,11 @@ import 'package:core/src/cache/core/cache_model.dart';
 
 abstract class CacheOperation<T extends CacheModel> {
   const CacheOperation();
-  void add(T item);
-  void addAll(List<T> items);
-  void remove(String id);
-  void clear();
+  Future<void> add(T item);
+  Future<void> addAll(List<T> items);
+  Future<void> remove(String id);
+  Future<void> clear();
 
-  List<T> getAll();
-  T? get(String id);
+  Future<List<T>> getAll();
+  Future<T?> get(String id);
 }

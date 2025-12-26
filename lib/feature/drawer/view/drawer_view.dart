@@ -52,7 +52,11 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
                     titleController: titleController,
                     isSubItemSelected: state.isSubItemSelected,
                     onCreateEntry: (title, desc) {
-                      drawerViewModel.createEntry(title, desc);
+                      drawerViewModel.createEntry(
+                        title,
+                        desc,
+                        productViewModel.state.currentUserId!,
+                      );
                     },
                   );
                 },

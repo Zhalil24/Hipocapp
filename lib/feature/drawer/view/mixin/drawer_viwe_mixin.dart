@@ -23,7 +23,6 @@ mixin DrawerViewMixin on BaseState<DrawerView> {
     _drawerViewModel = DrawerViewModel(
         headerOperation: HeaderService(ProductStateItems.productNetworkManager),
         enryOperation: EntryService(ProductStateItems.productNetworkManager),
-        userCacheOperation: ProductStateItems.productCache.userCacheOperation,
         titleOperation: TitleService(ProductStateItems.productNetworkManager));
   }
 

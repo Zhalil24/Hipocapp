@@ -19,7 +19,6 @@ mixin EntryListViewMixin on BaseState<EntryListView> {
     _entryListViewModel = EntryListViewModel(
       entryListOperation: EntryListService(ProductStateItems.productNetworkManager),
       entryOperation: EntryService(ProductStateItems.productNetworkManager),
-      userCacheOperation: ProductStateItems.productCache.userCacheOperation,
     );
     _entryListViewModel.getEntryList(widget.titleName);
   }

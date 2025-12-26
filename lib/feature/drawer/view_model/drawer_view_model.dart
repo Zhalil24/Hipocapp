@@ -1,4 +1,3 @@
-import 'package:core/core.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/drawer/view_model/state/drawer_view_state.dart';
 import 'package:hipocapp/product/service/interface/entry_operation.dart';
@@ -6,20 +5,16 @@ import 'package:hipocapp/product/service/interface/header_operation.dart';
 import 'package:hipocapp/product/service/interface/title_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
 
-import '../../../product/cache/model/user_cache_model.dart';
-
 /// Manage your home view business login-c
 final class DrawerViewModel extends BaseCubit<DrawerViewState> {
   /// [HeaderOperation] service
-  DrawerViewModel(
-      {required HeaderOperation headerOperation,
-      required TitleOperation titleOperation,
-      required EntryOperation enryOperation,
-      required HiveCacheOperation<UserCacheModel> userCacheOperation})
-      : _headerOperation = headerOperation,
+  DrawerViewModel({
+    required HeaderOperation headerOperation,
+    required TitleOperation titleOperation,
+    required EntryOperation enryOperation,
+  })  : _headerOperation = headerOperation,
         _titleOperation = titleOperation,
         _entryOperation = enryOperation,
-        _userCacheOperation = userCacheOperation,
         super(DrawerViewState(
           isLoading: false,
           headers: HeaderModel(),
@@ -29,7 +24,6 @@ final class DrawerViewModel extends BaseCubit<DrawerViewState> {
   late final HeaderOperation _headerOperation;
   late final TitleOperation _titleOperation;
   late final EntryOperation _entryOperation;
-  late final HiveCacheOperation<UserCacheModel> _userCacheOperation;
 
   /// Change loading state
   void changeLoading() {
@@ -63,25 +57,19 @@ final class DrawerViewModel extends BaseCubit<DrawerViewState> {
     changeLoading();
   }
 
-  Future<void> createEntry(String title, String desc) async {
+  Future<void> createEntry(String title, String desc, int userId) async {
     changeLoading();
     final entryModel = EntryModel(
       headerId: state.headers.id,
       titleName: title,
       description: desc,
       isEntry: false,
-      userId: _getUserId(),
+      userId: userId,
     );
 
     var resp = await _entryOperation.createEntry(entryModel);
     setServiceRespnonse(resp?.message ?? '');
     await getTitles(state.headers.id);
     changeLoading();
-  }
-
-  int _getUserId() {
-    final cachedUser = _userCacheOperation.get('user_token');
-    int userId = cachedUser!.userId;
-    return userId;
   }
 }

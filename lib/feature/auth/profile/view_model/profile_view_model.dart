@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/state/profile_view_state.dart';
 import 'package:hipocapp/product/cache/model/theme_cache_model.dart';
-import 'package:hipocapp/product/cache/model/user_cache_model.dart';
 import 'package:hipocapp/product/service/interface/entry_operation.dart';
 import 'package:hipocapp/product/service/interface/profile_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
+import 'package:hipocapp/product/state/view_model/product_view_model.dart';
 import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
 
 import '../../../../product/navigation/app_router.dart';
@@ -17,20 +17,20 @@ import '../../../../product/navigation/app_router.dart';
 final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   ProfileViewModel({
     required ProfileOperation profileOperation,
+    required ProductViewModel productViewModel,
     required EntryOperation entryOperation,
-    required HiveCacheOperation<UserCacheModel> userCacheOperation,
-    required HiveCacheOperation<ThemeCacheModel> themeCacheOperation,
+    required SharedCacheOperation<ThemeCacheModel> themeCacheOperation,
   })  : _profileOperation = profileOperation,
-        _userCacheOperation = userCacheOperation,
+        _productViewModel = productViewModel,
         _themeCacheOperation = themeCacheOperation,
         _entryOperation = entryOperation,
         super(ProfileViewState(isLoading: false));
 
   late final ProfileOperation _profileOperation;
   late final EntryOperation _entryOperation;
-  late final HiveCacheOperation<UserCacheModel> _userCacheOperation;
   File? selectedPhoto;
-  late final HiveCacheOperation<ThemeCacheModel> _themeCacheOperation;
+  late final SharedCacheOperation<ThemeCacheModel> _themeCacheOperation;
+  late final ProductViewModel _productViewModel;
 
   /// Change loading state
   void changeLoading() {
@@ -53,20 +53,14 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     emit(state.copyWith(serviceResponseMessage: message));
   }
 
-  int _getUserId() {
-    final cachedUser = _userCacheOperation.get('user_token');
-    int userId = cachedUser!.userId;
-    return userId;
-  }
-
   /// Fetch user profile from server with user id from cache.
   ///
   /// After fetching data, emit a new state with the fetched profile model.
   ///
   /// Returns false.
-  Future<bool> getProfile() async {
+  Future<bool> getProfile(int userId) async {
     changeLoading();
-    int id = _getUserId();
+    final id = userId;
     final response = await _profileOperation.getProfile(id);
     emit(state.copyWith(profileModel: response?.profileModel));
     changeLoading();
@@ -89,10 +83,11 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     String surname,
     String email,
     String username,
+    int userId,
   ) async {
     changeLoading();
-    var model = ProfileUpdateModel(
-      id: _getUserId(),
+    final model = ProfileUpdateModel(
+      id: userId,
       email: email,
       name: name,
       photo: state.photo,
@@ -101,7 +96,7 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
       password: 'a',
       passwordRe: 'a',
     );
-    var response = await _profileOperation.updateProfile(model);
+    final response = await _profileOperation.updateProfile(model);
 
     changeLoading();
     setServiceRespnonse(response?.message);
@@ -116,26 +111,25 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
 
   /// Logout
   Future<void> logout(BuildContext context) async {
-    _userCacheOperation.clear();
-    _themeCacheOperation.clear();
+    await _productViewModel.onLogout();
+    await _themeCacheOperation.clear();
     if (context.mounted) {
-      await context.router.pushAndPopUntil(
-        const LoginRoute(),
-        predicate: (_) => false,
+      await context.router.push(
+        const HomeRoute(),
       );
     }
     setServiceRespnonse('Başarıyla çıkış yapıldı');
   }
 
-  Future<void> changePassword(String password, String newpassword, String newrepassword) async {
+  Future<void> changePassword(String password, String newpassword, String newrepassword, int userId) async {
     changeLoading();
     final model = ChangePasswordModel(
       newpassword: newpassword,
       newrepassword: newrepassword,
       password: password,
-      userid: _getUserId(),
+      userid: userId,
     );
-    var message = await _profileOperation.changePassword(model);
+    final message = await _profileOperation.changePassword(model);
     setServiceRespnonse(message);
     changeLoading();
   }

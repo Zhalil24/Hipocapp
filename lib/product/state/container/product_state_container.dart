@@ -13,12 +13,13 @@ final class ProductStateContainer {
   /// Product Core Required Items
   static void setup() {
     _getIt
-      ..registerSingleton(ProductCache(cacheManager: HiveCacheManager()))
+      ..registerSingleton(ProductCache(cacheManager: SharedCacheManager()))
       ..registerSingleton<ProductNetworkManager>(ProductNetworkManager.base())
       ..registerLazySingleton<SignalRService>(SignalRService.new)
       ..registerLazySingleton<ProductViewModel>(
         () => ProductViewModel(
           themeCache: _getIt<ProductCache>().themeCacheOperation,
+          userCache: _getIt<ProductCache>().userCacheOperation,
         ),
       );
   }

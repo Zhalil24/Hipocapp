@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/drawer/view/drawer_view.dart';
@@ -10,11 +11,13 @@ import 'package:hipocapp/feature/home/view/widget/content_card_widget.dart';
 import 'package:hipocapp/feature/home/view/widget/search_bar_widget.dart';
 import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
 import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
+import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/enums/content_type.dart';
 import 'package:hipocapp/product/widget/appbar/custom_appbar_widget.dart';
 import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
 import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
+import 'package:hipocapp/product/widget/login_popup/login_required_popup.dart';
 import 'package:kartal/kartal.dart';
 import 'widget/entry_bar_widget.dart';
 
@@ -32,14 +35,14 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
   Widget build(BuildContext context) {
     return BlocProvider<HomeViewModel>(
       create: (_) => homeViewModel,
-      child: Scaffold(
-        appBar: const CustomAppBar(title: 'Anasayfa'),
-        drawer: const DrawerView(),
-        bottomNavigationBar: BottomNavigationBarWidget(
-          onItemSelected: (value) => homeViewModel.handleNavigation(context, value),
-        ),
-        body: SafeArea(
-          child: BlocBuilder<HomeViewModel, HomeViewState>(
+      child: Stack(children: [
+        Scaffold(
+          appBar: const CustomAppBar(title: 'Anasayfa'),
+          drawer: const DrawerView(),
+          bottomNavigationBar: BottomNavigationBarWidget(
+            onItemSelected: (value) => homeViewModel.handleNavigation(context, value),
+          ),
+          body: BlocBuilder<HomeViewModel, HomeViewState>(
             builder: (context, state) {
               if (state.contentType != ContentTypeEnum.home.value) {
                 if (state.isLoading) {
@@ -50,7 +53,7 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
                 }
                 return ListView.builder(
                   controller: scrollController,
-                  padding: EdgeInsets.all(context.sized.normalValue),
+                  padding: EdgeInsets.only(top: context.sized.normalValue * 5, left: context.sized.lowValue, right: context.sized.lowValue),
                   itemCount: state.contentModel.length,
                   itemBuilder: (ctx, i) {
                     final item = state.contentModel[i];
@@ -76,7 +79,7 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
                               child: const EntryBarWidget(),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: context.sized.lowValue),
+                              padding: EdgeInsets.only(top: context.sized.lowValue * 2),
                               child: state.isLoading
                                   ? Center(
                                       child: Padding(
@@ -115,8 +118,8 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: context.sized.highValue * 10,
+                  Padding(
+                    padding: EdgeInsets.only(top: context.sized.lowValue * 0.1),
                     child: SearchBarWidget(
                       (value) {
                         if (value.isEmpty) {
@@ -139,7 +142,12 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
             },
           ),
         ),
-      ),
+        LoginRequiredPopup(
+          onLoginPressed: () async {
+            await context.router.push(const LoginRoute());
+          },
+        ),
+      ]),
     );
   }
 }

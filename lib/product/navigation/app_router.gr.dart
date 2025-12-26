@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
@@ -19,11 +20,7 @@ class ChatUserListRoute extends PageRouteInfo<ChatUserListRouteArgs> {
     List<PageRouteInfo>? children,
   }) : super(
           ChatUserListRoute.name,
-          args: ChatUserListRouteArgs(
-            key: key,
-            tab: tab,
-            query: query,
-          ),
+          args: ChatUserListRouteArgs(key: key, tab: tab, query: query),
           initialChildren: children,
         );
 
@@ -33,22 +30,15 @@ class ChatUserListRoute extends PageRouteInfo<ChatUserListRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<ChatUserListRouteArgs>(
-          orElse: () => const ChatUserListRouteArgs());
-      return ChatUserListView(
-        key: args.key,
-        tab: args.tab,
-        query: args.query,
+        orElse: () => const ChatUserListRouteArgs(),
       );
+      return ChatUserListView(key: args.key, tab: args.tab, query: args.query);
     },
   );
 }
 
 class ChatUserListRouteArgs {
-  const ChatUserListRouteArgs({
-    this.key,
-    this.tab,
-    this.query,
-  });
+  const ChatUserListRouteArgs({this.key, this.tab, this.query});
 
   final Key? key;
 
@@ -60,6 +50,16 @@ class ChatUserListRouteArgs {
   String toString() {
     return 'ChatUserListRouteArgs{key: $key, tab: $tab, query: $query}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ChatUserListRouteArgs) return false;
+    return key == other.key && tab == other.tab && query == other.query;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ tab.hashCode ^ query.hashCode;
 }
 
 /// generated route for
@@ -89,8 +89,9 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args =
-          data.argsAs<ChatRouteArgs>(orElse: () => const ChatRouteArgs());
+      final args = data.argsAs<ChatRouteArgs>(
+        orElse: () => const ChatRouteArgs(),
+      );
       return ChatView(
         toUserId: args.toUserId,
         toUserName: args.toUserName,
@@ -125,6 +126,25 @@ class ChatRouteArgs {
   String toString() {
     return 'ChatRouteArgs{toUserId: $toUserId, toUserName: $toUserName, isOnline: $isOnline, groupId: $groupId, groupName: $groupName}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ChatRouteArgs) return false;
+    return toUserId == other.toUserId &&
+        toUserName == other.toUserName &&
+        isOnline == other.isOnline &&
+        groupId == other.groupId &&
+        groupName == other.groupName;
+  }
+
+  @override
+  int get hashCode =>
+      toUserId.hashCode ^
+      toUserName.hashCode ^
+      isOnline.hashCode ^
+      groupId.hashCode ^
+      groupName.hashCode;
 }
 
 /// generated route for
@@ -183,16 +203,27 @@ class EntryListRouteArgs {
   String toString() {
     return 'EntryListRouteArgs{key: $key, titleName: $titleName, headerId: $headerId, userId: $userId}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! EntryListRouteArgs) return false;
+    return key == other.key &&
+        titleName == other.titleName &&
+        headerId == other.headerId &&
+        userId == other.userId;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^ titleName.hashCode ^ headerId.hashCode ^ userId.hashCode;
 }
 
 /// generated route for
 /// [ForgotPasswordView]
 class ForgotPasswordRoute extends PageRouteInfo<void> {
   const ForgotPasswordRoute({List<PageRouteInfo>? children})
-      : super(
-          ForgotPasswordRoute.name,
-          initialChildren: children,
-        );
+      : super(ForgotPasswordRoute.name, initialChildren: children);
 
   static const String name = 'ForgotPasswordRoute';
 
@@ -208,10 +239,7 @@ class ForgotPasswordRoute extends PageRouteInfo<void> {
 /// [HomeView]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
-      : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
+      : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
@@ -227,10 +255,7 @@ class HomeRoute extends PageRouteInfo<void> {
 /// [LoginView]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})
-      : super(
-          LoginRoute.name,
-          initialChildren: children,
-        );
+      : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
@@ -246,10 +271,7 @@ class LoginRoute extends PageRouteInfo<void> {
 /// [ProfilView]
 class ProfilRoute extends PageRouteInfo<void> {
   const ProfilRoute({List<PageRouteInfo>? children})
-      : super(
-          ProfilRoute.name,
-          initialChildren: children,
-        );
+      : super(ProfilRoute.name, initialChildren: children);
 
   static const String name = 'ProfilRoute';
 
@@ -265,10 +287,7 @@ class ProfilRoute extends PageRouteInfo<void> {
 /// [RegisterView]
 class RegisterRoute extends PageRouteInfo<void> {
   const RegisterRoute({List<PageRouteInfo>? children})
-      : super(
-          RegisterRoute.name,
-          initialChildren: children,
-        );
+      : super(RegisterRoute.name, initialChildren: children);
 
   static const String name = 'RegisterRoute';
 
@@ -284,10 +303,7 @@ class RegisterRoute extends PageRouteInfo<void> {
 /// [SplashView]
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})
-      : super(
-          SplashRoute.name,
-          initialChildren: children,
-        );
+      : super(SplashRoute.name, initialChildren: children);
 
   static const String name = 'SplashRoute';
 

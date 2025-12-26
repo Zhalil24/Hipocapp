@@ -12,17 +12,19 @@ final class CustomLightTheme implements CustomTheme {
         colorScheme: CustomColorScheme.lightColorScheme,
         scaffoldBackgroundColor: CustomColorScheme.lightColorScheme.onPrimary,
         appBarTheme: AppBarTheme(
-          color: CustomColorScheme.lightColorScheme.primary,
-          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          backgroundColor: CustomColorScheme.lightColorScheme.primary,
+          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: CustomColorScheme.lightColorScheme.primary),
         drawerTheme: DrawerThemeData(
-          backgroundColor: CustomColorScheme.lightColorScheme.surface,
+          backgroundColor: CustomColorScheme.lightColorScheme.onPrimary,
         ),
         cardTheme: CardThemeData(color: CustomColorScheme.lightColorScheme.surface),
         iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
-            iconColor: MaterialStateProperty.all(CustomColorScheme.lightColorScheme.onPrimary),
+            iconColor: WidgetStateProperty.all(
+              CustomColorScheme.lightColorScheme.onPrimary,
+            ),
           ),
         ),
         textTheme: GoogleFonts.robotoTextTheme().apply(

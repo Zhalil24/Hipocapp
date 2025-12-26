@@ -12,15 +12,15 @@ dependencies:
     sdk: flutter
 
   json_annotation: ^4.9.0
-  flutter_svg: ^2.0.7
-  lottie: ^2.6.0
+  flutter_svg: ^2.2.3
+  lottie: ^3.3.2
   envied: ^1.0.0
   equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  very_good_analysis: ^5.1.0
+  very_good_analysis: ^10.0.0
   build_runner: ^2.4.13
   envied_generator: ^1.0.0
   json_serializable: ^6.9.0

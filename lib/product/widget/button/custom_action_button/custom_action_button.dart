@@ -27,13 +27,13 @@ class _CustomActionButtonState extends State<CustomActionButton> {
           vertical: context.sized.lowValue,
         ),
         decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.1),
+          color: Colors.blue.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(context.sized.normalValue),
           border: Border.all(color: Colors.blue),
         ),
         child: Text(
           widget.text,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.blue,
           ),

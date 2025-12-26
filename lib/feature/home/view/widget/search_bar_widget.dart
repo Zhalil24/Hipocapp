@@ -3,10 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hipocapp/product/utility/constans/search_bar/serarch_bar_constants.dart';
 import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
-import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
+import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 
 class SearchBarWidget extends HookWidget {
   final ValueChanged<String> onChanged;
@@ -22,7 +22,7 @@ class SearchBarWidget extends HookWidget {
     return FloatingSearchBar(
         hint: 'Başlık ara...',
         backgroundColor: colorScheme.onInverseSurface,
-        hintStyle: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
+        hintStyle: TextStyle(color: colorScheme.onSurface.withValues(alpha: 0.6)),
         queryStyle: TextStyle(color: colorScheme.onSurface),
         iconColor: colorScheme.onSurface,
         scrollPadding: const EdgeInsets.only(

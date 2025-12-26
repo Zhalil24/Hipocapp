@@ -1,2 +1,2 @@
-export 'hive_cache_manager.dart';
-export 'hive_cache_operation.dart';
+export 'shared_cache_manager.dart';
+export 'shared_cache_operation.dart';

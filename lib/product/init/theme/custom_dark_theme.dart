@@ -4,16 +4,15 @@ import 'package:hipocapp/product/init/theme/custom_color_scheme.dart';
 import 'package:hipocapp/product/init/theme/custom_theme.dart';
 
 final class CustomDarkTheme implements CustomTheme {
-  // TODO: change to initialize  Themdata instead of computed
   @override
   ThemeData get themedata => ThemeData(
         useMaterial3: true,
         fontFamily: GoogleFonts.roboto().fontFamily,
-        scaffoldBackgroundColor: CustomColorScheme.darkColorScheme.surface,
+        scaffoldBackgroundColor: CustomColorScheme.darkColorScheme.onPrimary,
         colorScheme: CustomColorScheme.darkColorScheme,
         appBarTheme: AppBarTheme(
-          color: CustomColorScheme.darkColorScheme.primary,
-          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          backgroundColor: CustomColorScheme.darkColorScheme.primary,
+          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
         ),
         listTileTheme: const ListTileThemeData(
           textColor: Colors.white,
@@ -31,7 +30,9 @@ final class CustomDarkTheme implements CustomTheme {
         ),
         iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
-            iconColor: MaterialStateProperty.all(CustomColorScheme.darkColorScheme.onPrimary),
+            iconColor: WidgetStateProperty.all(
+              CustomColorScheme.lightColorScheme.onPrimary,
+            ),
           ),
         ),
       );

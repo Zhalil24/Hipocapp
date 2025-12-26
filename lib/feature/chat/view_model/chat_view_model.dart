@@ -14,7 +14,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
   /// [LastEntryOperation] service
   ChatViewModel({
     required MessageOperation messageOperation,
-    required HiveCacheOperation<UserCacheModel> userCacheOperation,
+    required SharedCacheOperation<UserCacheModel> userCacheOperation,
     required HubConnection hubConnection,
     required this.toUserId,
   })  : _messageOperation = messageOperation,
@@ -26,7 +26,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
 
   final int toUserId;
   late final MessageOperation _messageOperation;
-  late final HiveCacheOperation<UserCacheModel> _userCacheOperation;
+  late final SharedCacheOperation<UserCacheModel> _userCacheOperation;
   late final HubConnection _hubConnection;
   bool get isConnected => _hubConnection.state == HubConnectionState.Connected;
 
@@ -45,8 +45,8 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     emit(state.copyWith(serviceResponseMessage: message));
   }
 
-  int _getUserId() {
-    final cachedUser = _userCacheOperation.get('user_token');
+  Future<int> _getUserId() async {
+    final cachedUser = await _userCacheOperation.get('user_token');
     final userId = cachedUser!.userId;
     final userName = cachedUser.userName;
     emit(state.copyWith(currentUserId: userId, userName: userName));
@@ -59,7 +59,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
   /// [toUserId] is the id of the user to be fetched.
   Future<void> getMessageList(int toUserId) async {
     changeLoading();
-    final fromUserId = _getUserId();
+    final fromUserId = await _getUserId();
     final resp = await _messageOperation.getMessageList(fromUserId, toUserId);
     emit(state.copyWith(messageList: resp));
 
@@ -79,7 +79,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     required String messageText,
   }) async {
     final messageDto = {
-      'fromUserId': _getUserId(),
+      'fromUserId': await _getUserId(),
       'toUserId': toUserId,
       'messageText': messageText,
       'sentAt': DateTime.now().toIso8601String(),
@@ -87,7 +87,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     };
     await _hubConnection.invoke(HubMethods.sendPrivateMessage, args: [toUserId, messageDto]);
     final newMessage = MessageListModel(
-      fromUserId: _getUserId(),
+      fromUserId: await _getUserId(),
       toUserId: toUserId,
       messageText: messageText,
       sentAt: DateTime.now().toIso8601String(),
@@ -160,7 +160,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
   Future<void> markMessage(int toUserId) async {
     final model = MarkMessageModel(
       fromUserId: toUserId,
-      toUserId: _getUserId(),
+      toUserId: await _getUserId(),
     );
     await _messageOperation.markMessage(model);
   }
@@ -174,7 +174,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
   /// [groupId] - The id of the group whose messages are to be fetched.
 
   Future<void> getGroupMessage(int groupId) async {
-    _getUserId();
+    await _getUserId();
     final resp = await _messageOperation.getGroupMessage(groupId);
     emit(state.copyWith(groupMessageList: resp));
   }
@@ -196,7 +196,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     required String message,
     required int groupId,
   }) async {
-    _getUserId();
+    await _getUserId();
     final model = GroupMessageModel(
       fromUserId: state.currentUserId,
       messageText: message,

@@ -5,17 +5,17 @@ import '../../../product/state/base/base_cuibt.dart';
 
 final class SplashViewModel extends BaseCubit<SplashViewState> {
   SplashViewModel({
-    required HiveCacheOperation<UserCacheModel> userCacheOperation,
+    required SharedCacheOperation<UserCacheModel> userCacheOperation,
   })  : _userCacheOperation = userCacheOperation,
         super(SplashViewState(isLoading: false, isLoggedIn: false)) {
     checkLoginStatus();
   }
 
-  late final HiveCacheOperation<UserCacheModel> _userCacheOperation;
+  late final SharedCacheOperation<UserCacheModel> _userCacheOperation;
 
   /// Check if the user is logged in or not.
-  void checkLoginStatus() {
-    final cachedUser = _userCacheOperation.get('user_token');
+  Future<void> checkLoginStatus() async {
+    final cachedUser = await _userCacheOperation.get('user_token');
     final isLoggedIn = cachedUser?.token.isNotEmpty ?? false;
     emit(state.copyWith(isLoggedIn: isLoggedIn));
   }

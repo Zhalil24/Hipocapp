@@ -7,7 +7,7 @@ class CustomCircleAvatar extends StatefulWidget {
     required this.imageURL,
     required this.radius,
     this.icon = Icons.person,
-    this.backgroundColor = const Color(0xFFBDBDBD), // default: grey[400]
+    this.backgroundColor = const Color(0xFFBDBDBD),
   });
 
   final String imageURL;

@@ -26,7 +26,7 @@ class CustomLoader extends StatelessWidget {
           ),
           // Ortadaki logo
           Padding(
-            padding: const EdgeInsets.all(6), // hafif içe al logo taşmasın
+            padding: const EdgeInsets.all(6),
             child: Assets.images.logo.image(package: 'gen'),
           ),
         ],

@@ -6,19 +6,23 @@ import 'package:hipocapp/feature/auth/login/view_model/state/login_view_state.da
 import 'package:hipocapp/product/cache/model/user_cache_model.dart';
 import 'package:hipocapp/product/service/interface/authentication_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
+import 'package:hipocapp/product/state/view_model/product_view_model.dart';
 
 import '../../../../product/navigation/app_router.dart';
 
 final class LoginViewModel extends BaseCubit<LoginViewState> {
   LoginViewModel({
     required AuthenticationOperation operationService,
-    required HiveCacheOperation<UserCacheModel> userCacheOperation,
+    required ProductViewModel productViewModel,
+    required SharedCacheOperation<UserCacheModel> userCacheOperation,
   })  : _authenticationOperationService = operationService,
+        _productViewModel = productViewModel,
         _userCacheOperation = userCacheOperation,
         super(LoginViewState(isLoading: false));
 
   late final AuthenticationOperation _authenticationOperationService;
-  late final HiveCacheOperation<UserCacheModel> _userCacheOperation;
+  late final SharedCacheOperation<UserCacheModel> _userCacheOperation;
+  late final ProductViewModel _productViewModel;
 
   /// Change loading state
   void changeLoading() {
@@ -44,7 +48,7 @@ final class LoginViewModel extends BaseCubit<LoginViewState> {
     final response = await _authenticationOperationService.userLogin(userLoginModel: userLoginModel);
     setServiceRespnonse(response?.message);
     if (response?.user != null) {
-      _saveItem(
+      await _saveItem(
         response?.user?.accessToken?.token ?? '',
         response?.user?.id ?? 0,
         response?.user?.username ?? '',
@@ -70,13 +74,14 @@ final class LoginViewModel extends BaseCubit<LoginViewState> {
     return isSuccess;
   }
 
-  void _saveItem(String token, int userId, String userName) {
-    _userCacheOperation.add(
+  Future<void> _saveItem(String token, int userId, String userName) async {
+    await _userCacheOperation.add(
       UserCacheModel(
         token: token,
         userId: userId,
         userName: userName,
       ),
     );
+    await _productViewModel.onLoginSuccess();
   }
 }
