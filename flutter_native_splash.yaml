@@ -1,7 +1,7 @@
 flutter_native_splash:
-  color: "#000000"  
-  image: asset/images/splash_icon_legacy_android_ios.png  # Tüm platformlarda gösterilecek ana ikon
+  color: "#FFFFFFFF"  
+  image: asset/images/splash_icon_legacy_android_ios.png  
 
   android_12:
     image: asset/images/splash_icon_android12_final_fit.png
-    color: "#000000"
+    color: "#FFFFFFFF"

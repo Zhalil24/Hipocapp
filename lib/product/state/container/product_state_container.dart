@@ -20,6 +20,7 @@ final class ProductStateContainer {
         () => ProductViewModel(
           themeCache: _getIt<ProductCache>().themeCacheOperation,
           userCache: _getIt<ProductCache>().userCacheOperation,
+          onboardingCache: _getIt<ProductCache>().onboardingCacheOperation,
         ),
       );
   }

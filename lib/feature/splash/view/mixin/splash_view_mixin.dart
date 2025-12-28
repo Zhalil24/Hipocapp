@@ -17,16 +17,28 @@ mixin SplashViewMixin on BaseState<SplashView> {
     super.initState();
     _productNetworkErrorManager = ProductNetworkErrorManager(context: context);
     ProductStateItems.productNetworkManager.listenErrorState(onErrorStatus: _productNetworkErrorManager.handleError);
-    _splashViewModel = SplashViewModel(userCacheOperation: ProductStateItems.productCache.userCacheOperation);
+    _splashViewModel = SplashViewModel(
+        userCacheOperation: ProductStateItems.productCache.userCacheOperation,
+        onboardingCacheOperation: ProductStateItems.productCache.onboardingCacheOperation);
     _initControl();
+  }
+
+  Future<void> _onSplashComplete() async {
+    await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
+    final onboardingCache = await splashViewModel.getOnBoardingCache();
+    if (onboardingCache == null || onboardingCache.showOnboarding == true) {
+      await productViewModel.hideOnboarding();
+      await AutoRouter.of(context).replace(const IntroductionRoute());
+    } else {
+      await AutoRouter.of(context).replace(const HomeRoute());
+    }
   }
 
   Future<void> _initControl() async {
     if (!mounted) return;
     await productViewModel.initializeAuthState();
     await productViewModel.loadCachedTheme();
-    Future.delayed(const Duration(seconds: 2), () async {
-      await context.router.replace(const HomeRoute());
-    });
+    await _onSplashComplete();
   }
 }

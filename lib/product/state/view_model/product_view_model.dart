@@ -1,5 +1,6 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/cache/model/onboarding_cache_model.dart';
 import 'package:hipocapp/product/cache/model/theme_cache_model.dart';
 import 'package:hipocapp/product/cache/model/user_cache_model.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
@@ -9,10 +10,12 @@ final class ProductViewModel extends BaseCubit<ProdcutState> {
   ProductViewModel({
     required this.themeCache,
     required this.userCache,
+    required this.onboardingCache,
   }) : super(const ProdcutState());
 
   final SharedCacheOperation<ThemeCacheModel> themeCache;
   final SharedCacheOperation<UserCacheModel> userCache;
+  final SharedCacheOperation<OnboardingCacheModel> onboardingCache;
 
   /// Change theme mode and cache it to local storage
   ///
@@ -92,5 +95,13 @@ final class ProductViewModel extends BaseCubit<ProdcutState> {
   Future<void> onLogout() async {
     emit(state.copyWith(isLogin: false, currentUserId: 0, userName: ''));
     await userCache.remove('user_token');
+  }
+
+  /// Hides the onboarding screen by setting [showOnboarding] to false in the
+  Future<void> hideOnboarding() async {
+    final id = const OnboardingCacheModel.empty().id;
+    final raw = await onboardingCache.get(id);
+    final model = raw?.copyWith(showOnboarding: false) ?? const OnboardingCacheModel.empty().copyWith(showOnboarding: false);
+    await onboardingCache.add(model);
   }
 }
