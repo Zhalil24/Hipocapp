@@ -77,8 +77,6 @@ class _LoginRequiredPopupState extends BaseState<LoginRequiredPopup> with Single
             ),
           ),
         ),
-
-        // Popup card
         Center(
           child: FadeTransition(
             opacity: _fadeAnimation,

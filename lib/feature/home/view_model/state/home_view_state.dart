@@ -5,6 +5,7 @@ final class HomeViewState extends Equatable {
   HomeViewState(
       {required this.isLoading,
       this.lastEntries = const [],
+      this.groupListModel = const [],
       this.randomEntries = const [],
       this.isLastEntries = false,
       this.isRandomEntries = false,
@@ -22,12 +23,14 @@ final class HomeViewState extends Equatable {
   final List<ContentModel> contentModel;
   final List<TitleModel> titleModel;
   final String contentType;
+  final List<GroupListModel>? groupListModel;
 
   @override
   List<Object?> get props => [
         isLoading,
         lastEntries,
         isLastEntries,
+        groupListModel,
         isRandomEntries,
         randomEntries,
         contentType,
@@ -40,6 +43,7 @@ final class HomeViewState extends Equatable {
       {bool? isLoading,
       List<LastEntriesModel>? lastEntries,
       List<RandomEntriesModel>? randomEntries,
+      List<GroupListModel>? groupListModel,
       bool? isLastEntries,
       bool? isRandomEntries,
       List<ContentModel>? contentModel,
@@ -55,6 +59,7 @@ final class HomeViewState extends Equatable {
         isRandomEntries: isRandomEntries ?? this.isRandomEntries,
         randomEntries: randomEntries ?? this.randomEntries,
         titleModel: titleModel ?? this.titleModel,
+        groupListModel: groupListModel ?? this.groupListModel,
         contentModel: contentModel ?? this.contentModel);
   }
 }

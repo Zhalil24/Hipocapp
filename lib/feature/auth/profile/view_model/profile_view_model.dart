@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/state/profile_view_state.dart';
-import 'package:hipocapp/product/cache/model/theme_cache_model.dart';
 import 'package:hipocapp/product/service/interface/entry_operation.dart';
 import 'package:hipocapp/product/service/interface/profile_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
@@ -19,17 +17,14 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     required ProfileOperation profileOperation,
     required ProductViewModel productViewModel,
     required EntryOperation entryOperation,
-    required SharedCacheOperation<ThemeCacheModel> themeCacheOperation,
   })  : _profileOperation = profileOperation,
         _productViewModel = productViewModel,
-        _themeCacheOperation = themeCacheOperation,
         _entryOperation = entryOperation,
         super(ProfileViewState(isLoading: false));
 
   late final ProfileOperation _profileOperation;
   late final EntryOperation _entryOperation;
   File? selectedPhoto;
-  late final SharedCacheOperation<ThemeCacheModel> _themeCacheOperation;
   late final ProductViewModel _productViewModel;
 
   /// Change loading state
@@ -112,7 +107,6 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   /// Logout
   Future<void> logout(BuildContext context) async {
     await _productViewModel.onLogout();
-    await _themeCacheOperation.clear();
     if (context.mounted) {
       await context.router.push(
         const HomeRoute(),

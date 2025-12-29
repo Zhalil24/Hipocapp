@@ -33,7 +33,6 @@ mixin ProfileViewMixin on BaseState<ProfilView> {
     ProductStateItems.productNetworkManager.listenErrorState(onErrorStatus: _productNetworkErrorManager.handleError);
     _profileViewModel = ProfileViewModel(
       productViewModel: productViewModel,
-      themeCacheOperation: ProductStateItems.productCache.themeCacheOperation,
       profileOperation: ProfileService(ProductStateItems.productNetworkManager),
       entryOperation: EntryService(ProductStateItems.productNetworkManager),
     );

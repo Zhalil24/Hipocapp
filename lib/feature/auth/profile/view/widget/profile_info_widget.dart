@@ -32,7 +32,10 @@ class _ProfileInfoWidgetState extends State<ProfileInfoWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: CustomCircleAvatar(imageURL: widget.imageURL, radius: context.sized.highValue),
+            child: CustomCircleAvatar(
+              imageURL: widget.imageURL,
+              radius: context.sized.highValue,
+            ),
           ),
           SizedBox(height: context.sized.mediumValue),
           const ToggleButton(),

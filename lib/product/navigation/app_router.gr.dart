@@ -236,6 +236,22 @@ class ForgotPasswordRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [GroupListView]
+class GroupListRoute extends PageRouteInfo<void> {
+  const GroupListRoute({List<PageRouteInfo>? children})
+      : super(GroupListRoute.name, initialChildren: children);
+
+  static const String name = 'GroupListRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const GroupListView();
+    },
+  );
+}
+
+/// generated route for
 /// [HomeView]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})

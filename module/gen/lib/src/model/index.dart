@@ -36,3 +36,7 @@ export 'degree/degree_model.dart';
 export 'degree/degree_response_model.dart';
 export 'user_register/user_register_model.dart';
 export 'user_register/user_register_response_model.dart';
+export 'group_list/group_list_model.dart';
+export 'group_list/group_list_model_response.dart';
+export 'group_request/group_request_model.dart';
+export 'group_request/group_request_response_model.dart';

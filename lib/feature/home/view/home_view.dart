@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/drawer/view/drawer_view.dart';
 import 'package:hipocapp/feature/home/view/mixin/home_view_mixin.dart';
+import 'package:hipocapp/feature/home/view/widget/auto_sliding_group_container.dart';
 import 'package:hipocapp/feature/home/view/widget/bottom_navigation_bar_widget.dart';
+import 'package:hipocapp/feature/home/view/widget/content_card_skeleton_widget.dart';
 import 'package:hipocapp/feature/home/view/widget/content_card_widget.dart';
 import 'package:hipocapp/feature/home/view/widget/search_bar_widget.dart';
 import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
@@ -15,8 +17,8 @@ import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/enums/content_type.dart';
 import 'package:hipocapp/product/widget/appbar/custom_appbar_widget.dart';
+import 'package:hipocapp/product/widget/custom_card_widget/custom_card_skeleton_widget.dart';
 import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
-import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:hipocapp/product/widget/login_popup/login_required_popup.dart';
 import 'package:kartal/kartal.dart';
 import 'widget/entry_bar_widget.dart';
@@ -46,7 +48,10 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
             builder: (context, state) {
               if (state.contentType != ContentTypeEnum.home.value) {
                 if (state.isLoading) {
-                  return const Center(child: CustomLoader());
+                  return ListView.builder(
+                    itemCount: 3,
+                    itemBuilder: (_, __) => const ContentCardSkeleton(),
+                  );
                 }
                 if (state.contentModel.isEmpty) {
                   return const Center(child: Text('İçerik Bulunmamaktadır'));
@@ -76,16 +81,23 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
                           children: [
                             Padding(
                               padding: EdgeInsets.only(top: context.sized.mediumValue * 2),
+                              child: AutoSlidingGroupContainer(
+                                groups: state.groupListModel ?? const [],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: context.sized.normalValue),
                               child: const EntryBarWidget(),
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: context.sized.lowValue * 2),
                               child: state.isLoading
-                                  ? Center(
-                                      child: Padding(
-                                      padding: EdgeInsets.only(top: context.sized.highValue * 2.5),
-                                      child: const CustomLoader(),
-                                    ))
+                                  ? Column(
+                                      children: List.generate(
+                                        5,
+                                        (_) => const CustomCardWidgetSkeleton(),
+                                      ),
+                                    )
                                   : ListView.builder(
                                       shrinkWrap: true,
                                       physics: const NeverScrollableScrollPhysics(),

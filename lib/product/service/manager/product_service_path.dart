@@ -25,6 +25,8 @@ enum ProductServicePath {
   markMessage('api/chat/MarkMessagesAsRead'),
   getdegree('api/degree/GetDegree'),
   getMessageList('api/chat/MessageList'),
+  getGroupList('api/chat/GetAllGroups'),
+  requestGroup('api/chat/SendToRequestGroup'),
   profile('api/User/GetProfile');
 
   final String value;

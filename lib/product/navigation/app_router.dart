@@ -8,6 +8,7 @@ import 'package:hipocapp/feature/auth/register/view/register_view.dart';
 import 'package:hipocapp/feature/chat/view/chat_view.dart';
 import 'package:hipocapp/feature/chat_user_list/view/chat_user_list_view.dart';
 import 'package:hipocapp/feature/entry_list/view/entry_list_view.dart';
+import 'package:hipocapp/feature/group_list/view/group_list_view.dart';
 import 'package:hipocapp/feature/home/view/home_view.dart';
 import 'package:hipocapp/feature/introduction/view/introduction_view.dart';
 import 'package:hipocapp/feature/splash/view/splah_view.dart';
@@ -32,5 +33,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: ChatRoute.page),
         AutoRoute(page: RegisterRoute.page),
         AutoRoute(page: IntroductionRoute.page),
+        AutoRoute(page: GroupListRoute.page),
       ];
 }

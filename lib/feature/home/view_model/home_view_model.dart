@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
 import 'package:hipocapp/product/service/interface/content_operarion.dart';
 import 'package:hipocapp/product/service/interface/entry_operation.dart';
+import 'package:hipocapp/product/service/interface/group_list_operation.dart';
 import 'package:hipocapp/product/service/interface/title_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
 import 'package:hipocapp/product/utility/enums/content_type.dart';
@@ -11,15 +12,18 @@ final class HomeViewModel extends BaseCubit<HomeViewState> {
   /// [LastEntryOperation] service
   HomeViewModel({
     required LastEntryOperation lastEntriesOperation,
+    required GroupListOperation groupListOperation,
     required ContentOperarion contentOperation,
     required RandomEntryOperation randomEntryOperation,
     required TitleOperation titleOperation,
   })  : _lastEntriesOperation = lastEntriesOperation,
+        _groupListOperation = groupListOperation,
         _randomEntryOperation = randomEntryOperation,
         _contentOperarion = contentOperation,
         _titleOperation = titleOperation,
         super(HomeViewState(isLoading: false));
   late final LastEntryOperation _lastEntriesOperation;
+  late final GroupListOperation _groupListOperation;
   late final RandomEntryOperation _randomEntryOperation;
   late final ContentOperarion _contentOperarion;
   late final TitleOperation _titleOperation;
@@ -30,16 +34,16 @@ final class HomeViewModel extends BaseCubit<HomeViewState> {
   }
 
   /// Change entries to last entries or random entries.
-  void changeEntries(bool isChange) {
+  Future<void> changeEntries(bool isChange) async {
     emit(state.copyWith(
       isLastEntries: isChange,
       isRandomEntries: !isChange,
     ));
 
     if (isChange) {
-      getLastEntries();
+      await getLastEntries();
     } else {
-      getRandomEntries();
+      await getRandomEntries();
     }
   }
 
@@ -99,5 +103,17 @@ final class HomeViewModel extends BaseCubit<HomeViewState> {
   /// Clears the list of titles that are the result of a search by title name.
   void clearTitleResults() {
     emit(state.copyWith(titleModel: []));
+  }
+
+  /// Fetches the list of groups from the server and updates the state with the
+  /// fetched groups. The method shows a loading indicator while fetching the data.
+  ///
+  /// The method will emit a new state with the updated group list once the data
+  /// is fetched from the server.
+  Future<void> getGroupList() async {
+    changeLoading();
+    final resp = await _groupListOperation.getGroupList();
+    emit(state.copyWith(groupListModel: resp));
+    changeLoading();
   }
 }
