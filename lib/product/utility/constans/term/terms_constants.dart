@@ -29,5 +29,18 @@ Hipocapp.com, kullanıcı deneyimini artırmak amacıyla web sayfası üzerinde 
 Bu metin, Türkiye Cumhuriyeti Kişisel Verileri Koruma Kanunu'nun (KVKK) 5. maddesi gereğince kişisel verilerin işlenmesi ve korunmasına dair düzenlemeleri kapsamaktadır. Ayrıca, 6. maddeye göre kişisel verilerin işlenmesinin şartlarını belirlemektedir. Kullanıcılar, bu metni kabul ederek, işbu kanunun bağlayıcı hükümlerine uygun hareket etmeyi kabul etmiş sayılır.
 
 Bu metin, Hipocapp.com kullanıcılarının kişisel verilerinin korunmasına dair genel bir bilgilendirme sağlar. Kullanıcılar, platforma erişim sağlayarak, yukarıda belirtilen şartları kabul etmiş sayılır.
+
+7. Çocuk Güvenliği ve CSAE / CSAM Politikası
+
+Hipocapp.com, çocukların cinsel istismarı ve sömürüsüne (CSAE / CSAM) karşı sıfır tolerans politikası uygulamaktadır.
+
+Platformumuzda, 18 yaşından küçük bireylere yönelik her türlü cinsel içerik, mesajlaşma, görsel, video, yönlendirme veya bu tür içeriklerin paylaşımı kesinlikle yasaktır.
+
+Bu tür içeriklerin tespit edilmesi halinde, ilgili içerikler derhal kaldırılır ve gerekli durumlarda yetkili resmi mercilerle iş birliği yapılır.
+
+Kullanıcılar, çocuk güvenliği standartlarını ihlal eden herhangi bir içerikle karşılaşmaları durumunda, aşağıdaki iletişim adresi üzerinden bildirimde bulunabilirler:
+
+E-posta: hipocappdestek@gmail.com
+
   ''';
 }

@@ -5,9 +5,9 @@ import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/register/view/widget/custom_checkbox_widget.dart';
 import 'package:hipocapp/feature/auth/register/view/widget/photo_picker_filed_widget.dart';
 import 'package:hipocapp/feature/auth/register/view/widget/text_input_widget.dart';
-import 'package:hipocapp/product/utility/constans/term/terms_constants.dart';
 import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
+import 'package:hipocapp/product/widget/terms_popup/terms_popup_widget.dart';
 import 'package:kartal/kartal.dart';
 
 class FormWidget extends StatefulWidget {
@@ -129,18 +129,7 @@ class _FormWidgetState extends State<FormWidget> {
                             onTap: () {
                               showDialog<void>(
                                 context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Şartlar ve Koşullar'),
-                                  content: const SingleChildScrollView(
-                                    child: Text(TermsConstants.termsAndConditions),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.of(context).pop(),
-                                      child: const Text('Kapat'),
-                                    ),
-                                  ],
-                                ),
+                                builder: (_) => const TermsPopup(),
                               );
                             },
                             child: const Text(

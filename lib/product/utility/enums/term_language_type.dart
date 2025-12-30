@@ -1,0 +1,4 @@
+enum TermLanguageType {
+  en,
+  tr,
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/widget/terms_popup/terms_popup_widget.dart';
 import 'package:hipocapp/product/widget/toggle_buton/toggle_button.dart';
 import 'package:kartal/kartal.dart';
 
@@ -22,8 +23,8 @@ class CustomDrawerHeader extends StatelessWidget {
             Row(
               children: [
                 SizedBox(
-                  width: context.sized.height * 0.06,
-                  height: context.sized.height * 0.06,
+                  width: context.sized.height * 0.04,
+                  height: context.sized.height * 0.04,
                   child: Assets.images.logo.image(package: 'gen'),
                 ),
                 Text(
@@ -31,17 +32,41 @@ class CustomDrawerHeader extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
-                    fontSize: context.sized.mediumValue,
+                    fontSize: context.sized.mediumValue * 0.9,
                   ),
                 )
               ],
             ),
             const ToggleButton(),
-            Text(
-              'Menü',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: context.sized.normalValue,
+            Center(
+              child: InkWell(
+                onTap: () async {
+                  await showDialog<void>(
+                    context: context,
+                    builder: (_) => const TermsPopup(),
+                  );
+                },
+                borderRadius: BorderRadius.circular(context.sized.normalValue * 0.5),
+                child: Container(
+                  padding: EdgeInsets.all(context.sized.normalValue * 0.5),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.description_outlined, size: context.sized.normalValue, color: Colors.blue),
+                      const Text(
+                        'KVKK Aydınlatma Metni',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
