@@ -24,7 +24,7 @@ mixin SplashViewMixin on BaseState<SplashView> {
   }
 
   Future<void> _onSplashComplete() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future<void>.delayed(const Duration(seconds: 1));
     if (!mounted) return;
     final onboardingCache = await splashViewModel.getOnBoardingCache();
     if (onboardingCache == null || onboardingCache.showOnboarding == true) {
