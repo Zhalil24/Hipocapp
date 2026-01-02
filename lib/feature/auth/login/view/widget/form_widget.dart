@@ -18,7 +18,7 @@ class FormWidget extends StatefulWidget {
 
 class _FormWidgetState extends State<FormWidget> {
   final _formKey = GlobalKey<FormState>();
-
+  bool _obscurePassword = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,8 +35,22 @@ class _FormWidgetState extends State<FormWidget> {
               SizedBox(height: context.sized.normalValue),
               TextFormField(
                 controller: widget.passwordController,
-                obscureText: true,
-                decoration: 'Şifre'.formFieldDecoration,
+                obscureText: _obscurePassword,
+                decoration: InputDecoration(
+                  labelText: 'Şifre',
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    color: Colors.black,
+                    icon: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
+                ),
                 validator: Validators.notEmpty,
               ),
               SizedBox(height: context.sized.normalValue),
