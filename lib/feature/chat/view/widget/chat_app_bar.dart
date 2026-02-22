@@ -89,7 +89,6 @@ class _ChatAppBarState extends State<ChatAppBar> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
         child: AppBar(
-          backgroundColor: colorScheme.surface.withValues(alpha: 0.6),
           elevation: 0,
           centerTitle: true,
           systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,

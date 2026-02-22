@@ -34,9 +34,9 @@ mixin ChatUserListViewMixin on BaseState<ChatUserListView> {
       } else {
         chatUserListViewModel.setProfiles();
       }
-      await chatUserListViewModel.getLastMessages();
       await chatUserListViewModel.getUnReadMessage();
       await chatUserListViewModel.getGroups();
+      await chatUserListViewModel.getLastMessages();
     });
 
     final incomingTab = widget.tab;
