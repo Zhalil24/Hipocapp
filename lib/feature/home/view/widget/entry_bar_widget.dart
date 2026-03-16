@@ -26,45 +26,90 @@ class _EntryBar extends StatelessWidget {
 
     return BlocBuilder<HomeViewModel, HomeViewState>(
       builder: (context, state) {
-        return Padding(
-          padding: EdgeInsets.only(right: context.sized.lowValue, left: context.sized.lowValue),
+        return Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: context.sized.lowValue * 0.5,
+            vertical: context.sized.lowValue * 0.5,
+          ),
+          decoration: BoxDecoration(
+            color: colorScheme.surfaceContainerHighest,
+            borderRadius: BorderRadius.circular(context.sized.normalValue),
+          ),
           child: SegmentedButton<bool>(
-              segments: const [
-                ButtonSegment(
-                  value: true,
-                  label: Text('Daily'),
-                  icon: Icon(Icons.today_outlined),
+            segments: [
+              ButtonSegment(
+                value: true,
+                label: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.today_outlined,
+                      size: context.sized.normalValue,
+                    ),
+                    SizedBox(width: context.sized.lowValue * 0.5),
+                    Text(
+                      'Son Gönderiler',
+                      style: TextStyle(
+                        fontSize: context.sized.normalValue * 0.9,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
-                ButtonSegment(
-                  value: false,
-                  label: Text('Stream'),
-                  icon: Icon(Icons.stream),
+              ),
+              ButtonSegment(
+                value: false,
+                label: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.shuffle_rounded,
+                      size: context.sized.normalValue,
+                    ),
+                    SizedBox(width: context.sized.lowValue * 0.5),
+                    Text(
+                      'Rastgele',
+                      style: TextStyle(
+                        fontSize: context.sized.normalValue * 0.9,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-              selected: {
-                state.isLastEntries
-              },
-              onSelectionChanged: (newValue) {
-                context.read<HomeViewModel>().changeEntries(newValue.first);
-              },
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.resolveWith<Color?>(
-                  (states) {
-                    if (states.contains(WidgetState.selected)) {
-                      return colorScheme.primary;
-                    }
+              ),
+            ],
+            selected: {state.isLastEntries},
+            onSelectionChanged: (newValue) {
+              context.read<HomeViewModel>().changeEntries(newValue.first);
+            },
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+                (states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return colorScheme.primary;
+                  }
+                  return Colors.transparent;
+                },
+              ),
+              foregroundColor: WidgetStateProperty.resolveWith<Color?>(
+                (states) {
+                  if (states.contains(WidgetState.selected)) {
                     return colorScheme.onPrimary;
-                  },
-                ),
-                foregroundColor: WidgetStateProperty.resolveWith<Color?>(
-                  (states) {
-                    if (states.contains(WidgetState.selected)) {
-                      return colorScheme.onPrimary;
-                    }
-                    return colorScheme.onSurface;
-                  },
-                ),
-              )),
+                  }
+                  return colorScheme.onSurface.withValues(alpha: 0.7);
+                },
+              ),
+              side: WidgetStateProperty.resolveWith<BorderSide?>(
+                (states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return BorderSide.none;
+                  }
+                  return BorderSide.none;
+                },
+              ),
+              elevation: WidgetStateProperty.all<double>(0),
+            ),
+          ),
         );
       },
     );
