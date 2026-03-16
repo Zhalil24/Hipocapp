@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:hipocapp/product/utility/extension/form_decoration.dart';
 import 'package:hipocapp/product/utility/validator/validator.dart';
-import 'package:hipocapp/product/widget/button/custom_action_button/custom_action_button.dart';
 import 'package:kartal/kartal.dart';
+import 'package:widgets/widgets.dart';
 
 class FormWidget extends StatefulWidget {
-  const FormWidget({super.key, required this.emailNameController, required this.onPressed});
+  const FormWidget({
+    super.key,
+    required this.emailNameController,
+    required this.onPressed,
+  });
+
   final TextEditingController emailNameController;
   final VoidCallback onPressed;
+
   @override
   State<FormWidget> createState() => _FormWidgetState();
 }
@@ -17,29 +22,44 @@ class _FormWidgetState extends State<FormWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final low = context.sized.lowValue;
+    final normal = context.sized.normalValue;
+
     return Padding(
-      padding: EdgeInsets.all(context.sized.normalValue),
-      child: Form(
+      padding: EdgeInsets.all(normal + (low * 0.5)),
+      child: AuthFormCard(
+        child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                controller: widget.emailNameController,
-                style: const TextStyle(color: Colors.black),
-                decoration: 'Email'.formFieldDecoration,
-                validator: Validators.notEmpty,
+              const AuthFormHeader(
+                title: 'Sifreni yenile',
+                description: 'Kayitli e-posta adresini gir, sifre yenileme yonlendirmesini gonderelim.',
               ),
-              SizedBox(height: context.sized.normalValue),
-              CustomActionButton(
-                onTop: () {
+              SizedBox(height: normal * 1.5),
+              AuthTextField(
+                controller: widget.emailNameController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.done,
+                label: 'Email',
+                icon: Icons.alternate_email_rounded,
+                validator: Validators.email,
+              ),
+              SizedBox(height: normal + (low * 0.5)),
+              AuthPrimaryButton(
+                label: 'Gonder',
+                onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     widget.onPressed();
                   }
                 },
-                text: 'Gönder',
+                icon: Icons.send_rounded,
               ),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

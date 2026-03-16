@@ -48,6 +48,18 @@ mixin RegisterViewMixin on BaseState<RegisterView> {
     registerViewModel.getDegree();
   }
 
+  @override
+  void dispose() {
+    nameController.dispose();
+    surnameController.dispose();
+    usernameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    passwordController.dispose();
+    rePasswordController.dispose();
+    super.dispose();
+  }
+
   /// Picks an image from the device's gallery, updates the selected photo in the view model,
   /// and returns the image as a [File].
   ///
@@ -65,15 +77,4 @@ mixin RegisterViewMixin on BaseState<RegisterView> {
     return null;
   }
 
-  /// Toggles the value of [isCheck] and updates the UI accordingly.
-  ///
-  /// This method updates the state by inverting the current value of [isCheck],
-  /// which can be used to manage the checked status of a checkbox or toggle
-  /// button in the UI.
-
-  void updateIsCheck(bool isCheck) {
-    setState(() {
-      isCheck = !isCheck;
-    });
-  }
 }

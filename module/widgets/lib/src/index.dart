@@ -1,3 +1,3 @@
 export 'feature/index.dart';
-export 'widgets/dialog/index.dart';
 export 'utilty/index.dart';
+export 'widgets/index.dart';

@@ -1,33 +1,16 @@
-// import 'package:flutter/material.dart';
-
-// class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
-//   const AppbarWidget({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AppBar(
-//       title: const Center(
-//         child: Text(
-//           'Hipocapp',
-//           style: TextStyle(
-//             fontWeight: FontWeight.w700,
-//             color: Colors.white,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   @override
-//   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-// }
-
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kartal/kartal.dart';
 
-class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const AppbarWidget({super.key});
+class AuthAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const AuthAppBar({
+    super.key,
+    this.title = 'Hipocapp',
+  });
+
+  final String title;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -37,17 +20,18 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
+    final blurValue = context.sized.lowValue * 1.5;
 
     return ClipRRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+        filter: ImageFilter.blur(sigmaX: blurValue, sigmaY: blurValue),
         child: AppBar(
           backgroundColor: colorScheme.surface.withValues(alpha: 0.6),
           elevation: 0,
           centerTitle: true,
           systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
           title: Text(
-            'Hipocapp',
+            title,
             style: TextStyle(
               fontWeight: FontWeight.w700,
               color: colorScheme.onSurface,
