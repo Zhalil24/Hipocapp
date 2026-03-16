@@ -13,7 +13,6 @@ import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
 import 'package:hipocapp/product/utility/extension/service_snack_bar.dart';
 import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
-import 'package:widgets/widgets.dart';
 
 @RoutePage()
 class ProfilView extends StatefulWidget {
@@ -39,7 +38,6 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           context.read<ProfileViewModel>().clearServiceMessage();
         },
         child: Scaffold(
-          appBar: const AuthAppBar(title: 'Profilim'),
           body: BlocBuilder<ProfileViewModel, ProfileViewState>(
             builder: (context, state) {
               if (state.isLoading && state.profileModel == null) {

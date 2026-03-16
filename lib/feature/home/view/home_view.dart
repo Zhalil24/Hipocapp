@@ -48,8 +48,7 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
             appBar: const CustomAppBar(title: 'Anasayfa'),
             drawer: const DrawerView(),
             bottomNavigationBar: BottomNavigationBarWidget(
-              onItemSelected: (value) =>
-                  homeViewModel.handleNavigation(context, value),
+              onItemSelected: (value) => homeViewModel.handleNavigation(context, value),
             ),
             body: BlocBuilder<HomeViewModel, HomeViewState>(
               builder: (context, state) {
@@ -183,9 +182,7 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: context.sized.lowValue),
-      itemCount: state.isLastEntries
-          ? (state.lastEntries?.length ?? 0)
-          : (state.randomEntries?.length ?? 0),
+      itemCount: state.isLastEntries ? (state.lastEntries?.length ?? 0) : (state.randomEntries?.length ?? 0),
       itemBuilder: (ctx, i) {
         if (state.isLastEntries) {
           final entry = state.lastEntries![i];
