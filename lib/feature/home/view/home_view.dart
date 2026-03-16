@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +9,8 @@ import 'package:hipocapp/feature/home/view/widget/auto_sliding_group_container.d
 import 'package:hipocapp/feature/home/view/widget/bottom_navigation_bar_widget.dart';
 import 'package:hipocapp/feature/home/view/widget/content_card_skeleton_widget.dart';
 import 'package:hipocapp/feature/home/view/widget/content_card_widget.dart';
+import 'package:hipocapp/feature/home/view/widget/entry_bar_widget.dart';
+import 'package:hipocapp/feature/home/view/widget/home_background_widget.dart';
 import 'package:hipocapp/feature/home/view/widget/search_bar_widget.dart';
 import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
 import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
@@ -21,7 +22,7 @@ import 'package:hipocapp/product/widget/custom_card_widget/custom_card_skeleton_
 import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
 import 'package:hipocapp/product/widget/login_popup/login_required_popup.dart';
 import 'package:kartal/kartal.dart';
-import 'widget/entry_bar_widget.dart';
+import 'package:widgets/widgets.dart';
 
 /// My Home Page
 @RoutePage()
@@ -39,11 +40,16 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
       create: (_) => homeViewModel,
       child: Stack(
         children: [
+          const Positioned.fill(
+            child: HomeBackgroundWidget(),
+          ),
           Scaffold(
+            backgroundColor: Colors.transparent,
             appBar: const CustomAppBar(title: 'Anasayfa'),
             drawer: const DrawerView(),
             bottomNavigationBar: BottomNavigationBarWidget(
-              onItemSelected: (value) => homeViewModel.handleNavigation(context, value),
+              onItemSelected: (value) =>
+                  homeViewModel.handleNavigation(context, value),
             ),
             body: BlocBuilder<HomeViewModel, HomeViewState>(
               builder: (context, state) {
@@ -75,20 +81,19 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
 
     if (state.contentModel.isEmpty) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.inbox_outlined,
-              size: context.sized.highValue * 4,
-              color: Colors.grey,
+        child: Padding(
+          padding: EdgeInsets.all(context.sized.normalValue * 1.5),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: context.sized.width * 0.78,
             ),
-            SizedBox(height: context.sized.normalValue),
-            Text(
-              'İçerik Bulunmamaktadır',
-              style: Theme.of(context).textTheme.titleMedium,
+            child: const AppEmptyStateCard(
+              icon: Icons.inbox_outlined,
+              title: 'Icerik bulunamadi',
+              message: 'Bu bolum icin gosterilecek icerik su anda hazir degil. '
+                  'Daha sonra yeniden kontrol edebilirsin.',
             ),
-          ],
+          ),
         ),
       );
     }
@@ -178,7 +183,9 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: context.sized.lowValue),
-      itemCount: state.isLastEntries ? (state.lastEntries?.length ?? 0) : (state.randomEntries?.length ?? 0),
+      itemCount: state.isLastEntries
+          ? (state.lastEntries?.length ?? 0)
+          : (state.randomEntries?.length ?? 0),
       itemBuilder: (ctx, i) {
         if (state.isLastEntries) {
           final entry = state.lastEntries![i];

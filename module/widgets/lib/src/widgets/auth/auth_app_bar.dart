@@ -25,20 +25,35 @@ class AuthAppBar extends StatelessWidget implements PreferredSizeWidget {
     return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blurValue, sigmaY: blurValue),
-        child: AppBar(
-          backgroundColor: colorScheme.surface.withValues(alpha: 0.6),
-          elevation: 0,
-          centerTitle: true,
-          systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-          title: Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              color: colorScheme.onSurface,
+        child: Theme(
+          data: theme.copyWith(
+            iconButtonTheme: IconButtonThemeData(
+              style: ButtonStyle(
+                iconColor: WidgetStatePropertyAll(
+                  colorScheme.onSurface,
+                ),
+              ),
             ),
           ),
-          iconTheme: IconThemeData(
-            color: colorScheme.onSurface,
+          child: AppBar(
+            backgroundColor: colorScheme.surface.withValues(alpha: 0.6),
+            foregroundColor: colorScheme.onSurface,
+            elevation: 0,
+            centerTitle: true,
+            systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+            title: Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            iconTheme: IconThemeData(
+              color: colorScheme.onSurface,
+            ),
+            actionsIconTheme: IconThemeData(
+              color: colorScheme.onSurface,
+            ),
           ),
         ),
       ),

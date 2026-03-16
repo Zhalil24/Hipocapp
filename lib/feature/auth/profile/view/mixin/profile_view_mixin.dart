@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/profile/view/profil_view.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/profile_view_model.dart';
 import 'package:hipocapp/product/service/entry_service.dart';
@@ -13,14 +14,12 @@ import 'package:image_picker/image_picker.dart';
 mixin ProfileViewMixin on BaseState<ProfilView> {
   late final ProductNetworkErrorManager _productNetworkErrorManager;
   late final ProfileViewModel _profileViewModel;
+  bool _isProfileSeeded = false;
 
   late final TextEditingController nameController;
   late final TextEditingController surnameController;
   late final TextEditingController usernameController;
   late final TextEditingController emailController;
-  late final TextEditingController passwordController;
-  late final TextEditingController passwordReController;
-
   late final TextEditingController passwordChangeController;
   late final TextEditingController newPasswordChangeController;
   late final TextEditingController newPasswordReChangeController;
@@ -41,8 +40,6 @@ mixin ProfileViewMixin on BaseState<ProfilView> {
     surnameController = TextEditingController();
     usernameController = TextEditingController();
     emailController = TextEditingController();
-    passwordController = TextEditingController();
-    passwordReController = TextEditingController();
     passwordChangeController = TextEditingController();
     newPasswordChangeController = TextEditingController();
     newPasswordReChangeController = TextEditingController();
@@ -54,12 +51,19 @@ mixin ProfileViewMixin on BaseState<ProfilView> {
     surnameController.dispose();
     usernameController.dispose();
     emailController.dispose();
-    passwordController.dispose();
-    passwordReController.dispose();
     passwordChangeController.dispose();
     newPasswordChangeController.dispose();
     newPasswordReChangeController.dispose();
     super.dispose();
+  }
+
+  void seedProfileControllers(ProfileModel? profileModel) {
+    if (profileModel == null || _isProfileSeeded) return;
+    nameController.text = profileModel.name ?? '';
+    surnameController.text = profileModel.surname ?? '';
+    usernameController.text = profileModel.username ?? '';
+    emailController.text = profileModel.email ?? '';
+    _isProfileSeeded = true;
   }
 
   /// Pick a photo from the device gallery and update the selected photo in the view model.

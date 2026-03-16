@@ -24,7 +24,12 @@ class SearchBarWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final shadowColor = isDark
+        ? Colors.black.withValues(alpha: 0.1)
+        : Colors.white.withValues(alpha: 0.74);
 
     return FloatingSearchBar(
       hint: 'Başlık veya içerik ara...',
@@ -52,12 +57,16 @@ class SearchBarWidget extends HookWidget {
       onQueryChanged: onChanged,
       transition: CircularFloatingSearchBarTransition(),
       builder: (context, transition) {
-        return _buildSearchContent(context, colorScheme);
+        return _buildSearchContent(context, colorScheme, shadowColor);
       },
     );
   }
 
-  Widget _buildSearchContent(BuildContext context, ColorScheme colorScheme) {
+  Widget _buildSearchContent(
+    BuildContext context,
+    ColorScheme colorScheme,
+    Color shadowColor,
+  ) {
     if (isLoading) {
       return Center(
         child: Padding(
@@ -82,7 +91,7 @@ class SearchBarWidget extends HookWidget {
             borderRadius: BorderRadius.circular(context.sized.normalValue),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: shadowColor,
                 blurRadius: 16,
                 offset: const Offset(0, 4),
               ),

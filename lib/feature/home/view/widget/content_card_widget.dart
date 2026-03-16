@@ -45,7 +45,12 @@ class _ContentCardState extends State<ContentCard> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final colorScheme = Theme.of(context).colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final shadowColor = isDark
+        ? Colors.black.withValues(alpha: 0.08)
+        : Colors.white.withValues(alpha: 0.72);
 
     return Padding(
       padding: EdgeInsets.only(bottom: context.sized.normalValue * 1.5),
@@ -60,7 +65,7 @@ class _ContentCardState extends State<ContentCard> with SingleTickerProviderStat
               borderRadius: BorderRadius.circular(context.sized.normalValue),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
+                  color: shadowColor,
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                   spreadRadius: 1,
