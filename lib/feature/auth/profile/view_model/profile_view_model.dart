@@ -108,9 +108,9 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   Future<void> logout(BuildContext context) async {
     await _productViewModel.onLogout();
     if (context.mounted) {
-      await context.router.push(
+      await context.router.replaceAll([
         const HomeRoute(),
-      );
+      ]);
     }
     setServiceRespnonse('Başarıyla çıkış yapıldı');
   }

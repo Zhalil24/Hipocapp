@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hipocapp/feature/auth/forgot_password/view/forgot_password_view.dart';
@@ -21,6 +20,14 @@ part 'app_router.gr.dart';
 /// Project router information class
 class AppRouter extends RootStackRouter {
   static const _replaceRouteName = 'View,Route';
+
+  @override
+  RouteType get defaultRouteType => RouteType.custom(
+        transitionsBuilder: TransitionsBuilders.noTransition,
+        duration: Duration.zero,
+        reverseDuration: Duration.zero,
+      );
+
   @override
   List<AutoRoute> get routes => [
         AutoRoute(page: SplashRoute.page, initial: true),

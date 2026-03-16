@@ -56,7 +56,7 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
           ),
           LoginRequiredPopup(
             onLoginPressed: () async {
-              await context.router.push(const LoginRoute());
+              await context.router.navigate(const LoginRoute());
             },
           ),
         ],

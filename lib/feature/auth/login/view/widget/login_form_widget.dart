@@ -94,8 +94,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 child: TextButton(
                   onPressed: widget.isLoading
                       ? null
-                      : () {
-                          context.router.push(const ForgotPasswordRoute());
+                      : () async {
+                          await context.router.push(
+                            const ForgotPasswordRoute(),
+                          );
                         },
                   child: const Text('Sifremi Unuttum'),
                 ),
@@ -113,8 +115,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 label: 'Hesabin yoksa kayit ol',
                 onPressed: widget.isLoading
                     ? null
-                    : () {
-                        context.router.push(const RegisterRoute());
+                    : () async {
+                        await context.router.replace(const RegisterRoute());
                       },
               ),
             ],

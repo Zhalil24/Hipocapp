@@ -48,7 +48,7 @@ class _CustomAppBarState extends BaseState<CustomAppBar> {
             )
           : IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.router.maybePop(),
               color: colorScheme.onSurface,
             ),
       actions: [
@@ -61,12 +61,12 @@ class _CustomAppBarState extends BaseState<CustomAppBar> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.chat),
-                    onPressed: () => context.router.push(ChatUserListRoute()),
+                    onPressed: () => context.router.navigate(ChatUserListRoute()),
                     color: colorScheme.onSurface,
                   ),
                   IconButton(
                     icon: const Icon(Icons.person),
-                    onPressed: () => context.router.push(const ProfilRoute()),
+                    onPressed: () => context.router.navigate(const ProfilRoute()),
                     color: colorScheme.onSurface,
                   ),
                 ],
@@ -76,11 +76,11 @@ class _CustomAppBarState extends BaseState<CustomAppBar> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextButton(
-                  onPressed: () => context.router.push(const LoginRoute()),
+                  onPressed: () => context.router.navigate(const LoginRoute()),
                   child: const Text('Giriş Yap'),
                 ),
                 TextButton(
-                  onPressed: () => context.router.push(const RegisterRoute()),
+                  onPressed: () => context.router.navigate(const RegisterRoute()),
                   child: const Text('Kayıt Ol'),
                 ),
               ],
