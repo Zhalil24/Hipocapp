@@ -1,95 +1,145 @@
 import 'package:flutter/material.dart';
 import 'package:hipocapp/product/widget/circle_avatar/custom_circle_avatar.dart';
 import 'package:kartal/kartal.dart';
+import 'package:widgets/widgets.dart';
 
-class UserListWidget extends StatefulWidget {
-  const UserListWidget({super.key, this.photoURL, this.username, required this.onTop, this.unreadMessageCount, required this.isOnline});
+class UserListWidget extends StatelessWidget {
+  const UserListWidget({
+    super.key,
+    this.photoURL,
+    this.username,
+    this.unreadMessageCount,
+    required this.isOnline,
+    required this.onTap,
+  });
+
   final String? photoURL;
   final String? username;
-  final VoidCallback onTop;
+  final VoidCallback onTap;
   final int? unreadMessageCount;
   final bool? isOnline;
 
   @override
-  State<UserListWidget> createState() => _UserListWidgetState();
-}
-
-class _UserListWidgetState extends State<UserListWidget> {
-  @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: context.sized.lowValue * 0.3,
-        horizontal: context.sized.lowValue,
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final normal = context.sized.normalValue;
+    final low = context.sized.lowValue;
+    final unreadCount = unreadMessageCount ?? 0;
+
+    return AppSurfaceCard(
+      padding: EdgeInsets.symmetric(
+        horizontal: normal,
+        vertical: low * 0.95,
       ),
-      decoration: BoxDecoration(
-        color: colorScheme.inverseSurface,
-        borderRadius: BorderRadius.circular(context.sized.lowValue),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: context.sized.lowValue,
-            offset: const Offset(0, 2),
+      margin: EdgeInsets.only(bottom: low * 0.85),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(normal * 1.35),
+          onTap: onTap,
+          child: Row(
+            children: [
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(low * 0.35),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [
+                          colorScheme.primary.withValues(alpha: 0.18),
+                          colorScheme.secondary.withValues(alpha: 0.10),
+                        ],
+                      ),
+                    ),
+                    child: CustomCircleAvatar(
+                      imageURL: photoURL ?? '',
+                      radius: context.sized.height * 0.034,
+                      icon: Icons.person_outline_rounded,
+                      backgroundColor:
+                          colorScheme.primary.withValues(alpha: 0.12),
+                    ),
+                  ),
+                  Positioned(
+                    right: low * 0.2,
+                    bottom: low * 0.2,
+                    child: Container(
+                      width: context.sized.lowValue * 1.7,
+                      height: context.sized.lowValue * 1.7,
+                      decoration: BoxDecoration(
+                        color: (isOnline ?? false)
+                            ? Colors.green
+                            : colorScheme.outline,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: colorScheme.surface,
+                          width: low * 0.25,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: normal),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      username ?? 'Bilinmeyen kullanici',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(height: low * 0.32),
+                    Text(
+                      unreadCount > 0
+                          ? '$unreadCount okunmamis mesaj var'
+                          : (isOnline ?? false)
+                              ? 'Su an aktif, mesaja hazir gorunuyor'
+                              : 'Sohbet baslatmak icin dokun',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: low * 0.75),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (unreadCount > 0)
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: low * 0.8,
+                        vertical: low * 0.6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary,
+                        borderRadius: BorderRadius.circular(normal),
+                      ),
+                      child: Text(
+                        '$unreadCount',
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          color: colorScheme.onPrimary,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  SizedBox(height: low * 0.45),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
-      ),
-      child: ListTile(
-        dense: true, // ListTile yüksekliğini küçültür
-        contentPadding: EdgeInsets.symmetric(
-          vertical: context.sized.lowValue * 0.5,
-          horizontal: context.sized.normalValue,
         ),
-        leading: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            CustomCircleAvatar(
-              imageURL: widget.photoURL ?? '',
-              radius: context.sized.highValue * 0.55, // daha küçük avatar
-            ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                width: context.sized.lowValue * 6.5,
-                height: context.sized.lowValue * 1.5,
-                decoration: BoxDecoration(
-                  color: (widget.isOnline ?? false) ? Colors.green : Colors.red,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: context.sized.lowValue * 0.3,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        title: Text(
-          widget.username ?? 'Bilinmeyen',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-              ),
-        ),
-        trailing: (widget.unreadMessageCount ?? 0) > 0
-            ? Container(
-                padding: EdgeInsets.all(context.sized.lowValue * 0.6),
-                decoration: const BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.circle,
-                ),
-                child: Text(
-                  '${widget.unreadMessageCount}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: context.sized.lowValue * 1.2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )
-            : null,
-        onTap: widget.onTop,
       ),
     );
   }

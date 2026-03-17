@@ -6,6 +6,7 @@ enum AppAmbientBackgroundStyle {
   register,
   profile,
   home,
+  groupList,
   splash,
 }
 
@@ -203,6 +204,40 @@ class _AmbientBackgroundConfig {
             ),
           ],
           showSheen: false,
+        );
+      case AppAmbientBackgroundStyle.groupList:
+        return _AmbientBackgroundConfig(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          gradientColors: [
+            colorScheme.surface,
+            colorScheme.primary.withValues(alpha: isDark ? 0.14 : 0.07),
+            colorScheme.secondary.withValues(alpha: isDark ? 0.12 : 0.06),
+          ],
+          orbs: [
+            _AmbientOrbConfig(
+              size: height * 0.24,
+              color:
+                  colorScheme.primary.withValues(alpha: isDark ? 0.18 : 0.12),
+              top: -(height * 0.06),
+              left: -(width * 0.04),
+            ),
+            _AmbientOrbConfig(
+              size: height * 0.20,
+              color:
+                  colorScheme.secondary.withValues(alpha: isDark ? 0.16 : 0.10),
+              top: height * 0.24,
+              right: -(width * 0.08),
+            ),
+            _AmbientOrbConfig(
+              size: height * 0.18,
+              color:
+                  colorScheme.tertiary.withValues(alpha: isDark ? 0.16 : 0.10),
+              bottom: -(height * 0.04),
+              left: width * 0.18,
+            ),
+          ],
+          showSheen: true,
         );
       case AppAmbientBackgroundStyle.splash:
         return _AmbientBackgroundConfig(
