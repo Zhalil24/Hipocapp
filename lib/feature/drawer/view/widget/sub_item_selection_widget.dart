@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hipocapp/feature/drawer/view/widget/input_dialog_widget.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
@@ -35,7 +37,7 @@ class SubItemSelectionWidget extends StatelessWidget {
     final low = context.sized.lowValue;
     final selectedLabel = (selectedHeaderText?.trim().isNotEmpty ?? false)
         ? selectedHeaderText!.trim()
-        : 'Secili kategori';
+        : LocaleKeys.general_fallback_selected_category.tr();
 
     return AppSurfaceCard(
       padding: EdgeInsets.all(context.sized.height * 0.026),
@@ -63,7 +65,7 @@ class SubItemSelectionWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Katki alanin hazir',
+                      LocaleKeys.drawer_contribution_title.tr(),
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w800,
                       ),
@@ -71,8 +73,11 @@ class SubItemSelectionWidget extends StatelessWidget {
                     SizedBox(height: low * 0.45),
                     Text(
                       isLoggedIn
-                          ? 'Bu kategori icin yeni bir baslik acip topluluga hizlica katki saglayabilirsin.'
-                          : 'Baslik acmak icin once hesabina giris yapman gerekiyor.',
+                          ? LocaleKeys.drawer_contribution_description_logged_in
+                              .tr()
+                          : LocaleKeys
+                              .drawer_contribution_description_logged_out
+                              .tr(),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                         height: 1.45,
@@ -134,7 +139,7 @@ class SubItemSelectionWidget extends StatelessWidget {
                       );
                     },
                     icon: const Icon(Icons.add_comment_rounded),
-                    label: const Text('Yeni baslik ekle'),
+                    label: Text(LocaleKeys.general_button_create_title.tr()),
                     style: FilledButton.styleFrom(
                       minimumSize:
                           Size.fromHeight(context.sized.height * 0.062),
@@ -152,7 +157,7 @@ class SubItemSelectionWidget extends StatelessWidget {
                       await router.navigate(const LoginRoute());
                     },
                     icon: const Icon(Icons.login_rounded),
-                    label: const Text('Giris yap ve katki ver'),
+                    label: Text(LocaleKeys.drawer_login_and_contribute.tr()),
                     style: OutlinedButton.styleFrom(
                       minimumSize:
                           Size.fromHeight(context.sized.height * 0.062),

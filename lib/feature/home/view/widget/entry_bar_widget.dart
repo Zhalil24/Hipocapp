@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
 import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 
 class EntryBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -9,7 +11,7 @@ class EntryBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _EntryBar();
+    return const _EntryBar();
   }
 
   @override
@@ -48,7 +50,7 @@ class _EntryBar extends StatelessWidget {
                     ),
                     SizedBox(width: context.sized.lowValue * 0.5),
                     Text(
-                      'Son Gönderiler',
+                      LocaleKeys.home_entry_filter_latest.tr(),
                       style: TextStyle(
                         fontSize: context.sized.normalValue * 0.9,
                         fontWeight: FontWeight.w600,
@@ -68,7 +70,7 @@ class _EntryBar extends StatelessWidget {
                     ),
                     SizedBox(width: context.sized.lowValue * 0.5),
                     Text(
-                      'Rastgele',
+                      LocaleKeys.home_entry_filter_random.tr(),
                       style: TextStyle(
                         fontSize: context.sized.normalValue * 0.9,
                         fontWeight: FontWeight.w600,

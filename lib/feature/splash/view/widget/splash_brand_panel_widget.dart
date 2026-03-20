@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 
 class SplashBrandPanelWidget extends StatelessWidget {
@@ -57,7 +59,7 @@ class SplashBrandPanelWidget extends StatelessWidget {
               ),
             ),
             child: Text(
-              'HipocApp acilis deneyimi',
+              LocaleKeys.splash_hero_badge.tr(),
               style: theme.textTheme.labelLarge?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
@@ -89,7 +91,7 @@ class SplashBrandPanelWidget extends StatelessWidget {
           ),
           SizedBox(height: low * 1.25),
           Text(
-            'Saglik toplulugunla bulusman icin akisi hazirliyoruz.',
+            LocaleKeys.splash_hero_title.tr(),
             style: theme.textTheme.headlineMedium?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w800,
@@ -98,9 +100,7 @@ class SplashBrandPanelWidget extends StatelessWidget {
           ),
           SizedBox(height: low * 1.5),
           Text(
-            'Tema secimin, karsilama adimlarin ve temel uygulama '
-            'kontrolleri arka planda tamamlanirken seni en dogru ekrana '
-            'yonlendirecegiz.',
+            LocaleKeys.splash_hero_description.tr(),
             style: theme.textTheme.titleMedium?.copyWith(
               color: Colors.white.withValues(alpha: 0.84),
               height: 1.45,
@@ -110,18 +110,18 @@ class SplashBrandPanelWidget extends StatelessWidget {
           Wrap(
             spacing: low,
             runSpacing: low,
-            children: const [
+            children: [
               _SplashFeatureChip(
                 icon: Icons.palette_outlined,
-                label: 'Tema senkronu',
+                label: LocaleKeys.splash_feature_theme_sync.tr(),
               ),
               _SplashFeatureChip(
                 icon: Icons.verified_user_outlined,
-                label: 'Oturum kontrolu',
+                label: LocaleKeys.splash_feature_session_check.tr(),
               ),
               _SplashFeatureChip(
                 icon: Icons.auto_awesome_outlined,
-                label: 'Ilk deneyim akisi',
+                label: LocaleKeys.splash_feature_first_experience.tr(),
               ),
             ],
           ),

@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:hipocapp/product/widget/circle_avatar/custom_circle_avatar.dart';
 import 'package:kartal/kartal.dart';
@@ -23,7 +25,8 @@ class EditProfileWidget extends StatefulWidget {
   final TextEditingController surnameController;
   final TextEditingController usernameController;
   final TextEditingController emailController;
-  final void Function(String name, String surname, String username, String email) onUpdate;
+  final void Function(
+      String name, String surname, String username, String email) onUpdate;
   final Future<File?> Function() onPickImage;
   final File? selectedPhoto;
   final String currentImageUrl;
@@ -56,20 +59,22 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const AuthFormHeader(
-              title: 'Profili duzenle',
-              description: 'Gorunen bilgilerini guncelleyerek hesabini daha guven veren ve guncel tut.',
+            AuthFormHeader(
+              title: LocaleKeys.auth_profile_edit_title.tr(),
+              description: LocaleKeys.auth_profile_edit_description.tr(),
             ),
             SizedBox(height: normal * 1.2),
-            const AuthInfoBanner(
-              title: 'Profil gorseli',
-              message: 'Yeni bir fotograf eklediginde profil kartin ve sohbet alanlarin daha taninabilir olur.',
+            AuthInfoBanner(
+              title: LocaleKeys.auth_profile_photo_banner_title.tr(),
+              message: LocaleKeys.auth_profile_photo_banner_message.tr(),
             ),
             SizedBox(height: normal),
             AuthUploadCard(
-              title: 'Profil fotografi',
-              description: 'Guncel fotografini secerek hesabinin gorunurlugunu guclendir.',
-              buttonLabel: widget.selectedPhoto == null ? 'Fotograf Sec' : 'Fotografi Degistir',
+              title: LocaleKeys.auth_profile_photo_title.tr(),
+              description: LocaleKeys.auth_profile_photo_description.tr(),
+              buttonLabel: widget.selectedPhoto == null
+                  ? LocaleKeys.auth_profile_photo_select.tr()
+                  : LocaleKeys.auth_profile_photo_change.tr(),
               emptyIcon: Icons.camera_alt_rounded,
               preview: widget.selectedPhoto != null
                   ? Image.file(
@@ -123,7 +128,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
             ),
             SizedBox(height: normal * 1.25),
             AuthPrimaryButton(
-              label: 'Degisiklikleri kaydet',
+              label: LocaleKeys.general_button_save_changes.tr(),
               icon: Icons.save_rounded,
               onPressed: _submit,
             ),
@@ -136,7 +141,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   Widget _buildNameField(BuildContext context) {
     return AuthTextField(
       controller: widget.nameController,
-      label: 'Ad',
+      label: LocaleKeys.general_form_name.tr(),
       icon: Icons.badge_outlined,
       validator: Validators.notEmpty,
       textInputAction: TextInputAction.next,
@@ -147,7 +152,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   Widget _buildSurnameField(BuildContext context) {
     return AuthTextField(
       controller: widget.surnameController,
-      label: 'Soyad',
+      label: LocaleKeys.general_form_surname.tr(),
       icon: Icons.person_outline_rounded,
       validator: Validators.notEmpty,
       textInputAction: TextInputAction.next,
@@ -158,7 +163,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   Widget _buildUsernameField(BuildContext context) {
     return AuthTextField(
       controller: widget.usernameController,
-      label: 'Kullanici adi',
+      label: LocaleKeys.general_form_username_lower.tr(),
       icon: Icons.alternate_email_rounded,
       validator: Validators.notEmpty,
       textInputAction: TextInputAction.next,
@@ -169,7 +174,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   Widget _buildEmailField(BuildContext context) {
     return AuthTextField(
       controller: widget.emailController,
-      label: 'Email',
+      label: LocaleKeys.general_form_email.tr(),
       icon: Icons.mail_outline_rounded,
       validator: Validators.email,
       keyboardType: TextInputType.emailAddress,

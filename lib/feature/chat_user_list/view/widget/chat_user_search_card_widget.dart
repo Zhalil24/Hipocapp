@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -27,14 +29,14 @@ class ChatUserSearchCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Kullanici ara',
+            LocaleKeys.chat_user_list_search_title.tr(),
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           SizedBox(height: low * 0.45),
           Text(
-            'Bir kullanici adi yazarak uygun sohbet kisilerini hizlica filtrele.',
+            LocaleKeys.chat_user_list_search_description.tr(),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
               height: 1.45,
@@ -46,7 +48,7 @@ class ChatUserSearchCardWidget extends StatelessWidget {
             onChanged: onChanged,
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
-              hintText: 'Kullanici ara',
+              hintText: LocaleKeys.chat_user_list_search_hint.tr(),
               prefixIcon: const Icon(Icons.search_rounded),
               suffixIcon: searchQuery.isNotEmpty
                   ? IconButton(

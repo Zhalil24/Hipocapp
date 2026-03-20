@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/drawer/view/drawer_view.dart';
@@ -14,6 +15,7 @@ import 'package:hipocapp/feature/home/view/widget/home_background_widget.dart';
 import 'package:hipocapp/feature/home/view/widget/search_bar_widget.dart';
 import 'package:hipocapp/feature/home/view_model/home_view_model.dart';
 import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/enums/content_type.dart';
@@ -45,10 +47,11 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
           ),
           Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: const CustomAppBar(title: 'Anasayfa'),
+            appBar: CustomAppBar(title: LocaleKeys.home_title.tr()),
             drawer: const DrawerView(),
             bottomNavigationBar: BottomNavigationBarWidget(
-              onItemSelected: (value) => homeViewModel.handleNavigation(context, value),
+              onItemSelected: (value) =>
+                  homeViewModel.handleNavigation(context, value),
             ),
             body: BlocBuilder<HomeViewModel, HomeViewState>(
               builder: (context, state) {
@@ -86,11 +89,10 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
             constraints: BoxConstraints(
               maxWidth: context.sized.width * 0.78,
             ),
-            child: const AppEmptyStateCard(
+            child: AppEmptyStateCard(
               icon: Icons.inbox_outlined,
-              title: 'Icerik bulunamadi',
-              message: 'Bu bolum icin gosterilecek icerik su anda hazir degil. '
-                  'Daha sonra yeniden kontrol edebilirsin.',
+              title: LocaleKeys.home_content_empty_title.tr(),
+              message: LocaleKeys.home_content_empty_message.tr(),
             ),
           ),
         ),
@@ -182,7 +184,9 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: context.sized.lowValue),
-      itemCount: state.isLastEntries ? (state.lastEntries?.length ?? 0) : (state.randomEntries?.length ?? 0),
+      itemCount: state.isLastEntries
+          ? (state.lastEntries?.length ?? 0)
+          : (state.randomEntries?.length ?? 0),
       itemBuilder: (ctx, i) {
         if (state.isLastEntries) {
           final entry = state.lastEntries![i];
@@ -191,7 +195,7 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
             title: entry.titleName ?? ' ',
             description: entry.entryDescription ?? ' ',
             userName: entry.userName,
-            date: 'Tarih: ${entry.date}',
+            date: entry.date ?? '',
             userId: entry.userId,
           );
         } else {
@@ -200,7 +204,7 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
             isHomeCard: true,
             title: entry.titleName ?? ' ',
             description: entry.description ?? ' ',
-            date: 'Tarih: ${entry.createDate}',
+            date: entry.createDate ?? '',
           );
         }
       },

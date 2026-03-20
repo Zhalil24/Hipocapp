@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
@@ -38,7 +40,7 @@ class DrawerTitlesWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Baslik akisi',
+                      LocaleKeys.drawer_titles_title.tr(),
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w800,
                       ),
@@ -46,8 +48,12 @@ class DrawerTitlesWidget extends StatelessWidget {
                     SizedBox(height: low * 0.45),
                     Text(
                       hasSelection
-                          ? '${selectedHeaderText!.trim()} icin guncel basliklari buradan acabilirsin.'
-                          : 'Bir alt kategori sectiginde ilgili basliklar burada listelenir.',
+                          ? LocaleKeys.drawer_titles_description_selected.tr(
+                              namedArgs: {
+                                'category': selectedHeaderText!.trim(),
+                              },
+                            )
+                          : LocaleKeys.drawer_titles_description_default.tr(),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                         height: 1.45,
@@ -94,7 +100,7 @@ class DrawerTitlesWidget extends StatelessWidget {
               children: titles.map((title) {
                 final titleName = title.name?.trim().isNotEmpty ?? false
                     ? title.name!.trim()
-                    : 'Baslik';
+                    : LocaleKeys.general_form_title.tr();
 
                 return Padding(
                   padding: EdgeInsets.only(bottom: low * 0.75),
@@ -148,7 +154,7 @@ class DrawerTitlesWidget extends StatelessWidget {
                                   ),
                                   SizedBox(height: low * 0.2),
                                   Text(
-                                    'Detay akisini ac ve entryleri tek ekranda takip et.',
+                                    LocaleKeys.drawer_titles_item_hint.tr(),
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       color: colorScheme.onSurfaceVariant,
                                     ),
@@ -220,7 +226,9 @@ class _EmptyTitlesState extends StatelessWidget {
           ),
           SizedBox(height: normal),
           Text(
-            hasSelection ? 'Baslik bekleniyor' : 'Ilk secimini yap',
+            hasSelection
+                ? LocaleKeys.drawer_empty_selected_title.tr()
+                : LocaleKeys.drawer_empty_default_title.tr(),
             textAlign: TextAlign.center,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w700,
@@ -229,8 +237,13 @@ class _EmptyTitlesState extends StatelessWidget {
           SizedBox(height: low * 0.55),
           Text(
             hasSelection
-                ? '${selectedHeaderText?.trim() ?? 'Bu kategori'} icin henuz bir baslik bulunmuyor. Yeni bir baslik ekleyerek akisi canlandirabilirsin.'
-                : 'Bir alt kategori sectiginde uygun basliklar burada otomatik olarak gosterilecek.',
+                ? LocaleKeys.drawer_empty_selected_message.tr(
+                    namedArgs: {
+                      'category': selectedHeaderText?.trim() ??
+                          LocaleKeys.general_fallback_selected_category.tr(),
+                    },
+                  )
+                : LocaleKeys.drawer_empty_default_message.tr(),
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,

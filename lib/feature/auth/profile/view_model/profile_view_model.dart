@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/state/profile_view_state.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
+import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/service/interface/entry_operation.dart';
 import 'package:hipocapp/product/service/interface/profile_operation.dart';
-import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
 import 'package:hipocapp/product/state/view_model/product_view_model.dart';
 import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
@@ -113,10 +115,15 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
         const HomeRoute(),
       ]);
     }
-    setServiceRespnonse('Başarıyla çıkış yapıldı');
+    setServiceRespnonse(LocaleKeys.auth_profile_logout_success.tr());
   }
 
-  Future<void> changePassword(String password, String newpassword, String newrepassword, int userId) async {
+  Future<void> changePassword(
+    String password,
+    String newpassword,
+    String newrepassword,
+    int userId,
+  ) async {
     _setLoading(true);
     final model = ChangePasswordModel(
       newpassword: newpassword,
@@ -137,10 +144,18 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   Future<void> deleteEntry(int id) async {
     _setLoading(true);
     final resp = await _entryOperation.deleteEntry(id);
-    final updatedEntries = List<EntryModel>.from(state.profileModel?.entries ?? []);
+    final updatedEntries = List<EntryModel>.from(
+      state.profileModel?.entries ?? [],
+    );
     updatedEntries.removeWhere((entry) => entry.id == id);
-    final updatedProfile = state.profileModel?.copyWith(entries: updatedEntries);
-    emit(state.copyWith(profileModel: updatedProfile, activeTab: ProfileTabType.entries));
+    final updatedProfile =
+        state.profileModel?.copyWith(entries: updatedEntries);
+    emit(
+      state.copyWith(
+        profileModel: updatedProfile,
+        activeTab: ProfileTabType.entries,
+      ),
+    );
     _setLoading(false);
     setServiceRespnonse(resp?.message);
   }

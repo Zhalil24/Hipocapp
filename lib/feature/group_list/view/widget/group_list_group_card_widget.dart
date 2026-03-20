@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:intl/intl.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
@@ -101,7 +103,7 @@ class GroupListGroupCardWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(context.sized.height),
                 ),
                 child: Text(
-                  'Acik kanal',
+                  LocaleKeys.general_status_open_channel.tr(),
                   style: theme.textTheme.labelMedium?.copyWith(
                     color: colorScheme.primary,
                     fontWeight: FontWeight.w700,
@@ -125,19 +127,21 @@ class GroupListGroupCardWidget extends StatelessWidget {
             spacing: low,
             runSpacing: low,
             children: [
-              const _MetaPill(
+              _MetaPill(
                 icon: Icons.forum_outlined,
-                label: 'Topluluk akisi',
+                label: LocaleKeys.group_list_card_chip_feed.tr(),
               ),
-              const _MetaPill(
+              _MetaPill(
                 icon: Icons.chat_bubble_outline_rounded,
-                label: 'Ortak sohbet',
+                label: LocaleKeys.group_list_card_chip_shared_chat.tr(),
               ),
               _MetaPill(
                 icon: isLoggedIn
                     ? Icons.how_to_reg_rounded
                     : Icons.lock_outline_rounded,
-                label: isLoggedIn ? 'Talep gonderebilirsin' : 'Giris gerekli',
+                label: isLoggedIn
+                    ? LocaleKeys.group_list_card_chip_request.tr()
+                    : LocaleKeys.group_list_card_chip_login_required.tr(),
               ),
             ],
           ),
@@ -163,10 +167,8 @@ class GroupListGroupCardWidget extends StatelessWidget {
                 Expanded(
                   child: Text(
                     isLoggedIn
-                        ? 'Uygun gordugun kanallara tek dokunusla katilim '
-                            'istegi gonderebilirsin.'
-                        : 'Bu kanala katilmak icin once hesabina giris '
-                            'yapman gerekiyor.',
+                        ? LocaleKeys.group_list_card_info_logged_in.tr()
+                        : LocaleKeys.group_list_card_info_logged_out.tr(),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                       height: 1.45,
@@ -185,7 +187,7 @@ class GroupListGroupCardWidget extends StatelessWidget {
                   await onJoinGroup(group.id!);
                 },
                 icon: const Icon(Icons.arrow_outward_rounded),
-                label: const Text('Kanala katil'),
+                label: Text(LocaleKeys.general_button_join_channel.tr()),
                 style: FilledButton.styleFrom(
                   minimumSize: Size.fromHeight(context.sized.height * 0.06),
                   shape: RoundedRectangleBorder(
@@ -202,14 +204,16 @@ class GroupListGroupCardWidget extends StatelessWidget {
 
   String get _groupName {
     final name = group.groupName?.trim();
-    if (name == null || name.isEmpty) return 'Isimsiz kanal';
+    if (name == null || name.isEmpty) {
+      return LocaleKeys.group_list_card_unnamed.tr();
+    }
     return name;
   }
 
   String get _description {
     final value = group.description?.trim();
     if (value == null || value.isEmpty) {
-      return 'Bu kanal icin henuz bir aciklama paylasilmamis.';
+      return LocaleKeys.group_list_card_default_description.tr();
     }
     return value;
   }
@@ -221,7 +225,9 @@ class GroupListGroupCardWidget extends StatelessWidget {
     final parsed = DateTime.tryParse(value);
     if (parsed == null) return null;
 
-    return 'Olusturuldu ${DateFormat('dd.MM.yyyy').format(parsed)}';
+    return LocaleKeys.group_list_card_created_on.tr(
+      namedArgs: {'date': DateFormat('dd.MM.yyyy').format(parsed)},
+    );
   }
 }
 

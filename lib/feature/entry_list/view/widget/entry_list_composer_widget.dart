@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
@@ -33,14 +35,14 @@ class EntryListComposerWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Yeni entry ekle',
+              LocaleKeys.entry_list_composer_title.tr(),
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w800,
               ),
             ),
             SizedBox(height: low * 0.75),
             Text(
-              'Bu basliga katkini net ve okunakli bir bicimde paylas.',
+              LocaleKeys.entry_list_composer_description.tr(),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurface.withValues(alpha: 0.70),
               ),
@@ -54,8 +56,7 @@ class EntryListComposerWidget extends StatelessWidget {
               maxLines: 8,
               textInputAction: TextInputAction.newline,
               decoration: InputDecoration(
-                hintText:
-                    'Bu baslik icin fikrini, deneyimini ya da notunu yaz...',
+                hintText: LocaleKeys.entry_list_composer_hint.tr(),
                 filled: true,
                 fillColor: colorScheme.surfaceContainerHighest.withValues(
                   alpha: isDark ? 0.30 : 0.58,
@@ -85,8 +86,7 @@ class EntryListComposerWidget extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Kisa, saygili ve konuya odakli paylasimlar daha '
-                    'iyi bir akis olusturur.',
+                    LocaleKeys.entry_list_composer_tip.tr(),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colorScheme.onSurface.withValues(alpha: 0.64),
                       height: 1.45,
@@ -97,7 +97,7 @@ class EntryListComposerWidget extends StatelessWidget {
                 FilledButton.icon(
                   onPressed: onSubmit,
                   icon: const Icon(Icons.send_rounded),
-                  label: const Text('Paylas'),
+                  label: Text(LocaleKeys.general_button_share.tr()),
                   style: FilledButton.styleFrom(
                     minimumSize: Size(
                       context.sized.width * 0.24,

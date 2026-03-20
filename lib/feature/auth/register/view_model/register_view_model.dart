@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/register/view_model/state/register_view_state.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/service/interface/authentication_operation.dart';
 import 'package:hipocapp/product/service/interface/degree_operation.dart';
@@ -115,7 +117,7 @@ final class RegisterViewModel extends BaseCubit<RegisterViewState> {
       return true;
     } else {
       changeLoading();
-      setServiceRespnonse('Tekrar Deneyiniz');
+      setServiceRespnonse(LocaleKeys.validation_try_again.tr());
       return false;
     }
   }

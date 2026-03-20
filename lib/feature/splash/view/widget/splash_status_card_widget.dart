@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -46,7 +48,7 @@ class SplashStatusCardWidget extends StatelessWidget {
                 ),
                 SizedBox(width: low),
                 Text(
-                  'Hazirlaniyor',
+                  LocaleKeys.splash_status_preparing.tr(),
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: colorScheme.primary,
                     fontWeight: FontWeight.w700,
@@ -57,7 +59,7 @@ class SplashStatusCardWidget extends StatelessWidget {
           ),
           SizedBox(height: normal * 1.2),
           Text(
-            'Seni uygun acilis akisina yonlendiriyoruz.',
+            LocaleKeys.splash_status_title.tr(),
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w800,
               height: 1.1,
@@ -65,8 +67,7 @@ class SplashStatusCardWidget extends StatelessWidget {
           ),
           SizedBox(height: low * 1.2),
           Text(
-            'Kayitli tercihlerin ve karsilama adimlarin kontrol ediliyor. '
-            'Tamamlandiginda bir sonraki ekrana otomatik gecis yapilacak.',
+            LocaleKeys.splash_status_description.tr(),
             style: theme.textTheme.bodyLarge?.copyWith(
               color: colorScheme.onSurface.withValues(alpha: 0.72),
               height: 1.5,
@@ -83,31 +84,28 @@ class SplashStatusCardWidget extends StatelessWidget {
           ),
           SizedBox(height: normal * 1.15),
           Text(
-            'Su anda yapilanlar',
+            LocaleKeys.splash_current_steps_title.tr(),
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w700,
             ),
           ),
           SizedBox(height: low * 1.2),
-          const _SplashStatusTile(
+          _SplashStatusTile(
             icon: Icons.color_lens_outlined,
-            title: 'Tema tercihi yukleniyor',
-            description:
-                'Kayitli gorunum secimin uygulama geneline aktariliyor.',
+            title: LocaleKeys.splash_step_theme_title.tr(),
+            description: LocaleKeys.splash_step_theme_description.tr(),
           ),
           SizedBox(height: low),
-          const _SplashStatusTile(
+          _SplashStatusTile(
             icon: Icons.route_outlined,
-            title: 'Karsilama akisi kontrol ediliyor',
-            description:
-                'Onboarding gerekip gerekmedigi sessizce belirleniyor.',
+            title: LocaleKeys.splash_step_flow_title.tr(),
+            description: LocaleKeys.splash_step_flow_description.tr(),
           ),
           SizedBox(height: low),
-          const _SplashStatusTile(
+          _SplashStatusTile(
             icon: Icons.dashboard_customize_outlined,
-            title: 'Ana deneyim hazirlaniyor',
-            description:
-                'Seni bir sonraki uygun sayfaya temiz bir gecisle tasiyoruz.',
+            title: LocaleKeys.splash_step_experience_title.tr(),
+            description: LocaleKeys.splash_step_experience_description.tr(),
           ),
         ],
       ),
@@ -137,8 +135,9 @@ class _SplashStatusTile extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(low * 1.2),
       decoration: BoxDecoration(
-        color: colorScheme.surfaceContainerHighest
-            .withValues(alpha: isDark ? 0.42 : 0.58),
+        color: colorScheme.surfaceContainerHighest.withValues(
+          alpha: isDark ? 0.42 : 0.58,
+        ),
         borderRadius: BorderRadius.circular(normal * 0.95),
         border: Border.all(
           color: colorScheme.outline.withValues(alpha: 0.12),

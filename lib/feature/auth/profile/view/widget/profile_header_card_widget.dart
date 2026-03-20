@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
+import 'package:hipocapp/product/init/product_localization.dart';
+import 'package:hipocapp/product/utility/enums/locales.dart';
 import 'package:hipocapp/product/widget/circle_avatar/custom_circle_avatar.dart';
 import 'package:hipocapp/product/state/view_model/prodcut_state.dart';
 import 'package:hipocapp/product/state/view_model/product_view_model.dart';
@@ -35,8 +39,10 @@ class ProfileHeaderCardWidget extends StatelessWidget {
           final profileSummary = _ProfileSummary(
             displayName: displayName,
             handle: '@${profileModel?.username ?? 'hipocapp'}',
-            email: profileModel?.email ?? 'Mail bilgisi eklenmedi',
-            degree: profileModel?.degreeModel?.degreeName ?? 'Topluluk uyesi',
+            email: profileModel?.email ??
+                LocaleKeys.general_fallback_email_not_added.tr(),
+            degree: profileModel?.degreeModel?.degreeName ??
+                LocaleKeys.general_fallback_community_member.tr(),
             entryCount: entryCount,
             selectedPhoto: selectedPhoto,
             imageUrl: profileModel?.photoURL ?? '',
@@ -73,7 +79,9 @@ class ProfileHeaderCardWidget extends StatelessWidget {
     final name = profileModel?.name?.trim() ?? '';
     final surname = profileModel?.surname?.trim() ?? '';
     final fullName = '$name $surname'.trim();
-    return fullName.isEmpty ? 'Profilini tamamla' : fullName;
+    return fullName.isEmpty
+        ? LocaleKeys.auth_profile_display_name_fallback.tr()
+        : fullName;
   }
 }
 
@@ -128,7 +136,8 @@ class _ProfileSummary extends StatelessWidget {
                   : CustomCircleAvatar(
                       imageURL: imageUrl,
                       radius: context.sized.height * 0.055,
-                      backgroundColor: colorScheme.primary.withValues(alpha: 0.12),
+                      backgroundColor:
+                          colorScheme.primary.withValues(alpha: 0.12),
                       icon: Icons.person_outline_rounded,
                     ),
             ),
@@ -174,7 +183,9 @@ class _ProfileSummary extends StatelessWidget {
             ),
             _ProfileMetricChip(
               icon: Icons.auto_stories_rounded,
-              label: '$entryCount entry',
+              label: LocaleKeys.general_count_entry.tr(
+                namedArgs: {'count': '$entryCount'},
+              ),
             ),
           ],
         ),
@@ -196,6 +207,10 @@ class _ProfileQuickActions extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final normal = context.sized.normalValue;
     final low = context.sized.lowValue;
+    final selectedLocale =
+        context.locale.languageCode == Locales.en.locale.languageCode
+            ? Locales.en
+            : Locales.tr;
 
     return Container(
       padding: EdgeInsets.all(normal),
@@ -210,14 +225,14 @@ class _ProfileQuickActions extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hizli ayarlar',
+            LocaleKeys.auth_profile_quick_settings_title.tr(),
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w700,
             ),
           ),
           SizedBox(height: low * 0.55),
           Text(
-            'Tema modunu degistir veya hesabindan guvenli sekilde cikis yap.',
+            LocaleKeys.auth_profile_quick_settings_description.tr(),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
               height: 1.4,
@@ -232,16 +247,16 @@ class _ProfileQuickActions extends StatelessWidget {
                   : ThemeMode.light;
 
               return SegmentedButton<ThemeMode>(
-                segments: const [
+                segments: [
                   ButtonSegment(
                     value: ThemeMode.light,
-                    icon: Icon(Icons.light_mode_rounded),
-                    label: Text('Acik'),
+                    icon: const Icon(Icons.light_mode_rounded),
+                    label: Text(LocaleKeys.general_theme_light.tr()),
                   ),
                   ButtonSegment(
                     value: ThemeMode.dark,
-                    icon: Icon(Icons.dark_mode_rounded),
-                    label: Text('Koyu'),
+                    icon: const Icon(Icons.dark_mode_rounded),
+                    label: Text(LocaleKeys.general_theme_dark.tr()),
                   ),
                 ],
                 selected: {selectedMode},
@@ -267,12 +282,62 @@ class _ProfileQuickActions extends StatelessWidget {
             },
           ),
           SizedBox(height: normal),
+          Text(
+            LocaleKeys.general_language_title.tr(),
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: low * 0.55),
+          Text(
+            LocaleKeys.general_language_description.tr(),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              height: 1.4,
+            ),
+          ),
+          SizedBox(height: normal),
+          SegmentedButton<Locales>(
+            segments: [
+              ButtonSegment(
+                value: Locales.tr,
+                icon: const Icon(Icons.translate_rounded),
+                label: Text(LocaleKeys.terms_language_tr.tr()),
+              ),
+              ButtonSegment(
+                value: Locales.en,
+                icon: const Icon(Icons.language_rounded),
+                label: Text(LocaleKeys.terms_language_en.tr()),
+              ),
+            ],
+            selected: {selectedLocale},
+            onSelectionChanged: (values) async {
+              await ProductLocalization.updateLanguage(
+                context: context,
+                value: values.first,
+              );
+            },
+            style: ButtonStyle(
+              visualDensity: VisualDensity.compact,
+              side: WidgetStatePropertyAll(
+                BorderSide(
+                  color: colorScheme.outline.withValues(alpha: 0.22),
+                ),
+              ),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(normal),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: normal),
           SizedBox(
             width: double.infinity,
             child: FilledButton.tonalIcon(
               onPressed: onLogout,
               icon: const Icon(Icons.logout_rounded),
-              label: const Text('Guvenli cikis yap'),
+              label: Text(LocaleKeys.general_button_secure_logout.tr()),
               style: FilledButton.styleFrom(
                 minimumSize: Size.fromHeight(context.sized.height * 0.062),
                 shape: RoundedRectangleBorder(

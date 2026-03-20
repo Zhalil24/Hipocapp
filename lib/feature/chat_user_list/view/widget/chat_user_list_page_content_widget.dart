@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/chat_user_list_header_card_widget.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/chat_user_search_card_widget.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/group_list_widget.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/user_list_widget.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/feature/chat_user_list/view_model/state/chat_user_list_view_state.dart';
 import 'package:hipocapp/product/utility/enums/chat_tab_type.dart';
 import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
@@ -117,7 +119,7 @@ class ChatUserListPageContentWidget extends StatelessWidget {
                   const CustomLoader(),
                   SizedBox(height: context.sized.normalValue),
                   Text(
-                    'Sohbet akisi hazirlaniyor',
+                    LocaleKeys.chat_user_list_loading.tr(),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
@@ -137,13 +139,14 @@ class ChatUserListPageContentWidget extends StatelessWidget {
             context: context,
             icon: Icons.person_search_rounded,
             title: state.searchQuery.isNotEmpty
-                ? 'Eslesen kullanici yok'
-                : 'Henuz kullanici listelenmiyor',
+                ? LocaleKeys.chat_user_list_empty_search_title.tr()
+                : LocaleKeys.chat_user_list_empty_users_title.tr(),
             message: state.searchQuery.isNotEmpty
-                ? 'Aramani biraz sadeletip tekrar denersen daha fazla kisi gorebilirsin.'
-                : 'Topluluktaki yeni kisiler burada gorunecek.',
-            actionLabel:
-                state.searchQuery.isNotEmpty ? 'Aramayi temizle' : null,
+                ? LocaleKeys.chat_user_list_empty_search_message.tr()
+                : LocaleKeys.chat_user_list_empty_users_message.tr(),
+            actionLabel: state.searchQuery.isNotEmpty
+                ? LocaleKeys.general_button_clear_search.tr()
+                : null,
             onAction: state.searchQuery.isNotEmpty
                 ? () {
                     searchController.clear();
@@ -164,7 +167,8 @@ class ChatUserListPageContentWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               final profile = users[index];
               return UserListWidget(
-                username: profile.username ?? 'Bilinmeyen kullanici',
+                username: profile.username ??
+                    LocaleKeys.general_fallback_unknown_user.tr(),
                 photoURL: profile.photoURL ?? '',
                 isOnline: profile.isOnline,
                 onTap: () async {
@@ -179,9 +183,8 @@ class ChatUserListPageContentWidget extends StatelessWidget {
           return _buildEmptyState(
             context: context,
             icon: Icons.chat_bubble_outline_rounded,
-            title: 'Henuz bir sohbet baslatilmamis',
-            message:
-                'Konustugun kisiler burada toplanir. Yeni bir sohbet baslatmak icin kullanicilar sekmesine gecebilirsin.',
+            title: LocaleKeys.chat_user_list_empty_conversations_title.tr(),
+            message: LocaleKeys.chat_user_list_empty_conversations_message.tr(),
           );
         }
         return SliverPadding(
@@ -199,7 +202,8 @@ class ChatUserListPageContentWidget extends StatelessWidget {
               return UserListWidget(
                 unreadMessageCount: unreadCount,
                 isOnline: profile.isOnline,
-                username: profile.username ?? 'Bilinmeyen kullanici',
+                username: profile.username ??
+                    LocaleKeys.general_fallback_unknown_user.tr(),
                 photoURL: profile.photoURL ?? '',
                 onTap: () async {
                   await onRecentChatSelected(profile);
@@ -213,8 +217,8 @@ class ChatUserListPageContentWidget extends StatelessWidget {
           return _buildEmptyState(
             context: context,
             icon: Icons.groups_outlined,
-            title: 'Henuz grup bulunmuyor',
-            message: 'Katilim sagladigin topluluk odalari burada listelenecek.',
+            title: LocaleKeys.chat_user_list_empty_groups_title.tr(),
+            message: LocaleKeys.chat_user_list_empty_groups_message.tr(),
           );
         }
         return SliverPadding(
@@ -274,11 +278,11 @@ class ChatUserListPageContentWidget extends StatelessWidget {
   String _tabLabel(ChatTabType tab) {
     switch (tab) {
       case ChatTabType.users:
-        return 'Kisiler';
+        return LocaleKeys.chat_user_list_tab_users.tr();
       case ChatTabType.pastMessages:
-        return 'Sohbetler';
+        return LocaleKeys.chat_user_list_tab_past_messages.tr();
       case ChatTabType.groups:
-        return 'Gruplar';
+        return LocaleKeys.chat_user_list_tab_groups.tr();
     }
   }
 

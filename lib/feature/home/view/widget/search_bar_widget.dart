@@ -1,29 +1,33 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
+import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/utility/constans/search_bar/serarch_bar_constants.dart';
 import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
-import 'package:auto_route/auto_route.dart';
-import 'package:gen/gen.dart';
-import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 
 class SearchBarWidget extends HookWidget {
+  const SearchBarWidget(
+    this.onChanged,
+    this.controller,
+    this.titles,
+    this.isLoading, {
+    super.key,
+  });
+
   final ValueChanged<String> onChanged;
   final TextEditingController controller;
   final List<TitleModel> titles;
   final bool isLoading;
 
-  const SearchBarWidget(
-    this.onChanged,
-    this.controller,
-    this.titles,
-    this.isLoading,
-  );
-
   @override
   Widget build(BuildContext context) {
-    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
@@ -32,7 +36,7 @@ class SearchBarWidget extends HookWidget {
         : Colors.white.withValues(alpha: 0.74);
 
     return FloatingSearchBar(
-      hint: 'Başlık veya içerik ara...',
+      hint: LocaleKeys.home_search_hint.tr(),
       backgroundColor: colorScheme.surface,
       hintStyle: TextStyle(
         color: colorScheme.onSurfaceVariant,
@@ -50,9 +54,13 @@ class SearchBarWidget extends HookWidget {
       transitionDuration: SearchBarConstants.searchBarTransitionDuration,
       transitionCurve: Curves.easeInOut,
       physics: const BouncingScrollPhysics(),
-      axisAlignment: isPortrait ? SearchBarConstants.searchBarAxisAlignmentPortrait : SearchBarConstants.searchBarAxisAlignmentLandscape,
+      axisAlignment: isPortrait
+          ? SearchBarConstants.searchBarAxisAlignmentPortrait
+          : SearchBarConstants.searchBarAxisAlignmentLandscape,
       openAxisAlignment: SearchBarConstants.searchBarOpenAxisAlignment,
-      width: isPortrait ? SearchBarConstants.searchBarWidthPortrait : SearchBarConstants.searchBarWidthLandscape,
+      width: isPortrait
+          ? SearchBarConstants.searchBarWidthPortrait
+          : SearchBarConstants.searchBarWidthLandscape,
       debounceDelay: SearchBarConstants.searchBarDebounceDelay,
       onQueryChanged: onChanged,
       transition: CircularFloatingSearchBarTransition(),
@@ -98,7 +106,8 @@ class SearchBarWidget extends HookWidget {
             ],
           ),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * SearchBarConstants.searchBarListHeightFactor,
+            height: MediaQuery.of(context).size.height *
+                SearchBarConstants.searchBarListHeightFactor,
             child: ListView.separated(
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
@@ -108,7 +117,6 @@ class SearchBarWidget extends HookWidget {
                 height: SearchBarConstants.dividerHeight,
                 thickness: SearchBarConstants.dividerThickness,
                 color: colorScheme.surfaceContainerHighest,
-                //margin: EdgeInsets.zero,
               ),
               itemBuilder: (context, index) {
                 final title = titles[index];
@@ -146,7 +154,7 @@ class SearchBarWidget extends HookWidget {
           ),
         ),
         title: Text(
-          title.name ?? 'İçerik Bulunamadı',
+          title.name ?? LocaleKeys.home_search_result_missing.tr(),
           style: TextStyle(
             fontSize: context.sized.normalValue * 0.95,
             fontWeight: FontWeight.w500,

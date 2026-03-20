@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 
 class LoginHeroPanelWidget extends StatelessWidget {
@@ -18,7 +20,8 @@ class LoginHeroPanelWidget extends StatelessWidget {
     final low = context.sized.lowValue;
     final normal = context.sized.normalValue;
     final panelPadding = isCompact ? normal * 1.5 : normal * 2;
-    final logoSize = isCompact ? context.sized.height * 0.07 : context.sized.height * 0.09;
+    final logoSize =
+        isCompact ? context.sized.height * 0.07 : context.sized.height * 0.09;
     final sectionGap = isCompact ? normal * 1.5 : normal * 2.25;
 
     return Container(
@@ -71,7 +74,7 @@ class LoginHeroPanelWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(context.sized.height),
                 ),
                 child: Text(
-                  'Hipo topluluguna giris',
+                  LocaleKeys.auth_login_hero_badge.tr(),
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
@@ -82,7 +85,7 @@ class LoginHeroPanelWidget extends StatelessWidget {
           ),
           SizedBox(height: sectionGap),
           Text(
-            'Son kaldigin yerden devam et.',
+            LocaleKeys.auth_login_hero_title.tr(),
             style: theme.textTheme.headlineMedium?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w800,
@@ -91,29 +94,30 @@ class LoginHeroPanelWidget extends StatelessWidget {
           ),
           SizedBox(height: low * 1.5),
           Text(
-            'Basliklarini takip et, yeni icerikleri kesfet ve toplulukla ayni akista kal.',
+            LocaleKeys.auth_login_hero_description.tr(),
             style: theme.textTheme.titleMedium?.copyWith(
               color: Colors.white.withValues(alpha: 0.84),
               height: 1.45,
             ),
           ),
           SizedBox(height: isCompact ? normal * 1.5 : normal * 2),
-          const _HeroFeatureTile(
+          _HeroFeatureTile(
             icon: Icons.auto_awesome_rounded,
-            title: 'Daha temiz akis',
-            description: 'Icerik, grup ve mesaj deneyimi tek yerden devam eder.',
+            title: LocaleKeys.auth_login_feature_clean_title.tr(),
+            description: LocaleKeys.auth_login_feature_clean_description.tr(),
           ),
           SizedBox(height: low * 1.75),
-          const _HeroFeatureTile(
+          _HeroFeatureTile(
             icon: Icons.groups_2_rounded,
-            title: 'Topluluk odakli',
-            description: 'Gundem, sohbet ve etkilesimler giristen sonra sana gore sekillenir.',
+            title: LocaleKeys.auth_login_feature_community_title.tr(),
+            description:
+                LocaleKeys.auth_login_feature_community_description.tr(),
           ),
           SizedBox(height: low * 1.75),
-          const _HeroFeatureTile(
+          _HeroFeatureTile(
             icon: Icons.shield_rounded,
-            title: 'Guvenli erisim',
-            description: 'Hesabin ve kisisel akisin mevcut oturum mantigiyla korunur.',
+            title: LocaleKeys.auth_login_feature_secure_title.tr(),
+            description: LocaleKeys.auth_login_feature_secure_description.tr(),
           ),
         ],
       ),

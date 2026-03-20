@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
@@ -44,19 +46,20 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const AuthFormHeader(
-              title: 'Parolani yenile',
-              description: 'Hesabinin guvenligini korumak icin mevcut parolani dogrula ve yeni parolani belirle.',
+            AuthFormHeader(
+              title: LocaleKeys.auth_profile_change_password_title.tr(),
+              description:
+                  LocaleKeys.auth_profile_change_password_description.tr(),
             ),
             SizedBox(height: normal * 1.2),
-            const AuthInfoBanner(
-              title: 'Guvenlik ipucu',
-              message: 'Yeni sifreni daha once kullanmadigin, tahmin edilmesi zor ve sana ozel bir kombinasyonla belirle.',
+            AuthInfoBanner(
+              title: LocaleKeys.auth_profile_security_tip_title.tr(),
+              message: LocaleKeys.auth_profile_security_tip_message.tr(),
             ),
             SizedBox(height: normal * 1.2),
             AuthTextField(
               controller: widget.passwordChangeController,
-              label: 'Mevcut sifre',
+              label: LocaleKeys.general_form_current_password.tr(),
               icon: Icons.lock_clock_rounded,
               obscureText: _obscureCurrentPassword,
               validator: Validators.notEmpty,
@@ -73,7 +76,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             SizedBox(height: normal),
             AuthTextField(
               controller: widget.newPasswordChangeController,
-              label: 'Yeni sifre',
+              label: LocaleKeys.general_form_new_password.tr(),
               icon: Icons.lock_outline_rounded,
               obscureText: _obscureNewPassword,
               validator: Validators.notEmpty,
@@ -91,7 +94,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: low * 0.25),
               child: Text(
-                'Parolan en az 8 karakter, buyuk-kucuk harf ve sayi kombinasyonu icermelidir.',
+                LocaleKeys.general_info_password_requirements_short.tr(),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                       height: 1.4,
@@ -101,7 +104,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             SizedBox(height: normal),
             AuthTextField(
               controller: widget.newPasswordReChangeController,
-              label: 'Yeni sifre tekrar',
+              label: LocaleKeys.general_form_new_password_repeat.tr(),
               icon: Icons.verified_user_outlined,
               obscureText: _obscureRepeatPassword,
               validator: (value) {
@@ -110,7 +113,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                 return Validators.match(
                   value,
                   widget.newPasswordChangeController.text,
-                  'Yeni sifre',
+                  LocaleKeys.general_form_new_password.tr(),
                 );
               },
               textInputAction: TextInputAction.done,
@@ -126,7 +129,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             ),
             SizedBox(height: normal * 1.25),
             AuthPrimaryButton(
-              label: 'Parolayi guncelle',
+              label: LocaleKeys.general_button_update_password.tr(),
               icon: Icons.shield_rounded,
               onPressed: _submit,
             ),

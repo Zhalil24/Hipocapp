@@ -1,5 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
+import 'package:hipocapp/product/init/product_localization.dart';
+import 'package:hipocapp/product/utility/enums/locales.dart';
 import 'package:hipocapp/product/widget/terms_popup/terms_popup_widget.dart';
 import 'package:kartal/kartal.dart';
 
@@ -23,6 +27,10 @@ class CustomDrawerHeader extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final normal = context.sized.normalValue;
     final low = context.sized.lowValue;
+    final selectedLocale =
+        context.locale.languageCode == Locales.en.locale.languageCode
+            ? Locales.en
+            : Locales.tr;
     final heroGradient = LinearGradient(
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
@@ -73,7 +81,7 @@ class CustomDrawerHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'HipocApp Drawer',
+                      LocaleKeys.drawer_header_title.tr(),
                       style: theme.textTheme.titleLarge?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w800,
@@ -82,8 +90,11 @@ class CustomDrawerHeader extends StatelessWidget {
                     SizedBox(height: low * 0.4),
                     Text(
                       isLoggedIn
-                          ? 'Hos geldin ${_displayName(userName)}, akisini hizlica sekillendir.'
-                          : 'Kesfet, kategori sec ve ilgini ceken basliklara tek yerden ulas.',
+                          ? LocaleKeys.drawer_header_description_logged_in.tr(
+                              namedArgs: {'user': _displayName(userName)},
+                            )
+                          : LocaleKeys.drawer_header_description_logged_out
+                              .tr(),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.white.withValues(alpha: 0.84),
                         height: 1.4,
@@ -103,11 +114,13 @@ class CustomDrawerHeader extends StatelessWidget {
                 icon: isLoggedIn
                     ? Icons.verified_user_rounded
                     : Icons.explore_rounded,
-                label: isLoggedIn ? 'Uye modu' : 'Misafir modu',
+                label: isLoggedIn
+                    ? LocaleKeys.drawer_badge_member_mode.tr()
+                    : LocaleKeys.drawer_badge_guest_mode.tr(),
               ),
               _HeaderBadge(
                 icon: Icons.grid_view_rounded,
-                label: 'Hizli kategori secimi',
+                label: LocaleKeys.drawer_badge_quick_category.tr(),
               ),
             ],
           ),
@@ -125,7 +138,7 @@ class CustomDrawerHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Tema tercihleri',
+                  LocaleKeys.drawer_theme_title.tr(),
                   style: theme.textTheme.titleMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
@@ -133,7 +146,7 @@ class CustomDrawerHeader extends StatelessWidget {
                 ),
                 SizedBox(height: low * 0.55),
                 Text(
-                  'Drawer deneyimini aninda acik veya koyu moda uyarlayabilirsin.',
+                  LocaleKeys.drawer_theme_description.tr(),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: Colors.white.withValues(alpha: 0.78),
                     height: 1.35,
@@ -141,16 +154,16 @@ class CustomDrawerHeader extends StatelessWidget {
                 ),
                 SizedBox(height: normal),
                 SegmentedButton<ThemeMode>(
-                  segments: const [
+                  segments: [
                     ButtonSegment(
                       value: ThemeMode.light,
-                      icon: Icon(Icons.light_mode_rounded),
-                      label: Text('Acik'),
+                      icon: const Icon(Icons.light_mode_rounded),
+                      label: Text(LocaleKeys.general_theme_light.tr()),
                     ),
                     ButtonSegment(
                       value: ThemeMode.dark,
-                      icon: Icon(Icons.dark_mode_rounded),
-                      label: Text('Koyu'),
+                      icon: const Icon(Icons.dark_mode_rounded),
+                      label: Text(LocaleKeys.general_theme_dark.tr()),
                     ),
                   ],
                   selected: {
@@ -160,6 +173,68 @@ class CustomDrawerHeader extends StatelessWidget {
                   },
                   onSelectionChanged: (values) {
                     onThemeChanged(values.first);
+                  },
+                  style: ButtonStyle(
+                    visualDensity: VisualDensity.compact,
+                    foregroundColor: WidgetStatePropertyAll(
+                      Colors.white.withValues(alpha: 0.92),
+                    ),
+                    side: WidgetStatePropertyAll(
+                      BorderSide(
+                        color: Colors.white.withValues(alpha: 0.24),
+                      ),
+                    ),
+                    backgroundColor: WidgetStateProperty.resolveWith(
+                      (states) {
+                        if (states.contains(WidgetState.selected)) {
+                          return Colors.white.withValues(alpha: 0.18);
+                        }
+                        return Colors.white.withValues(alpha: 0.05);
+                      },
+                    ),
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(normal),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: normal),
+                Text(
+                  LocaleKeys.general_language_title.tr(),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(height: low * 0.55),
+                Text(
+                  LocaleKeys.general_language_description.tr(),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.78),
+                    height: 1.35,
+                  ),
+                ),
+                SizedBox(height: normal),
+                SegmentedButton<Locales>(
+                  segments: [
+                    ButtonSegment(
+                      value: Locales.tr,
+                      icon: const Icon(Icons.translate_rounded),
+                      label: Text(LocaleKeys.terms_language_tr.tr()),
+                    ),
+                    ButtonSegment(
+                      value: Locales.en,
+                      icon: const Icon(Icons.language_rounded),
+                      label: Text(LocaleKeys.terms_language_en.tr()),
+                    ),
+                  ],
+                  selected: {selectedLocale},
+                  onSelectionChanged: (values) async {
+                    await ProductLocalization.updateLanguage(
+                      context: context,
+                      value: values.first,
+                    );
                   },
                   style: ButtonStyle(
                     visualDensity: VisualDensity.compact,
@@ -200,7 +275,7 @@ class CustomDrawerHeader extends StatelessWidget {
                 );
               },
               icon: const Icon(Icons.description_outlined),
-              label: const Text('KVKK ve kosullar'),
+              label: Text(LocaleKeys.drawer_terms_button.tr()),
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.white,
                 side: BorderSide(
@@ -220,7 +295,9 @@ class CustomDrawerHeader extends StatelessWidget {
 
   String _displayName(String? value) {
     final trimmed = value?.trim() ?? '';
-    return trimmed.isEmpty ? 'Hipo dostu' : trimmed;
+    return trimmed.isEmpty
+        ? LocaleKeys.general_fallback_hipo_friend.tr()
+        : trimmed;
   }
 }
 

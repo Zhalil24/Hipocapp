@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/utility/enums/chat_tab_type.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
@@ -85,15 +87,21 @@ class ChatUserListHeaderCardWidget extends StatelessWidget {
             children: [
               _MetricChip(
                 icon: Icons.people_alt_rounded,
-                label: '$usersCount kisi',
+                label: LocaleKeys.general_count_person.tr(
+                  namedArgs: {'count': '$usersCount'},
+                ),
               ),
               _MetricChip(
                 icon: Icons.forum_rounded,
-                label: '$conversationCount sohbet',
+                label: LocaleKeys.general_count_conversation.tr(
+                  namedArgs: {'count': '$conversationCount'},
+                ),
               ),
               _MetricChip(
                 icon: Icons.groups_rounded,
-                label: '$groupCount grup',
+                label: LocaleKeys.general_count_group.tr(
+                  namedArgs: {'count': '$groupCount'},
+                ),
               ),
             ],
           ),
@@ -119,7 +127,9 @@ class ChatUserListHeaderCardWidget extends StatelessWidget {
                   SizedBox(width: low * 0.75),
                   Expanded(
                     child: Text(
-                      '$unreadTotal okunmamis mesaj seni bekliyor.',
+                      LocaleKeys.general_count_unread_messages.tr(
+                        namedArgs: {'count': '$unreadTotal'},
+                      ),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colorScheme.primary,
                         fontWeight: FontWeight.w700,
@@ -138,22 +148,22 @@ class ChatUserListHeaderCardWidget extends StatelessWidget {
   String _titleFor(ChatTabType tab) {
     switch (tab) {
       case ChatTabType.users:
-        return 'Topluluktaki kisiler';
+        return LocaleKeys.chat_user_list_header_users_title.tr();
       case ChatTabType.pastMessages:
-        return 'Devam eden sohbetler';
+        return LocaleKeys.chat_user_list_header_past_messages_title.tr();
       case ChatTabType.groups:
-        return 'Gruplar ve odalar';
+        return LocaleKeys.chat_user_list_header_groups_title.tr();
     }
   }
 
   String _descriptionFor(ChatTabType tab) {
     switch (tab) {
       case ChatTabType.users:
-        return 'Yeni bir sohbet baslatmak icin uygun kisiyi sec ve aninda mesaja gec.';
+        return LocaleKeys.chat_user_list_header_users_description.tr();
       case ChatTabType.pastMessages:
-        return 'Son konusmalarini tek ekranda takip et, okunmamis mesajlari hizlica yakala.';
+        return LocaleKeys.chat_user_list_header_past_messages_description.tr();
       case ChatTabType.groups:
-        return 'Dahil oldugun topluluk odalarina katil ve ortak sohbetleri kesintisiz surdur.';
+        return LocaleKeys.chat_user_list_header_groups_description.tr();
     }
   }
 

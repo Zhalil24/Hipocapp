@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:kartal/kartal.dart';
 
@@ -61,14 +63,14 @@ class _InputDialogWidgetState extends State<InputDialogWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Yeni baslik olustur',
+            LocaleKeys.drawer_input_dialog_title.tr(),
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           SizedBox(height: low * 0.45),
           Text(
-            'Dusunceni net bir baslik ve aciklayici bir ilk entry ile baslat.',
+            LocaleKeys.drawer_input_dialog_description.tr(),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
               height: 1.4,
@@ -108,11 +110,10 @@ class _InputDialogWidgetState extends State<InputDialogWidget> {
                 validator: Validators.notEmpty,
                 autofocus: true,
                 textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(
-                  labelText: 'Baslik',
-                  hintText:
-                      'Ornek: Anatomi notlarini en verimli nasil calisirim?',
-                  prefixIcon: Icon(Icons.title_rounded),
+                decoration: InputDecoration(
+                  labelText: LocaleKeys.general_form_title.tr(),
+                  hintText: LocaleKeys.drawer_input_dialog_title_hint.tr(),
+                  prefixIcon: const Icon(Icons.title_rounded),
                 ),
               ),
               SizedBox(height: normal),
@@ -123,12 +124,11 @@ class _InputDialogWidgetState extends State<InputDialogWidget> {
                 keyboardType: TextInputType.multiline,
                 minLines: 6,
                 maxLines: 10,
-                decoration: const InputDecoration(
-                  labelText: 'Ilk entry',
-                  hintText:
-                      'Konuyu baslatan kisa ama aciklayici bir giris yaz...',
+                decoration: InputDecoration(
+                  labelText: LocaleKeys.general_form_first_entry.tr(),
+                  hintText: LocaleKeys.drawer_input_dialog_entry_hint.tr(),
                   alignLabelWithHint: true,
-                  prefixIcon: Icon(Icons.notes_rounded),
+                  prefixIcon: const Icon(Icons.notes_rounded),
                 ),
               ),
             ],
@@ -144,7 +144,7 @@ class _InputDialogWidgetState extends State<InputDialogWidget> {
                   widget.descController.clear();
                   Navigator.of(context).pop();
                 },
-          child: const Text('Vazgec'),
+          child: Text(LocaleKeys.general_button_cancel.tr()),
         ),
         FilledButton.icon(
           onPressed: _isSubmitting ? null : _submit,
@@ -160,7 +160,11 @@ class _InputDialogWidgetState extends State<InputDialogWidget> {
                   ),
                 )
               : const Icon(Icons.send_rounded),
-          label: Text(_isSubmitting ? 'Gonderiliyor' : 'Gonder'),
+          label: Text(
+            _isSubmitting
+                ? LocaleKeys.general_button_sending.tr()
+                : LocaleKeys.general_button_send.tr(),
+          ),
           style: FilledButton.styleFrom(
             minimumSize: Size.fromHeight(context.sized.height * 0.058),
             shape: RoundedRectangleBorder(

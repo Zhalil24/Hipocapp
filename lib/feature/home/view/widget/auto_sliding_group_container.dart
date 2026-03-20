@@ -1,19 +1,25 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/home/view/widget/group_card_skeleton_widget.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:kartal/kartal.dart';
 
 class AutoSlidingGroupContainer extends StatefulWidget {
-  const AutoSlidingGroupContainer({required this.groups, super.key});
+  const AutoSlidingGroupContainer({
+    required this.groups,
+    super.key,
+  });
 
   final List<GroupListModel> groups;
 
   @override
-  State<AutoSlidingGroupContainer> createState() => _AutoSlidingGroupContainerState();
+  State<AutoSlidingGroupContainer> createState() =>
+      _AutoSlidingGroupContainerState();
 }
 
 class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
@@ -111,7 +117,8 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
       if (!mounted || widget.groups.isEmpty) return;
 
       setState(() {
-        _currentIndex = (_currentIndex - 1 + widget.groups.length) % widget.groups.length;
+        _currentIndex =
+            (_currentIndex - 1 + widget.groups.length) % widget.groups.length;
         _visible = true;
       });
     });
@@ -186,7 +193,7 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Kanallarimiz',
+                        LocaleKeys.home_group_carousel_title.tr(),
                         style: TextStyle(
                           fontSize: context.sized.normalValue * 1.1,
                           fontWeight: FontWeight.w700,
@@ -200,7 +207,8 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.25),
-                          borderRadius: BorderRadius.circular(context.sized.lowValue),
+                          borderRadius:
+                              BorderRadius.circular(context.sized.lowValue),
                         ),
                         child: Text(
                           '${_currentIndex + 1}/${widget.groups.length}',
@@ -225,7 +233,8 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            group.groupName ?? 'Kanal',
+                            group.groupName ??
+                                LocaleKeys.home_group_fallback_title.tr(),
                             style: TextStyle(
                               fontSize: context.sized.normalValue * 1.3,
                               fontWeight: FontWeight.w700,
@@ -234,10 +243,12 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                           ),
                           SizedBox(height: context.sized.lowValue * 0.5),
                           Text(
-                            group.description ?? 'Kanal aciklamasi',
+                            group.description ??
+                                LocaleKeys.home_group_fallback_description.tr(),
                             style: TextStyle(
                               fontSize: context.sized.normalValue * 0.9,
-                              color: colorScheme.onPrimary.withValues(alpha: 0.85),
+                              color:
+                                  colorScheme.onPrimary.withValues(alpha: 0.85),
                               height: 1.5,
                             ),
                             maxLines: 2,
@@ -276,7 +287,7 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                         label: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            'Katilmak Icin',
+                            LocaleKeys.home_group_join_cta.tr(),
                             style: TextStyle(
                               fontSize: context.sized.lowValue * 1.1,
                               fontWeight: FontWeight.w600,

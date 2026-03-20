@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -42,8 +44,8 @@ class ChatComposerWidget extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
                 hintText: isGroupConversation
-                    ? 'Grupla paylasmak istedigin seyi yaz'
-                    : 'Mesajini yaz',
+                    ? LocaleKeys.chat_composer_hint_group.tr()
+                    : LocaleKeys.chat_composer_hint_direct.tr(),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: low * 0.2,

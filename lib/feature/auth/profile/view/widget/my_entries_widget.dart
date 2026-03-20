@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -55,7 +57,7 @@ class MyEntriesWidget extends StatelessWidget {
                     ),
                     SizedBox(height: low * 0.35),
                     Text(
-                      'Kendi yayinladigin entry',
+                      LocaleKeys.auth_profile_my_entry_subtitle.tr(),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -79,7 +81,7 @@ class MyEntriesWidget extends StatelessWidget {
             child: OutlinedButton.icon(
               onPressed: () => _showDeleteDialog(context),
               icon: const Icon(Icons.delete_outline_rounded),
-              label: const Text('Entryi sil'),
+              label: Text(LocaleKeys.auth_profile_delete_entry_button.tr()),
               style: OutlinedButton.styleFrom(
                 foregroundColor: colorScheme.error,
                 side: BorderSide(
@@ -101,18 +103,18 @@ class MyEntriesWidget extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Entry silinsin mi?'),
-          content: const Text(
-            'Bu islem geri alinmaz. Entryi silmek istedigine emin misin?',
+          title: Text(LocaleKeys.auth_profile_delete_entry_title.tr()),
+          content: Text(
+            LocaleKeys.auth_profile_delete_entry_message.tr(),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Vazgec'),
+              child: Text(LocaleKeys.general_button_cancel.tr()),
             ),
             FilledButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Sil'),
+              child: Text(LocaleKeys.general_button_delete.tr()),
             ),
           ],
         );

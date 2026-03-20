@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -58,7 +60,8 @@ class GroupListWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      groupName ?? 'Bilinmeyen grup',
+                      groupName ??
+                          LocaleKeys.general_fallback_unknown_group.tr(),
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w800,
                       ),
@@ -66,8 +69,10 @@ class GroupListWidget extends StatelessWidget {
                     SizedBox(height: low * 0.32),
                     Text(
                       memberCount != null && memberCount! > 0
-                          ? '$memberCount uye ile ortak sohbete katil'
-                          : 'Topluluk kanalini ac ve sohbete dogrudan baglan',
+                          ? LocaleKeys.chat_user_list_group_member_count.tr(
+                              namedArgs: {'count': '$memberCount'},
+                            )
+                          : LocaleKeys.chat_user_list_group_open_direct.tr(),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                         height: 1.4,

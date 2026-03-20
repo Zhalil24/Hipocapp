@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 
 class RegisterHeroPanelWidget extends StatelessWidget {
@@ -33,7 +35,8 @@ class RegisterHeroPanelWidget extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.secondary.withValues(alpha: isDark ? 0.26 : 0.16),
+            color:
+                colorScheme.secondary.withValues(alpha: isDark ? 0.26 : 0.16),
             blurRadius: normal * 2,
             offset: Offset(0, normal + (low * 0.25)),
           ),
@@ -69,7 +72,7 @@ class RegisterHeroPanelWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(context.sized.height),
                 ),
                 child: Text(
-                  'Yeni uye kaydi',
+                  LocaleKeys.auth_register_hero_badge.tr(),
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
@@ -80,7 +83,7 @@ class RegisterHeroPanelWidget extends StatelessWidget {
           ),
           SizedBox(height: isCompact ? normal * 1.5 : normal * 2.25),
           Text(
-            'Profilini olustur, topluluga katil.',
+            LocaleKeys.auth_register_hero_title.tr(),
             style: theme.textTheme.headlineMedium?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w800,
@@ -89,29 +92,32 @@ class RegisterHeroPanelWidget extends StatelessWidget {
           ),
           SizedBox(height: low * 1.5),
           Text(
-            'Baslik ac, sohbetlere dahil ol ve dogrulanmis profilinle daha guvenli bir deneyim baslat.',
+            LocaleKeys.auth_register_hero_description.tr(),
             style: theme.textTheme.titleMedium?.copyWith(
               color: Colors.white.withValues(alpha: 0.84),
               height: 1.45,
             ),
           ),
           SizedBox(height: normal * 2),
-          const _RegisterFeatureTile(
+          _RegisterFeatureTile(
             icon: Icons.verified_user_rounded,
-            title: 'Dogrulanmis kayit',
-            description: 'Kurum kimligi yukleme adimi ile toplulukta daha guvenli bir profil olusturursun.',
+            title: LocaleKeys.auth_register_feature_verified_title.tr(),
+            description:
+                LocaleKeys.auth_register_feature_verified_description.tr(),
           ),
           SizedBox(height: low * 1.75),
-          const _RegisterFeatureTile(
+          _RegisterFeatureTile(
             icon: Icons.groups_rounded,
-            title: 'Topluluga hizli katilim',
-            description: 'Kaydin tamamlandiginda basliklar, gruplar ve mesaj akisina dogrudan gecersin.',
+            title: LocaleKeys.auth_register_feature_community_title.tr(),
+            description:
+                LocaleKeys.auth_register_feature_community_description.tr(),
           ),
           SizedBox(height: low * 1.75),
-          const _RegisterFeatureTile(
+          _RegisterFeatureTile(
             icon: Icons.tune_rounded,
-            title: 'Sana gore profil',
-            description: 'Derece ve hesap bilgilerinle daha anlamli, sana uygun bir kullanim deneyimi kurulur.',
+            title: LocaleKeys.auth_register_feature_profile_title.tr(),
+            description:
+                LocaleKeys.auth_register_feature_profile_description.tr(),
           ),
         ],
       ),

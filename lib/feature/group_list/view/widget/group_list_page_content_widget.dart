@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hipocapp/feature/group_list/view/widget/group_list_group_card_widget.dart';
 import 'package:hipocapp/feature/group_list/view/widget/group_list_header_card_widget.dart';
 import 'package:hipocapp/feature/group_list/view/widget/skeleton_card_widget.dart';
 import 'package:hipocapp/feature/group_list/view_model/state/group_list_view_state.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -61,7 +63,7 @@ class GroupListPageContentWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Topluluk kanallari',
+                        LocaleKeys.group_list_section_title.tr(),
                         style:
                             Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.w800,
@@ -84,8 +86,10 @@ class GroupListPageContentWidget extends StatelessWidget {
                         ),
                         child: Text(
                           state.isLoading
-                              ? 'Liste hazirlaniyor'
-                              : '${groups.length} kanal',
+                              ? LocaleKeys.group_list_section_loading.tr()
+                              : LocaleKeys.general_count_channel.tr(
+                                  namedArgs: {'count': '${groups.length}'},
+                                ),
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge
@@ -102,7 +106,7 @@ class GroupListPageContentWidget extends StatelessWidget {
                             await onRefresh();
                           },
                           icon: const Icon(Icons.refresh_rounded),
-                          tooltip: 'Kanallari yenile',
+                          tooltip: LocaleKeys.group_list_refresh_tooltip.tr(),
                         ),
                     ],
                   ),
@@ -138,10 +142,9 @@ class GroupListPageContentWidget extends StatelessWidget {
                   ),
                   child: AppEmptyStateCard(
                     icon: Icons.forum_outlined,
-                    title: 'Henuz gosterilecek kanal yok',
-                    message: 'Yeni topluluk kanallari burada listelenecek. '
-                        'Biraz sonra tekrar kontrol edebilirsin.',
-                    actionLabel: 'Yeniden dene',
+                    title: LocaleKeys.group_list_empty_title.tr(),
+                    message: LocaleKeys.group_list_empty_message.tr(),
+                    actionLabel: LocaleKeys.general_button_retry.tr(),
                     onAction: () async {
                       await onRefresh();
                     },

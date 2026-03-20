@@ -1,15 +1,20 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 
 enum ChatTabType {
-  users('Kullanıcılar', Icons.chat),
-  pastMessages('Geçmiş Mesajlar', Icons.star),
-  groups("Gruplar", Icons.group);
+  users(LocaleKeys.chat_user_list_tab_users, Icons.chat),
+  pastMessages(LocaleKeys.chat_user_list_tab_past_messages, Icons.star),
+  groups(LocaleKeys.chat_user_list_tab_groups, Icons.group);
 
-  final String label;
+  final String labelKey;
   final IconData icon;
-  const ChatTabType(this.label, this.icon);
+
+  const ChatTabType(this.labelKey, this.icon);
+
+  String get label => labelKey.tr();
 
   String withQuery(String query) {
-    return "$label/$query";
+    return '$label/$query';
   }
 }

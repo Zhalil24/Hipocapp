@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:hipocapp/product/widget/terms_popup/terms_popup_widget.dart';
@@ -84,29 +86,32 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AuthFormHeader(
-                title: 'Hesabini olustur',
-                description: 'Bilgilerini tamamla, profilini dogrula ve Hipocapp topluluguna modern bir baslangic yap.',
+              AuthFormHeader(
+                title: LocaleKeys.auth_register_header_title.tr(),
+                description: LocaleKeys.auth_register_header_description.tr(),
               ),
               SizedBox(height: normal * 1.5),
-              const AuthInfoBanner(
-                title: 'Kayit once dogrulama',
-                message: 'Kurum kimligi, derece secimi ve temel hesap bilgileri ile daha saglikli bir topluluk deneyimi kuruyoruz.',
+              AuthInfoBanner(
+                title: LocaleKeys.auth_register_banner_title.tr(),
+                message: LocaleKeys.auth_register_banner_message.tr(),
               ),
               SizedBox(height: normal * 1.5),
               FormField<File>(
                 validator: (value) {
                   if (value == null) {
-                    return 'Devam etmek icin kurum kimligi gorseli secmelisin.';
+                    return LocaleKeys.validation_select_identity_image.tr();
                   }
                   return null;
                 },
                 initialValue: widget.selectedPhoto,
                 builder: (state) {
                   return AuthUploadCard(
-                    title: 'Kurum kimligi',
-                    description: 'Kuruma ait kimlik ya da kart gorselini ekleyerek kaydini dogrula.',
-                    buttonLabel: widget.selectedPhoto == null ? 'Gorsel Sec' : 'Gorseli Degistir',
+                    title: LocaleKeys.auth_register_identity_title.tr(),
+                    description:
+                        LocaleKeys.auth_register_identity_description.tr(),
+                    buttonLabel: widget.selectedPhoto == null
+                        ? LocaleKeys.auth_register_identity_select.tr()
+                        : LocaleKeys.auth_register_identity_change.tr(),
                     errorText: state.errorText,
                     preview: widget.selectedPhoto != null
                         ? Image.file(
@@ -123,7 +128,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               ),
               SizedBox(height: normal * 1.5),
               AuthDropdownField<DegreeModel>(
-                label: 'Unvan / Derece',
+                label: LocaleKeys.general_form_degree.tr(),
                 items: (widget.degreeList ?? [])
                     .map(
                       (degree) => DropdownMenuItem<DegreeModel>(
@@ -140,7 +145,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                 },
                 validator: (value) {
                   if (value == null) {
-                    return 'Lutfen bir derece sec.';
+                    return LocaleKeys.validation_select_degree.tr();
                   }
                   return null;
                 },
@@ -202,7 +207,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   spacing: low * 0.5,
                   children: [
-                    const Text('Sartlari kabul ediyorum'),
+                    Text(LocaleKeys.auth_register_terms_accept.tr()),
                     GestureDetector(
                       onTap: () {
                         showDialog<void>(
@@ -211,7 +216,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                         );
                       },
                       child: Text(
-                        '(Detaylari Gor)',
+                        '(${LocaleKeys.general_button_show_details.tr()})',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: Theme.of(context).colorScheme.primary,
                               decoration: TextDecoration.underline,
@@ -224,7 +229,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                 initialValue: widget.isChecked,
                 validator: (value) {
                   if (value != true) {
-                    return 'Devam etmek icin sartlari kabul etmelisin.';
+                    return LocaleKeys.validation_accept_terms.tr();
                   }
                   return null;
                 },
@@ -232,16 +237,18 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               ),
               SizedBox(height: normal * 1.25),
               AuthPrimaryButton(
-                label: widget.isLoading ? 'Kayit Olusturuluyor...' : 'Kayit Ol',
+                label: widget.isLoading
+                    ? LocaleKeys.auth_register_button_loading.tr()
+                    : LocaleKeys.general_button_register.tr(),
                 isLoading: widget.isLoading,
                 icon: Icons.person_add_alt_1_rounded,
                 onPressed: _submit,
               ),
               SizedBox(height: normal),
-              const AuthDividerLabel(label: 'Zaten hesabin var?'),
+              AuthDividerLabel(label: LocaleKeys.auth_register_divider.tr()),
               SizedBox(height: normal),
               AuthSecondaryButton(
-                label: 'Giris ekranina don',
+                label: LocaleKeys.general_button_back_to_login.tr(),
                 icon: Icons.login_rounded,
                 onPressed: widget.isLoading
                     ? null
@@ -259,7 +266,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   Widget _buildNameField() {
     return AuthTextField(
       controller: widget.nameController,
-      label: 'Ad',
+      label: LocaleKeys.general_form_name.tr(),
       icon: Icons.badge_outlined,
       textInputAction: TextInputAction.next,
       autofillHints: const [AutofillHints.givenName],
@@ -271,7 +278,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   Widget _buildSurnameField() {
     return AuthTextField(
       controller: widget.surnameController,
-      label: 'Soyad',
+      label: LocaleKeys.general_form_surname.tr(),
       icon: Icons.person_outline_rounded,
       textInputAction: TextInputAction.next,
       autofillHints: const [AutofillHints.familyName],
@@ -283,7 +290,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   Widget _buildUsernameField() {
     return AuthTextField(
       controller: widget.usernameController,
-      label: 'Kullanici Adi',
+      label: LocaleKeys.general_form_username.tr(),
       icon: Icons.alternate_email_rounded,
       textInputAction: TextInputAction.next,
       autofillHints: const [AutofillHints.username],
@@ -295,7 +302,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   Widget _buildEmailField() {
     return AuthTextField(
       controller: widget.emailController,
-      label: 'Mail Adresi',
+      label: LocaleKeys.general_form_email_address.tr(),
       icon: Icons.mail_outline_rounded,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
@@ -308,7 +315,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   Widget _buildPhoneField() {
     return AuthTextField(
       controller: widget.phoneController,
-      label: 'Telefon Numarasi',
+      label: LocaleKeys.general_form_phone_number.tr(),
       icon: Icons.phone_outlined,
       keyboardType: TextInputType.phone,
       textInputAction: TextInputAction.next,
@@ -321,7 +328,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   Widget _buildPasswordField(BuildContext context) {
     return AuthTextField(
       controller: widget.passwordController,
-      label: 'Sifre',
+      label: LocaleKeys.general_form_password.tr(),
       icon: Icons.lock_outline_rounded,
       obscureText: _obscurePassword,
       textInputAction: TextInputAction.next,
@@ -329,7 +336,9 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
       suffixIcon: IconButton(
         color: Theme.of(context).colorScheme.onSurfaceVariant,
         icon: Icon(
-          _obscurePassword ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+          _obscurePassword
+              ? Icons.visibility_off_rounded
+              : Icons.visibility_rounded,
         ),
         onPressed: () {
           setState(() {
@@ -345,7 +354,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   Widget _buildPasswordRepeatField(BuildContext context) {
     return AuthTextField(
       controller: widget.rePasswordController,
-      label: 'Sifre Tekrari',
+      label: LocaleKeys.general_form_password_repeat.tr(),
       icon: Icons.lock_reset_rounded,
       obscureText: _obscureRepeatPassword,
       textInputAction: TextInputAction.done,
@@ -353,7 +362,9 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
       suffixIcon: IconButton(
         color: Theme.of(context).colorScheme.onSurfaceVariant,
         icon: Icon(
-          _obscureRepeatPassword ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+          _obscureRepeatPassword
+              ? Icons.visibility_off_rounded
+              : Icons.visibility_rounded,
         ),
         onPressed: () {
           setState(() {
@@ -364,7 +375,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
       validator: (val) => Validators.match(
         val,
         widget.passwordController.text,
-        'Sifre',
+        LocaleKeys.general_form_password.tr(),
       ),
       onFieldSubmitted: (_) async => _submit(),
     );
@@ -374,7 +385,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: context.sized.lowValue * 0.25),
       child: Text(
-        'Parolan en az 1 buyuk harf, 1 kucuk harf, 1 sayi ve minimum 8 karakter icermelidir.',
+        LocaleKeys.general_info_password_requirements_long.tr(),
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
               height: 1.4,

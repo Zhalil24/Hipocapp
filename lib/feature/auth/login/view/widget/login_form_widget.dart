@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/utility/validator/validator.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
@@ -47,13 +49,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AuthFormHeader(
-                title: 'Tekrar hos geldin',
-                description: 'Kullanici adi ve sifrenle hesabina giris yap. Akisin seni bekliyor.',
+              AuthFormHeader(
+                title: LocaleKeys.auth_login_header_title.tr(),
+                description: LocaleKeys.auth_login_header_description.tr(),
               ),
               SizedBox(height: normal * 1.5),
-              const AuthInfoBanner(
-                message: 'Basliklar, gruplar ve sohbetler icin tek oturumla devam et.',
+              AuthInfoBanner(
+                message: LocaleKeys.auth_login_banner_message.tr(),
               ),
               SizedBox(height: normal * 1.5),
               AuthTextField(
@@ -61,7 +63,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 autofillHints: const [AutofillHints.username],
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
-                label: 'Kullanici Adi',
+                label: LocaleKeys.general_form_username.tr(),
                 icon: Icons.person_outline_rounded,
                 validator: Validators.notEmpty,
                 onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
@@ -72,12 +74,14 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 autofillHints: const [AutofillHints.password],
                 obscureText: _obscurePassword,
                 textInputAction: TextInputAction.done,
-                label: 'Sifre',
+                label: LocaleKeys.general_form_password.tr(),
                 icon: Icons.lock_outline_rounded,
                 suffixIcon: IconButton(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                   icon: Icon(
-                    _obscurePassword ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                    _obscurePassword
+                        ? Icons.visibility_off_rounded
+                        : Icons.visibility_rounded,
                   ),
                   onPressed: () {
                     setState(() {
@@ -99,20 +103,22 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                             const ForgotPasswordRoute(),
                           );
                         },
-                  child: const Text('Sifremi Unuttum'),
+                  child: Text(LocaleKeys.general_button_forgot_password.tr()),
                 ),
               ),
               SizedBox(height: normal),
               AuthPrimaryButton(
-                label: widget.isLoading ? 'Giris Yapiliyor...' : 'Giris Yap',
+                label: widget.isLoading
+                    ? LocaleKeys.auth_login_button_loading.tr()
+                    : LocaleKeys.general_button_login.tr(),
                 isLoading: widget.isLoading,
                 onPressed: _submit,
               ),
               SizedBox(height: normal),
-              const AuthDividerLabel(label: 'Yeni misin?'),
+              AuthDividerLabel(label: LocaleKeys.auth_login_divider.tr()),
               SizedBox(height: normal),
               AuthSecondaryButton(
-                label: 'Hesabin yoksa kayit ol',
+                label: LocaleKeys.auth_login_secondary_cta.tr(),
                 onPressed: widget.isLoading
                     ? null
                     : () async {

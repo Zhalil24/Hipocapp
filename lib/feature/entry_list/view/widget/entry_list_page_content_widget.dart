@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/entry_list/view/widget/entry_list_composer_widget.dart';
 import 'package:hipocapp/feature/entry_list/view/widget/entry_list_feed_widget.dart';
 import 'package:hipocapp/feature/entry_list/view/widget/entry_list_header_card_widget.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 
 class EntryListPageContentWidget extends StatelessWidget {
@@ -79,7 +81,7 @@ class EntryListPageContentWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Entry akisi',
+                        LocaleKeys.entry_list_section_title.tr(),
                         style:
                             Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.w800,
@@ -101,7 +103,9 @@ class EntryListPageContentWidget extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          '${entries.length} kayit',
+                          LocaleKeys.general_count_entry.tr(
+                            namedArgs: {'count': '${entries.length}'},
+                          ),
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge

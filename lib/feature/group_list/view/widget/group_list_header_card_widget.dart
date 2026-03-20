@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -64,7 +66,7 @@ class GroupListHeaderCardWidget extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'Kanal kesfi',
+                        LocaleKeys.group_list_header_badge.tr(),
                         style: theme.textTheme.labelLarge?.copyWith(
                           color: colorScheme.secondary,
                           fontWeight: FontWeight.w700,
@@ -73,7 +75,7 @@ class GroupListHeaderCardWidget extends StatelessWidget {
                     ),
                     SizedBox(height: low),
                     Text(
-                      'Toplulugunu bul ve akisa katil',
+                      LocaleKeys.group_list_header_title.tr(),
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w800,
                         height: 1.1,
@@ -94,7 +96,9 @@ class GroupListHeaderCardWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(context.sized.height),
                 ),
                 child: Text(
-                  '$groupCount kanal',
+                  LocaleKeys.general_count_channel.tr(
+                    namedArgs: {'count': '$groupCount'},
+                  ),
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: colorScheme.primary,
                     fontWeight: FontWeight.w700,
@@ -106,10 +110,8 @@ class GroupListHeaderCardWidget extends StatelessWidget {
           SizedBox(height: normal * 0.9),
           Text(
             isLoggedIn
-                ? 'Ilgini ceken kanallari kesfet, katilim talebi gonder ve '
-                    'topluluk sohbetlerine hizla dahil ol.'
-                : 'Acik kanallari incele. Katilim talebi gondermek icin '
-                    'sadece hesabina giris yapman yeterli.',
+                ? LocaleKeys.group_list_header_description_logged_in.tr()
+                : LocaleKeys.group_list_header_description_logged_out.tr(),
             style: theme.textTheme.bodyLarge?.copyWith(
               color: colorScheme.onSurface.withValues(alpha: 0.72),
               height: 1.5,
@@ -120,19 +122,21 @@ class GroupListHeaderCardWidget extends StatelessWidget {
             spacing: low,
             runSpacing: low,
             children: [
-              const _GroupListInfoChip(
+              _GroupListInfoChip(
                 icon: Icons.groups_rounded,
-                label: 'Topluluk kanallari',
+                label: LocaleKeys.group_list_header_chip_channels.tr(),
               ),
-              const _GroupListInfoChip(
+              _GroupListInfoChip(
                 icon: Icons.explore_rounded,
-                label: 'Yeni ilgi alanlari',
+                label: LocaleKeys.group_list_header_chip_explore.tr(),
               ),
               _GroupListInfoChip(
                 icon: isLoggedIn
                     ? Icons.how_to_reg_rounded
                     : Icons.visibility_rounded,
-                label: isLoggedIn ? 'Katilima hazirsin' : 'Kesif modu',
+                label: isLoggedIn
+                    ? LocaleKeys.group_list_header_chip_ready.tr()
+                    : LocaleKeys.group_list_header_chip_discovery.tr(),
               ),
             ],
           ),

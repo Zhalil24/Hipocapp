@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -14,10 +16,10 @@ class ProfileInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (profileModel == null) {
-      return const AppEmptyStateCard(
+      return AppEmptyStateCard(
         icon: Icons.person_search_rounded,
-        title: 'Profil bilgisi bulunamadi',
-        message: 'Hesap detaylarini yuklemek icin baglantini kontrol edip tekrar deneyebilirsin.',
+        title: LocaleKeys.auth_profile_info_empty_title.tr(),
+        message: LocaleKeys.auth_profile_info_empty_message.tr(),
       );
     }
 
@@ -72,14 +74,14 @@ class _ProfileDetailsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hesap bilgileri',
+            LocaleKeys.auth_profile_account_title.tr(),
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           SizedBox(height: low * 0.55),
           Text(
-            'Gorunen bilgilerini ve iletisim detaylarini tek yerden incele.',
+            LocaleKeys.auth_profile_account_description.tr(),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
               height: 1.45,
@@ -88,22 +90,22 @@ class _ProfileDetailsCard extends StatelessWidget {
           SizedBox(height: normal * 1.1),
           _ProfileDetailRow(
             icon: Icons.badge_outlined,
-            label: 'Ad',
+            label: LocaleKeys.general_form_name.tr(),
             value: profileModel.name ?? '-',
           ),
           _ProfileDetailRow(
             icon: Icons.credit_card_rounded,
-            label: 'Soyad',
+            label: LocaleKeys.general_form_surname.tr(),
             value: profileModel.surname ?? '-',
           ),
           _ProfileDetailRow(
             icon: Icons.alternate_email_rounded,
-            label: 'Kullanici adi',
+            label: LocaleKeys.general_form_username_lower.tr(),
             value: profileModel.username ?? '-',
           ),
           _ProfileDetailRow(
             icon: Icons.mail_outline_rounded,
-            label: 'Email',
+            label: LocaleKeys.general_form_email.tr(),
             value: profileModel.email ?? '-',
             isLast: true,
           ),
@@ -133,14 +135,14 @@ class _ProfileStatusCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Topluluk ozeti',
+            LocaleKeys.auth_profile_community_title.tr(),
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           SizedBox(height: low * 0.55),
           Text(
-            'Profiline ait temel ozet bilgileri tek bakista takip et.',
+            LocaleKeys.auth_profile_community_description.tr(),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
               height: 1.45,
@@ -149,14 +151,17 @@ class _ProfileStatusCard extends StatelessWidget {
           SizedBox(height: normal * 1.1),
           _StatusHighlight(
             icon: Icons.school_outlined,
-            title: 'Derece',
-            message: profileModel.degreeModel?.degreeName ?? 'Derece bilgisi eklenmedi',
+            title: LocaleKeys.auth_profile_degree_title.tr(),
+            message: profileModel.degreeModel?.degreeName ??
+                LocaleKeys.general_fallback_degree_not_added.tr(),
           ),
           SizedBox(height: normal * 0.8),
           _StatusHighlight(
             icon: Icons.auto_stories_outlined,
-            title: 'Yayinlanan icerik',
-            message: '$entries adet entry olusturuldu',
+            title: LocaleKeys.auth_profile_published_content_title.tr(),
+            message: LocaleKeys.general_count_published_entries.tr(
+              namedArgs: {'count': '$entries'},
+            ),
           ),
         ],
       ),

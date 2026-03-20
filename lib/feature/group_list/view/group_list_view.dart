@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/group_list/view/mixin/group_list_mixin.dart';
@@ -6,6 +7,7 @@ import 'package:hipocapp/feature/group_list/view/widget/group_list_background_wi
 import 'package:hipocapp/feature/group_list/view/widget/group_list_page_content_widget.dart';
 import 'package:hipocapp/feature/group_list/view_model/group_list_view_model.dart';
 import 'package:hipocapp/feature/group_list/view_model/state/group_list_view_state.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/widget/appbar/custom_appbar_widget.dart';
 import 'package:hipocapp/product/widget/custom_snackbar/service_snack_bar.dart';
@@ -30,8 +32,8 @@ class _GroupListViewState extends BaseState<GroupListView> with GroupListMixin {
           ),
           Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: const CustomAppBar(
-              title: 'Kanal Listesi',
+            appBar: CustomAppBar(
+              title: LocaleKeys.group_list_title.tr(),
               isDrawer: false,
             ),
             body: BlocBuilder<GroupListViewModel, GroupListViewState>(
@@ -55,7 +57,7 @@ class _GroupListViewState extends BaseState<GroupListView> with GroupListMixin {
     if (userId == null) {
       ServiceSnackBar.show(
         context,
-        'Kanala katilmak icin once giris yapman gerekiyor.',
+        LocaleKeys.group_list_join_requires_login.tr(),
       );
       return;
     }
@@ -66,7 +68,7 @@ class _GroupListViewState extends BaseState<GroupListView> with GroupListMixin {
 
     ServiceSnackBar.show(
       context,
-      response.message ?? 'Katilim talebin su an islenemedi.',
+      response.message ?? LocaleKeys.group_list_join_failed.tr(),
     );
   }
 }

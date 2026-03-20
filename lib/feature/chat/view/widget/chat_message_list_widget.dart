@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/chat/view/widget/group_message_container_widget.dart';
 import 'package:hipocapp/feature/chat/view/widget/message_container_widget.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/utility/decrypt/chat_crypto_utils.dart';
 import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
@@ -55,7 +57,9 @@ class ChatMessageListWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      isGroupConversation ? 'Grup akisi' : 'Mesaj akisi',
+                      isGroupConversation
+                          ? LocaleKeys.chat_group_flow.tr()
+                          : LocaleKeys.chat_message_flow.tr(),
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w800,
                           ),
@@ -74,7 +78,9 @@ class ChatMessageListWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(normal * 1.2),
                       ),
                       child: Text(
-                        '$itemCount mesaj',
+                        LocaleKeys.general_count_message.tr(
+                          namedArgs: {'count': '$itemCount'},
+                        ),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w700,
@@ -108,16 +114,16 @@ class ChatMessageListWidget extends StatelessWidget {
     if (isGroupConversation && groupMessageList.isEmpty) {
       return _ChatEmptyState(
         icon: Icons.groups_outlined,
-        title: 'Bu grupta henuz mesaj yok',
-        message: 'Ilk mesaji gondererek sohbet akisini baslatabilirsin.',
+        title: LocaleKeys.chat_empty_group_title.tr(),
+        message: LocaleKeys.chat_empty_group_message.tr(),
       );
     }
 
     if (!isGroupConversation && messageList.isEmpty) {
       return _ChatEmptyState(
         icon: Icons.chat_bubble_outline_rounded,
-        title: 'Henuz bir mesaj yok',
-        message: 'Kisa bir selam vererek sohbete baslayabilirsin.',
+        title: LocaleKeys.chat_empty_direct_title.tr(),
+        message: LocaleKeys.chat_empty_direct_message.tr(),
       );
     }
 

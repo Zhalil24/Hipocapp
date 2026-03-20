@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -27,14 +29,14 @@ class MenuStructureWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Bolumleri kesfet',
+            LocaleKeys.drawer_menu_title.tr(),
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           SizedBox(height: low * 0.55),
           Text(
-            'Ilgini ceken alanlardan birini sec. Sectigin alt baslik aninda ilgili akisla eslesir.',
+            LocaleKeys.drawer_menu_description.tr(),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
               height: 1.45,
@@ -102,7 +104,9 @@ class MenuStructureWidget extends StatelessWidget {
                         ),
                       ),
                       subtitle: Text(
-                        '${subItems.length} alt kategori',
+                        LocaleKeys.general_count_sub_category.tr(
+                          namedArgs: {'count': '${subItems.length}'},
+                        ),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurfaceVariant,
                         ),

@@ -1,14 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hipocapp/feature/home/view/widget/launcher_widget.dart';
 import 'package:hipocapp/product/init/config/app_environment.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 
 class ContentCard extends StatefulWidget {
-  final String imageUrl;
-  final String title;
-  final String link;
-  final String description;
-
   const ContentCard({
     super.key,
     required this.imageUrl,
@@ -17,11 +14,17 @@ class ContentCard extends StatefulWidget {
     required this.description,
   });
 
+  final String imageUrl;
+  final String title;
+  final String link;
+  final String description;
+
   @override
   State<ContentCard> createState() => _ContentCardState();
 }
 
-class _ContentCardState extends State<ContentCard> with SingleTickerProviderStateMixin {
+class _ContentCardState extends State<ContentCard>
+    with SingleTickerProviderStateMixin {
   late AnimationController _hoverController;
   late Animation<double> _scaleAnimation;
 
@@ -111,7 +114,7 @@ class _ContentCardState extends State<ContentCard> with SingleTickerProviderStat
                     ),
                     SizedBox(height: context.sized.lowValue),
                     Text(
-                      'Görüntü Yüklenemedi',
+                      LocaleKeys.home_image_load_failed.tr(),
                       style: TextStyle(
                         color: colorScheme.onSurfaceVariant,
                         fontSize: context.sized.normalValue * 0.85,

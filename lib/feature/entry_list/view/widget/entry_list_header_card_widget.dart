@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -63,7 +65,7 @@ class EntryListHeaderCardWidget extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'Baslik akisi',
+                        LocaleKeys.entry_list_header_badge.tr(),
                         style: theme.textTheme.labelLarge?.copyWith(
                           color: colorScheme.secondary,
                           fontWeight: FontWeight.w700,
@@ -93,7 +95,9 @@ class EntryListHeaderCardWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(context.sized.height),
                 ),
                 child: Text(
-                  '$entryCount entry',
+                  LocaleKeys.general_count_entry.tr(
+                    namedArgs: {'count': '$entryCount'},
+                  ),
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: colorScheme.primary,
                     fontWeight: FontWeight.w700,
@@ -105,10 +109,8 @@ class EntryListHeaderCardWidget extends StatelessWidget {
           SizedBox(height: normal),
           Text(
             isLoggedIn
-                ? 'Bu basliktaki guncel entryleri takip et ve '
-                    'istersen kendi katkini hemen ekle.'
-                : 'Bu basliktaki guncel entryleri incele. '
-                    'Katki eklemek icin giris yapman yeterli.',
+                ? LocaleKeys.entry_list_header_description_logged_in.tr()
+                : LocaleKeys.entry_list_header_description_logged_out.tr(),
             style: theme.textTheme.bodyLarge?.copyWith(
               color: colorScheme.onSurface.withValues(alpha: 0.72),
               height: 1.5,
@@ -119,17 +121,19 @@ class EntryListHeaderCardWidget extends StatelessWidget {
             spacing: low,
             runSpacing: low,
             children: [
-              const _MetaChip(
+              _MetaChip(
                 icon: Icons.chat_bubble_outline_rounded,
-                label: 'Topluluk yorumu',
+                label: LocaleKeys.entry_list_meta_comments.tr(),
               ),
-              const _MetaChip(
+              _MetaChip(
                 icon: Icons.schedule_rounded,
-                label: 'Guncel akis',
+                label: LocaleKeys.entry_list_meta_recent.tr(),
               ),
               _MetaChip(
                 icon: isLoggedIn ? Icons.edit_note_rounded : Icons.visibility,
-                label: isLoggedIn ? 'Yazmaya hazirsin' : 'Salt okuma modu',
+                label: isLoggedIn
+                    ? LocaleKeys.entry_list_meta_ready.tr()
+                    : LocaleKeys.entry_list_meta_read_only.tr(),
               ),
             ],
           ),

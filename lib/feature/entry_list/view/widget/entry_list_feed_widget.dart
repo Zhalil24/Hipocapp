@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
 import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
@@ -40,12 +42,10 @@ class EntryListFeedWidget extends StatelessWidget {
             padding: EdgeInsets.all(context.sized.normalValue),
             child: AppEmptyStateCard(
               icon: Icons.forum_outlined,
-              title: 'Henuz entry yok',
+              title: LocaleKeys.entry_list_empty_title.tr(),
               message: isLoggedIn
-                  ? 'Bu baslik icin ilk yorumu paylasarak akisi sen '
-                      'baslatabilirsin.'
-                  : 'Bu baslik henuz bos. Giris yaptiginda ilk yorumu '
-                      'sen paylasabilirsin.',
+                  ? LocaleKeys.entry_list_empty_message_logged_in.tr()
+                  : LocaleKeys.entry_list_empty_message_logged_out.tr(),
             ),
           ),
         ),

@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -31,7 +33,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
         ? userName!.trim()
         : (groupName?.trim().isNotEmpty ?? false)
             ? groupName!.trim()
-            : 'Sohbet';
+            : LocaleKeys.chat_fallback_title.tr();
 
     return ClipRRect(
       child: BackdropFilter(
@@ -88,9 +90,9 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Text(
                       showOnlineStatus
                           ? (isOnline ?? false)
-                              ? 'Cevrim ici'
-                              : 'Dogrudan sohbet'
-                          : 'Grup konusmasi',
+                              ? LocaleKeys.general_status_online.tr()
+                              : LocaleKeys.general_status_direct_chat.tr()
+                          : LocaleKeys.general_status_group_chat.tr(),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.w600,

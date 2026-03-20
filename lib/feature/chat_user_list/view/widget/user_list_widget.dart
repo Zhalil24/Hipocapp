@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/widget/circle_avatar/custom_circle_avatar.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
@@ -88,7 +90,7 @@ class UserListWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      username ?? 'Bilinmeyen kullanici',
+                      username ?? LocaleKeys.general_fallback_unknown_user.tr(),
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w800,
                       ),
@@ -96,10 +98,13 @@ class UserListWidget extends StatelessWidget {
                     SizedBox(height: low * 0.32),
                     Text(
                       unreadCount > 0
-                          ? '$unreadCount okunmamis mesaj var'
+                          ? LocaleKeys.chat_user_list_user_unread_count.tr(
+                              namedArgs: {'count': '$unreadCount'},
+                            )
                           : (isOnline ?? false)
-                              ? 'Su an aktif, mesaja hazir gorunuyor'
-                              : 'Sohbet baslatmak icin dokun',
+                              ? LocaleKeys.chat_user_list_user_active.tr()
+                              : LocaleKeys.chat_user_list_user_tap_to_start
+                                  .tr(),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                         height: 1.4,
