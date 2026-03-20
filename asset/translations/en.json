@@ -1,14 +1,382 @@
 {
-    "home":{
-        "title": "Home Page"
+  "home": {
+    "title": "Home",
+    "content_empty_title": "Content not found",
+    "content_empty_message": "The content for this section is not ready to display right now. You can check again later.",
+    "search_hint": "Search title or content...",
+    "search_result_missing": "Content not found",
+    "image_load_failed": "Image could not be loaded",
+    "group_carousel_title": "Our channels",
+    "group_fallback_title": "Channel",
+    "group_fallback_description": "Channel description",
+    "group_join_cta": "Join In",
+    "entry_filter_latest": "daily",
+    "entry_filter_random": "scrum",
+    "bottom_nav": {
+      "home": "Home",
+      "market": "Market",
+      "announcements": "Announcements",
+      "partners": "Partners",
+      "trainings": "Trainings"
+    }
+  },
+  "general": {
+    "button": {
+      "save": "Save",
+      "login": "Log In",
+      "register": "Register",
+      "send": "Send",
+      "share": "Share",
+      "close": "Close",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "retry": "Try Again",
+      "back_to_login": "Back to Login",
+      "forgot_password": "Forgot Password",
+      "secure_logout": "Secure Logout",
+      "save_changes": "Save Changes",
+      "update_password": "Update Password",
+      "join_channel": "Join Channel",
+      "clear_search": "Clear Search",
+      "show_details": "View Details",
+      "create_title": "Create New Title",
+      "sending": "Sending"
     },
-    "general":{
-        "button":{
-            "save":"Save"
-        },
-    "dialog":{
-        "title":"Version",
-        "content":"Version Info"
+    "dialog": {
+      "title": "Version",
+      "content": "Version Info",
+      "success": "Success"
+    },
+    "form": {
+      "name": "Name",
+      "surname": "Surname",
+      "username": "Username",
+      "username_lower": "Username",
+      "email": "Email",
+      "email_address": "Email Address",
+      "phone_number": "Phone Number",
+      "password": "Password",
+      "password_repeat": "Repeat Password",
+      "current_password": "Current Password",
+      "new_password": "New Password",
+      "new_password_repeat": "Repeat New Password",
+      "degree": "Title / Degree",
+      "institution_id": "Institution ID",
+      "profile_photo": "Profile Photo",
+      "title": "Title",
+      "first_entry": "First entry"
+    },
+    "theme": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "language": {
+      "title": "Language preference",
+      "description": "You can instantly switch the app language between Turkish and English."
+    },
+    "status": {
+      "online": "Online",
+      "direct_chat": "Direct chat",
+      "group_chat": "Group conversation",
+      "open_channel": "Open channel"
+    },
+    "fallback": {
+      "unknown_user": "Unknown user",
+      "unknown_group": "Unknown group",
+      "email_not_added": "Email info not added",
+      "community_member": "Community member",
+      "complete_profile": "Complete your profile",
+      "title_not_found": "Title not found",
+      "degree_not_added": "Degree info not added",
+      "hipo_friend": "Hipo friend",
+      "selected_category": "Selected category",
+      "channel": "Channel",
+      "channel_description": "Channel description",
+      "content_not_found": "Content not found"
+    },
+    "count": {
+      "entry": "{count} entries",
+      "message": "{count} messages",
+      "channel": "{count} channels",
+      "group": "{count} groups",
+      "conversation": "{count} conversations",
+      "person": "{count} people",
+      "sub_category": "{count} subcategories",
+      "unread_messages": "{count} unread messages are waiting for you.",
+      "published_entries": "{count} entries created"
+    },
+    "info": {
+      "password_requirements_short": "Your password must be at least 8 characters and include upper/lower case letters plus numbers.",
+      "password_requirements_long": "Your password must include at least 1 uppercase letter, 1 lowercase letter, 1 number, and be at least 8 characters long."
     }
+  },
+  "validation": {
+    "required": "This field cannot be empty",
+    "field_empty": "{field} cannot be empty",
+    "field_not_match": "{field} does not match",
+    "email": "Enter a valid email address",
+    "select_degree": "Please select a degree.",
+    "accept_terms": "You need to accept the terms to continue.",
+    "select_identity_image": "You need to select an institution ID image to continue.",
+    "try_again": "Please try again"
+  },
+  "popup": {
+    "login_required": {
+      "title": "Log in to create entries, interact, and send messages.",
+      "description": "You need to log in to use interaction and messaging features in the app."
     }
+  },
+  "custom_app_bar": {
+    "login": "Log In",
+    "register": "Register"
+  },
+  "custom_card": {
+    "hide": "Hide",
+    "show_more": "Show More",
+    "send_message": "Send Message"
+  },
+  "auth": {
+    "login": {
+      "header_title": "Welcome back",
+      "header_description": "Sign in with your username and password. Your flow is waiting.",
+      "banner_message": "Continue with a single session for titles, groups, and chats.",
+      "button_loading": "Signing In...",
+      "divider": "New here?",
+      "secondary_cta": "Register if you do not have an account",
+      "hero_badge": "Enter the Hipo community",
+      "hero_title": "Pick up right where you left off.",
+      "hero_description": "Follow your topics, discover new content, and stay in sync with the community.",
+      "feature_clean_title": "Cleaner flow",
+      "feature_clean_description": "Content, group, and chat experiences continue from one place.",
+      "feature_community_title": "Community focused",
+      "feature_community_description": "Agenda, chats, and interactions are shaped for you after sign in.",
+      "feature_secure_title": "Secure access",
+      "feature_secure_description": "Your account and personal flow stay protected with the current session logic."
+    },
+    "register": {
+      "header_title": "Create your account",
+      "header_description": "Complete your information, verify your profile, and start with the Hipocapp community in a modern way.",
+      "banner_title": "Pre-registration verification",
+      "banner_message": "We build a healthier community experience with institution ID, degree selection, and core account details.",
+      "identity_title": "Institution ID",
+      "identity_description": "Verify your registration by adding your institution ID or card image.",
+      "identity_select": "Select Image",
+      "identity_change": "Change Image",
+      "terms_accept": "I accept the terms",
+      "button_loading": "Creating Account...",
+      "divider": "Already have an account?",
+      "hero_badge": "New member registration",
+      "hero_title": "Create your profile, join the community.",
+      "hero_description": "Open topics, join chats, and begin a safer experience with your verified profile.",
+      "feature_verified_title": "Verified registration",
+      "feature_verified_description": "The institution ID upload step helps you create a safer profile in the community.",
+      "feature_community_title": "Fast community access",
+      "feature_community_description": "Once registration is complete, you move directly into titles, groups, and message flow.",
+      "feature_profile_title": "Profile built for you",
+      "feature_profile_description": "Your degree and account info help shape a more meaningful experience tailored to you."
+    },
+    "forgot_password": {
+      "header_title": "Reset your password",
+      "header_description": "Enter your registered email address and we will send password reset guidance."
+    },
+    "profile": {
+      "display_name_fallback": "Complete your profile",
+      "quick_settings_title": "Quick settings",
+      "quick_settings_description": "Switch theme mode or securely sign out of your account.",
+      "info_empty_title": "Profile information not found",
+      "info_empty_message": "Check your connection and try again to load account details.",
+      "account_title": "Account information",
+      "account_description": "Review your visible information and contact details from one place.",
+      "community_title": "Community summary",
+      "community_description": "Track key summary details about your profile at a glance.",
+      "degree_title": "Degree",
+      "published_content_title": "Published content",
+      "edit_title": "Edit profile",
+      "edit_description": "Keep your account more trustworthy and up to date by refreshing visible details.",
+      "photo_banner_title": "Profile image",
+      "photo_banner_message": "When you add a new photo, your profile card and chat areas become easier to recognize.",
+      "photo_title": "Profile photo",
+      "photo_description": "Strengthen your account visibility by choosing a current photo.",
+      "photo_select": "Select Photo",
+      "photo_change": "Change Photo",
+      "change_password_title": "Refresh your password",
+      "change_password_description": "Verify your current password and set a new one to protect your account.",
+      "security_tip_title": "Security tip",
+      "security_tip_message": "Set your new password with a unique, hard-to-guess combination you have not used before.",
+      "my_entry_subtitle": "An entry you published",
+      "delete_entry_button": "Delete entry",
+      "delete_entry_title": "Delete this entry?",
+      "delete_entry_message": "This action cannot be undone. Are you sure you want to delete this entry?",
+      "entries_empty_title": "No entries yet",
+      "entries_empty_message": "Your shared entries will appear here. This area will come alive once you create your first piece of content.",
+      "logout_success": "Signed out successfully",
+      "tab": {
+        "profile": "Profile",
+        "edit_profile": "Edit Profile",
+        "change_password": "Change Password",
+        "entries": "Published Entries"
+      }
+    }
+  },
+  "introduction": {
+    "page_discover_title": "Discover and Read",
+    "page_discover_body": "Discover titles based on your interests and read other users' experiences and comments.",
+    "page_share_title": "Share Your Thoughts",
+    "page_share_body": "Write your thoughts freely, contribute to other people's ideas, or start a new title.",
+    "page_connect_title": "Chat and Connect",
+    "page_connect_body": "Meet people with shared interests, chat, and become part of the community.\n\nYou need to create an account to use these features.",
+    "skip": "Skip",
+    "done": "Done"
+  },
+  "chat_user_list": {
+    "title": "Messages",
+    "search_title": "Search user",
+    "search_description": "Type a username to quickly filter the right people for chat.",
+    "search_hint": "Search user",
+    "loading": "Preparing chat flow",
+    "tab": {
+      "users": "People",
+      "past_messages": "Chats",
+      "groups": "Groups"
+    },
+    "header": {
+      "users_title": "People in the community",
+      "past_messages_title": "Ongoing chats",
+      "groups_title": "Groups and rooms",
+      "users_description": "Choose the right person and jump into a new conversation instantly.",
+      "past_messages_description": "Track your recent conversations from one screen and catch unread messages faster.",
+      "groups_description": "Join the community rooms you belong to and keep shared conversations going without interruption."
+    },
+    "empty": {
+      "search_title": "No matching users",
+      "users_title": "No users listed yet",
+      "search_message": "Try simplifying your search to see more people.",
+      "users_message": "New people in the community will appear here.",
+      "conversations_title": "No conversation started yet",
+      "conversations_message": "People you talk to are collected here. You can switch to the users tab to start a new chat.",
+      "groups_title": "No groups found yet",
+      "groups_message": "Community rooms you joined will be listed here."
+    },
+    "user": {
+      "active": "Active right now and ready to chat",
+      "tap_to_start": "Tap to start a conversation",
+      "unread_count": "{count} unread messages"
+    },
+    "group": {
+      "member_count": "Join a shared chat with {count} members",
+      "open_direct": "Open the community channel and jump into the conversation directly"
+    }
+  },
+  "chat": {
+    "fallback_title": "Chat",
+    "message_flow": "Message flow",
+    "group_flow": "Group flow",
+    "invalid_message": "[Invalid message]",
+    "decrypt_error": "[Decryption error]",
+    "encrypt_error": "[Encryption error]",
+    "empty_group_title": "No messages in this group yet",
+    "empty_group_message": "You can start the conversation by sending the first message.",
+    "empty_direct_title": "No messages yet",
+    "empty_direct_message": "You can start with a quick hello.",
+    "composer_hint_group": "Write what you want to share with the group",
+    "composer_hint_direct": "Write your message"
+  },
+  "group_list": {
+    "title": "Channel List",
+    "join_requires_login": "You need to log in before joining a channel.",
+    "join_failed": "Your join request could not be processed right now.",
+    "header_badge": "Channel discovery",
+    "header_title": "Find your community and join the flow",
+    "header_description_logged_in": "Discover the channels that interest you, send a join request, and quickly become part of the community chat.",
+    "header_description_logged_out": "Browse open channels. You only need to sign in to send a join request.",
+    "header_chip_channels": "Community channels",
+    "header_chip_explore": "New interests",
+    "header_chip_ready": "Ready to join",
+    "header_chip_discovery": "Discovery mode",
+    "section_title": "Community channels",
+    "section_loading": "Preparing list",
+    "refresh_tooltip": "Refresh channels",
+    "empty_title": "No channels to show yet",
+    "empty_message": "New community channels will be listed here. You can check back again soon.",
+    "card_unnamed": "Unnamed channel",
+    "card_default_description": "No description has been shared for this channel yet.",
+    "card_created_on": "Created on {date}",
+    "card_chip_feed": "Community flow",
+    "card_chip_shared_chat": "Shared chat",
+    "card_chip_request": "You can send a request",
+    "card_chip_login_required": "Login required",
+    "card_info_logged_in": "You can send a join request to channels you find relevant with a single tap.",
+    "card_info_logged_out": "You need to sign in before joining this channel."
+  },
+  "entry_list": {
+    "header_badge": "Title flow",
+    "header_description_logged_in": "Follow the latest entries under this title and add your own contribution whenever you want.",
+    "header_description_logged_out": "Browse the latest entries under this title. Signing in is enough when you want to contribute.",
+    "meta_comments": "Community comment",
+    "meta_recent": "Current flow",
+    "meta_ready": "Ready to write",
+    "meta_read_only": "Read-only mode",
+    "section_title": "Entry flow",
+    "composer_title": "Add new entry",
+    "composer_description": "Share your contribution for this title in a clear and readable way.",
+    "composer_hint": "Write your opinion, experience, or note for this title...",
+    "composer_tip": "Short, respectful, and on-topic posts create a better flow.",
+    "empty_title": "No entries yet",
+    "empty_message_logged_in": "You can start the flow by sharing the first comment for this title.",
+    "empty_message_logged_out": "This title is still empty. Once you sign in, you can share the first comment."
+  },
+  "drawer": {
+    "header_title": "HipocApp navigation",
+    "header_description_logged_in": "Welcome {user}, shape your flow quickly.",
+    "header_description_logged_out": "Explore, choose a category, and reach the titles that interest you from one place.",
+    "badge_member_mode": "Member mode",
+    "badge_guest_mode": "Guest mode",
+    "badge_quick_category": "Quick category pick",
+    "theme_title": "Theme preferences",
+    "theme_description": "You can instantly adapt the drawer experience to light or dark mode.",
+    "terms_button": "Privacy and terms",
+    "menu_title": "Explore sections",
+    "menu_description": "Choose one of the areas that interest you. The selected subheading instantly matches the related flow.",
+    "contribution_title": "Your contribution area is ready",
+    "contribution_description_logged_in": "You can open a new title for this category and quickly contribute to the community.",
+    "contribution_description_logged_out": "You need to sign in before opening a new title.",
+    "login_and_contribute": "Sign in and contribute",
+    "titles_title": "Title flow",
+    "titles_description_selected": "You can open the latest titles for {category} here.",
+    "titles_description_default": "Relevant titles are listed here after you select a subcategory.",
+    "titles_item_hint": "Open the detail flow and follow entries from a single screen.",
+    "empty_selected_title": "Waiting for titles",
+    "empty_default_title": "Make your first selection",
+    "empty_selected_message": "There is no title for {category} yet. You can revive the flow by adding a new title.",
+    "empty_default_message": "Once you choose a subcategory, matching titles will appear here automatically.",
+    "input_dialog_title": "Create a new title",
+    "input_dialog_description": "Start your thought with a clear title and an explanatory first entry.",
+    "input_dialog_title_hint": "Example: What is the most efficient way to study anatomy notes?",
+    "input_dialog_entry_hint": "Write a short but explanatory opening for the topic..."
+  },
+  "splash": {
+    "hero_badge": "HipocApp launch experience",
+    "hero_title": "We are preparing the flow that connects you with your healthcare community.",
+    "hero_description": "While your theme choice, onboarding steps, and core app checks are completed in the background, we will direct you to the right screen.",
+    "feature_theme_sync": "Theme sync",
+    "feature_session_check": "Session check",
+    "feature_first_experience": "First experience flow",
+    "status_preparing": "Preparing",
+    "status_title": "We are directing you to the right launch flow.",
+    "status_description": "Your saved preferences and welcome steps are being checked. When it is complete, you will move to the next screen automatically.",
+    "current_steps_title": "What is happening now",
+    "step_theme_title": "Theme preference is loading",
+    "step_theme_description": "Your saved appearance choice is being applied across the app.",
+    "step_flow_title": "Welcome flow is being checked",
+    "step_flow_description": "Whether onboarding is needed is determined quietly.",
+    "step_experience_title": "Main experience is being prepared",
+    "step_experience_description": "We are moving you to the next suitable page with a clean transition."
+  },
+  "terms": {
+    "title": "Terms and Conditions",
+    "view_latest": "View latest version on website",
+    "close": "Close",
+    "language_en": "EN",
+    "language_tr": "TR"
+  }
 }

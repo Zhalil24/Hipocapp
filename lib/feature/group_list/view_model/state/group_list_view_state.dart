@@ -2,13 +2,13 @@ import 'package:equatable/equatable.dart';
 import 'package:gen/gen.dart';
 
 final class GroupListViewState extends Equatable {
-  GroupListViewState({
+  const GroupListViewState({
     required this.isLoading,
-    this.groupListModel = const [],
+    this.groupListModel = const <GroupListModel>[],
   });
 
   final bool isLoading;
-  final List<GroupListModel>? groupListModel;
+  final List<GroupListModel> groupListModel;
 
   @override
   List<Object?> get props => [

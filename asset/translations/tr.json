@@ -1,14 +1,382 @@
 {
-    "home":{
-        "title": "An sayfa"
+  "home": {
+    "title": "Anasayfa",
+    "content_empty_title": "İçerik bulunamadı",
+    "content_empty_message": "Bu bölüm için gösterilecek içerik şu anda hazır değil. Daha sonra yeniden kontrol edebilirsin.",
+    "search_hint": "Başlık veya içerik ara...",
+    "search_result_missing": "İçerik bulunamadı",
+    "image_load_failed": "Görsel yüklenemedi",
+    "group_carousel_title": "Kanallarımız",
+    "group_fallback_title": "Kanal",
+    "group_fallback_description": "Kanal açıklaması",
+    "group_join_cta": "Katılmak İçin",
+    "entry_filter_latest": "daily",
+    "entry_filter_random": "scrum",
+    "bottom_nav": {
+      "home": "Anasayfa",
+      "market": "Market",
+      "announcements": "İlanlar",
+      "partners": "Partnerler",
+      "trainings": "Eğitimler"
+    }
+  },
+  "general": {
+    "button": {
+      "save": "Kaydet",
+      "login": "Giriş Yap",
+      "register": "Kayıt Ol",
+      "send": "Gönder",
+      "share": "Paylaş",
+      "close": "Kapat",
+      "cancel": "Vazgeç",
+      "delete": "Sil",
+      "retry": "Yeniden dene",
+      "back_to_login": "Giriş ekranına dön",
+      "forgot_password": "Şifremi Unuttum",
+      "secure_logout": "Güvenli çıkış yap",
+      "save_changes": "Değişiklikleri kaydet",
+      "update_password": "Parolayı güncelle",
+      "join_channel": "Kanala katıl",
+      "clear_search": "Aramayı temizle",
+      "show_details": "Detayları Gör",
+      "create_title": "Yeni başlık ekle",
+      "sending": "Gönderiliyor"
     },
-    "general":{
-        "button":{
-            "save":"kaydet"
-        },
-    "dialog":{
-        "title":"Versiyon",
-        "content":"Versiyon Bilgisi"
+    "dialog": {
+      "title": "Versiyon",
+      "content": "Versiyon Bilgisi",
+      "success": "Başarılı"
+    },
+    "form": {
+      "name": "Ad",
+      "surname": "Soyad",
+      "username": "Kullanıcı Adı",
+      "username_lower": "Kullanıcı adı",
+      "email": "Email",
+      "email_address": "Mail Adresi",
+      "phone_number": "Telefon Numarası",
+      "password": "Şifre",
+      "password_repeat": "Şifre Tekrarı",
+      "current_password": "Mevcut şifre",
+      "new_password": "Yeni şifre",
+      "new_password_repeat": "Yeni şifre tekrar",
+      "degree": "Unvan / Derece",
+      "institution_id": "Kurum kimliği",
+      "profile_photo": "Profil fotoğrafı",
+      "title": "Başlık",
+      "first_entry": "İlk entry"
+    },
+    "theme": {
+      "light": "Açık",
+      "dark": "Koyu"
+    },
+    "language": {
+      "title": "Dil tercihi",
+      "description": "Uygulama dilini anında Türkçe veya İngilizce olarak değiştirebilirsin."
+    },
+    "status": {
+      "online": "Çevrim içi",
+      "direct_chat": "Doğrudan sohbet",
+      "group_chat": "Grup konuşması",
+      "open_channel": "Açık kanal"
+    },
+    "fallback": {
+      "unknown_user": "Bilinmeyen kullanıcı",
+      "unknown_group": "Bilinmeyen grup",
+      "email_not_added": "Mail bilgisi eklenmedi",
+      "community_member": "Topluluk üyesi",
+      "complete_profile": "Profilini tamamla",
+      "title_not_found": "Başlık bulunamadı",
+      "degree_not_added": "Derece bilgisi eklenmedi",
+      "hipo_friend": "Hipo dostu",
+      "selected_category": "Seçili kategori",
+      "channel": "Kanal",
+      "channel_description": "Kanal açıklaması",
+      "content_not_found": "İçerik bulunamadı"
+    },
+    "count": {
+      "entry": "{count} entry",
+      "message": "{count} mesaj",
+      "channel": "{count} kanal",
+      "group": "{count} grup",
+      "conversation": "{count} sohbet",
+      "person": "{count} kişi",
+      "sub_category": "{count} alt kategori",
+      "unread_messages": "{count} okunmamış mesaj seni bekliyor.",
+      "published_entries": "{count} adet entry oluşturuldu"
+    },
+    "info": {
+      "password_requirements_short": "Parolan en az 8 karakter, büyük-küçük harf ve sayı kombinasyonu içermelidir.",
+      "password_requirements_long": "Parolan en az 1 büyük harf, 1 küçük harf, 1 sayı ve minimum 8 karakter içermelidir."
     }
+  },
+  "validation": {
+    "required": "Bu alan boş bırakılamaz",
+    "field_empty": "{field} boş olamaz",
+    "field_not_match": "{field} eşleşmiyor",
+    "email": "Geçerli bir e-posta girin",
+    "select_degree": "Lütfen bir derece seç.",
+    "accept_terms": "Devam etmek için şartları kabul etmelisin.",
+    "select_identity_image": "Devam etmek için kurum kimliği görseli seçmelisin.",
+    "try_again": "Tekrar deneyiniz"
+  },
+  "popup": {
+    "login_required": {
+      "title": "Entry açmak, etkileşimde bulunmak ve mesajlaşmak için giriş yapın.",
+      "description": "Uygulamadaki etkileşim ve mesajlaşma özelliklerini kullanabilmek için giriş yapmanız gerekmektedir."
     }
+  },
+  "custom_app_bar": {
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol"
+  },
+  "custom_card": {
+    "hide": "Gizle",
+    "show_more": "Devamını Göster",
+    "send_message": "Mesaj Gönder"
+  },
+  "auth": {
+    "login": {
+      "header_title": "Tekrar hoş geldin",
+      "header_description": "Kullanıcı adı ve şifrenle hesabına giriş yap. Akışın seni bekliyor.",
+      "banner_message": "Başlıklar, gruplar ve sohbetler için tek oturumla devam et.",
+      "button_loading": "Giriş Yapılıyor...",
+      "divider": "Yeni misin?",
+      "secondary_cta": "Hesabın yoksa kayıt ol",
+      "hero_badge": "Hipo topluluğuna giriş",
+      "hero_title": "Son kaldığın yerden devam et.",
+      "hero_description": "Başlıklarını takip et, yeni içerikleri keşfet ve toplulukla aynı akışta kal.",
+      "feature_clean_title": "Daha temiz akış",
+      "feature_clean_description": "İçerik, grup ve mesaj deneyimi tek yerden devam eder.",
+      "feature_community_title": "Topluluk odaklı",
+      "feature_community_description": "Gündem, sohbet ve etkileşimler girişten sonra sana göre şekillenir.",
+      "feature_secure_title": "Güvenli erişim",
+      "feature_secure_description": "Hesabın ve kişisel akışın mevcut oturum mantığıyla korunur."
+    },
+    "register": {
+      "header_title": "Hesabını oluştur",
+      "header_description": "Bilgilerini tamamla, profilini doğrula ve Hipocapp topluluğuna modern bir başlangıç yap.",
+      "banner_title": "Kayıt önce doğrulama",
+      "banner_message": "Kurum kimliği, derece seçimi ve temel hesap bilgileri ile daha sağlıklı bir topluluk deneyimi kuruyoruz.",
+      "identity_title": "Kurum kimliği",
+      "identity_description": "Kuruma ait kimlik ya da kart görselini ekleyerek kaydını doğrula.",
+      "identity_select": "Görsel Seç",
+      "identity_change": "Görseli Değiştir",
+      "terms_accept": "Şartları kabul ediyorum",
+      "button_loading": "Kayıt Oluşturuluyor...",
+      "divider": "Zaten hesabın var?",
+      "hero_badge": "Yeni üye kaydı",
+      "hero_title": "Profilini oluştur, topluluğa katıl.",
+      "hero_description": "Başlık aç, sohbetlere dahil ol ve doğrulanmış profilinle daha güvenli bir deneyim başlat.",
+      "feature_verified_title": "Doğrulanmış kayıt",
+      "feature_verified_description": "Kurum kimliği yükleme adımı ile toplulukta daha güvenli bir profil oluşturursun.",
+      "feature_community_title": "Topluluğa hızlı katılım",
+      "feature_community_description": "Kaydın tamamlandığında başlıklar, gruplar ve mesaj akışına doğrudan geçersin.",
+      "feature_profile_title": "Sana göre profil",
+      "feature_profile_description": "Derece ve hesap bilgilerinle daha anlamlı, sana uygun bir kullanım deneyimi kurulur."
+    },
+    "forgot_password": {
+      "header_title": "Şifreni yenile",
+      "header_description": "Kayıtlı e-posta adresini gir, şifre yenileme yönlendirmesini gönderelim."
+    },
+    "profile": {
+      "display_name_fallback": "Profilini tamamla",
+      "quick_settings_title": "Hızlı ayarlar",
+      "quick_settings_description": "Tema modunu değiştir veya hesabından güvenli şekilde çıkış yap.",
+      "info_empty_title": "Profil bilgisi bulunamadı",
+      "info_empty_message": "Hesap detaylarını yüklemek için bağlantını kontrol edip tekrar deneyebilirsin.",
+      "account_title": "Hesap bilgileri",
+      "account_description": "Görünen bilgilerini ve iletişim detaylarını tek yerden incele.",
+      "community_title": "Topluluk özeti",
+      "community_description": "Profiline ait temel özet bilgileri tek bakışta takip et.",
+      "degree_title": "Derece",
+      "published_content_title": "Yayınlanan içerik",
+      "edit_title": "Profili düzenle",
+      "edit_description": "Görünen bilgilerini güncelleyerek hesabını daha güven veren ve güncel tut.",
+      "photo_banner_title": "Profil görseli",
+      "photo_banner_message": "Yeni bir fotoğraf eklediğinde profil kartın ve sohbet alanların daha tanınabilir olur.",
+      "photo_title": "Profil fotoğrafı",
+      "photo_description": "Güncel fotoğrafını seçerek hesabının görünürlüğünü güçlendir.",
+      "photo_select": "Fotoğraf Seç",
+      "photo_change": "Fotoğrafı Değiştir",
+      "change_password_title": "Parolanı yenile",
+      "change_password_description": "Hesabının güvenliğini korumak için mevcut parolanı doğrula ve yeni parolanı belirle.",
+      "security_tip_title": "Güvenlik ipucu",
+      "security_tip_message": "Yeni şifreni daha önce kullanmadığın, tahmin edilmesi zor ve sana özel bir kombinasyonla belirle.",
+      "my_entry_subtitle": "Kendi yayınladığın entry",
+      "delete_entry_button": "Entryi sil",
+      "delete_entry_title": "Entry silinsin mi?",
+      "delete_entry_message": "Bu işlem geri alınmaz. Entryi silmek istediğine emin misin?",
+      "entries_empty_title": "Henüz entry yok",
+      "entries_empty_message": "Paylaştığın entryler burada listelenecek. İlk içeriğini oluşturduğunda bu alan hareketlenecek.",
+      "logout_success": "Başarıyla çıkış yapıldı",
+      "tab": {
+        "profile": "Profil",
+        "edit_profile": "Profili Düzenle",
+        "change_password": "Parola Değiştir",
+        "entries": "Açılan Entryler"
+      }
+    }
+  },
+  "introduction": {
+    "page_discover_title": "Keşfet ve Oku",
+    "page_discover_body": "İlgi alanlarına göre başlıkları keşfet, kullanıcıların deneyimlerini ve yorumlarını oku.",
+    "page_share_title": "Fikrini Paylaş",
+    "page_share_body": "Düşüncelerini özgürce yaz, başkalarının fikirlerine katkıda bulun ya da yeni bir başlık başlat.",
+    "page_connect_title": "Sohbet Et ve Bağlan",
+    "page_connect_body": "Ortak ilgi alanlarında insanlarla tanış, sohbet et ve topluluğa dahil ol.\n\nBu özellikleri kullanmak için hesap oluşturman gerekir.",
+    "skip": "Atla",
+    "done": "Bitir"
+  },
+  "chat_user_list": {
+    "title": "Mesajlar",
+    "search_title": "Kullanıcı ara",
+    "search_description": "Bir kullanıcı adı yazarak uygun sohbet kişilerini hızlıca filtrele.",
+    "search_hint": "Kullanıcı ara",
+    "loading": "Sohbet akışı hazırlanıyor",
+    "tab": {
+      "users": "Kişiler",
+      "past_messages": "Sohbetler",
+      "groups": "Gruplar"
+    },
+    "header": {
+      "users_title": "Topluluktaki kişiler",
+      "past_messages_title": "Devam eden sohbetler",
+      "groups_title": "Gruplar ve odalar",
+      "users_description": "Yeni bir sohbet başlatmak için uygun kişiyi seç ve anında mesaja geç.",
+      "past_messages_description": "Son konuşmalarını tek ekranda takip et, okunmamış mesajları hızlıca yakala.",
+      "groups_description": "Dahil olduğun topluluk odalarına katıl ve ortak sohbetleri kesintisiz sürdür."
+    },
+    "empty": {
+      "search_title": "Eşleşen kullanıcı yok",
+      "users_title": "Henüz kullanıcı listelenmiyor",
+      "search_message": "Aramanı biraz sadeletip tekrar denersen daha fazla kişi görebilirsin.",
+      "users_message": "Topluluktaki yeni kişiler burada görünecek.",
+      "conversations_title": "Henüz bir sohbet başlatılmamış",
+      "conversations_message": "Konuştuğun kişiler burada toplanır. Yeni bir sohbet başlatmak için kullanıcılar sekmesine geçebilirsin.",
+      "groups_title": "Henüz grup bulunmuyor",
+      "groups_message": "Katılım sağladığın topluluk odaları burada listelenecek."
+    },
+    "user": {
+      "active": "Şu an aktif, mesaja hazır görünüyor",
+      "tap_to_start": "Sohbet başlatmak için dokun",
+      "unread_count": "{count} okunmamış mesaj var"
+    },
+    "group": {
+      "member_count": "{count} üye ile ortak sohbete katıl",
+      "open_direct": "Topluluk kanalını aç ve sohbete doğrudan bağlan"
+    }
+  },
+  "chat": {
+    "fallback_title": "Sohbet",
+    "message_flow": "Mesaj akışı",
+    "group_flow": "Grup akışı",
+    "invalid_message": "[Geçersiz mesaj]",
+    "decrypt_error": "[Çözüm hatası]",
+    "encrypt_error": "[Şifreleme hatası]",
+    "empty_group_title": "Bu grupta henüz mesaj yok",
+    "empty_group_message": "İlk mesajı göndererek sohbet akışını başlatabilirsin.",
+    "empty_direct_title": "Henüz bir mesaj yok",
+    "empty_direct_message": "Kısa bir selam vererek sohbete başlayabilirsin.",
+    "composer_hint_group": "Grupla paylaşmak istediğin şeyi yaz",
+    "composer_hint_direct": "Mesajını yaz"
+  },
+  "group_list": {
+    "title": "Kanal Listesi",
+    "join_requires_login": "Kanala katılmak için önce giriş yapman gerekiyor.",
+    "join_failed": "Katılım talebin şu an işlenemedi.",
+    "header_badge": "Kanal keşfi",
+    "header_title": "Topluluğunu bul ve akışa katıl",
+    "header_description_logged_in": "İlgini çeken kanalları keşfet, katılım talebi gönder ve topluluk sohbetlerine hızla dahil ol.",
+    "header_description_logged_out": "Açık kanalları incele. Katılım talebi göndermek için sadece hesabına giriş yapman yeterli.",
+    "header_chip_channels": "Topluluk kanalları",
+    "header_chip_explore": "Yeni ilgi alanları",
+    "header_chip_ready": "Katılıma hazırsın",
+    "header_chip_discovery": "Keşif modu",
+    "section_title": "Topluluk kanalları",
+    "section_loading": "Liste hazırlanıyor",
+    "refresh_tooltip": "Kanalları yenile",
+    "empty_title": "Henüz gösterilecek kanal yok",
+    "empty_message": "Yeni topluluk kanalları burada listelenecek. Biraz sonra tekrar kontrol edebilirsin.",
+    "card_unnamed": "İsimsiz kanal",
+    "card_default_description": "Bu kanal için henüz bir açıklama paylaşılmamış.",
+    "card_created_on": "Oluşturuldu {date}",
+    "card_chip_feed": "Topluluk akışı",
+    "card_chip_shared_chat": "Ortak sohbet",
+    "card_chip_request": "Talep gönderebilirsin",
+    "card_chip_login_required": "Giriş gerekli",
+    "card_info_logged_in": "Uygun gördüğün kanallara tek dokunuşla katılım isteği gönderebilirsin.",
+    "card_info_logged_out": "Bu kanala katılmak için önce hesabına giriş yapman gerekiyor."
+  },
+  "entry_list": {
+    "header_badge": "Başlık akışı",
+    "header_description_logged_in": "Bu başlıktaki güncel entryleri takip et ve istersen kendi katkını hemen ekle.",
+    "header_description_logged_out": "Bu başlıktaki güncel entryleri incele. Katkı eklemek için giriş yapman yeterli.",
+    "meta_comments": "Topluluk yorumu",
+    "meta_recent": "Güncel akış",
+    "meta_ready": "Yazmaya hazırsın",
+    "meta_read_only": "Salt okuma modu",
+    "section_title": "Entry akışı",
+    "composer_title": "Yeni entry ekle",
+    "composer_description": "Bu başlığa katkını net ve okunaklı bir biçimde paylaş.",
+    "composer_hint": "Bu başlık için fikrini, deneyimini ya da notunu yaz...",
+    "composer_tip": "Kısa, saygılı ve konuya odaklı paylaşımlar daha iyi bir akış oluşturur.",
+    "empty_title": "Henüz entry yok",
+    "empty_message_logged_in": "Bu başlık için ilk yorumu paylaşarak akışı sen başlatabilirsin.",
+    "empty_message_logged_out": "Bu başlık henüz boş. Giriş yaptığında ilk yorumu sen paylaşabilirsin."
+  },
+  "drawer": {
+    "header_title": "HipocApp navigasyonu",
+    "header_description_logged_in": "Hoş geldin {user}, akışını hızlıca şekillendir.",
+    "header_description_logged_out": "Keşfet, kategori seç ve ilgini çeken başlıklara tek yerden ulaş.",
+    "badge_member_mode": "Üye modu",
+    "badge_guest_mode": "Misafir modu",
+    "badge_quick_category": "Hızlı kategori seçimi",
+    "theme_title": "Tema tercihleri",
+    "theme_description": "Drawer deneyimini anında açık veya koyu moda uyarlayabilirsin.",
+    "terms_button": "KVKK ve koşullar",
+    "menu_title": "Bölümleri keşfet",
+    "menu_description": "İlgini çeken alanlardan birini seç. Seçtiğin alt başlık anında ilgili akışla eşleşir.",
+    "contribution_title": "Katkı alanın hazır",
+    "contribution_description_logged_in": "Bu kategori için yeni bir başlık açıp topluluğa hızlıca katkı sağlayabilirsin.",
+    "contribution_description_logged_out": "Başlık açmak için önce hesabına giriş yapman gerekiyor.",
+    "login_and_contribute": "Giriş yap ve katkı ver",
+    "titles_title": "Başlık akışı",
+    "titles_description_selected": "{category} için güncel başlıkları buradan açabilirsin.",
+    "titles_description_default": "Bir alt kategori seçtiğinde ilgili başlıklar burada listelenir.",
+    "titles_item_hint": "Detay akışını aç ve entryleri tek ekranda takip et.",
+    "empty_selected_title": "Başlık bekleniyor",
+    "empty_default_title": "İlk seçimini yap",
+    "empty_selected_message": "{category} için henüz bir başlık bulunmuyor. Yeni bir başlık ekleyerek akışı canlandırabilirsin.",
+    "empty_default_message": "Bir alt kategori seçtiğinde uygun başlıklar burada otomatik olarak gösterilecek.",
+    "input_dialog_title": "Yeni başlık oluştur",
+    "input_dialog_description": "Düşünceni net bir başlık ve açıklayıcı bir ilk entry ile başlat.",
+    "input_dialog_title_hint": "Örnek: Anatomi notlarını en verimli nasıl çalışırım?",
+    "input_dialog_entry_hint": "Konuyu başlatan kısa ama açıklayıcı bir giriş yaz..."
+  },
+  "splash": {
+    "hero_badge": "HipocApp açılış deneyimi",
+    "hero_title": "Sağlık topluluğunla buluşman için akışı hazırlıyoruz.",
+    "hero_description": "Tema seçimin, karşılama adımların ve temel uygulama kontrolleri arka planda tamamlanırken seni en doğru ekrana yönlendireceğiz.",
+    "feature_theme_sync": "Tema senkronu",
+    "feature_session_check": "Oturum kontrolü",
+    "feature_first_experience": "İlk deneyim akışı",
+    "status_preparing": "Hazırlanıyor",
+    "status_title": "Seni uygun açılış akışına yönlendiriyoruz.",
+    "status_description": "Kayıtlı tercihlerin ve karşılama adımların kontrol ediliyor. Tamamlandığında bir sonraki ekrana otomatik geçiş yapılacak.",
+    "current_steps_title": "Şu anda yapılanlar",
+    "step_theme_title": "Tema tercihi yükleniyor",
+    "step_theme_description": "Kayıtlı görünüm seçimin uygulama geneline aktarılıyor.",
+    "step_flow_title": "Karşılama akışı kontrol ediliyor",
+    "step_flow_description": "Onboarding gerekip gerekmediği sessizce belirleniyor.",
+    "step_experience_title": "Ana deneyim hazırlanıyor",
+    "step_experience_description": "Seni bir sonraki uygun sayfaya temiz bir geçişle taşıyoruz."
+  },
+  "terms": {
+    "title": "Şartlar ve Koşullar",
+    "view_latest": "Güncel versiyonu web sitesinde görüntüle",
+    "close": "Kapat",
+    "language_en": "EN",
+    "language_tr": "TR"
+  }
 }

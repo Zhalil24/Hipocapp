@@ -7,8 +7,12 @@ class ContentCardSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final baseColor = Colors.grey.shade300;
     final highlightColor = Colors.grey.shade100;
+    final shadowColor = isDark
+        ? Colors.black.withValues(alpha: 0.05)
+        : Colors.white.withValues(alpha: 0.70);
 
     return Container(
       margin: EdgeInsets.only(bottom: context.sized.normalValue),
@@ -16,7 +20,7 @@ class ContentCardSkeleton extends StatelessWidget {
         borderRadius: BorderRadius.circular(context.sized.lowValue),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: shadowColor,
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),

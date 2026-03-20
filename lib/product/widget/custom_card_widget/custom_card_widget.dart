@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/enums/chat_tab_type.dart';
@@ -7,12 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:kartal/kartal.dart';
 
 class CustomCardWidget extends StatefulWidget {
-  final String title;
-  final String description;
-  final String? userName;
-  final String? date;
-  final int? userId;
-  final bool isHomeCard;
   const CustomCardWidget({
     super.key,
     required this.title,
@@ -23,17 +19,28 @@ class CustomCardWidget extends StatefulWidget {
     required this.isHomeCard,
   });
 
+  final String title;
+  final String description;
+  final String? userName;
+  final String? date;
+  final int? userId;
+  final bool isHomeCard;
+
   @override
   State<CustomCardWidget> createState() => _CustomCardWidgetState();
 }
 
-class _CustomCardWidgetState extends BaseState<CustomCardWidget> with TickerProviderStateMixin {
+class _CustomCardWidgetState extends BaseState<CustomCardWidget>
+    with TickerProviderStateMixin {
   bool isExpanded = false;
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
     String formatDate(String dateString) {
-      final cleanedDateString = dateString.replaceFirst('Tarih: ', '').split('.').first;
+      if (dateString.trim().isEmpty) return dateString;
+      final cleanedDateString = dateString.split('.').first;
       final inputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
       final outputFormat = DateFormat('dd.MM.yyyy');
       final dateTime = inputFormat.parse(cleanedDateString);
@@ -68,7 +75,8 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget> with TickerProv
                 Text(
                   widget.description,
                   maxLines: isExpanded ? null : 4,
-                  overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                  overflow:
+                      isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -85,7 +93,9 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget> with TickerProv
                       color: colorScheme.primary,
                     ),
                     label: Text(
-                      isExpanded ? 'Gizle' : 'Devamını Göster',
+                      isExpanded
+                          ? LocaleKeys.custom_card_hide.tr()
+                          : LocaleKeys.custom_card_show_more.tr(),
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: colorScheme.primary,
@@ -99,20 +109,34 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget> with TickerProv
                     child: Row(
                       children: [
                         if (widget.userName != null) ...[
-                          Icon(Icons.person, size: context.sized.normalValue, color: Colors.grey),
+                          Icon(
+                            Icons.person,
+                            size: context.sized.normalValue,
+                            color: Colors.grey,
+                          ),
                           SizedBox(width: context.sized.lowValue),
                           Text(
                             widget.userName!,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: Colors.grey[600]),
                           ),
                           SizedBox(width: context.sized.normalValue),
                         ],
                         if (widget.date != null) ...[
-                          Icon(Icons.calendar_today, size: context.sized.normalValue, color: Colors.grey),
+                          Icon(
+                            Icons.calendar_today,
+                            size: context.sized.normalValue,
+                            color: Colors.grey,
+                          ),
                           SizedBox(width: context.sized.lowValue),
                           Text(
                             formatDate(widget.date!),
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: Colors.grey[600]),
                           ),
                         ],
                       ],
@@ -125,18 +149,24 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget> with TickerProv
                       alignment: Alignment.centerRight,
                       child: FilledButton.icon(
                         onPressed: () async {
-                          await context.router.push(ChatUserListRoute(
-                            tab: ChatTabType.users,
-                            query: widget.userName,
-                          ));
+                          await context.router.push(
+                            ChatUserListRoute(
+                              tab: ChatTabType.users,
+                              query: widget.userName,
+                            ),
+                          );
                         },
                         icon: const Icon(Icons.chat),
-                        label: const Text('Mesaj Gönder'),
+                        label: Text(
+                          LocaleKeys.custom_card_send_message.tr(),
+                        ),
                         style: FilledButton.styleFrom(
                           backgroundColor: colorScheme.primary,
                           foregroundColor: colorScheme.onPrimary,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(context.sized.mediumValue),
+                            borderRadius: BorderRadius.circular(
+                              context.sized.mediumValue,
+                            ),
                           ),
                           padding: EdgeInsets.symmetric(
                             horizontal: context.sized.normalValue,

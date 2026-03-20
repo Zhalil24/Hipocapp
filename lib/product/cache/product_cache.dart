@@ -1,24 +1,36 @@
 import 'package:core/core.dart';
+import 'package:hipocapp/product/cache/model/locale_cache_model.dart';
 import 'package:hipocapp/product/cache/model/onboarding_cache_model.dart';
 import 'package:hipocapp/product/cache/model/theme_cache_model.dart';
 import 'package:hipocapp/product/cache/model/user_cache_model.dart';
 
 final class ProductCache {
-  ProductCache({required CacheManager cacheManager}) : _cacheManager = cacheManager;
+  ProductCache({required CacheManager cacheManager})
+      : _cacheManager = cacheManager;
 
   final CacheManager _cacheManager;
 
   Future<void> init() async {
     await _cacheManager.init(items: [
       UserCacheModel.empty(),
+      const LocaleCacheModel.empty(),
       const ThemeCacheModel.empty(),
     ]);
   }
 
-  late final SharedCacheOperation<UserCacheModel> userCacheOperation = SharedCacheOperation<UserCacheModel>(emptyModel: UserCacheModel.empty());
+  late final SharedCacheOperation<UserCacheModel> userCacheOperation =
+      SharedCacheOperation<UserCacheModel>(emptyModel: UserCacheModel.empty());
 
-  late final SharedCacheOperation<ThemeCacheModel> themeCacheOperation = SharedCacheOperation<ThemeCacheModel>(emptyModel: ThemeCacheModel.empty());
+  late final SharedCacheOperation<ThemeCacheModel> themeCacheOperation =
+      SharedCacheOperation<ThemeCacheModel>(
+          emptyModel: ThemeCacheModel.empty());
 
-  late final SharedCacheOperation<OnboardingCacheModel> onboardingCacheOperation =
-      SharedCacheOperation<OnboardingCacheModel>(emptyModel: const OnboardingCacheModel.empty());
+  late final SharedCacheOperation<LocaleCacheModel> localeCacheOperation =
+      SharedCacheOperation<LocaleCacheModel>(
+    emptyModel: const LocaleCacheModel.empty(),
+  );
+
+  late final SharedCacheOperation<OnboardingCacheModel>
+      onboardingCacheOperation = SharedCacheOperation<OnboardingCacheModel>(
+          emptyModel: const OnboardingCacheModel.empty());
 }

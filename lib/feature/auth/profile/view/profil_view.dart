@@ -4,16 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hipocapp/feature/auth/profile/view/mixin/profile_view_mixin.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/change_password_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/edit_profile_widget.dart';
-import 'package:hipocapp/feature/auth/profile/view/widget/my_entries_widget.dart';
+import 'package:hipocapp/feature/auth/profile/view/widget/profile_entries_tab_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/profile_info_widget.dart';
-import 'package:hipocapp/product/widget/tab_buttons/tab_buttons_widget.dart';
+import 'package:hipocapp/feature/auth/profile/view/widget/profile_page_content_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/profile_view_model.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/state/profile_view_state.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
 import 'package:hipocapp/product/utility/extension/service_snack_bar.dart';
 import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
-import 'package:kartal/kartal.dart';
 
 @RoutePage()
 class ProfilView extends StatefulWidget {
@@ -32,47 +31,31 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
         listenWhen: (prev, curr) => prev.serviceResponseMessage != curr.serviceResponseMessage && curr.serviceResponseMessage != null,
         listener: (context, state) {
           final msg = state.serviceResponseMessage;
+          if (msg == null) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            createServiceSnackBar(msg),
+          );
           context.read<ProfileViewModel>().clearServiceMessage();
-          if (msg != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              createServiceSnackBar(msg),
-            );
-            context.read<ProfileViewModel>().clearServiceMessage();
-          }
         },
         child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text('Profilim'),
-          ),
           body: BlocBuilder<ProfileViewModel, ProfileViewState>(
             builder: (context, state) {
-              if (state.isLoading) {
+              if (state.isLoading && state.profileModel == null) {
                 return const Center(child: CustomLoader());
               }
-              if (nameController.text.isEmpty && state.profileModel != null) {
-                nameController.text = state.profileModel!.name.toString();
-                surnameController.text = state.profileModel!.surname.toString();
-                usernameController.text = state.profileModel!.username.toString();
-                emailController.text = state.profileModel!.email.toString();
-              }
-              return Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: context.sized.mediumValue),
-                    child: TabButtonsWidget<ProfileTabType>(
-                      activeTabIndex: state.activeTab.index,
-                      tabs: ProfileTabType.values,
-                      onTap: (index) => profileViewModel.changeTab(
-                        ProfileTabType.values[index],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: context.sized.normalValue),
-                  Expanded(
-                    child: _buildTabContent(state.activeTab, profileViewModel.state),
-                  ),
-                ],
+
+              seedProfileControllers(state.profileModel);
+
+              return ProfilePageContentWidget(
+                profileModel: state.profileModel,
+                selectedPhoto: state.photo,
+                activeTab: state.activeTab,
+                onLogout: () {
+                  profileViewModel.logout(context);
+                },
+                onTabChanged: profileViewModel.changeTab,
+                showBlockingLoader: state.isLoading && state.profileModel != null,
+                child: _buildTabContent(state),
               );
             },
           ),
@@ -81,35 +64,16 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
     );
   }
 
-  /// Returns the widget based on the given [tab] and [state].
-  ///
-  /// If [tab] is [ProfileTabType.profile], it returns [ProfileInfoWidget] with
-  /// the profile information of the user.
-  ///
-  /// If [tab] is [ProfileTabType.editProfile], it returns [EditProfileWidget]
-  /// with the ability to edit the user's profile information.
-  ///
-  /// If [tab] is [ProfileTabType.changePassword], it returns [ChangePasswordWidget]
-  /// with the ability to change the user's password.
-  ///
-  /// If [tab] is [ProfileTabType.entries], it returns a [ListView] with the
-  /// entries of the user.
-  Widget _buildTabContent(ProfileTabType tab, ProfileViewState state) {
-    switch (tab) {
+  Widget _buildTabContent(ProfileViewState state) {
+    switch (state.activeTab) {
       case ProfileTabType.profile:
         return ProfileInfoWidget(
-          onTop: () {
-            profileViewModel.logout(context);
-          },
-          imageURL: state.profileModel?.photoURL ?? '',
-          name: state.profileModel?.name ?? '',
-          surname: state.profileModel?.surname ?? '',
-          email: state.profileModel?.email ?? '',
-          username: state.profileModel?.username ?? '',
+          profileModel: state.profileModel,
         );
       case ProfileTabType.editProfile:
         return EditProfileWidget(
           selectedPhoto: state.photo,
+          currentImageUrl: state.profileModel?.photoURL ?? '',
           onPickImage: pickImageFromGallery,
           nameController: nameController,
           surnameController: surnameController,
@@ -130,8 +94,8 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           passwordChangeController: passwordChangeController,
           newPasswordChangeController: newPasswordChangeController,
           newPasswordReChangeController: newPasswordReChangeController,
-          onChangePressed: () async {
-            await profileViewModel.changePassword(
+          onChangePressed: () {
+            profileViewModel.changePassword(
               passwordChangeController.text,
               newPasswordChangeController.text,
               newPasswordReChangeController.text,
@@ -140,17 +104,10 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           },
         );
       case ProfileTabType.entries:
-        return ListView.builder(
-          itemCount: state.profileModel?.entries?.length,
-          itemBuilder: (context, index) {
-            return MyEntriesWidget(
-              desc: state.profileModel?.entries?[index].description ?? '',
-              titleName: state.profileModel?.entries?[index].titleName ?? '',
-              onPressed: () {
-                final entryId = state.profileModel?.entries?[index].id;
-                profileViewModel.deleteEntry(entryId ?? 0);
-              },
-            );
+        return ProfileEntriesTabWidget(
+          profileModel: state.profileModel,
+          onDelete: (entryId) {
+            profileViewModel.deleteEntry(entryId);
           },
         );
     }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hipocapp/feature/chat_user_list/view/chat_user_list_view.dart';
 import 'package:hipocapp/feature/chat_user_list/view_model/chat_user_list_view_model.dart';
@@ -13,11 +15,14 @@ mixin ChatUserListViewMixin on BaseState<ChatUserListView> {
   final TextEditingController searchController = TextEditingController();
 
   ChatUserListViewModel get chatUserListViewModel => _chatUserListViewModel;
+
   @override
   void initState() {
     super.initState();
     _productNetworkErrorManager = ProductNetworkErrorManager(context: context);
-    ProductStateItems.productNetworkManager.listenErrorState(onErrorStatus: _productNetworkErrorManager.handleError);
+    ProductStateItems.productNetworkManager.listenErrorState(
+      onErrorStatus: _productNetworkErrorManager.handleError,
+    );
     _chatUserListViewModel = ChatUserListViewModel(
       userCacheOperation: ProductStateItems.productCache.userCacheOperation,
       userOperation: UserService(ProductStateItems.productNetworkManager),
@@ -25,30 +30,25 @@ mixin ChatUserListViewMixin on BaseState<ChatUserListView> {
       messageOperation: MessageService(ProductStateItems.productNetworkManager),
     );
 
-    Future.microtask(() async {
-      await chatUserListViewModel.connect();
-      await chatUserListViewModel.getAllUser();
-      if (widget.query != null && widget.query!.isNotEmpty) {
-        searchController.text = widget.query!;
-        chatUserListViewModel.filterProfiles(widget.query!);
-      } else {
-        chatUserListViewModel.setProfiles();
-      }
-      await chatUserListViewModel.getUnReadMessage();
-      await chatUserListViewModel.getGroups();
-      await chatUserListViewModel.getLastMessages();
-    });
-
-    final incomingTab = widget.tab;
-    if (incomingTab != null) {
-      chatUserListViewModel.changeTab(incomingTab);
+    final initialQuery = widget.query?.trim() ?? '';
+    if (initialQuery.isNotEmpty) {
+      searchController.text = initialQuery;
     }
+
+    unawaited(
+      Future.microtask(() async {
+        await chatUserListViewModel.initialize(
+          initialTab: widget.tab,
+          initialQuery: initialQuery,
+        );
+      }),
+    );
   }
 
   @override
   void dispose() {
-    chatUserListViewModel.disconnect();
-
+    searchController.dispose();
+    unawaited(chatUserListViewModel.disconnect());
     super.dispose();
   }
 }

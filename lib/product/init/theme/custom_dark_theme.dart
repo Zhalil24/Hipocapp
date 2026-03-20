@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hipocapp/product/init/theme/custom_color_scheme.dart';
+import 'package:hipocapp/product/init/theme/custom_page_transitions_theme.dart';
 import 'package:hipocapp/product/init/theme/custom_theme.dart';
 
 final class CustomDarkTheme implements CustomTheme {
@@ -10,6 +11,7 @@ final class CustomDarkTheme implements CustomTheme {
         fontFamily: GoogleFonts.roboto().fontFamily,
         scaffoldBackgroundColor: CustomColorScheme.darkColorScheme.onPrimary,
         colorScheme: CustomColorScheme.darkColorScheme,
+        pageTransitionsTheme: CustomPageTransitionsTheme.data,
         appBarTheme: AppBarTheme(
           backgroundColor: CustomColorScheme.darkColorScheme.primary,
           titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),

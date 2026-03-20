@@ -1,12 +1,19 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 
 class BottomNavigationBarWidget extends StatefulWidget {
-  const BottomNavigationBarWidget({super.key, required this.onItemSelected});
+  const BottomNavigationBarWidget({
+    super.key,
+    required this.onItemSelected,
+  });
+
   final ValueChanged<int> onItemSelected;
 
   @override
-  State<BottomNavigationBarWidget> createState() => _BottomNavigationBarWidgetState();
+  State<BottomNavigationBarWidget> createState() =>
+      _BottomNavigationBarWidgetState();
 }
 
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
@@ -40,31 +47,31 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
           });
           widget.onItemSelected(index);
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-            label: 'Anasayfa',
+            icon: const Icon(Icons.home_outlined),
+            activeIcon: const Icon(Icons.home),
+            label: LocaleKeys.home_bottom_nav_home.tr(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shop_outlined),
-            activeIcon: Icon(Icons.shop),
-            label: 'Market',
+            icon: const Icon(Icons.shop_outlined),
+            activeIcon: const Icon(Icons.shop),
+            label: LocaleKeys.home_bottom_nav_market.tr(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none),
-            activeIcon: Icon(Icons.notifications),
-            label: 'İlanlar',
+            icon: const Icon(Icons.notifications_none),
+            activeIcon: const Icon(Icons.notifications),
+            label: LocaleKeys.home_bottom_nav_announcements.tr(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group_outlined),
-            activeIcon: Icon(Icons.group),
-            label: 'Partnerler',
+            icon: const Icon(Icons.group_outlined),
+            activeIcon: const Icon(Icons.group),
+            label: LocaleKeys.home_bottom_nav_partners.tr(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.auto_stories_outlined),
-            activeIcon: Icon(Icons.auto_stories),
-            label: 'Eğitimler',
+            icon: const Icon(Icons.auto_stories_outlined),
+            activeIcon: const Icon(Icons.auto_stories),
+            label: LocaleKeys.home_bottom_nav_trainings.tr(),
           ),
         ],
       ),

@@ -5,11 +5,10 @@ import 'package:hipocapp/feature/auth/forgot_password/view/mixin/forgot_password
 import 'package:hipocapp/feature/auth/forgot_password/view/widget/form_widget.dart';
 import 'package:hipocapp/feature/auth/forgot_password/view_model/forgot_password_view_model.dart';
 import 'package:hipocapp/feature/auth/forgot_password/view_model/state/forgot_password_view_state.dart';
-import 'package:hipocapp/feature/auth/login/view/widget/appbar_widget.dart';
-import 'package:hipocapp/product/widget/logo/logo_banner.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/extension/service_snack_bar.dart';
 import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
+import 'package:hipocapp/product/widget/logo/logo_banner.dart';
 
 @RoutePage()
 class ForgotPasswordView extends StatefulWidget {
@@ -20,8 +19,6 @@ class ForgotPasswordView extends StatefulWidget {
 }
 
 class _ForgotPasswordViewState extends BaseState<ForgotPasswordView> with ForgotPasswordViewMixin {
-  final TextEditingController _emailNameController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -38,7 +35,6 @@ class _ForgotPasswordViewState extends BaseState<ForgotPasswordView> with Forgot
           }
         },
         child: Scaffold(
-          appBar: const AppbarWidget(),
           body: BlocBuilder<ForgotPasswordViewModel, ForgotPasswordViewState>(
             builder: (context, state) {
               return state.isLoading
@@ -49,10 +45,10 @@ class _ForgotPasswordViewState extends BaseState<ForgotPasswordView> with Forgot
                         children: [
                           const LogoBanner(),
                           FormWidget(
-                            emailNameController: _emailNameController,
+                            emailNameController: emailNameController,
                             onPressed: () {
                               forgotPasswordViewModel.forgotPassword(
-                                _emailNameController.text,
+                                emailNameController.text,
                               );
                             },
                           ),

@@ -1,17 +1,23 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/state/view_model/prodcut_state.dart';
 import 'package:hipocapp/product/state/view_model/product_view_model.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const CustomAppBar({
+    super.key,
+    this.isDrawer = true,
+    this.title,
+  });
+
   final bool isDrawer;
   final String? title;
-
-  const CustomAppBar({super.key, this.isDrawer = true, this.title});
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -32,7 +38,8 @@ class _CustomAppBarState extends BaseState<CustomAppBar> {
       elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(color: colorScheme.onSurface),
-      systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+      systemOverlayStyle:
+          isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       title: Text(
         widget.title ?? '',
         style: TextStyle(
@@ -48,7 +55,7 @@ class _CustomAppBarState extends BaseState<CustomAppBar> {
             )
           : IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.router.maybePop(),
               color: colorScheme.onSurface,
             ),
       actions: [
@@ -61,12 +68,14 @@ class _CustomAppBarState extends BaseState<CustomAppBar> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.chat),
-                    onPressed: () => context.router.push(ChatUserListRoute()),
+                    onPressed: () =>
+                        context.router.navigate(ChatUserListRoute()),
                     color: colorScheme.onSurface,
                   ),
                   IconButton(
                     icon: const Icon(Icons.person),
-                    onPressed: () => context.router.push(const ProfilRoute()),
+                    onPressed: () =>
+                        context.router.navigate(const ProfilRoute()),
                     color: colorScheme.onSurface,
                   ),
                 ],
@@ -76,12 +85,13 @@ class _CustomAppBarState extends BaseState<CustomAppBar> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextButton(
-                  onPressed: () => context.router.push(const LoginRoute()),
-                  child: const Text('Giriş Yap'),
+                  onPressed: () => context.router.navigate(const LoginRoute()),
+                  child: Text(LocaleKeys.custom_app_bar_login.tr()),
                 ),
                 TextButton(
-                  onPressed: () => context.router.push(const RegisterRoute()),
-                  child: const Text('Kayıt Ol'),
+                  onPressed: () =>
+                      context.router.navigate(const RegisterRoute()),
+                  child: Text(LocaleKeys.custom_app_bar_register.tr()),
                 ),
               ],
             );

@@ -1,70 +1,93 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
+import 'package:widgets/widgets.dart';
 
-class GroupListWidget extends StatefulWidget {
-  const GroupListWidget({super.key, this.groupName, required this.onTop});
+class GroupListWidget extends StatelessWidget {
+  const GroupListWidget({
+    super.key,
+    this.groupName,
+    this.memberCount,
+    required this.onTap,
+  });
 
   final String? groupName;
-  final VoidCallback onTop;
+  final int? memberCount;
+  final VoidCallback onTap;
 
-  @override
-  State<GroupListWidget> createState() => _GroupListWidgetState();
-}
-
-class _GroupListWidgetState extends State<GroupListWidget> {
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return InkWell(
-      borderRadius: BorderRadius.circular(context.sized.mediumValue),
-      onTap: widget.onTop,
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: context.sized.normalValue,
-          vertical: context.sized.lowValue,
-        ),
-        margin: EdgeInsets.symmetric(
-          vertical: context.sized.lowValue * 0.5,
-        ),
-        decoration: BoxDecoration(
-          color: colorScheme.inverseSurface,
-          borderRadius: BorderRadius.circular(context.sized.mediumValue),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: context.sized.lowValue,
-              offset: Offset(0, context.sized.lowValue * 0.3),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: context.sized.normalValue,
-              backgroundColor: Colors.blue.shade100,
-              child: Icon(
-                Icons.group,
-                size: context.sized.normalValue,
-                color: Colors.blue.shade700,
-              ),
-            ),
-            SizedBox(width: context.sized.normalValue),
-            Expanded(
-              child: Text(
-                widget.groupName ?? 'Bilinmeyen',
-                style: TextStyle(
-                  fontSize: context.sized.normalValue,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final normal = context.sized.normalValue;
+    final low = context.sized.lowValue;
+
+    return AppSurfaceCard(
+      padding: EdgeInsets.symmetric(
+        horizontal: normal,
+        vertical: low * 0.95,
+      ),
+      margin: EdgeInsets.only(bottom: low * 0.85),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(normal * 1.35),
+          onTap: onTap,
+          child: Row(
+            children: [
+              Container(
+                width: context.sized.height * 0.068,
+                height: context.sized.height * 0.068,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      colorScheme.primary.withValues(alpha: 0.86),
+                      colorScheme.secondary.withValues(alpha: 0.72),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(normal * 1.15),
+                ),
+                child: Icon(
+                  Icons.groups_rounded,
+                  color: colorScheme.onPrimary,
+                  size: context.sized.height * 0.03,
                 ),
               ),
-            ),
-            Icon(
-              Icons.chevron_right,
-              size: context.sized.mediumValue,
-              color: Colors.grey,
-            ),
-          ],
+              SizedBox(width: normal),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      groupName ??
+                          LocaleKeys.general_fallback_unknown_group.tr(),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(height: low * 0.32),
+                    Text(
+                      memberCount != null && memberCount! > 0
+                          ? LocaleKeys.chat_user_list_group_member_count.tr(
+                              namedArgs: {'count': '$memberCount'},
+                            )
+                          : LocaleKeys.chat_user_list_group_open_direct.tr(),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: low * 0.75),
+              Icon(
+                Icons.arrow_forward_rounded,
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ],
+          ),
         ),
       ),
     );

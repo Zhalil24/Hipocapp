@@ -1,16 +1,17 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/state/profile_view_state.dart';
+import 'package:hipocapp/product/init/language/locale_keys.g.dart';
+import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/service/interface/entry_operation.dart';
 import 'package:hipocapp/product/service/interface/profile_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
 import 'package:hipocapp/product/state/view_model/product_view_model.dart';
 import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
-
-import '../../../../product/navigation/app_router.dart';
 
 final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   ProfileViewModel({
@@ -27,9 +28,8 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   File? selectedPhoto;
   late final ProductViewModel _productViewModel;
 
-  /// Change loading state
-  void changeLoading() {
-    emit(state.copyWith(isLoading: !state.isLoading));
+  void _setLoading(bool value) {
+    emit(state.copyWith(isLoading: value));
   }
 
   /// Set selected photo
@@ -54,11 +54,10 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   ///
   /// Returns false.
   Future<bool> getProfile(int userId) async {
-    changeLoading();
-    final id = userId;
-    final response = await _profileOperation.getProfile(id);
+    _setLoading(true);
+    final response = await _profileOperation.getProfile(userId);
     emit(state.copyWith(profileModel: response?.profileModel));
-    changeLoading();
+    _setLoading(false);
     return false;
   }
 
@@ -80,7 +79,7 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     String username,
     int userId,
   ) async {
-    changeLoading();
+    _setLoading(true);
     final model = ProfileUpdateModel(
       id: userId,
       email: email,
@@ -92,31 +91,40 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
       passwordRe: 'a',
     );
     final response = await _profileOperation.updateProfile(model);
-
-    changeLoading();
+    final updatedProfile = state.profileModel?.copyWith(
+      email: email,
+      name: name,
+      surname: surname,
+      username: username,
+    );
+    emit(state.copyWith(profileModel: updatedProfile));
+    _setLoading(false);
     setServiceRespnonse(response?.message);
   }
 
   /// Change tab bar
   void changeTab(ProfileTabType tab) {
-    changeLoading();
     emit(state.copyWith(activeTab: tab));
-    changeLoading();
   }
 
   /// Logout
   Future<void> logout(BuildContext context) async {
     await _productViewModel.onLogout();
     if (context.mounted) {
-      await context.router.push(
+      await context.router.replaceAll([
         const HomeRoute(),
-      );
+      ]);
     }
-    setServiceRespnonse('Başarıyla çıkış yapıldı');
+    setServiceRespnonse(LocaleKeys.auth_profile_logout_success.tr());
   }
 
-  Future<void> changePassword(String password, String newpassword, String newrepassword, int userId) async {
-    changeLoading();
+  Future<void> changePassword(
+    String password,
+    String newpassword,
+    String newrepassword,
+    int userId,
+  ) async {
+    _setLoading(true);
     final model = ChangePasswordModel(
       newpassword: newpassword,
       newrepassword: newrepassword,
@@ -125,7 +133,7 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
     );
     final message = await _profileOperation.changePassword(model);
     setServiceRespnonse(message);
-    changeLoading();
+    _setLoading(false);
   }
 
   /// Delete an entry with the given [id].
@@ -134,14 +142,21 @@ final class ProfileViewModel extends BaseCubit<ProfileViewState> {
   /// Also, update the active tab to [ProfileTabType.entries].
   ///
   Future<void> deleteEntry(int id) async {
-    changeLoading();
-    var resp = await _entryOperation.deleteEntry(id);
-    setServiceRespnonse(resp?.message);
-    final updatedEntries = List<EntryModel>.from(state.profileModel?.entries ?? []);
+    _setLoading(true);
+    final resp = await _entryOperation.deleteEntry(id);
+    final updatedEntries = List<EntryModel>.from(
+      state.profileModel?.entries ?? [],
+    );
     updatedEntries.removeWhere((entry) => entry.id == id);
-    final updatedProfile = state.profileModel?.copyWith(entries: updatedEntries);
-    emit(state.copyWith(profileModel: updatedProfile));
-    emit(state.copyWith(activeTab: ProfileTabType.entries));
-    changeLoading();
+    final updatedProfile =
+        state.profileModel?.copyWith(entries: updatedEntries);
+    emit(
+      state.copyWith(
+        profileModel: updatedProfile,
+        activeTab: ProfileTabType.entries,
+      ),
+    );
+    _setLoading(false);
+    setServiceRespnonse(resp?.message);
   }
 }
