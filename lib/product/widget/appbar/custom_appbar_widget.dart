@@ -13,10 +13,12 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
     this.isDrawer = true,
+    this.showLeading = true,
     this.title,
   });
 
   final bool isDrawer;
+  final bool showLeading;
   final String? title;
 
   @override
@@ -47,17 +49,19 @@ class _CustomAppBarState extends BaseState<CustomAppBar> {
           color: colorScheme.onSurface,
         ),
       ),
-      leading: widget.isDrawer
-          ? IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-              color: colorScheme.onSurface,
-            )
-          : IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () => context.router.maybePop(),
-              color: colorScheme.onSurface,
-            ),
+      leading: widget.showLeading
+          ? widget.isDrawer
+              ? IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                  color: colorScheme.onSurface,
+                )
+              : IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => context.router.maybePop(),
+                  color: colorScheme.onSurface,
+                )
+          : null,
       actions: [
         BlocBuilder<ProductViewModel, ProdcutState>(
           buildWhen: (prev, curr) => prev.isLogin != curr.isLogin,
@@ -75,7 +79,7 @@ class _CustomAppBarState extends BaseState<CustomAppBar> {
                   IconButton(
                     icon: const Icon(Icons.person),
                     onPressed: () =>
-                        context.router.navigate(const ProfilRoute()),
+                        context.router.navigate(ProfilRoute()),
                     color: colorScheme.onSurface,
                   ),
                 ],

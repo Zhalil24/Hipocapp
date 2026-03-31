@@ -10,8 +10,14 @@
     "group_fallback_title": "Channel",
     "group_fallback_description": "Channel description",
     "group_join_cta": "Join In",
+    "content_search": {
+      "market": "Search market",
+      "announcements": "Search announcement",
+      "partners": "Search partner",
+      "trainings": "Search training"
+    },
     "entry_filter_latest": "daily",
-    "entry_filter_random": "scrum",
+    "entry_filter_random": "stream",
     "bottom_nav": {
       "home": "Home",
       "market": "Market",
@@ -39,7 +45,7 @@
       "join_channel": "Join Channel",
       "clear_search": "Clear Search",
       "show_details": "View Details",
-      "create_title": "Create New Title",
+      "create_title": "Open Title",
       "sending": "Sending"
     },
     "dialog": {
@@ -237,12 +243,12 @@
     "tab": {
       "users": "People",
       "past_messages": "Chats",
-      "groups": "Groups"
+      "groups": "Channels"
     },
     "header": {
       "users_title": "People in the community",
       "past_messages_title": "Ongoing chats",
-      "groups_title": "Groups and rooms",
+      "groups_title": "Channels",
       "users_description": "Choose the right person and jump into a new conversation instantly.",
       "past_messages_description": "Track your recent conversations from one screen and catch unread messages faster.",
       "groups_description": "Join the community rooms you belong to and keep shared conversations going without interruption."
@@ -254,8 +260,8 @@
       "users_message": "New people in the community will appear here.",
       "conversations_title": "No conversation started yet",
       "conversations_message": "People you talk to are collected here. You can switch to the users tab to start a new chat.",
-      "groups_title": "No groups found yet",
-      "groups_message": "Community rooms you joined will be listed here."
+      "groups_title": "No channels yet",
+      "groups_message": "Channels you joined will be listed here."
     },
     "user": {
       "active": "Active right now and ready to chat",
@@ -263,8 +269,8 @@
       "unread_count": "{count} unread messages"
     },
     "group": {
-      "member_count": "Join a shared chat with {count} members",
-      "open_direct": "Open the community channel and jump into the conversation directly"
+      "member_count": "Join the channel chat with {count} members",
+      "open_direct": "Open the community channel and join the conversation directly"
     }
   },
   "chat": {
@@ -326,7 +332,7 @@
     "empty_message_logged_out": "This title is still empty. Once you sign in, you can share the first comment."
   },
   "drawer": {
-    "header_title": "HipocApp navigation",
+    "header_title": "Menu",
     "header_description_logged_in": "Welcome {user}, shape your flow quickly.",
     "header_description_logged_out": "Explore, choose a category, and reach the titles that interest you from one place.",
     "badge_member_mode": "Member mode",

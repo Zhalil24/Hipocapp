@@ -10,15 +10,20 @@ class CustomCardWidgetSkeleton extends StatelessWidget {
       children: [
         Card(
           margin: EdgeInsets.symmetric(
-            horizontal: context.sized.lowValue,
-            vertical: context.sized.lowValue,
+            horizontal: context.sized.lowValue * 0.2,
+            vertical: context.sized.lowValue * 0.75,
           ),
           elevation: 8,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(context.sized.lowValue),
+            borderRadius: BorderRadius.circular(context.sized.lowValue * 1.1),
           ),
           child: Padding(
-            padding: EdgeInsets.all(context.sized.lowValue),
+            padding: EdgeInsets.fromLTRB(
+              context.sized.normalValue * 0.78,
+              context.sized.lowValue * 0.9,
+              context.sized.normalValue * 0.78,
+              context.sized.lowValue * 0.75,
+            ),
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final maxWidth = constraints.maxWidth;
@@ -104,7 +109,9 @@ class CustomCardWidgetSkeleton extends StatelessWidget {
           ),
         ),
         Divider(
-          height: context.sized.normalValue,
+          height: context.sized.lowValue * 1.8,
+          indent: context.sized.lowValue * 0.2,
+          endIndent: context.sized.lowValue * 0.2,
           color: Colors.grey.shade300,
         ),
       ],

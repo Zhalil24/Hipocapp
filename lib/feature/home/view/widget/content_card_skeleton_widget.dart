@@ -15,7 +15,7 @@ class ContentCardSkeleton extends StatelessWidget {
         : Colors.white.withValues(alpha: 0.70);
 
     return Container(
-      margin: EdgeInsets.only(bottom: context.sized.normalValue),
+      margin: EdgeInsets.only(bottom: context.sized.normalValue * 0.9),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(context.sized.lowValue),
         boxShadow: [
@@ -43,7 +43,7 @@ class ContentCardSkeleton extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(context.sized.normalValue),
+              padding: EdgeInsets.all(context.sized.normalValue * 0.9),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

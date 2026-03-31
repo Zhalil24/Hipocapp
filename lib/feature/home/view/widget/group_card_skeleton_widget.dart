@@ -7,11 +7,11 @@ class GroupSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(context.sized.lowValue),
+      padding: EdgeInsets.symmetric(horizontal: context.sized.lowValue * 0.35),
       child: Container(
         width: double.infinity,
-        height: context.sized.normalValue * 10,
-        padding: EdgeInsets.all(context.sized.normalValue),
+        height: context.sized.normalValue * 8.6,
+        padding: EdgeInsets.all(context.sized.normalValue * 0.9),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(context.sized.lowValue),
         ),

@@ -37,6 +37,9 @@ class SearchBarWidget extends HookWidget {
 
     return FloatingSearchBar(
       hint: LocaleKeys.home_search_hint.tr(),
+      automaticallyImplyDrawerHamburger: false,
+      automaticallyImplyBackButton: false,
+      leadingActions: const [],
       backgroundColor: colorScheme.surface,
       hintStyle: TextStyle(
         color: colorScheme.onSurfaceVariant,

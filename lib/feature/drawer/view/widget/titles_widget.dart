@@ -36,30 +36,11 @@ class DrawerTitlesWidget extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      LocaleKeys.drawer_titles_title.tr(),
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(height: low * 0.45),
-                    Text(
-                      hasSelection
-                          ? LocaleKeys.drawer_titles_description_selected.tr(
-                              namedArgs: {
-                                'category': selectedHeaderText!.trim(),
-                              },
-                            )
-                          : LocaleKeys.drawer_titles_description_default.tr(),
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                        height: 1.45,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  LocaleKeys.drawer_titles_title.tr(),
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
               if (titles.isNotEmpty)
@@ -82,7 +63,7 @@ class DrawerTitlesWidget extends StatelessWidget {
                 ),
             ],
           ),
-          SizedBox(height: normal),
+          SizedBox(height: normal * 0.9),
           if (isLoading)
             SizedBox(
               height: context.sized.height * 0.18,
@@ -122,8 +103,8 @@ class DrawerTitlesWidget extends StatelessWidget {
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: normal,
-                          vertical: low,
+                          horizontal: normal * 0.9,
+                          vertical: low * 0.9,
                         ),
                         child: Row(
                           children: [

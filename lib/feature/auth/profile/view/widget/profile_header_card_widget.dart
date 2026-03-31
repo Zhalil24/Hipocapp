@@ -6,10 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/init/product_localization.dart';
-import 'package:hipocapp/product/utility/enums/locales.dart';
-import 'package:hipocapp/product/widget/circle_avatar/custom_circle_avatar.dart';
 import 'package:hipocapp/product/state/view_model/prodcut_state.dart';
 import 'package:hipocapp/product/state/view_model/product_view_model.dart';
+import 'package:hipocapp/product/utility/enums/locales.dart';
+import 'package:hipocapp/product/widget/circle_avatar/custom_circle_avatar.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -19,44 +19,55 @@ class ProfileHeaderCardWidget extends StatelessWidget {
     required this.profileModel,
     required this.selectedPhoto,
     required this.onLogout,
+    this.isOwnProfile = true,
+    this.fallbackUsername,
   });
 
   final ProfileModel? profileModel;
   final File? selectedPhoto;
   final VoidCallback onLogout;
+  final bool isOwnProfile;
+  final String? fallbackUsername;
 
   @override
   Widget build(BuildContext context) {
-    final normal = context.sized.normalValue;
     final displayName = _displayName;
     final entryCount = profileModel?.entries?.length ?? 0;
+    final normal = context.sized.normalValue;
 
     return AppSurfaceCard(
-      padding: EdgeInsets.all(context.sized.height * 0.032),
+      padding: EdgeInsets.all(context.sized.height * 0.03),
       child: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth >= 860;
           final profileSummary = _ProfileSummary(
-            displayName: displayName,
-            handle: '@${profileModel?.username ?? 'hipocapp'}',
-            email: profileModel?.email ??
-                LocaleKeys.general_fallback_email_not_added.tr(),
-            degree: profileModel?.degreeModel?.degreeName ??
-                LocaleKeys.general_fallback_community_member.tr(),
-            entryCount: entryCount,
+            displayName: isOwnProfile ? displayName : _publicUserName(context),
+            handle: isOwnProfile ? '@${profileModel?.username ?? 'hipocapp'}' : null,
+            email: isOwnProfile
+                ? profileModel?.email ??
+                    LocaleKeys.general_fallback_email_not_added.tr()
+                : null,
+            degree: isOwnProfile
+                ? profileModel?.degreeModel?.degreeName ??
+                    LocaleKeys.general_fallback_degree_not_added.tr()
+                : null,
+            entryCount: isOwnProfile ? entryCount : null,
             selectedPhoto: selectedPhoto,
             imageUrl: profileModel?.photoURL ?? '',
+            isPublicProfile: !isOwnProfile,
           );
-          final quickActions = _ProfileQuickActions(
-            onLogout: onLogout,
-          );
+          final quickActions = _ProfileQuickActions(onLogout: onLogout);
+
+          if (!isOwnProfile) {
+            return profileSummary;
+          }
 
           if (isWide) {
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(flex: 3, child: profileSummary),
-                SizedBox(width: normal * 1.5),
+                SizedBox(width: normal * 1.35),
                 Expanded(flex: 2, child: quickActions),
               ],
             );
@@ -66,7 +77,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               profileSummary,
-              SizedBox(height: normal * 1.25),
+              SizedBox(height: normal * 1.15),
               quickActions,
             ],
           );
@@ -83,26 +94,42 @@ class ProfileHeaderCardWidget extends StatelessWidget {
         ? LocaleKeys.auth_profile_display_name_fallback.tr()
         : fullName;
   }
+
+  String _publicUserName(BuildContext context) {
+    final userName = profileModel?.username?.trim() ?? '';
+    if (userName.isNotEmpty) {
+      return userName;
+    }
+
+    final fallback = fallbackUsername?.trim() ?? '';
+    if (fallback.isNotEmpty) {
+      return fallback;
+    }
+
+    return LocaleKeys.general_fallback_unknown_user.tr();
+  }
 }
 
 class _ProfileSummary extends StatelessWidget {
   const _ProfileSummary({
     required this.displayName,
-    required this.handle,
-    required this.email,
-    required this.degree,
-    required this.entryCount,
     required this.selectedPhoto,
     required this.imageUrl,
+    this.handle,
+    this.email,
+    this.degree,
+    this.entryCount,
+    this.isPublicProfile = false,
   });
 
   final String displayName;
-  final String handle;
-  final String email;
-  final String degree;
-  final int entryCount;
+  final String? handle;
+  final String? email;
+  final String? degree;
+  final int? entryCount;
   final File? selectedPhoto;
   final String imageUrl;
+  final bool isPublicProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -152,43 +179,47 @@ class _ProfileSummary extends StatelessWidget {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  SizedBox(height: low * 0.35),
-                  Text(
-                    handle,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: colorScheme.primary,
-                      fontWeight: FontWeight.w700,
+                  if (!isPublicProfile && handle != null) ...[
+                    SizedBox(height: low * 0.35),
+                    Text(
+                      handle!,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: colorScheme.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: low * 0.5),
-                  Text(
-                    email,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
+                    SizedBox(height: low * 0.5),
+                    Text(
+                      email ?? '',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),
           ],
         ),
-        SizedBox(height: normal * 1.2),
-        Wrap(
-          spacing: low * 0.75,
-          runSpacing: low * 0.75,
-          children: [
-            _ProfileMetricChip(
-              icon: Icons.badge_outlined,
-              label: degree,
-            ),
-            _ProfileMetricChip(
-              icon: Icons.auto_stories_rounded,
-              label: LocaleKeys.general_count_entry.tr(
-                namedArgs: {'count': '$entryCount'},
+        if (!isPublicProfile && degree != null && entryCount != null) ...[
+          SizedBox(height: normal * 1.1),
+          Wrap(
+            spacing: low * 0.75,
+            runSpacing: low * 0.75,
+            children: [
+              _ProfileMetricChip(
+                icon: Icons.badge_outlined,
+                label: degree!,
               ),
-            ),
-          ],
-        ),
+              _ProfileMetricChip(
+                icon: Icons.auto_stories_rounded,
+                label: LocaleKeys.general_count_entry.tr(
+                  namedArgs: {'count': '$entryCount'},
+                ),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }
@@ -203,10 +234,8 @@ class _ProfileQuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
     final normal = context.sized.normalValue;
-    final low = context.sized.lowValue;
     final selectedLocale =
         context.locale.languageCode == Locales.en.locale.languageCode
             ? Locales.en
@@ -222,113 +251,65 @@ class _ProfileQuickActions extends StatelessWidget {
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            LocaleKeys.auth_profile_quick_settings_title.tr(),
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          SizedBox(height: low * 0.55),
-          Text(
-            LocaleKeys.auth_profile_quick_settings_description.tr(),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-              height: 1.4,
-            ),
-          ),
-          SizedBox(height: normal),
-          BlocBuilder<ProductViewModel, ProdcutState>(
-            buildWhen: (prev, curr) => prev.themeMode != curr.themeMode,
-            builder: (context, state) {
-              final selectedMode = state.themeMode == ThemeMode.dark
-                  ? ThemeMode.dark
-                  : ThemeMode.light;
+          _ProfileActionRow(
+            icon: Icons.light_mode_rounded,
+            child: BlocBuilder<ProductViewModel, ProdcutState>(
+              buildWhen: (prev, curr) => prev.themeMode != curr.themeMode,
+              builder: (context, state) {
+                final selectedMode = state.themeMode == ThemeMode.dark
+                    ? ThemeMode.dark
+                    : ThemeMode.light;
 
-              return SegmentedButton<ThemeMode>(
-                segments: [
-                  ButtonSegment(
-                    value: ThemeMode.light,
-                    icon: const Icon(Icons.light_mode_rounded),
-                    label: Text(LocaleKeys.general_theme_light.tr()),
-                  ),
-                  ButtonSegment(
-                    value: ThemeMode.dark,
-                    icon: const Icon(Icons.dark_mode_rounded),
-                    label: Text(LocaleKeys.general_theme_dark.tr()),
-                  ),
-                ],
-                selected: {selectedMode},
-                onSelectionChanged: (values) async {
-                  await context.read<ProductViewModel>().changeThemeMode(
-                        values.first,
-                      );
-                },
-                style: ButtonStyle(
-                  visualDensity: VisualDensity.compact,
-                  side: WidgetStatePropertyAll(
-                    BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.22),
+                return SegmentedButton<ThemeMode>(
+                  segments: [
+                    ButtonSegment(
+                      value: ThemeMode.light,
+                      icon: const Icon(Icons.light_mode_rounded),
+                      label: Text(LocaleKeys.general_theme_light.tr()),
                     ),
-                  ),
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(normal),
+                    ButtonSegment(
+                      value: ThemeMode.dark,
+                      icon: const Icon(Icons.dark_mode_rounded),
+                      label: Text(LocaleKeys.general_theme_dark.tr()),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
-          SizedBox(height: normal),
-          Text(
-            LocaleKeys.general_language_title.tr(),
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w700,
+                  ],
+                  selected: {selectedMode},
+                  onSelectionChanged: (values) async {
+                    await context.read<ProductViewModel>().changeThemeMode(
+                          values.first,
+                        );
+                  },
+                  style: _segmentStyle(context),
+                );
+              },
             ),
           ),
-          SizedBox(height: low * 0.55),
-          Text(
-            LocaleKeys.general_language_description.tr(),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-              height: 1.4,
-            ),
-          ),
-          SizedBox(height: normal),
-          SegmentedButton<Locales>(
-            segments: [
-              ButtonSegment(
-                value: Locales.tr,
-                icon: const Icon(Icons.translate_rounded),
-                label: Text(LocaleKeys.terms_language_tr.tr()),
-              ),
-              ButtonSegment(
-                value: Locales.en,
-                icon: const Icon(Icons.language_rounded),
-                label: Text(LocaleKeys.terms_language_en.tr()),
-              ),
-            ],
-            selected: {selectedLocale},
-            onSelectionChanged: (values) async {
-              await ProductLocalization.updateLanguage(
-                context: context,
-                value: values.first,
-              );
-            },
-            style: ButtonStyle(
-              visualDensity: VisualDensity.compact,
-              side: WidgetStatePropertyAll(
-                BorderSide(
-                  color: colorScheme.outline.withValues(alpha: 0.22),
+          SizedBox(height: normal * 0.85),
+          _ProfileActionRow(
+            icon: Icons.language_rounded,
+            child: SegmentedButton<Locales>(
+              segments: [
+                ButtonSegment(
+                  value: Locales.tr,
+                  icon: const Icon(Icons.translate_rounded),
+                  label: Text(LocaleKeys.terms_language_tr.tr()),
                 ),
-              ),
-              shape: WidgetStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(normal),
+                ButtonSegment(
+                  value: Locales.en,
+                  icon: const Icon(Icons.language_rounded),
+                  label: Text(LocaleKeys.terms_language_en.tr()),
                 ),
-              ),
+              ],
+              selected: {selectedLocale},
+              onSelectionChanged: (values) async {
+                await ProductLocalization.updateLanguage(
+                  context: context,
+                  value: values.first,
+                );
+              },
+              style: _segmentStyle(context),
             ),
           ),
           SizedBox(height: normal),
@@ -346,6 +327,66 @@ class _ProfileQuickActions extends StatelessWidget {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  ButtonStyle _segmentStyle(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final normal = context.sized.normalValue;
+
+    return ButtonStyle(
+      visualDensity: VisualDensity.compact,
+      side: WidgetStatePropertyAll(
+        BorderSide(
+          color: colorScheme.outline.withValues(alpha: 0.22),
+        ),
+      ),
+      shape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(normal),
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfileActionRow extends StatelessWidget {
+  const _ProfileActionRow({
+    required this.icon,
+    required this.child,
+  });
+
+  final IconData icon;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final normal = context.sized.normalValue;
+    final low = context.sized.lowValue;
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: normal * 0.82,
+        vertical: low * 0.78,
+      ),
+      decoration: BoxDecoration(
+        color: colorScheme.surface.withValues(alpha: 0.72),
+        borderRadius: BorderRadius.circular(normal * 1.15),
+        border: Border.all(
+          color: colorScheme.outline.withValues(alpha: 0.16),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: colorScheme.primary,
+          ),
+          SizedBox(width: low * 0.8),
+          Expanded(child: child),
         ],
       ),
     );

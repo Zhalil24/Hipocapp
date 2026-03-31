@@ -31,19 +31,18 @@ class CustomDrawerHeader extends StatelessWidget {
         context.locale.languageCode == Locales.en.locale.languageCode
             ? Locales.en
             : Locales.tr;
-    final heroGradient = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        colorScheme.primary.withValues(alpha: 0.92),
-        colorScheme.secondary.withValues(alpha: 0.82),
-      ],
-    );
 
     return Container(
       padding: EdgeInsets.all(context.sized.height * 0.03),
       decoration: BoxDecoration(
-        gradient: heroGradient,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            colorScheme.primary.withValues(alpha: 0.92),
+            colorScheme.secondary.withValues(alpha: 0.82),
+          ],
+        ),
         borderRadius: BorderRadius.circular(normal * 1.8),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.18),
@@ -106,25 +105,6 @@ class CustomDrawerHeader extends StatelessWidget {
             ],
           ),
           SizedBox(height: normal * 1.1),
-          Wrap(
-            spacing: low * 0.7,
-            runSpacing: low * 0.7,
-            children: [
-              _HeaderBadge(
-                icon: isLoggedIn
-                    ? Icons.verified_user_rounded
-                    : Icons.explore_rounded,
-                label: isLoggedIn
-                    ? LocaleKeys.drawer_badge_member_mode.tr()
-                    : LocaleKeys.drawer_badge_guest_mode.tr(),
-              ),
-              _HeaderBadge(
-                icon: Icons.grid_view_rounded,
-                label: LocaleKeys.drawer_badge_quick_category.tr(),
-              ),
-            ],
-          ),
-          SizedBox(height: normal * 1.1),
           Container(
             padding: EdgeInsets.all(normal),
             decoration: BoxDecoration(
@@ -135,130 +115,57 @@ class CustomDrawerHeader extends StatelessWidget {
               ),
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  LocaleKeys.drawer_theme_title.tr(),
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(height: low * 0.55),
-                Text(
-                  LocaleKeys.drawer_theme_description.tr(),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.78),
-                    height: 1.35,
-                  ),
-                ),
-                SizedBox(height: normal),
-                SegmentedButton<ThemeMode>(
-                  segments: [
-                    ButtonSegment(
-                      value: ThemeMode.light,
-                      icon: const Icon(Icons.light_mode_rounded),
-                      label: Text(LocaleKeys.general_theme_light.tr()),
-                    ),
-                    ButtonSegment(
-                      value: ThemeMode.dark,
-                      icon: const Icon(Icons.dark_mode_rounded),
-                      label: Text(LocaleKeys.general_theme_dark.tr()),
-                    ),
-                  ],
-                  selected: {
-                    themeMode == ThemeMode.dark
-                        ? ThemeMode.dark
-                        : ThemeMode.light,
-                  },
-                  onSelectionChanged: (values) {
-                    onThemeChanged(values.first);
-                  },
-                  style: ButtonStyle(
-                    visualDensity: VisualDensity.compact,
-                    foregroundColor: WidgetStatePropertyAll(
-                      Colors.white.withValues(alpha: 0.92),
-                    ),
-                    side: WidgetStatePropertyAll(
-                      BorderSide(
-                        color: Colors.white.withValues(alpha: 0.24),
+                _CompactControlRow(
+                  icon: Icons.light_mode_rounded,
+                  child: SegmentedButton<ThemeMode>(
+                    segments: [
+                      ButtonSegment(
+                        value: ThemeMode.light,
+                        icon: const Icon(Icons.light_mode_rounded),
+                        label: Text(LocaleKeys.general_theme_light.tr()),
                       ),
-                    ),
-                    backgroundColor: WidgetStateProperty.resolveWith(
-                      (states) {
-                        if (states.contains(WidgetState.selected)) {
-                          return Colors.white.withValues(alpha: 0.18);
-                        }
-                        return Colors.white.withValues(alpha: 0.05);
-                      },
-                    ),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(normal),
+                      ButtonSegment(
+                        value: ThemeMode.dark,
+                        icon: const Icon(Icons.dark_mode_rounded),
+                        label: Text(LocaleKeys.general_theme_dark.tr()),
                       ),
-                    ),
+                    ],
+                    selected: {
+                      themeMode == ThemeMode.dark
+                          ? ThemeMode.dark
+                          : ThemeMode.light,
+                    },
+                    onSelectionChanged: (values) {
+                      onThemeChanged(values.first);
+                    },
+                    style: _segmentStyle(normal),
                   ),
                 ),
-                SizedBox(height: normal),
-                Text(
-                  LocaleKeys.general_language_title.tr(),
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(height: low * 0.55),
-                Text(
-                  LocaleKeys.general_language_description.tr(),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.78),
-                    height: 1.35,
-                  ),
-                ),
-                SizedBox(height: normal),
-                SegmentedButton<Locales>(
-                  segments: [
-                    ButtonSegment(
-                      value: Locales.tr,
-                      icon: const Icon(Icons.translate_rounded),
-                      label: Text(LocaleKeys.terms_language_tr.tr()),
-                    ),
-                    ButtonSegment(
-                      value: Locales.en,
-                      icon: const Icon(Icons.language_rounded),
-                      label: Text(LocaleKeys.terms_language_en.tr()),
-                    ),
-                  ],
-                  selected: {selectedLocale},
-                  onSelectionChanged: (values) async {
-                    await ProductLocalization.updateLanguage(
-                      context: context,
-                      value: values.first,
-                    );
-                  },
-                  style: ButtonStyle(
-                    visualDensity: VisualDensity.compact,
-                    foregroundColor: WidgetStatePropertyAll(
-                      Colors.white.withValues(alpha: 0.92),
-                    ),
-                    side: WidgetStatePropertyAll(
-                      BorderSide(
-                        color: Colors.white.withValues(alpha: 0.24),
+                SizedBox(height: normal * 0.85),
+                _CompactControlRow(
+                  icon: Icons.language_rounded,
+                  child: SegmentedButton<Locales>(
+                    segments: [
+                      ButtonSegment(
+                        value: Locales.tr,
+                        icon: const Icon(Icons.translate_rounded),
+                        label: Text(LocaleKeys.terms_language_tr.tr()),
                       ),
-                    ),
-                    backgroundColor: WidgetStateProperty.resolveWith(
-                      (states) {
-                        if (states.contains(WidgetState.selected)) {
-                          return Colors.white.withValues(alpha: 0.18);
-                        }
-                        return Colors.white.withValues(alpha: 0.05);
-                      },
-                    ),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(normal),
+                      ButtonSegment(
+                        value: Locales.en,
+                        icon: const Icon(Icons.language_rounded),
+                        label: Text(LocaleKeys.terms_language_en.tr()),
                       ),
-                    ),
+                    ],
+                    selected: {selectedLocale},
+                    onSelectionChanged: (values) async {
+                      await ProductLocalization.updateLanguage(
+                        context: context,
+                        value: values.first,
+                      );
+                    },
+                    style: _segmentStyle(normal),
                   ),
                 ),
               ],
@@ -293,6 +200,33 @@ class CustomDrawerHeader extends StatelessWidget {
     );
   }
 
+  ButtonStyle _segmentStyle(double normal) {
+    return ButtonStyle(
+      visualDensity: VisualDensity.compact,
+      foregroundColor: WidgetStatePropertyAll(
+        Colors.white.withValues(alpha: 0.92),
+      ),
+      side: WidgetStatePropertyAll(
+        BorderSide(
+          color: Colors.white.withValues(alpha: 0.24),
+        ),
+      ),
+      backgroundColor: WidgetStateProperty.resolveWith(
+        (states) {
+          if (states.contains(WidgetState.selected)) {
+            return Colors.white.withValues(alpha: 0.18);
+          }
+          return Colors.white.withValues(alpha: 0.05);
+        },
+      ),
+      shape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(normal),
+        ),
+      ),
+    );
+  }
+
   String _displayName(String? value) {
     final trimmed = value?.trim() ?? '';
     return trimmed.isEmpty
@@ -301,48 +235,40 @@ class CustomDrawerHeader extends StatelessWidget {
   }
 }
 
-class _HeaderBadge extends StatelessWidget {
-  const _HeaderBadge({
+class _CompactControlRow extends StatelessWidget {
+  const _CompactControlRow({
     required this.icon,
-    required this.label,
+    required this.child,
   });
 
   final IconData icon;
-  final String label;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final low = context.sized.lowValue;
 
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: context.sized.normalValue * 0.8,
-        vertical: low * 0.8,
+        vertical: low * 0.7,
       ),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(context.sized.normalValue * 1.5),
+        borderRadius: BorderRadius.circular(context.sized.normalValue * 1.25),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.16),
         ),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             icon,
             size: context.sized.normalValue,
             color: Colors.white,
           ),
-          SizedBox(width: low * 0.55),
-          Text(
-            label,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withValues(alpha: 0.92),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          SizedBox(width: low * 0.8),
+          Expanded(child: child),
         ],
       ),
     );

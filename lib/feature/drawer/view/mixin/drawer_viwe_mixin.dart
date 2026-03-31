@@ -11,6 +11,8 @@ import 'package:hipocapp/product/state/container/product_satate_items.dart';
 mixin DrawerViewMixin on BaseState<DrawerView> {
   late final ProductNetworkErrorManager _productNetworkErrorManager;
   late final DrawerViewModel _drawerViewModel;
+  late final ScrollController drawerScrollController;
+  final GlobalKey contributionSectionKey = GlobalKey();
 
   DrawerViewModel get drawerViewModel => _drawerViewModel;
   final TextEditingController titleController = TextEditingController();
@@ -24,12 +26,14 @@ mixin DrawerViewMixin on BaseState<DrawerView> {
         headerOperation: HeaderService(ProductStateItems.productNetworkManager),
         enryOperation: EntryService(ProductStateItems.productNetworkManager),
         titleOperation: TitleService(ProductStateItems.productNetworkManager));
+    drawerScrollController = ScrollController();
   }
 
   @override
   void dispose() {
     titleController.dispose();
     descController.dispose();
+    drawerScrollController.dispose();
     super.dispose();
   }
 }

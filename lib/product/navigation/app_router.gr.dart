@@ -301,18 +301,68 @@ class LoginRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [ProfilView]
-class ProfilRoute extends PageRouteInfo<void> {
-  const ProfilRoute({List<PageRouteInfo>? children})
-      : super(ProfilRoute.name, initialChildren: children);
+class ProfilRoute extends PageRouteInfo<ProfilRouteArgs> {
+  ProfilRoute({
+    Key? key,
+    int? userId,
+    String? username,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ProfilRoute.name,
+          args: ProfilRouteArgs(
+            key: key,
+            userId: userId,
+            username: username,
+          ),
+          initialChildren: children,
+        );
 
   static const String name = 'ProfilRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const ProfilView();
+      final args = data.argsAs<ProfilRouteArgs>(
+        orElse: () => const ProfilRouteArgs(),
+      );
+      return ProfilView(
+        key: args.key,
+        userId: args.userId,
+        username: args.username,
+      );
     },
   );
+}
+
+class ProfilRouteArgs {
+  const ProfilRouteArgs({
+    this.key,
+    this.userId,
+    this.username,
+  });
+
+  final Key? key;
+
+  final int? userId;
+
+  final String? username;
+
+  @override
+  String toString() {
+    return 'ProfilRouteArgs{key: $key, userId: $userId, username: $username}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ProfilRouteArgs) return false;
+    return key == other.key &&
+        userId == other.userId &&
+        username == other.username;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ userId.hashCode ^ username.hashCode;
 }
 
 /// generated route for

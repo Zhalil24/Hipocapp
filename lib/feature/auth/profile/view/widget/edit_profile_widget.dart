@@ -52,6 +52,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   @override
   Widget build(BuildContext context) {
     final normal = context.sized.normalValue;
+    final theme = Theme.of(context);
 
     return AppSurfaceCard(
       child: Form(
@@ -59,9 +60,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AuthFormHeader(
-              title: LocaleKeys.auth_profile_edit_title.tr(),
-              description: LocaleKeys.auth_profile_edit_description.tr(),
+            Text(
+              LocaleKeys.auth_profile_edit_title.tr(),
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w800,
+              ),
             ),
             SizedBox(height: normal * 1.2),
             AuthInfoBanner(

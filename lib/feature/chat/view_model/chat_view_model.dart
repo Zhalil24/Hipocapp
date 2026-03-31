@@ -74,9 +74,16 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
 
   Future<void> getMessageList(int toUserId) async {
     final fromUserId = await _getUserId();
-    final response =
-        await _messageOperation.getMessageList(fromUserId, toUserId);
-    emit(state.copyWith(messageList: response));
+    final response = await _messageOperation.getMessageList(fromUserId, toUserId);
+    final normalizedMessages = response
+        ?.map(
+          (message) => _withVisiblePrivateMessageTime(
+            message,
+            currentUserId: fromUserId,
+          ),
+        )
+        .toList();
+    emit(state.copyWith(messageList: normalizedMessages));
   }
 
   Future<void> sendPrivateMessage({
@@ -106,8 +113,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
       isRead: false,
     );
 
-    final updatedList = List<MessageListModel>.from(state.messageList ?? [])
-      ..add(newMessage);
+    final updatedList = List<MessageListModel>.from(state.messageList ?? [])..add(newMessage);
     emit(state.copyWith(messageList: updatedList));
     await _saveMessage(
       newMessage.fromUserId,
@@ -135,11 +141,9 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
           if (fromUserId == toUserId) {
             final message = MessageListModel.fromJson(data).copyWith(
               messageText: (data['messageText'] ?? '').toString(),
-              sentAt: (data['sentAt'] ?? '').toString(),
+              sentAt: DateTime.now().toIso8601String(),
             );
-            final updatedList =
-                List<MessageListModel>.from(state.messageList ?? [])
-                  ..add(message);
+            final updatedList = List<MessageListModel>.from(state.messageList ?? [])..add(message);
             emit(state.copyWith(messageList: updatedList));
           }
         }
@@ -156,9 +160,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
         final jsonMap = jsonDecode(rawData) as Map<String, dynamic>;
         jsonMap['sentOn'] ??= DateTime.now().toIso8601String();
         final message = GroupMessageModel.fromJson(jsonMap);
-        final updatedList =
-            List<GroupMessageModel>.from(state.groupMessageList ?? [])
-              ..add(message);
+        final updatedList = List<GroupMessageModel>.from(state.groupMessageList ?? [])..add(message);
         emit(state.copyWith(groupMessageList: updatedList));
       });
   }
@@ -221,5 +223,18 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
       return;
     }
     await _hubConnection.invoke(HubMethods.leaveGroup, args: [groupName]);
+  }
+
+  MessageListModel _withVisiblePrivateMessageTime(
+    MessageListModel message, {
+    required int currentUserId,
+  }) {
+    if (message.fromUserId == currentUserId) {
+      return message;
+    }
+
+    return message.copyWith(
+      sentAt: DateTime.now().toIso8601String(),
+    );
   }
 }

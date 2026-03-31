@@ -18,8 +18,7 @@ class AutoSlidingGroupContainer extends StatefulWidget {
   final List<GroupListModel> groups;
 
   @override
-  State<AutoSlidingGroupContainer> createState() =>
-      _AutoSlidingGroupContainerState();
+  State<AutoSlidingGroupContainer> createState() => _AutoSlidingGroupContainerState();
 }
 
 class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
@@ -117,8 +116,7 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
       if (!mounted || widget.groups.isEmpty) return;
 
       setState(() {
-        _currentIndex =
-            (_currentIndex - 1 + widget.groups.length) % widget.groups.length;
+        _currentIndex = (_currentIndex - 1 + widget.groups.length) % widget.groups.length;
         _visible = true;
       });
     });
@@ -136,9 +134,12 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
 
     final group = widget.groups[_currentIndex];
     final colorScheme = Theme.of(context).colorScheme;
+    final displayTitle = _displayGroupName(
+      group.groupName ?? LocaleKeys.home_group_fallback_title.tr(),
+    );
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.sized.lowValue),
+      padding: EdgeInsets.symmetric(horizontal: context.sized.lowValue * 0.35),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -185,7 +186,7 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(context.sized.normalValue * 1.5),
+              padding: EdgeInsets.all(context.sized.normalValue * 1.2),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -195,7 +196,7 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                       Text(
                         LocaleKeys.home_group_carousel_title.tr(),
                         style: TextStyle(
-                          fontSize: context.sized.normalValue * 1.1,
+                          fontSize: context.sized.normalValue * 1.02,
                           fontWeight: FontWeight.w700,
                           color: colorScheme.onPrimary,
                         ),
@@ -207,8 +208,7 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.25),
-                          borderRadius:
-                              BorderRadius.circular(context.sized.lowValue),
+                          borderRadius: BorderRadius.circular(context.sized.lowValue),
                         ),
                         child: Text(
                           '${_currentIndex + 1}/${widget.groups.length}',
@@ -221,7 +221,7 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                       ),
                     ],
                   ),
-                  SizedBox(height: context.sized.normalValue),
+                  SizedBox(height: context.sized.normalValue * 0.85),
                   AnimatedSlide(
                     offset: _visible ? Offset.zero : const Offset(0.5, 0),
                     duration: const Duration(milliseconds: 500),
@@ -233,22 +233,19 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            group.groupName ??
-                                LocaleKeys.home_group_fallback_title.tr(),
+                            displayTitle,
                             style: TextStyle(
-                              fontSize: context.sized.normalValue * 1.3,
+                              fontSize: context.sized.normalValue * 1.18,
                               fontWeight: FontWeight.w700,
                               color: colorScheme.onPrimary,
                             ),
                           ),
-                          SizedBox(height: context.sized.lowValue * 0.5),
+                          SizedBox(height: context.sized.lowValue * 0.4),
                           Text(
-                            group.description ??
-                                LocaleKeys.home_group_fallback_description.tr(),
+                            group.description ?? LocaleKeys.home_group_fallback_description.tr(),
                             style: TextStyle(
-                              fontSize: context.sized.normalValue * 0.9,
-                              color:
-                                  colorScheme.onPrimary.withValues(alpha: 0.85),
+                              fontSize: context.sized.normalValue * 0.86,
+                              color: colorScheme.onPrimary.withValues(alpha: 0.85),
                               height: 1.5,
                             ),
                             maxLines: 2,
@@ -258,7 +255,7 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                       ),
                     ),
                   ),
-                  SizedBox(height: context.sized.normalValue * 1.2),
+                  SizedBox(height: context.sized.normalValue),
                   LayoutBuilder(
                     builder: (context, constraints) {
                       final useCompactLayout = constraints.maxWidth < 320;
@@ -298,8 +295,8 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
                           backgroundColor: Colors.white.withValues(alpha: 0.25),
                           foregroundColor: colorScheme.onPrimary,
                           padding: EdgeInsets.symmetric(
-                            horizontal: context.sized.normalValue,
-                            vertical: context.sized.lowValue * 1.2,
+                            horizontal: context.sized.normalValue * 0.9,
+                            vertical: context.sized.lowValue,
                           ),
                         ),
                       );
@@ -334,6 +331,14 @@ class _AutoSlidingGroupContainerState extends State<AutoSlidingGroupContainer> {
         ),
       ),
     );
+  }
+
+  String _displayGroupName(String value) {
+    final normalized = value.trim().toLowerCase();
+    if (normalized == 'daily stream') {
+      return 'Daily Stream';
+    }
+    return value;
   }
 }
 

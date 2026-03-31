@@ -1,10 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/entry_list/view/widget/entry_list_composer_widget.dart';
 import 'package:hipocapp/feature/entry_list/view/widget/entry_list_feed_widget.dart';
-import 'package:hipocapp/feature/entry_list/view/widget/entry_list_header_card_widget.dart';
-import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:kartal/kartal.dart';
 
 class EntryListPageContentWidget extends StatelessWidget {
@@ -33,7 +30,6 @@ class EntryListPageContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final low = context.sized.lowValue;
     final normal = context.sized.normalValue;
 
     return TweenAnimationBuilder<double>(
@@ -52,75 +48,23 @@ class EntryListPageContentWidget extends StatelessWidget {
       child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
-          SliverPadding(
-            padding: EdgeInsets.fromLTRB(
-              normal,
-              normal * 0.65,
-              normal,
-              low,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  EntryListHeaderCardWidget(
-                    titleName: titleName,
-                    entryCount: entries.length,
-                    isLoggedIn: isLoggedIn,
-                  ),
-                  if (isLoggedIn) ...[
-                    SizedBox(height: normal),
-                    EntryListComposerWidget(
-                      formKey: formKey,
-                      controller: entryController,
-                      focusNode: entryFocusNode,
-                      onSubmit: onSubmitEntry,
-                    ),
-                  ],
-                  SizedBox(height: normal),
-                  Row(
-                    children: [
-                      Text(
-                        LocaleKeys.entry_list_section_title.tr(),
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.w800,
-                                ),
-                      ),
-                      SizedBox(width: low * 0.8),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: low,
-                          vertical: low * 0.65,
-                        ),
-                        decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).colorScheme.primary.withValues(
-                                    alpha: 0.10,
-                                  ),
-                          borderRadius: BorderRadius.circular(
-                            context.sized.height,
-                          ),
-                        ),
-                        child: Text(
-                          LocaleKeys.general_count_entry.tr(
-                            namedArgs: {'count': '${entries.length}'},
-                          ),
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.w700,
-                              ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+          if (isLoggedIn)
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                normal * 0.82,
+                normal * 0.65,
+                normal * 0.82,
+                normal,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: EntryListComposerWidget(
+                  formKey: formKey,
+                  controller: entryController,
+                  focusNode: entryFocusNode,
+                  onSubmit: onSubmitEntry,
+                ),
               ),
             ),
-          ),
           EntryListFeedWidget(
             isLoading: isLoading,
             entries: entries,

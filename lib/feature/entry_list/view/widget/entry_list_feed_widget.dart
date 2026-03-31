@@ -62,9 +62,9 @@ class EntryListFeedWidget extends StatelessWidget {
             isHomeCard: true,
             title: entry.titleName.toString(),
             description: entry.entryDescription.toString(),
-            userName: '${entry.userName}',
-            date: '${entry.date}',
-            userId: userId,
+            userName: entry.userName,
+            date: entry.date ?? '',
+            userId: entry.userId,
           );
         },
       ),

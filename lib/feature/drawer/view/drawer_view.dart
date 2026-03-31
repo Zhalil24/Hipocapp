@@ -68,6 +68,8 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
                             isLoggedIn: productState.isLogin,
                             userName: productState.userName,
                             themeMode: productState.themeMode,
+                            scrollController: drawerScrollController,
+                            contributionSectionKey: contributionSectionKey,
                             onThemeChanged: (mode) async {
                               await productViewModel.changeThemeMode(mode);
                             },
@@ -75,6 +77,18 @@ class _DrawerViewState extends BaseState<DrawerView> with DrawerViewMixin {
                             descController: descController,
                             onItemSelected: (backendValue) async {
                               await drawerViewModel.getHeaderId(backendValue);
+                              if (!mounted) return;
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                final targetContext =
+                                    contributionSectionKey.currentContext;
+                                if (targetContext == null) return;
+                                Scrollable.ensureVisible(
+                                  targetContext,
+                                  duration: const Duration(milliseconds: 420),
+                                  curve: Curves.easeOutCubic,
+                                  alignment: 0.08,
+                                );
+                              });
                             },
                             onCreateEntry: (title, desc) async {
                               final userId = productState.currentUserId;

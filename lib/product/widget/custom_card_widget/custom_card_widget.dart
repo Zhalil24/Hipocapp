@@ -52,15 +52,20 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget>
         Card(
           color: colorScheme.onPrimary,
           margin: EdgeInsets.symmetric(
-            horizontal: context.sized.lowValue,
-            vertical: context.sized.lowValue,
+            horizontal: context.sized.lowValue * 0.2,
+            vertical: context.sized.lowValue * 0.75,
           ),
           elevation: 8,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(context.sized.lowValue),
+            borderRadius: BorderRadius.circular(context.sized.lowValue * 1.1),
           ),
           child: Padding(
-            padding: EdgeInsets.all(context.sized.lowValue),
+            padding: EdgeInsets.fromLTRB(
+              context.sized.normalValue * 0.78,
+              context.sized.lowValue * 0.9,
+              context.sized.normalValue * 0.78,
+              context.sized.lowValue * 0.75,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -69,16 +74,18 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget>
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.onSurface,
+                        height: 1.2,
                       ),
                 ),
-                SizedBox(height: context.sized.lowValue),
+                SizedBox(height: context.sized.lowValue * 0.85),
                 Text(
                   widget.description,
-                  maxLines: isExpanded ? null : 4,
+                  maxLines: isExpanded ? null : 6,
                   overflow:
                       isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onSurfaceVariant,
+                        height: 1.48,
                       ),
                 ),
                 Align(
@@ -101,42 +108,88 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget>
                         color: colorScheme.primary,
                       ),
                     ),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.sized.lowValue * 0.5,
+                        vertical: context.sized.lowValue * 0.2,
+                      ),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
                   ),
                 ),
                 if (widget.userName != null || widget.date != null)
                   Padding(
-                    padding: EdgeInsets.only(top: context.sized.lowValue),
-                    child: Row(
+                    padding: EdgeInsets.only(top: context.sized.lowValue * 0.2),
+                    child: Wrap(
+                      spacing: context.sized.normalValue,
+                      runSpacing: context.sized.lowValue * 0.5,
                       children: [
                         if (widget.userName != null) ...[
-                          Icon(
-                            Icons.person,
-                            size: context.sized.normalValue,
-                            color: Colors.grey,
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.person,
+                                size: context.sized.normalValue,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(width: context.sized.lowValue),
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(
+                                    context.sized.lowValue,
+                                  ),
+                                  onTap:
+                                      _canOpenProfile ? _openUserProfile : null,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: context.sized.lowValue * 0.2,
+                                      vertical: context.sized.lowValue * 0.15,
+                                    ),
+                                    child: Text(
+                                      widget.userName!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color: _canOpenProfile
+                                                ? colorScheme.primary
+                                                : Colors.grey[600],
+                                            fontWeight: _canOpenProfile
+                                                ? FontWeight.w700
+                                                : FontWeight.w500,
+                                            decoration: _canOpenProfile
+                                                ? TextDecoration.underline
+                                                : TextDecoration.none,
+                                            decorationColor: colorScheme.primary,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(width: context.sized.lowValue),
-                          Text(
-                            widget.userName!,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(color: Colors.grey[600]),
-                          ),
-                          SizedBox(width: context.sized.normalValue),
                         ],
                         if (widget.date != null) ...[
-                          Icon(
-                            Icons.calendar_today,
-                            size: context.sized.normalValue,
-                            color: Colors.grey,
-                          ),
-                          SizedBox(width: context.sized.lowValue),
-                          Text(
-                            formatDate(widget.date!),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(color: Colors.grey[600]),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.calendar_today,
+                                size: context.sized.normalValue,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(width: context.sized.lowValue),
+                              Text(
+                                formatDate(widget.date!),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(color: Colors.grey[600]),
+                              ),
+                            ],
                           ),
                         ],
                       ],
@@ -144,7 +197,8 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget>
                   ),
                 if (widget.isHomeCard && productViewModel.state.isLogin)
                   Padding(
-                    padding: EdgeInsets.only(top: context.sized.normalValue),
+                    padding:
+                        EdgeInsets.only(top: context.sized.normalValue * 0.85),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: FilledButton.icon(
@@ -169,8 +223,8 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget>
                             ),
                           ),
                           padding: EdgeInsets.symmetric(
-                            horizontal: context.sized.normalValue,
-                            vertical: context.sized.lowValue,
+                            horizontal: context.sized.normalValue * 0.9,
+                            vertical: context.sized.lowValue * 0.9,
                           ),
                         ),
                       ),
@@ -180,8 +234,46 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget>
             ),
           ),
         ),
-        Divider(height: context.sized.normalValue, color: Colors.grey),
+        Divider(
+          height: context.sized.lowValue * 1.8,
+          indent: context.sized.lowValue * 0.2,
+          endIndent: context.sized.lowValue * 0.2,
+          color: Colors.grey,
+        ),
       ],
+    );
+  }
+
+  bool get _canOpenProfile {
+    final targetUserId = widget.userId;
+    final targetUserName = widget.userName?.trim() ?? '';
+    return productViewModel.state.isLogin &&
+        targetUserId != null &&
+        targetUserId > 0 &&
+        targetUserName.isNotEmpty;
+  }
+
+  Future<void> _openUserProfile() async {
+    if (!productViewModel.state.isLogin) {
+      return;
+    }
+
+    final targetUserId = widget.userId;
+    if (targetUserId == null || targetUserId <= 0) {
+      return;
+    }
+
+    final currentUserId = productViewModel.state.currentUserId;
+    if (currentUserId != null && currentUserId == targetUserId) {
+      await context.router.push(ProfilRoute());
+      return;
+    }
+
+    await context.router.push(
+      ProfilRoute(
+        userId: targetUserId,
+        username: widget.userName,
+      ),
     );
   }
 }

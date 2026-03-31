@@ -9,6 +9,7 @@ import 'package:hipocapp/product/service/manager/product_network_error_manager.d
 import 'package:hipocapp/product/service/profile_service.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/state/container/product_satate_items.dart';
+import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
 import 'package:image_picker/image_picker.dart';
 
 mixin ProfileViewMixin on BaseState<ProfilView> {
@@ -35,7 +36,18 @@ mixin ProfileViewMixin on BaseState<ProfilView> {
       profileOperation: ProfileService(ProductStateItems.productNetworkManager),
       entryOperation: EntryService(ProductStateItems.productNetworkManager),
     );
-    _profileViewModel.getProfile(productViewModel.state.currentUserId!);
+    if (productViewModel.state.isLogin) {
+      final currentUserId = productViewModel.state.currentUserId;
+      final isOwnProfile =
+          widget.userId == null || widget.userId == currentUserId;
+      if (!isOwnProfile) {
+        _profileViewModel.changeTab(ProfileTabType.entries);
+      }
+      final targetUserId = widget.userId ?? productViewModel.state.currentUserId;
+      if (targetUserId != null) {
+        _profileViewModel.getProfile(targetUserId);
+      }
+    }
     nameController = TextEditingController();
     surnameController = TextEditingController();
     usernameController = TextEditingController();

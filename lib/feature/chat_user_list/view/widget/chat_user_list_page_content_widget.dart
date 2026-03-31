@@ -40,20 +40,15 @@ class ChatUserListPageContentWidget extends StatelessWidget {
     final users = state.filteredProfiles ?? <ProfileModel>[];
     final recentUsers = state.lastMessageUsers ?? <ProfileModel>[];
     final groups = state.groups ?? <GroupModel>[];
-    final unreadTotal = state.unreadCount?.fold<int>(
-          0,
-          (sum, item) => sum + (item.count ?? 0),
-        ) ??
-        0;
 
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
-            normal,
+            normal * 0.82,
             normal * 0.7,
-            normal,
+            normal * 0.82,
             normal * 1.4,
           ),
           sliver: SliverToBoxAdapter(
@@ -61,11 +56,9 @@ class ChatUserListPageContentWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ChatUserListHeaderCardWidget(
-                  activeTab: state.activeTab,
                   usersCount: state.profileModel?.length ?? 0,
                   conversationCount: recentUsers.length,
-                  groupCount: groups.length,
-                  unreadTotal: unreadTotal,
+                  channelCount: groups.length,
                 ),
                 SizedBox(height: normal),
                 AppSurfaceCard(
@@ -157,9 +150,9 @@ class ChatUserListPageContentWidget extends StatelessWidget {
         }
         return SliverPadding(
           padding: EdgeInsets.fromLTRB(
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             0,
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             context.sized.normalValue * 1.6,
           ),
           sliver: SliverList.builder(
@@ -189,9 +182,9 @@ class ChatUserListPageContentWidget extends StatelessWidget {
         }
         return SliverPadding(
           padding: EdgeInsets.fromLTRB(
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             0,
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             context.sized.normalValue * 1.6,
           ),
           sliver: SliverList.builder(
@@ -223,9 +216,9 @@ class ChatUserListPageContentWidget extends StatelessWidget {
         }
         return SliverPadding(
           padding: EdgeInsets.fromLTRB(
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             0,
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             context.sized.normalValue * 1.6,
           ),
           sliver: SliverList.builder(
@@ -258,9 +251,9 @@ class ChatUserListPageContentWidget extends StatelessWidget {
       child: Center(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             0,
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             context.sized.normalValue * 1.6,
           ),
           child: AppEmptyStateCard(

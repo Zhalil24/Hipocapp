@@ -7,6 +7,7 @@ import 'package:hipocapp/feature/chat/view/widget/chat_background_widget.dart';
 import 'package:hipocapp/feature/chat/view/widget/chat_page_content_widget.dart';
 import 'package:hipocapp/feature/chat/view_model/chat_view_model.dart';
 import 'package:hipocapp/feature/chat/view_model/state/chat_view_state.dart';
+import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 
 @RoutePage()
@@ -64,6 +65,9 @@ class _ChatViewState extends BaseState<ChatView> with ChatViewMixin {
                 groupName: widget.groupName,
                 isOnline: widget.isOnline ?? false,
                 showOnlineStatus: !isGroupConversation,
+                onProfileTap: !isGroupConversation && widget.toUserId != null
+                    ? _openProfile
+                    : null,
               ),
               resizeToAvoidBottomInset: true,
               body: BlocBuilder<ChatViewModel, ChatViewState>(
@@ -81,6 +85,26 @@ class _ChatViewState extends BaseState<ChatView> with ChatViewMixin {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> _openProfile() async {
+    final targetUserId = widget.toUserId;
+    if (targetUserId == null || targetUserId <= 0) {
+      return;
+    }
+
+    final currentUserId = productViewModel.state.currentUserId;
+    if (currentUserId != null && currentUserId == targetUserId) {
+      await context.router.push(ProfilRoute());
+      return;
+    }
+
+    await context.router.push(
+      ProfilRoute(
+        userId: targetUserId,
+        username: widget.toUserName,
       ),
     );
   }

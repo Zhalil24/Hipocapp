@@ -21,6 +21,8 @@ class ProfilePageContentWidget extends StatelessWidget {
     required this.onTabChanged,
     required this.child,
     required this.showBlockingLoader,
+    required this.isOwnProfile,
+    this.fallbackUsername,
   });
 
   final ProfileModel? profileModel;
@@ -30,11 +32,18 @@ class ProfilePageContentWidget extends StatelessWidget {
   final ValueChanged<ProfileTabType> onTabChanged;
   final Widget child;
   final bool showBlockingLoader;
+  final bool isOwnProfile;
+  final String? fallbackUsername;
 
   @override
   Widget build(BuildContext context) {
     final normal = context.sized.normalValue;
-    final low = context.sized.lowValue;
+    final tabItems = isOwnProfile
+        ? ProfileTabType.values
+        : const [
+            ProfileTabType.profile,
+            ProfileTabType.entries,
+          ];
 
     return Stack(
       children: [
@@ -42,9 +51,9 @@ class ProfilePageContentWidget extends StatelessWidget {
         Positioned.fill(
           child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-              normal + (low * 0.5),
+              normal * 0.82,
               normal * 1.2,
-              normal + (low * 0.5),
+              normal * 0.82,
               normal * 1.5,
             ),
             child: Center(
@@ -57,10 +66,12 @@ class ProfilePageContentWidget extends StatelessWidget {
                       profileModel: profileModel,
                       selectedPhoto: selectedPhoto,
                       onLogout: onLogout,
+                      isOwnProfile: isOwnProfile,
+                      fallbackUsername: fallbackUsername,
                     ),
                     SizedBox(height: normal * 1.25),
                     AppSegmentedTabBar<ProfileTabType>(
-                      items: ProfileTabType.values,
+                      items: tabItems,
                       selectedItem: activeTab,
                       labelBuilder: _tabLabel,
                       iconBuilder: (item) => item.icon,

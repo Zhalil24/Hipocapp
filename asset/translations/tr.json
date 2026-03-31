@@ -10,8 +10,14 @@
     "group_fallback_title": "Kanal",
     "group_fallback_description": "Kanal açıklaması",
     "group_join_cta": "Katılmak İçin",
+    "content_search": {
+      "market": "Market ara",
+      "announcements": "İlan ara",
+      "partners": "Partner ara",
+      "trainings": "Eğitim ara"
+    },
     "entry_filter_latest": "daily",
-    "entry_filter_random": "scrum",
+    "entry_filter_random": "stream",
     "bottom_nav": {
       "home": "Anasayfa",
       "market": "Market",
@@ -39,7 +45,7 @@
       "join_channel": "Kanala katıl",
       "clear_search": "Aramayı temizle",
       "show_details": "Detayları Gör",
-      "create_title": "Yeni başlık ekle",
+      "create_title": "Başlık Aç",
       "sending": "Gönderiliyor"
     },
     "dialog": {
@@ -237,12 +243,12 @@
     "tab": {
       "users": "Kişiler",
       "past_messages": "Sohbetler",
-      "groups": "Gruplar"
+      "groups": "Kanallar"
     },
     "header": {
       "users_title": "Topluluktaki kişiler",
       "past_messages_title": "Devam eden sohbetler",
-      "groups_title": "Gruplar ve odalar",
+      "groups_title": "Kanallar",
       "users_description": "Yeni bir sohbet başlatmak için uygun kişiyi seç ve anında mesaja geç.",
       "past_messages_description": "Son konuşmalarını tek ekranda takip et, okunmamış mesajları hızlıca yakala.",
       "groups_description": "Dahil olduğun topluluk odalarına katıl ve ortak sohbetleri kesintisiz sürdür."
@@ -254,8 +260,8 @@
       "users_message": "Topluluktaki yeni kişiler burada görünecek.",
       "conversations_title": "Henüz bir sohbet başlatılmamış",
       "conversations_message": "Konuştuğun kişiler burada toplanır. Yeni bir sohbet başlatmak için kullanıcılar sekmesine geçebilirsin.",
-      "groups_title": "Henüz grup bulunmuyor",
-      "groups_message": "Katılım sağladığın topluluk odaları burada listelenecek."
+      "groups_title": "Henüz kanal bulunmuyor",
+      "groups_message": "Katıldığın kanallar burada listelenecek."
     },
     "user": {
       "active": "Şu an aktif, mesaja hazır görünüyor",
@@ -263,7 +269,7 @@
       "unread_count": "{count} okunmamış mesaj var"
     },
     "group": {
-      "member_count": "{count} üye ile ortak sohbete katıl",
+      "member_count": "{count} kişiyle kanal sohbetine katıl",
       "open_direct": "Topluluk kanalını aç ve sohbete doğrudan bağlan"
     }
   },
@@ -326,7 +332,7 @@
     "empty_message_logged_out": "Bu başlık henüz boş. Giriş yaptığında ilk yorumu sen paylaşabilirsin."
   },
   "drawer": {
-    "header_title": "HipocApp navigasyonu",
+    "header_title": "Menü",
     "header_description_logged_in": "Hoş geldin {user}, akışını hızlıca şekillendir.",
     "header_description_logged_out": "Keşfet, kategori seç ve ilgini çeken başlıklara tek yerden ulaş.",
     "badge_member_mode": "Üye modu",
