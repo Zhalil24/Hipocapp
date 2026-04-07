@@ -33,7 +33,7 @@ class CustomDrawerHeader extends StatelessWidget {
             : Locales.tr;
 
     return Container(
-      padding: EdgeInsets.all(context.sized.height * 0.03),
+      padding: EdgeInsets.all(normal * 0.95),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -43,7 +43,7 @@ class CustomDrawerHeader extends StatelessWidget {
             colorScheme.secondary.withValues(alpha: 0.82),
           ],
         ),
-        borderRadius: BorderRadius.circular(normal * 1.8),
+        borderRadius: BorderRadius.circular(normal * 1.55),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.18),
         ),
@@ -62,12 +62,12 @@ class CustomDrawerHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: context.sized.height * 0.075,
-                height: context.sized.height * 0.075,
-                padding: EdgeInsets.all(low * 0.65),
+                width: context.sized.height * 0.06,
+                height: context.sized.height * 0.06,
+                padding: EdgeInsets.all(low * 0.5),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.16),
-                  borderRadius: BorderRadius.circular(normal * 1.2),
+                  borderRadius: BorderRadius.circular(normal),
                   border: Border.all(
                     color: Colors.white.withValues(alpha: 0.18),
                   ),
@@ -81,12 +81,12 @@ class CustomDrawerHeader extends StatelessWidget {
                   children: [
                     Text(
                       LocaleKeys.drawer_header_title.tr(),
-                      style: theme.textTheme.titleLarge?.copyWith(
+                      style: theme.textTheme.titleMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    SizedBox(height: low * 0.4),
+                    SizedBox(height: low * 0.22),
                     Text(
                       isLoggedIn
                           ? LocaleKeys.drawer_header_description_logged_in.tr(
@@ -94,9 +94,11 @@ class CustomDrawerHeader extends StatelessWidget {
                             )
                           : LocaleKeys.drawer_header_description_logged_out
                               .tr(),
-                      style: theme.textTheme.bodyMedium?.copyWith(
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.white.withValues(alpha: 0.84),
-                        height: 1.4,
+                        height: 1.25,
                       ),
                     ),
                   ],
@@ -104,95 +106,129 @@ class CustomDrawerHeader extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: normal * 1.1),
+          SizedBox(height: normal * 0.72),
           Container(
-            padding: EdgeInsets.all(normal),
+            padding: EdgeInsets.all(normal * 0.72),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(normal * 1.35),
+              borderRadius: BorderRadius.circular(normal * 1.2),
               border: Border.all(
                 color: Colors.white.withValues(alpha: 0.14),
               ),
             ),
             child: Column(
               children: [
-                _CompactControlRow(
-                  icon: Icons.light_mode_rounded,
-                  child: SegmentedButton<ThemeMode>(
-                    segments: [
-                      ButtonSegment(
-                        value: ThemeMode.light,
-                        icon: const Icon(Icons.light_mode_rounded),
-                        label: Text(LocaleKeys.general_theme_light.tr()),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.light_mode_rounded,
+                            size: normal * 0.95,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: low * 0.5),
+                          Expanded(
+                            child: SegmentedButton<ThemeMode>(
+                              segments: [
+                                ButtonSegment(
+                                  value: ThemeMode.light,
+                                  label: Text(
+                                    LocaleKeys.general_theme_light.tr(),
+                                  ),
+                                ),
+                                ButtonSegment(
+                                  value: ThemeMode.dark,
+                                  label: Text(
+                                    LocaleKeys.general_theme_dark.tr(),
+                                  ),
+                                ),
+                              ],
+                              selected: {
+                                themeMode == ThemeMode.dark
+                                    ? ThemeMode.dark
+                                    : ThemeMode.light,
+                              },
+                              onSelectionChanged: (values) {
+                                onThemeChanged(values.first);
+                              },
+                              showSelectedIcon: false,
+                              style: _segmentStyle(normal),
+                            ),
+                          ),
+                        ],
                       ),
-                      ButtonSegment(
-                        value: ThemeMode.dark,
-                        icon: const Icon(Icons.dark_mode_rounded),
-                        label: Text(LocaleKeys.general_theme_dark.tr()),
+                    ),
+                    SizedBox(width: low * 0.75),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.language_rounded,
+                            size: normal * 0.95,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: low * 0.5),
+                          Expanded(
+                            child: SegmentedButton<Locales>(
+                              segments: [
+                                ButtonSegment(
+                                  value: Locales.tr,
+                                  label: Text(LocaleKeys.terms_language_tr.tr()),
+                                ),
+                                ButtonSegment(
+                                  value: Locales.en,
+                                  label: Text(LocaleKeys.terms_language_en.tr()),
+                                ),
+                              ],
+                              selected: {selectedLocale},
+                              onSelectionChanged: (values) async {
+                                await ProductLocalization.updateLanguage(
+                                  context: context,
+                                  value: values.first,
+                                );
+                              },
+                              showSelectedIcon: false,
+                              style: _segmentStyle(normal),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                    selected: {
-                      themeMode == ThemeMode.dark
-                          ? ThemeMode.dark
-                          : ThemeMode.light,
-                    },
-                    onSelectionChanged: (values) {
-                      onThemeChanged(values.first);
-                    },
-                    style: _segmentStyle(normal),
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: normal * 0.85),
-                _CompactControlRow(
-                  icon: Icons.language_rounded,
-                  child: SegmentedButton<Locales>(
-                    segments: [
-                      ButtonSegment(
-                        value: Locales.tr,
-                        icon: const Icon(Icons.translate_rounded),
-                        label: Text(LocaleKeys.terms_language_tr.tr()),
-                      ),
-                      ButtonSegment(
-                        value: Locales.en,
-                        icon: const Icon(Icons.language_rounded),
-                        label: Text(LocaleKeys.terms_language_en.tr()),
-                      ),
-                    ],
-                    selected: {selectedLocale},
-                    onSelectionChanged: (values) async {
-                      await ProductLocalization.updateLanguage(
+                SizedBox(height: normal * 0.55),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () async {
+                      await showDialog<void>(
                         context: context,
-                        value: values.first,
+                        builder: (_) => const TermsPopup(),
                       );
                     },
-                    style: _segmentStyle(normal),
+                    icon: const Icon(Icons.description_outlined),
+                    label: Text(LocaleKeys.drawer_terms_button.tr()),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      side: BorderSide(
+                        color: Colors.white.withValues(alpha: 0.24),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: normal * 0.78,
+                        vertical: low * 0.82,
+                      ),
+                      minimumSize:
+                          Size.fromHeight(context.sized.height * 0.05),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(normal),
+                      ),
+                    ),
                   ),
                 ),
               ],
-            ),
-          ),
-          SizedBox(height: normal),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: () async {
-                await showDialog<void>(
-                  context: context,
-                  builder: (_) => const TermsPopup(),
-                );
-              },
-              icon: const Icon(Icons.description_outlined),
-              label: Text(LocaleKeys.drawer_terms_button.tr()),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                side: BorderSide(
-                  color: Colors.white.withValues(alpha: 0.28),
-                ),
-                minimumSize: Size.fromHeight(context.sized.height * 0.06),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(normal * 1.2),
-                ),
-              ),
             ),
           ),
         ],
@@ -202,7 +238,7 @@ class CustomDrawerHeader extends StatelessWidget {
 
   ButtonStyle _segmentStyle(double normal) {
     return ButtonStyle(
-      visualDensity: VisualDensity.compact,
+      visualDensity: const VisualDensity(horizontal: -2, vertical: -3),
       foregroundColor: WidgetStatePropertyAll(
         Colors.white.withValues(alpha: 0.92),
       ),
@@ -221,7 +257,7 @@ class CustomDrawerHeader extends StatelessWidget {
       ),
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(normal),
+          borderRadius: BorderRadius.circular(normal * 0.88),
         ),
       ),
     );
@@ -232,45 +268,5 @@ class CustomDrawerHeader extends StatelessWidget {
     return trimmed.isEmpty
         ? LocaleKeys.general_fallback_hipo_friend.tr()
         : trimmed;
-  }
-}
-
-class _CompactControlRow extends StatelessWidget {
-  const _CompactControlRow({
-    required this.icon,
-    required this.child,
-  });
-
-  final IconData icon;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final low = context.sized.lowValue;
-
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: context.sized.normalValue * 0.8,
-        vertical: low * 0.7,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(context.sized.normalValue * 1.25),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.16),
-        ),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: context.sized.normalValue,
-            color: Colors.white,
-          ),
-          SizedBox(width: low * 0.8),
-          Expanded(child: child),
-        ],
-      ),
-    );
   }
 }
