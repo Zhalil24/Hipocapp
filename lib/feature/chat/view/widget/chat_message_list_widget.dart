@@ -5,7 +5,8 @@ import 'package:hipocapp/feature/chat/view/widget/group_message_container_widget
 import 'package:hipocapp/feature/chat/view/widget/message_container_widget.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/utility/decrypt/chat_crypto_utils.dart';
-import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_box.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_shimmer.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -106,8 +107,56 @@ class ChatMessageListWidget extends StatelessWidget {
     final low = context.sized.lowValue;
 
     if (isLoading) {
-      return const Center(
-        child: CustomLoader(),
+      return AppSkeletonShimmer(
+        child: ListView.builder(
+          padding: EdgeInsets.fromLTRB(normal, normal, normal, low * 1.2),
+          itemCount: 6,
+          itemBuilder: (context, index) {
+            final isOutgoing = index.isEven;
+            return Padding(
+              padding: EdgeInsets.only(bottom: low * 0.8),
+              child: Align(
+                alignment:
+                    isOutgoing ? Alignment.centerRight : Alignment.centerLeft,
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: context.sized.width * 0.6,
+                  ),
+                  padding: EdgeInsets.all(normal * 0.8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .surfaceContainerHighest
+                        .withValues(alpha: 0.22),
+                    borderRadius: BorderRadius.circular(normal * 1.1),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppSkeletonBox(
+                        width: context.sized.width * (isOutgoing ? 0.24 : 0.3),
+                        height: context.sized.height * 0.015,
+                      ),
+                      SizedBox(height: low * 0.45),
+                      AppSkeletonBox(
+                        width: context.sized.width * (isOutgoing ? 0.34 : 0.4),
+                        height: context.sized.height * 0.015,
+                      ),
+                      SizedBox(height: low * 0.7),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: AppSkeletonBox(
+                          width: context.sized.width * 0.12,
+                          height: context.sized.height * 0.013,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
       );
     }
 

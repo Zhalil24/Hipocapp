@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/profile_background_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/profile_header_card_widget.dart';
+import 'package:hipocapp/feature/auth/profile/view/widget/profile_page_skeleton_widget.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
-import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -22,6 +22,12 @@ class ProfilePageContentWidget extends StatelessWidget {
     required this.child,
     required this.showBlockingLoader,
     required this.isOwnProfile,
+    required this.followers,
+    required this.following,
+    this.followCountModel,
+    this.followStatusModel,
+    this.onToggleFollow,
+    this.isFollowActionLoading = false,
     this.fallbackUsername,
   });
 
@@ -33,6 +39,12 @@ class ProfilePageContentWidget extends StatelessWidget {
   final Widget child;
   final bool showBlockingLoader;
   final bool isOwnProfile;
+  final List<FollowUserItemModel> followers;
+  final List<FollowUserItemModel> following;
+  final FollowCountModel? followCountModel;
+  final FollowStatusModel? followStatusModel;
+  final VoidCallback? onToggleFollow;
+  final bool isFollowActionLoading;
   final String? fallbackUsername;
 
   @override
@@ -66,6 +78,12 @@ class ProfilePageContentWidget extends StatelessWidget {
                       profileModel: profileModel,
                       selectedPhoto: selectedPhoto,
                       onLogout: onLogout,
+                      followers: followers,
+                      following: following,
+                      followCountModel: followCountModel,
+                      followStatusModel: followStatusModel,
+                      onToggleFollow: onToggleFollow,
+                      isFollowActionLoading: isFollowActionLoading,
                       isOwnProfile: isOwnProfile,
                       fallbackUsername: fallbackUsername,
                     ),
@@ -86,14 +104,14 @@ class ProfilePageContentWidget extends StatelessWidget {
           ),
         ),
         if (showBlockingLoader)
-          const Positioned.fill(
-            child: ColoredBox(
-              color: Color(0x33000000),
+          Positioned.fill(
+            child: IgnorePointer(
+              child: ProfilePageSkeletonWidget(
+                isOwnProfile: isOwnProfile,
+                activeTab: activeTab,
+                showBackground: false,
+              ),
             ),
-          ),
-        if (showBlockingLoader)
-          const Center(
-            child: CustomLoader(),
           ),
       ],
     );

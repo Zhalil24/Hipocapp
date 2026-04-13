@@ -8,7 +8,8 @@ import 'package:hipocapp/feature/chat_user_list/view/widget/user_list_widget.dar
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/feature/chat_user_list/view_model/state/chat_user_list_view_state.dart';
 import 'package:hipocapp/product/utility/enums/chat_tab_type.dart';
-import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_box.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_shimmer.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -100,27 +101,18 @@ class ChatUserListPageContentWidget extends StatelessWidget {
     required List<GroupModel> groups,
   }) {
     if (state.isLoading) {
-      return SliverFillRemaining(
-        hasScrollBody: false,
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(context.sized.normalValue),
-            child: AppSurfaceCard(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CustomLoader(),
-                  SizedBox(height: context.sized.normalValue),
-                  Text(
-                    LocaleKeys.chat_user_list_loading.tr(),
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+      return SliverPadding(
+        padding: EdgeInsets.fromLTRB(
+          context.sized.normalValue * 0.82,
+          0,
+          context.sized.normalValue * 0.82,
+          context.sized.normalValue * 1.6,
+        ),
+        sliver: SliverList.builder(
+          itemCount: 4,
+          itemBuilder: (context, index) {
+            return const _ChatUserListLoadingCard();
+          },
         ),
       );
     }
@@ -288,5 +280,54 @@ class ChatUserListPageContentWidget extends StatelessWidget {
       case ChatTabType.groups:
         return Icons.groups_rounded;
     }
+  }
+}
+
+class _ChatUserListLoadingCard extends StatelessWidget {
+  const _ChatUserListLoadingCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final normal = context.sized.normalValue;
+    final low = context.sized.lowValue;
+
+    return AppSurfaceCard(
+      margin: EdgeInsets.only(bottom: low * 0.75),
+      padding: EdgeInsets.all(context.sized.height * 0.022),
+      child: AppSkeletonShimmer(
+        child: Row(
+          children: [
+            AppSkeletonBox(
+              width: context.sized.height * 0.068,
+              height: context.sized.height * 0.068,
+              radius: context.sized.height * 0.034,
+            ),
+            SizedBox(width: normal * 0.82),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppSkeletonBox(
+                    width: context.sized.width * 0.36,
+                    height: context.sized.height * 0.021,
+                  ),
+                  SizedBox(height: low * 0.45),
+                  AppSkeletonBox(
+                    width: context.sized.width * 0.24,
+                    height: context.sized.height * 0.016,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: low),
+            AppSkeletonBox(
+              width: context.sized.height * 0.038,
+              height: context.sized.height * 0.038,
+              radius: context.sized.height * 0.019,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

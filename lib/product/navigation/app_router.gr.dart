@@ -66,6 +66,7 @@ class ChatUserListRouteArgs {
 /// [ChatView]
 class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
   ChatRoute({
+    Key? key,
     int? toUserId,
     String? toUserName,
     bool? isOnline,
@@ -75,6 +76,7 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
   }) : super(
           ChatRoute.name,
           args: ChatRouteArgs(
+            key: key,
             toUserId: toUserId,
             toUserName: toUserName,
             isOnline: isOnline,
@@ -93,6 +95,7 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
         orElse: () => const ChatRouteArgs(),
       );
       return ChatView(
+        key: args.key,
         toUserId: args.toUserId,
         toUserName: args.toUserName,
         isOnline: args.isOnline,
@@ -105,12 +108,15 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
 
 class ChatRouteArgs {
   const ChatRouteArgs({
+    this.key,
     this.toUserId,
     this.toUserName,
     this.isOnline,
     this.groupId,
     this.groupName,
   });
+
+  final Key? key;
 
   final int? toUserId;
 
@@ -124,14 +130,15 @@ class ChatRouteArgs {
 
   @override
   String toString() {
-    return 'ChatRouteArgs{toUserId: $toUserId, toUserName: $toUserName, isOnline: $isOnline, groupId: $groupId, groupName: $groupName}';
+    return 'ChatRouteArgs{key: $key, toUserId: $toUserId, toUserName: $toUserName, isOnline: $isOnline, groupId: $groupId, groupName: $groupName}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! ChatRouteArgs) return false;
-    return toUserId == other.toUserId &&
+    return key == other.key &&
+        toUserId == other.toUserId &&
         toUserName == other.toUserName &&
         isOnline == other.isOnline &&
         groupId == other.groupId &&
@@ -140,6 +147,7 @@ class ChatRouteArgs {
 
   @override
   int get hashCode =>
+      key.hashCode ^
       toUserId.hashCode ^
       toUserName.hashCode ^
       isOnline.hashCode ^
@@ -151,18 +159,18 @@ class ChatRouteArgs {
 /// [EntryListView]
 class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
   EntryListRoute({
-    Key? key,
     required String titleName,
     required int headerId,
     required int userId,
+    Key? key,
     List<PageRouteInfo>? children,
   }) : super(
           EntryListRoute.name,
           args: EntryListRouteArgs(
-            key: key,
             titleName: titleName,
             headerId: headerId,
             userId: userId,
+            key: key,
           ),
           initialChildren: children,
         );
@@ -174,10 +182,10 @@ class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
     builder: (data) {
       final args = data.argsAs<EntryListRouteArgs>();
       return EntryListView(
-        key: args.key,
         titleName: args.titleName,
         headerId: args.headerId,
         userId: args.userId,
+        key: args.key,
       );
     },
   );
@@ -185,13 +193,11 @@ class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
 
 class EntryListRouteArgs {
   const EntryListRouteArgs({
-    this.key,
     required this.titleName,
     required this.headerId,
     required this.userId,
+    this.key,
   });
-
-  final Key? key;
 
   final String titleName;
 
@@ -199,24 +205,26 @@ class EntryListRouteArgs {
 
   final int userId;
 
+  final Key? key;
+
   @override
   String toString() {
-    return 'EntryListRouteArgs{key: $key, titleName: $titleName, headerId: $headerId, userId: $userId}';
+    return 'EntryListRouteArgs{titleName: $titleName, headerId: $headerId, userId: $userId, key: $key}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EntryListRouteArgs) return false;
-    return key == other.key &&
-        titleName == other.titleName &&
+    return titleName == other.titleName &&
         headerId == other.headerId &&
-        userId == other.userId;
+        userId == other.userId &&
+        key == other.key;
   }
 
   @override
   int get hashCode =>
-      key.hashCode ^ titleName.hashCode ^ headerId.hashCode ^ userId.hashCode;
+      titleName.hashCode ^ headerId.hashCode ^ userId.hashCode ^ key.hashCode;
 }
 
 /// generated route for
@@ -309,11 +317,7 @@ class ProfilRoute extends PageRouteInfo<ProfilRouteArgs> {
     List<PageRouteInfo>? children,
   }) : super(
           ProfilRoute.name,
-          args: ProfilRouteArgs(
-            key: key,
-            userId: userId,
-            username: username,
-          ),
+          args: ProfilRouteArgs(key: key, userId: userId, username: username),
           initialChildren: children,
         );
 
@@ -335,11 +339,7 @@ class ProfilRoute extends PageRouteInfo<ProfilRouteArgs> {
 }
 
 class ProfilRouteArgs {
-  const ProfilRouteArgs({
-    this.key,
-    this.userId,
-    this.username,
-  });
+  const ProfilRouteArgs({this.key, this.userId, this.username});
 
   final Key? key;
 

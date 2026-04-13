@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_box.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_card.dart';
 import 'package:kartal/kartal.dart';
 
 class CustomCardWidgetSkeleton extends StatelessWidget {
@@ -6,162 +8,126 @@ class CustomCardWidgetSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final normal = context.sized.normalValue;
+    final low = context.sized.lowValue;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       children: [
-        Card(
+        AppSkeletonCard(
           margin: EdgeInsets.symmetric(
-            horizontal: context.sized.lowValue * 0.2,
-            vertical: context.sized.lowValue * 0.75,
+            horizontal: low * 0.2,
+            vertical: low * 0.75,
           ),
-          elevation: 8,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(context.sized.lowValue * 1.1),
+          padding: EdgeInsets.fromLTRB(
+            normal * 0.78,
+            low * 0.9,
+            normal * 0.78,
+            low * 0.75,
           ),
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              context.sized.normalValue * 0.78,
-              context.sized.lowValue * 0.9,
-              context.sized.normalValue * 0.78,
-              context.sized.lowValue * 0.75,
-            ),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final maxWidth = constraints.maxWidth;
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final maxWidth = constraints.maxWidth;
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _skeletonLine(
-                      context,
-                      width: maxWidth * 0.56,
-                      height: context.sized.normalValue,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppSkeletonBox(
+                    width: maxWidth * 0.52,
+                    height: context.sized.height * 0.024,
+                  ),
+                  SizedBox(height: low * 0.95),
+                  AppSkeletonBox(
+                    width: maxWidth,
+                    height: context.sized.height * 0.015,
+                  ),
+                  SizedBox(height: low * 0.45),
+                  AppSkeletonBox(
+                    width: maxWidth,
+                    height: context.sized.height * 0.015,
+                  ),
+                  SizedBox(height: low * 0.45),
+                  AppSkeletonBox(
+                    width: maxWidth * 0.88,
+                    height: context.sized.height * 0.015,
+                  ),
+                  SizedBox(height: low * 0.45),
+                  AppSkeletonBox(
+                    width: maxWidth * 0.74,
+                    height: context.sized.height * 0.015,
+                  ),
+                  SizedBox(height: normal * 0.8),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: AppSkeletonBox(
+                      width: maxWidth * 0.3,
+                      height: context.sized.height * 0.042,
+                      radius: normal,
                     ),
-                    SizedBox(height: context.sized.lowValue),
-                    _skeletonLine(
-                      context,
-                      width: maxWidth,
-                      height: context.sized.lowValue * 1.2,
-                    ),
-                    SizedBox(height: context.sized.lowValue * 0.6),
-                    _skeletonLine(
-                      context,
-                      width: maxWidth,
-                      height: context.sized.lowValue * 1.2,
-                    ),
-                    SizedBox(height: context.sized.lowValue * 0.6),
-                    _skeletonLine(
-                      context,
-                      width: maxWidth,
-                      height: context.sized.lowValue * 1.2,
-                    ),
-                    SizedBox(height: context.sized.lowValue * 0.6),
-                    _skeletonLine(
-                      context,
-                      width: maxWidth * 0.72,
-                      height: context.sized.lowValue * 1.2,
-                    ),
-                    SizedBox(height: context.sized.lowValue),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: _skeletonLine(
-                        context,
-                        width: maxWidth * 0.38,
-                        height: context.sized.lowValue * 1.4,
+                  ),
+                  SizedBox(height: low * 0.8),
+                  Wrap(
+                    spacing: normal,
+                    runSpacing: low * 0.5,
+                    children: [
+                      _SkeletonMetaItem(
+                        width: maxWidth * 0.22,
                       ),
-                    ),
-                    SizedBox(height: context.sized.lowValue),
-                    Wrap(
-                      spacing: context.sized.normalValue,
-                      runSpacing: context.sized.lowValue,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        _SkeletonMetaItem(
-                          circle: _skeletonCircle(context),
-                          line: _skeletonLine(
-                            context,
-                            width: maxWidth * 0.24,
-                            height: context.sized.lowValue,
-                          ),
-                        ),
-                        _SkeletonMetaItem(
-                          circle: _skeletonCircle(context),
-                          line: _skeletonLine(
-                            context,
-                            width: maxWidth * 0.2,
-                            height: context.sized.lowValue,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: context.sized.normalValue),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: _skeletonLine(
-                        context,
-                        width: maxWidth * 0.46,
-                        height: context.sized.normalValue * 1.4,
+                      _SkeletonMetaItem(
+                        width: maxWidth * 0.18,
                       ),
+                    ],
+                  ),
+                  SizedBox(height: normal * 0.95),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: AppSkeletonBox(
+                      width: maxWidth * 0.38,
+                      height: context.sized.height * 0.052,
+                      radius: normal * 1.1,
                     ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
         Divider(
-          height: context.sized.lowValue * 1.8,
-          indent: context.sized.lowValue * 0.2,
-          endIndent: context.sized.lowValue * 0.2,
-          color: Colors.grey.shade300,
+          height: low * 1.8,
+          indent: low * 0.2,
+          endIndent: low * 0.2,
+          color: colorScheme.outlineVariant.withValues(alpha: 0.45),
         ),
       ],
-    );
-  }
-
-  Widget _skeletonLine(
-    BuildContext context, {
-    required double width,
-    required double height,
-  }) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(context.sized.lowValue * 0.6),
-      ),
-    );
-  }
-
-  Widget _skeletonCircle(BuildContext context) {
-    return Container(
-      width: context.sized.normalValue,
-      height: context.sized.normalValue,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        shape: BoxShape.circle,
-      ),
     );
   }
 }
 
 class _SkeletonMetaItem extends StatelessWidget {
   const _SkeletonMetaItem({
-    required this.circle,
-    required this.line,
+    required this.width,
   });
 
-  final Widget circle;
-  final Widget line;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
+    final normal = context.sized.normalValue;
+    final low = context.sized.lowValue;
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        circle,
-        SizedBox(width: context.sized.lowValue),
-        line,
+        AppSkeletonBox(
+          width: normal,
+          height: normal,
+          radius: normal,
+        ),
+        SizedBox(width: low),
+        AppSkeletonBox(
+          width: width,
+          height: context.sized.height * 0.014,
+        ),
       ],
     );
   }

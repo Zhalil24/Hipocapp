@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
+import 'package:hipocapp/product/widget/custom_card_widget/custom_card_skeleton_widget.dart';
 import 'package:hipocapp/product/widget/custom_card_widget/custom_card_widget.dart';
-import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -26,10 +26,13 @@ class EntryListFeedWidget extends StatelessWidget {
     final bottomPadding = context.sized.height * 0.03;
 
     if (isLoading) {
-      return const SliverFillRemaining(
-        hasScrollBody: false,
-        child: Center(
-          child: CustomLoader(),
+      return SliverPadding(
+        padding: EdgeInsets.only(bottom: bottomPadding),
+        sliver: SliverList.builder(
+          itemCount: 4,
+          itemBuilder: (context, index) {
+            return const CustomCardWidgetSkeleton();
+          },
         ),
       );
     }

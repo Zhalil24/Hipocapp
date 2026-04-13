@@ -27,7 +27,13 @@ enum ProductServicePath {
   getMessageList('api/chat/MessageList'),
   getGroupList('api/chat/GetAllGroups'),
   requestGroup('api/chat/SendToRequestGroup'),
-  profile('api/User/GetProfile');
+  profile('api/User/GetProfile'),
+  follow('api/follow/Follow'),
+  unfollow('api/follow/Unfollow'),
+  getFollowers('api/follow/GetFollowers'),
+  getFollowing('api/follow/GetFollowing'),
+  getFollowCounts('api/follow/GetCounts'),
+  getFollowStatus('api/follow/GetStatus');
 
   final String value;
   const ProductServicePath(this.value);

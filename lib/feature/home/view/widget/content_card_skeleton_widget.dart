@@ -1,89 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_box.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_card.dart';
 import 'package:kartal/kartal.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ContentCardSkeleton extends StatelessWidget {
   const ContentCardSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = Colors.grey.shade300;
-    final highlightColor = Colors.grey.shade100;
-    final shadowColor = isDark
-        ? Colors.black.withValues(alpha: 0.05)
-        : Colors.white.withValues(alpha: 0.70);
+    final normal = context.sized.normalValue;
+    final low = context.sized.lowValue;
 
-    return Container(
-      margin: EdgeInsets.only(bottom: context.sized.normalValue * 0.9),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(context.sized.lowValue),
-        boxShadow: [
-          BoxShadow(
-            color: shadowColor,
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+    return AppSkeletonCard(
+      margin: EdgeInsets.only(bottom: normal * 1.15),
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppSkeletonBox(
+            width: double.infinity,
+            height: context.sized.height * 0.24,
+            radius: 0,
+          ),
+          Padding(
+            padding: EdgeInsets.all(normal),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppSkeletonBox(
+                  width: context.sized.width * 0.42,
+                  height: context.sized.height * 0.03,
+                ),
+                SizedBox(height: low * 0.8),
+                Row(
+                  children: [
+                    AppSkeletonBox(
+                      width: normal,
+                      height: normal,
+                      radius: normal,
+                    ),
+                    SizedBox(width: low * 0.5),
+                    Expanded(
+                      child: AppSkeletonBox(
+                        width: double.infinity,
+                        height: context.sized.height * 0.018,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: normal),
+                Container(
+                  padding: EdgeInsets.all(low * 0.9),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .surfaceContainerHighest
+                        .withValues(alpha: 0.18),
+                    borderRadius: BorderRadius.circular(low * 0.8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppSkeletonBox(
+                        width: double.infinity,
+                        height: context.sized.height * 0.015,
+                      ),
+                      SizedBox(height: low * 0.45),
+                      AppSkeletonBox(
+                        width: double.infinity,
+                        height: context.sized.height * 0.015,
+                      ),
+                      SizedBox(height: low * 0.45),
+                      AppSkeletonBox(
+                        width: context.sized.width * 0.4,
+                        height: context.sized.height * 0.015,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
-      ),
-      child: Shimmer.fromColors(
-        baseColor: baseColor,
-        highlightColor: highlightColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(context.sized.lowValue),
-              ),
-              child: Container(
-                width: double.infinity,
-                height: context.sized.highValue * 3,
-                color: Colors.white,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(context.sized.normalValue * 0.9),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _skeletonLine(
-                    context,
-                    width: context.sized.highValue * 5,
-                    height: context.sized.normalValue,
-                  ),
-                  SizedBox(height: context.sized.lowValue),
-                  _skeletonLine(
-                    context,
-                    width: context.sized.highValue * 2.5,
-                    height: context.sized.lowValue * 1.4,
-                  ),
-                  SizedBox(height: context.sized.lowValue),
-                  _skeletonLine(context, width: double.infinity, height: 12),
-                  SizedBox(height: context.sized.lowValue * 0.6),
-                  _skeletonLine(context, width: double.infinity, height: 12),
-                  SizedBox(height: context.sized.lowValue * 0.6),
-                  _skeletonLine(context, width: context.sized.highValue * 4, height: 12),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _skeletonLine(
-    BuildContext context, {
-    required double width,
-    required double height,
-  }) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(4),
       ),
     );
   }

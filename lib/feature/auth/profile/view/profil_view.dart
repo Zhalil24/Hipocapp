@@ -8,13 +8,13 @@ import 'package:hipocapp/feature/auth/profile/view/widget/profile_background_wid
 import 'package:hipocapp/feature/auth/profile/view/widget/profile_entries_tab_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/profile_info_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/profile_page_content_widget.dart';
+import 'package:hipocapp/feature/auth/profile/view/widget/profile_page_skeleton_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/profile_view_model.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/state/profile_view_state.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
 import 'package:hipocapp/product/utility/extension/service_snack_bar.dart';
-import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:hipocapp/product/widget/login_popup/login_required_popup.dart';
 
 @RoutePage()
@@ -57,7 +57,9 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
     return BlocProvider(
       create: (_) => profileViewModel,
       child: BlocListener<ProfileViewModel, ProfileViewState>(
-        listenWhen: (prev, curr) => prev.serviceResponseMessage != curr.serviceResponseMessage && curr.serviceResponseMessage != null,
+        listenWhen: (prev, curr) =>
+            prev.serviceResponseMessage != curr.serviceResponseMessage &&
+            curr.serviceResponseMessage != null,
         listener: (context, state) {
           final msg = state.serviceResponseMessage;
           if (msg == null) return;
@@ -69,10 +71,11 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
         child: Scaffold(
           body: BlocBuilder<ProfileViewModel, ProfileViewState>(
             builder: (context, state) {
-              if (isOwnProfile &&
-                  state.isLoading &&
-                  state.profileModel == null) {
-                return const Center(child: CustomLoader());
+              if (state.isLoading && state.profileModel == null) {
+                return ProfilePageSkeletonWidget(
+                  isOwnProfile: isOwnProfile,
+                  activeTab: state.activeTab,
+                );
               }
 
               if (isOwnProfile) {
@@ -87,6 +90,26 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
                   profileViewModel.logout(context);
                 },
                 onTabChanged: profileViewModel.changeTab,
+                followers: state.followers,
+                following: state.following,
+                followCountModel: state.followCountModel,
+                followStatusModel: state.followStatusModel,
+                isFollowActionLoading: state.isFollowActionLoading,
+                onToggleFollow: isOwnProfile
+                    ? null
+                    : () {
+                        final targetUserId =
+                            widget.userId ?? state.profileModel?.id;
+                        if (targetUserId == null || targetUserId <= 0) {
+                          return;
+                        }
+
+                        profileViewModel.toggleFollow(
+                          targetUserId: targetUserId,
+                          targetUserName:
+                              state.profileModel?.username ?? widget.username,
+                        );
+                      },
                 showBlockingLoader: state.isLoading && !isOwnProfile
                     ? true
                     : state.isLoading && state.profileModel != null,

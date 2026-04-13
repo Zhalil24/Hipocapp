@@ -5,6 +5,7 @@ import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/profile/view/profil_view.dart';
 import 'package:hipocapp/feature/auth/profile/view_model/profile_view_model.dart';
 import 'package:hipocapp/product/service/entry_service.dart';
+import 'package:hipocapp/product/service/follow_service.dart';
 import 'package:hipocapp/product/service/manager/product_network_error_manager.dart';
 import 'package:hipocapp/product/service/profile_service.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
@@ -35,6 +36,7 @@ mixin ProfileViewMixin on BaseState<ProfilView> {
       productViewModel: productViewModel,
       profileOperation: ProfileService(ProductStateItems.productNetworkManager),
       entryOperation: EntryService(ProductStateItems.productNetworkManager),
+      followOperation: FollowService(ProductStateItems.productNetworkManager),
     );
     if (productViewModel.state.isLogin) {
       final currentUserId = productViewModel.state.currentUserId;
@@ -45,7 +47,10 @@ mixin ProfileViewMixin on BaseState<ProfilView> {
       }
       final targetUserId = widget.userId ?? productViewModel.state.currentUserId;
       if (targetUserId != null) {
-        _profileViewModel.getProfile(targetUserId);
+        _profileViewModel.loadProfilePage(
+          userId: targetUserId,
+          isOwnProfile: isOwnProfile,
+        );
       }
     }
     nameController = TextEditingController();

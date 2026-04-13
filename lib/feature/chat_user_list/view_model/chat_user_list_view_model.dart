@@ -57,8 +57,7 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     String? initialQuery,
   }) async {
     final normalizedQuery = initialQuery?.trim() ?? '';
-    final resolvedTab = initialTab ??
-        (normalizedQuery.isNotEmpty ? ChatTabType.users : state.activeTab);
+    final resolvedTab = initialTab ?? (normalizedQuery.isNotEmpty ? ChatTabType.users : state.activeTab);
 
     _setLoading(true);
     emit(state.copyWith(activeTab: resolvedTab));
@@ -165,9 +164,7 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     final users = state.profileModel ?? await _fetchAllUsers();
     final otherUserIds = (messages ?? <MessageModel>[])
         .map((message) {
-          return message.fromUserId == userId
-              ? message.toUserId
-              : message.fromUserId;
+          return message.fromUserId == userId ? message.toUserId : message.fromUserId;
         })
         .whereType<int>()
         .toSet();
@@ -195,8 +192,7 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   }
 
   Future<void> getUnReadMessage() async {
-    final response =
-        await _messageOperation.getUnReadMessagCount(await _getUserId());
+    final response = await _messageOperation.getUnReadMessagCount(await _getUserId());
     emit(
       state.copyWith(
         unreadCount: response?.unreadCounts ?? <UnReadMessageModel>[],
@@ -213,8 +209,7 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   }
 
   void clearUnreadMessageCountForUser(int userId) {
-    final updatedList =
-        state.unreadCount?.where((item) => item.fromUserId != userId).toList();
+    final updatedList = state.unreadCount?.where((item) => item.fromUserId != userId).toList();
     emit(state.copyWith(unreadCount: updatedList));
   }
 

@@ -6,7 +6,8 @@ import 'package:gen/gen.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/utility/constans/search_bar/serarch_bar_constants.dart';
-import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_box.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_shimmer.dart';
 import 'package:kartal/kartal.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 
@@ -79,10 +80,66 @@ class SearchBarWidget extends HookWidget {
     Color shadowColor,
   ) {
     if (isLoading) {
-      return Center(
-        child: Padding(
-          padding: EdgeInsets.all(context.sized.normalValue * 2),
-          child: const CustomLoader(),
+      return Padding(
+        padding: EdgeInsets.all(context.sized.normalValue * 0.4),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(context.sized.normalValue),
+          child: Material(
+            color: Colors.transparent,
+            elevation: SearchBarConstants.searchBarElevation,
+            child: Container(
+              decoration: BoxDecoration(
+                color: colorScheme.surface,
+                borderRadius: BorderRadius.circular(context.sized.normalValue),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: AppSkeletonShimmer(
+                child: Padding(
+                  padding: EdgeInsets.all(context.sized.normalValue),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(
+                      4,
+                      (index) => Padding(
+                        padding: EdgeInsets.only(
+                          bottom:
+                              index == 3 ? 0 : context.sized.lowValue * 0.85,
+                        ),
+                        child: Row(
+                          children: [
+                            AppSkeletonBox(
+                              width: context.sized.normalValue * 2,
+                              height: context.sized.normalValue * 2,
+                              radius: context.sized.normalValue,
+                            ),
+                            SizedBox(width: context.sized.lowValue * 0.8),
+                            Expanded(
+                              child: AppSkeletonBox(
+                                width: double.infinity,
+                                height: context.sized.height * 0.02,
+                              ),
+                            ),
+                            SizedBox(width: context.sized.lowValue * 0.8),
+                            AppSkeletonBox(
+                              width: context.sized.normalValue,
+                              height: context.sized.normalValue,
+                              radius: context.sized.normalValue,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       );
     }
