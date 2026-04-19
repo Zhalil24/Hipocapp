@@ -11,7 +11,7 @@
     "group_fallback_description": "Kanal açıklaması",
     "group_join_cta": "Katılmak İçin",
     "content_search": {
-      "market": "Market ara",
+      "market": "Market iÃ§i ara",
       "announcements": "İlan ara",
       "partners": "Partner ara",
       "trainings": "Eğitim ara"
@@ -245,18 +245,18 @@
   },
   "chat_user_list": {
     "title": "Mesajlar",
-    "search_title": "Kullanıcı ara",
-    "search_description": "Bir kullanıcı adı yazarak uygun sohbet kişilerini hızlıca filtrele.",
-    "search_hint": "Kullanıcı ara",
+    "search_title": "Takip ettiklerini ara",
+    "search_description": "Takip ettiğin kullanıcıları filtreleyip doğrudan sohbet başlatabilirsin.",
+    "search_hint": "Takip edilen ara",
     "loading": "Sohbet akışı hazırlanıyor",
     "tab": {
-      "users": "Kişiler",
-      "past_messages": "Sohbetler",
+      "users": "Takip Edilenler",
+      "past_messages": "Geçmiş Sohbetler",
       "groups": "Kanallar"
     },
     "header": {
       "users_title": "Topluluktaki kişiler",
-      "past_messages_title": "Devam eden sohbetler",
+      "past_messages_title": "Geçmiş sohbetler",
       "groups_title": "Kanallar",
       "users_description": "Yeni bir sohbet başlatmak için uygun kişiyi seç ve anında mesaja geç.",
       "past_messages_description": "Son konuşmalarını tek ekranda takip et, okunmamış mesajları hızlıca yakala.",
@@ -264,11 +264,11 @@
     },
     "empty": {
       "search_title": "Eşleşen kullanıcı yok",
-      "users_title": "Henüz kullanıcı listelenmiyor",
-      "search_message": "Aramanı biraz sadeletip tekrar denersen daha fazla kişi görebilirsin.",
-      "users_message": "Topluluktaki yeni kişiler burada görünecek.",
+        "users_title": "Henüz takip ettiğin kullanıcı yok",
+        "search_message": "Aramanı sadeleştirerek mesajlaşmak istediğin takip edilen kişiyi daha kolay bulabilirsin.",
+        "users_message": "Takip ettiğin kullanıcılar burada doğrudan mesajlaşmaya hazır görünecek.",
       "conversations_title": "Henüz bir sohbet başlatılmamış",
-      "conversations_message": "Konuştuğun kişiler burada toplanır. Yeni bir sohbet başlatmak için kullanıcılar sekmesine geçebilirsin.",
+        "conversations_message": "Son konuşmaların burada toplanır. Yeni bir sohbet başlatmak için takip edilenler sekmesine geçebilirsin.",
       "groups_title": "Henüz kanal bulunmuyor",
       "groups_message": "Katıldığın kanallar burada listelenecek."
     },

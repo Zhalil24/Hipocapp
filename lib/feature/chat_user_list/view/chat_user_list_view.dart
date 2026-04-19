@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -50,9 +52,7 @@ class _ChatUserListViewState extends BaseState<ChatUserListView>
               builder: (context, state) {
                 return ChatUserListPageContentWidget(
                   state: state,
-                  searchController: searchController,
-                  onSearchChanged: chatUserListViewModel.filterProfiles,
-                  onTabChanged: chatUserListViewModel.changeTab,
+                  onTabChanged: _handleTabChanged,
                   onUserSelected: _openDirectChat,
                   onRecentChatSelected: _openRecentChat,
                   onGroupSelected: _openGroupChat,
@@ -67,25 +67,43 @@ class _ChatUserListViewState extends BaseState<ChatUserListView>
     );
   }
 
+  void _handleTabChanged(ChatTabType tab) {
+    unawaited(chatUserListViewModel.changeTabAndLoad(tab));
+  }
+
   Future<void> _openDirectChat(ProfileModel profile) async {
-    await context.router.push(
+    final targetUserId = profile.id;
+    if (targetUserId == null || targetUserId <= 0) {
+      return;
+    }
+
+    final router = context.router;
+    await router.push(
       ChatRoute(
         isOnline: profile.isOnline ?? false,
-        toUserId: profile.id ?? 0,
+        toUserId: targetUserId,
         toUserName: profile.username ?? '',
+        manageSignalRLifecycle: false,
       ),
     );
   }
 
   Future<void> _openRecentChat(ProfileModel profile) async {
-    await context.router.push(
+    final targetUserId = profile.id;
+    if (targetUserId == null || targetUserId <= 0) {
+      return;
+    }
+
+    final router = context.router;
+    await router.push(
       ChatRoute(
         isOnline: profile.isOnline ?? false,
-        toUserId: profile.id ?? 0,
+        toUserId: targetUserId,
         toUserName: profile.username ?? '',
+        manageSignalRLifecycle: false,
       ),
     );
-    chatUserListViewModel.clearUnreadMessageCountForUser(profile.id ?? 0);
+    chatUserListViewModel.clearUnreadMessageCountForUser(targetUserId);
   }
 
   Future<void> _openGroupChat(GroupModel group) async {
@@ -95,6 +113,7 @@ class _ChatUserListViewState extends BaseState<ChatUserListView>
       ChatRoute(
         groupId: group.id,
         groupName: group.groupName,
+        manageSignalRLifecycle: false,
       ),
     );
   }

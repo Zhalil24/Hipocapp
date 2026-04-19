@@ -72,6 +72,7 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
     bool? isOnline,
     int? groupId,
     String? groupName,
+    bool manageSignalRLifecycle = true,
     List<PageRouteInfo>? children,
   }) : super(
           ChatRoute.name,
@@ -82,6 +83,7 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
             isOnline: isOnline,
             groupId: groupId,
             groupName: groupName,
+            manageSignalRLifecycle: manageSignalRLifecycle,
           ),
           initialChildren: children,
         );
@@ -101,6 +103,7 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
         isOnline: args.isOnline,
         groupId: args.groupId,
         groupName: args.groupName,
+        manageSignalRLifecycle: args.manageSignalRLifecycle,
       );
     },
   );
@@ -114,6 +117,7 @@ class ChatRouteArgs {
     this.isOnline,
     this.groupId,
     this.groupName,
+    this.manageSignalRLifecycle = true,
   });
 
   final Key? key;
@@ -128,9 +132,11 @@ class ChatRouteArgs {
 
   final String? groupName;
 
+  final bool manageSignalRLifecycle;
+
   @override
   String toString() {
-    return 'ChatRouteArgs{key: $key, toUserId: $toUserId, toUserName: $toUserName, isOnline: $isOnline, groupId: $groupId, groupName: $groupName}';
+    return 'ChatRouteArgs{key: $key, toUserId: $toUserId, toUserName: $toUserName, isOnline: $isOnline, groupId: $groupId, groupName: $groupName, manageSignalRLifecycle: $manageSignalRLifecycle}';
   }
 
   @override
@@ -142,7 +148,8 @@ class ChatRouteArgs {
         toUserName == other.toUserName &&
         isOnline == other.isOnline &&
         groupId == other.groupId &&
-        groupName == other.groupName;
+        groupName == other.groupName &&
+        manageSignalRLifecycle == other.manageSignalRLifecycle;
   }
 
   @override
@@ -152,7 +159,8 @@ class ChatRouteArgs {
       toUserName.hashCode ^
       isOnline.hashCode ^
       groupId.hashCode ^
-      groupName.hashCode;
+      groupName.hashCode ^
+      manageSignalRLifecycle.hashCode;
 }
 
 /// generated route for

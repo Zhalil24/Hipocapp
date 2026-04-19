@@ -11,10 +11,10 @@
     "group_fallback_description": "Channel description",
     "group_join_cta": "Join In",
     "content_search": {
-      "market": "Search market",
-      "announcements": "Search announcement",
-      "partners": "Search partner",
-      "trainings": "Search training"
+      "market": "Search within market",
+      "announcements": "Search within announcements",
+      "partners": "Search within partners",
+      "trainings": "Search within trainings"
     },
     "entry_filter_latest": "daily",
     "entry_filter_random": "stream",
@@ -245,18 +245,18 @@
   },
   "chat_user_list": {
     "title": "Messages",
-    "search_title": "Search user",
-    "search_description": "Type a username to quickly filter the right people for chat.",
-    "search_hint": "Search user",
+    "search_title": "Search following",
+    "search_description": "Filter the people you follow and jump into a direct conversation faster.",
+    "search_hint": "Search followed user",
     "loading": "Preparing chat flow",
     "tab": {
-      "users": "People",
-      "past_messages": "Chats",
+      "users": "Following",
+      "past_messages": "Past Chats",
       "groups": "Channels"
     },
     "header": {
       "users_title": "People in the community",
-      "past_messages_title": "Ongoing chats",
+      "past_messages_title": "Past chats",
       "groups_title": "Channels",
       "users_description": "Choose the right person and jump into a new conversation instantly.",
       "past_messages_description": "Track your recent conversations from one screen and catch unread messages faster.",
@@ -264,11 +264,11 @@
     },
     "empty": {
       "search_title": "No matching users",
-      "users_title": "No users listed yet",
-      "search_message": "Try simplifying your search to see more people.",
-      "users_message": "New people in the community will appear here.",
+        "users_title": "You are not following anyone yet",
+        "search_message": "Try a simpler search to find the followed user you want to message.",
+        "users_message": "People you follow will appear here for direct messaging.",
       "conversations_title": "No conversation started yet",
-      "conversations_message": "People you talk to are collected here. You can switch to the users tab to start a new chat.",
+        "conversations_message": "Your recent conversations will appear here. You can switch to the following tab to start a new chat.",
       "groups_title": "No channels yet",
       "groups_message": "Channels you joined will be listed here."
     },

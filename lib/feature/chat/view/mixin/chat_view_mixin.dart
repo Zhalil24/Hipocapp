@@ -30,6 +30,7 @@ mixin ChatViewMixin on BaseState<ChatView> {
     );
     _chatViewModel = ChatViewModel(
       toUserId: widget.toUserId ?? 0,
+      manageSignalRLifecycle: widget.manageSignalRLifecycle,
       hubConnection: ProductStateItems.signalRService.connection,
       userCacheOperation: ProductStateItems.productCache.userCacheOperation,
       messageOperation: MessageService(ProductStateItems.productNetworkManager),
@@ -97,9 +98,11 @@ mixin ChatViewMixin on BaseState<ChatView> {
     controller.dispose();
     inputFocusNode.dispose();
     scrollController.dispose();
-    if (widget.groupName?.isNotEmpty ?? false) {
-      unawaited(chatViewModel.leaveGroup(widget.groupName ?? ''));
-    }
+    unawaited(
+      chatViewModel.disposeLifecycle(
+        groupName: widget.groupName,
+      ),
+    );
     super.dispose();
   }
 }

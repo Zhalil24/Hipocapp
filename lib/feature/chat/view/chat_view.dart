@@ -19,6 +19,7 @@ class ChatView extends StatefulWidget {
     this.isOnline,
     this.groupId,
     this.groupName,
+    this.manageSignalRLifecycle = true,
   });
 
   final int? toUserId;
@@ -26,6 +27,7 @@ class ChatView extends StatefulWidget {
   final bool? isOnline;
   final int? groupId;
   final String? groupName;
+  final bool manageSignalRLifecycle;
 
   @override
   State<ChatView> createState() => _ChatViewState();

@@ -2,14 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/chat_user_list_header_card_widget.dart';
-import 'package:hipocapp/feature/chat_user_list/view/widget/chat_user_search_card_widget.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/group_list_widget.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/user_list_widget.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/feature/chat_user_list/view_model/state/chat_user_list_view_state.dart';
 import 'package:hipocapp/product/utility/enums/chat_tab_type.dart';
-import 'package:hipocapp/product/widget/skeleton/app_skeleton_box.dart';
-import 'package:hipocapp/product/widget/skeleton/app_skeleton_shimmer.dart';
+import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -17,8 +15,6 @@ class ChatUserListPageContentWidget extends StatelessWidget {
   const ChatUserListPageContentWidget({
     super.key,
     required this.state,
-    required this.searchController,
-    required this.onSearchChanged,
     required this.onTabChanged,
     required this.onUserSelected,
     required this.onRecentChatSelected,
@@ -27,8 +23,6 @@ class ChatUserListPageContentWidget extends StatelessWidget {
   });
 
   final ChatUserListViewState state;
-  final TextEditingController searchController;
-  final ValueChanged<String> onSearchChanged;
   final ValueChanged<ChatTabType> onTabChanged;
   final Future<void> Function(ProfileModel profile) onUserSelected;
   final Future<void> Function(ProfileModel profile) onRecentChatSelected;
@@ -72,14 +66,6 @@ class ChatUserListPageContentWidget extends StatelessWidget {
                     onChanged: onTabChanged,
                   ),
                 ),
-                if (state.activeTab == ChatTabType.users) ...[
-                  SizedBox(height: normal),
-                  ChatUserSearchCardWidget(
-                    searchController: searchController,
-                    searchQuery: state.searchQuery,
-                    onChanged: onSearchChanged,
-                  ),
-                ],
               ],
             ),
           ),
@@ -101,24 +87,16 @@ class ChatUserListPageContentWidget extends StatelessWidget {
     required List<GroupModel> groups,
   }) {
     if (state.isLoading) {
-      return SliverPadding(
-        padding: EdgeInsets.fromLTRB(
-          context.sized.normalValue * 0.82,
-          0,
-          context.sized.normalValue * 0.82,
-          context.sized.normalValue * 1.6,
-        ),
-        sliver: SliverList.builder(
-          itemCount: 4,
-          itemBuilder: (context, index) {
-            return const _ChatUserListLoadingCard();
-          },
+      return const SliverFillRemaining(
+        hasScrollBody: false,
+        child: Center(
+          child: CustomLoader(),
         ),
       );
     }
 
     switch (state.activeTab) {
-      case ChatTabType.users:
+      case ChatTabType.following:
         if (users.isEmpty) {
           return _buildEmptyState(
             context: context,
@@ -129,15 +107,6 @@ class ChatUserListPageContentWidget extends StatelessWidget {
             message: state.searchQuery.isNotEmpty
                 ? LocaleKeys.chat_user_list_empty_search_message.tr()
                 : LocaleKeys.chat_user_list_empty_users_message.tr(),
-            actionLabel: state.searchQuery.isNotEmpty
-                ? LocaleKeys.general_button_clear_search.tr()
-                : null,
-            onAction: state.searchQuery.isNotEmpty
-                ? () {
-                    searchController.clear();
-                    onSearchChanged('');
-                  }
-                : null,
           );
         }
         return SliverPadding(
@@ -152,8 +121,7 @@ class ChatUserListPageContentWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               final profile = users[index];
               return UserListWidget(
-                username: profile.username ??
-                    LocaleKeys.general_fallback_unknown_user.tr(),
+                username: _resolveUserName(profile.username),
                 photoURL: profile.photoURL ?? '',
                 isOnline: profile.isOnline,
                 onTap: () async {
@@ -187,8 +155,7 @@ class ChatUserListPageContentWidget extends StatelessWidget {
               return UserListWidget(
                 unreadMessageCount: unreadCount,
                 isOnline: profile.isOnline,
-                username: profile.username ??
-                    LocaleKeys.general_fallback_unknown_user.tr(),
+                username: _resolveUserName(profile.username),
                 photoURL: profile.photoURL ?? '',
                 onTap: () async {
                   await onRecentChatSelected(profile);
@@ -262,7 +229,7 @@ class ChatUserListPageContentWidget extends StatelessWidget {
 
   String _tabLabel(ChatTabType tab) {
     switch (tab) {
-      case ChatTabType.users:
+      case ChatTabType.following:
         return LocaleKeys.chat_user_list_tab_users.tr();
       case ChatTabType.pastMessages:
         return LocaleKeys.chat_user_list_tab_past_messages.tr();
@@ -273,7 +240,7 @@ class ChatUserListPageContentWidget extends StatelessWidget {
 
   IconData _tabIcon(ChatTabType tab) {
     switch (tab) {
-      case ChatTabType.users:
+      case ChatTabType.following:
         return Icons.people_alt_rounded;
       case ChatTabType.pastMessages:
         return Icons.chat_rounded;
@@ -281,53 +248,13 @@ class ChatUserListPageContentWidget extends StatelessWidget {
         return Icons.groups_rounded;
     }
   }
-}
 
-class _ChatUserListLoadingCard extends StatelessWidget {
-  const _ChatUserListLoadingCard();
+  String _resolveUserName(String? userName) {
+    final normalized = userName?.trim() ?? '';
+    if (normalized.isNotEmpty) {
+      return normalized;
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    final normal = context.sized.normalValue;
-    final low = context.sized.lowValue;
-
-    return AppSurfaceCard(
-      margin: EdgeInsets.only(bottom: low * 0.75),
-      padding: EdgeInsets.all(context.sized.height * 0.022),
-      child: AppSkeletonShimmer(
-        child: Row(
-          children: [
-            AppSkeletonBox(
-              width: context.sized.height * 0.068,
-              height: context.sized.height * 0.068,
-              radius: context.sized.height * 0.034,
-            ),
-            SizedBox(width: normal * 0.82),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppSkeletonBox(
-                    width: context.sized.width * 0.36,
-                    height: context.sized.height * 0.021,
-                  ),
-                  SizedBox(height: low * 0.45),
-                  AppSkeletonBox(
-                    width: context.sized.width * 0.24,
-                    height: context.sized.height * 0.016,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(width: low),
-            AppSkeletonBox(
-              width: context.sized.height * 0.038,
-              height: context.sized.height * 0.038,
-              radius: context.sized.height * 0.019,
-            ),
-          ],
-        ),
-      ),
-    );
+    return LocaleKeys.general_fallback_unknown_user.tr();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +44,7 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
             const Positioned.fill(child: ProfileBackgroundWidget()),
             LoginRequiredPopup(
               onLoginPressed: () {
-                context.router.push(const LoginRoute());
+                unawaited(context.router.push(const LoginRoute()));
               },
             ),
           ],
@@ -87,11 +89,31 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
                 selectedPhoto: isOwnProfile ? state.photo : null,
                 activeTab: state.activeTab,
                 onLogout: () {
-                  profileViewModel.logout(context);
+                  unawaited(profileViewModel.logout(context));
                 },
                 onTabChanged: profileViewModel.changeTab,
                 followers: state.followers,
                 following: state.following,
+                onFollowerSelected: (item) {
+                  unawaited(
+                    _openProfileFromFollowItem(
+                      targetUserId: item.followerUserId,
+                      targetUsername: item.followerUserName,
+                      currentProfileUserId:
+                          state.profileModel?.id ?? widget.userId,
+                    ),
+                  );
+                },
+                onFollowingSelected: (item) {
+                  unawaited(
+                    _openProfileFromFollowItem(
+                      targetUserId: item.followingUserId,
+                      targetUsername: item.followingUserName,
+                      currentProfileUserId:
+                          state.profileModel?.id ?? widget.userId,
+                    ),
+                  );
+                },
                 followCountModel: state.followCountModel,
                 followStatusModel: state.followStatusModel,
                 isFollowActionLoading: state.isFollowActionLoading,
@@ -104,15 +126,21 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
                           return;
                         }
 
-                        profileViewModel.toggleFollow(
-                          targetUserId: targetUserId,
-                          targetUserName:
-                              state.profileModel?.username ?? widget.username,
+                        unawaited(
+                          profileViewModel.toggleFollow(
+                            targetUserId: targetUserId,
+                            targetUserName:
+                                state.profileModel?.username ?? widget.username,
+                          ),
                         );
                       },
-                showBlockingLoader: state.isLoading && !isOwnProfile
-                    ? true
-                    : state.isLoading && state.profileModel != null,
+                onMessageTap: isOwnProfile
+                    ? null
+                    : () {
+                        unawaited(_openDirectChat(state));
+                      },
+                showBlockingLoader: state.isLoading &&
+                    (!isOwnProfile || state.profileModel != null),
                 isOwnProfile: isOwnProfile,
                 fallbackUsername: widget.username,
                 child: isOwnProfile
@@ -142,12 +170,14 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           usernameController: usernameController,
           emailController: emailController,
           onUpdate: (name, surname, username, email) {
-            profileViewModel.updateProfile(
-              name,
-              surname,
-              email,
-              username,
-              productViewModel.state.currentUserId!,
+            unawaited(
+              profileViewModel.updateProfile(
+                name,
+                surname,
+                email,
+                username,
+                productViewModel.state.currentUserId!,
+              ),
             );
           },
         );
@@ -157,11 +187,13 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           newPasswordChangeController: newPasswordChangeController,
           newPasswordReChangeController: newPasswordReChangeController,
           onChangePressed: () {
-            profileViewModel.changePassword(
-              passwordChangeController.text,
-              newPasswordChangeController.text,
-              newPasswordReChangeController.text,
-              productViewModel.state.currentUserId!,
+            unawaited(
+              profileViewModel.changePassword(
+                passwordChangeController.text,
+                newPasswordChangeController.text,
+                newPasswordReChangeController.text,
+                productViewModel.state.currentUserId!,
+              ),
             );
           },
         );
@@ -169,7 +201,7 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
         return ProfileEntriesTabWidget(
           profileModel: state.profileModel,
           onDelete: (entryId) {
-            profileViewModel.deleteEntry(entryId);
+            unawaited(profileViewModel.deleteEntry(entryId));
           },
         );
     }
@@ -198,5 +230,47 @@ class _ProfilViewState extends BaseState<ProfilView> with ProfileViewMixin {
           isPublicProfile: true,
         );
     }
+  }
+
+  Future<void> _openProfileFromFollowItem({
+    required int? targetUserId,
+    required String? targetUsername,
+    required int? currentProfileUserId,
+  }) async {
+    if (targetUserId == null || targetUserId <= 0) {
+      return;
+    }
+
+    if (currentProfileUserId != null && currentProfileUserId == targetUserId) {
+      return;
+    }
+
+    final currentUserId = productViewModel.state.currentUserId;
+    if (currentUserId != null && currentUserId == targetUserId) {
+      await context.router.push(ProfilRoute());
+      return;
+    }
+
+    await context.router.push(
+      ProfilRoute(
+        userId: targetUserId,
+        username: targetUsername,
+      ),
+    );
+  }
+
+  Future<void> _openDirectChat(ProfileViewState state) async {
+    final targetUserId = widget.userId ?? state.profileModel?.id;
+    if (targetUserId == null || targetUserId <= 0) {
+      return;
+    }
+
+    await context.router.push(
+      ChatRoute(
+        toUserId: targetUserId,
+        toUserName: state.profileModel?.username ?? widget.username ?? '',
+        isOnline: state.profileModel?.isOnline ?? false,
+      ),
+    );
   }
 }

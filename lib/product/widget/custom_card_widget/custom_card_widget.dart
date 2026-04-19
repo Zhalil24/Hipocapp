@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
-import 'package:hipocapp/product/utility/enums/chat_tab_type.dart';
-import 'package:intl/intl.dart';
 import 'package:kartal/kartal.dart';
 
 class CustomCardWidget extends StatefulWidget {
@@ -163,7 +161,8 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget>
                                             decoration: _canOpenProfile
                                                 ? TextDecoration.underline
                                                 : TextDecoration.none,
-                                            decorationColor: colorScheme.primary,
+                                            decorationColor:
+                                                colorScheme.primary,
                                           ),
                                     ),
                                   ),
@@ -195,21 +194,14 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget>
                       ],
                     ),
                   ),
-                if (widget.isHomeCard && productViewModel.state.isLogin)
+                if (_canSendMessage)
                   Padding(
                     padding:
                         EdgeInsets.only(top: context.sized.normalValue * 0.85),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: FilledButton.icon(
-                        onPressed: () async {
-                          await context.router.push(
-                            ChatUserListRoute(
-                              tab: ChatTabType.users,
-                              query: widget.userName,
-                            ),
-                          );
-                        },
+                        onPressed: _openDirectChat,
                         icon: const Icon(Icons.chat),
                         label: Text(
                           LocaleKeys.custom_card_send_message.tr(),
@@ -253,6 +245,19 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget>
         targetUserName.isNotEmpty;
   }
 
+  bool get _canSendMessage {
+    final targetUserId = widget.userId;
+    final targetUserName = widget.userName?.trim() ?? '';
+    final currentUserId = productViewModel.state.currentUserId;
+
+    return widget.isHomeCard &&
+        productViewModel.state.isLogin &&
+        targetUserId != null &&
+        targetUserId > 0 &&
+        targetUserId != currentUserId &&
+        targetUserName.isNotEmpty;
+  }
+
   Future<void> _openUserProfile() async {
     if (!productViewModel.state.isLogin) {
       return;
@@ -273,6 +278,21 @@ class _CustomCardWidgetState extends BaseState<CustomCardWidget>
       ProfilRoute(
         userId: targetUserId,
         username: widget.userName,
+      ),
+    );
+  }
+
+  Future<void> _openDirectChat() async {
+    final targetUserId = widget.userId;
+    if (targetUserId == null || targetUserId <= 0) {
+      return;
+    }
+
+    await context.router.push(
+      ChatRoute(
+        toUserId: targetUserId,
+        toUserName: widget.userName ?? '',
+        isOnline: false,
       ),
     );
   }

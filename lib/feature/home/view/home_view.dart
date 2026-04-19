@@ -281,17 +281,27 @@ class _HomeViewState extends BaseState<HomeView> with HomeViewMixin {
   }
 
   String _resolveContentSearchHint(String contentType) {
+    final isTurkish = context.locale.languageCode == 'tr';
+
     if (contentType == ContentTypeEnum.getCampains.value) {
-      return LocaleKeys.home_content_search_market.tr();
+      return isTurkish
+          ? 'Market i\u00e7i ara'
+          : LocaleKeys.home_content_search_market.tr();
     }
     if (contentType == ContentTypeEnum.getJobAdvertisements.value) {
-      return LocaleKeys.home_content_search_announcements.tr();
+      return isTurkish
+          ? '\u0130lan i\u00e7i ara'
+          : LocaleKeys.home_content_search_announcements.tr();
     }
     if (contentType == ContentTypeEnum.getThesisConsultation.value) {
-      return LocaleKeys.home_content_search_partners.tr();
+      return isTurkish
+          ? 'Partnerler i\u00e7i ara'
+          : LocaleKeys.home_content_search_partners.tr();
     }
     if (contentType == ContentTypeEnum.getDraws.value) {
-      return LocaleKeys.home_content_search_trainings.tr();
+      return isTurkish
+          ? 'E\u011fitimler i\u00e7i ara'
+          : LocaleKeys.home_content_search_trainings.tr();
     }
     return LocaleKeys.home_search_hint.tr();
   }

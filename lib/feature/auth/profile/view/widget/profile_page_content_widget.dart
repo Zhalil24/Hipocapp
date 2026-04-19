@@ -24,9 +24,12 @@ class ProfilePageContentWidget extends StatelessWidget {
     required this.isOwnProfile,
     required this.followers,
     required this.following,
+    this.onFollowerSelected,
+    this.onFollowingSelected,
     this.followCountModel,
     this.followStatusModel,
     this.onToggleFollow,
+    this.onMessageTap,
     this.isFollowActionLoading = false,
     this.fallbackUsername,
   });
@@ -41,9 +44,12 @@ class ProfilePageContentWidget extends StatelessWidget {
   final bool isOwnProfile;
   final List<FollowUserItemModel> followers;
   final List<FollowUserItemModel> following;
+  final ValueChanged<FollowUserItemModel>? onFollowerSelected;
+  final ValueChanged<FollowUserItemModel>? onFollowingSelected;
   final FollowCountModel? followCountModel;
   final FollowStatusModel? followStatusModel;
   final VoidCallback? onToggleFollow;
+  final VoidCallback? onMessageTap;
   final bool isFollowActionLoading;
   final String? fallbackUsername;
 
@@ -80,9 +86,12 @@ class ProfilePageContentWidget extends StatelessWidget {
                       onLogout: onLogout,
                       followers: followers,
                       following: following,
+                      onFollowerSelected: onFollowerSelected,
+                      onFollowingSelected: onFollowingSelected,
                       followCountModel: followCountModel,
                       followStatusModel: followStatusModel,
                       onToggleFollow: onToggleFollow,
+                      onMessageTap: onMessageTap,
                       isFollowActionLoading: isFollowActionLoading,
                       isOwnProfile: isOwnProfile,
                       fallbackUsername: fallbackUsername,

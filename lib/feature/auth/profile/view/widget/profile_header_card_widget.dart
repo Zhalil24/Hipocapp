@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -21,9 +22,12 @@ class ProfileHeaderCardWidget extends StatelessWidget {
     required this.onLogout,
     required this.followers,
     required this.following,
+    this.onFollowerSelected,
+    this.onFollowingSelected,
     this.followCountModel,
     this.followStatusModel,
     this.onToggleFollow,
+    this.onMessageTap,
     this.isFollowActionLoading = false,
     this.isOwnProfile = true,
     this.fallbackUsername,
@@ -34,9 +38,12 @@ class ProfileHeaderCardWidget extends StatelessWidget {
   final VoidCallback onLogout;
   final List<FollowUserItemModel> followers;
   final List<FollowUserItemModel> following;
+  final ValueChanged<FollowUserItemModel>? onFollowerSelected;
+  final ValueChanged<FollowUserItemModel>? onFollowingSelected;
   final FollowCountModel? followCountModel;
   final FollowStatusModel? followStatusModel;
   final VoidCallback? onToggleFollow;
+  final VoidCallback? onMessageTap;
   final bool isFollowActionLoading;
   final bool isOwnProfile;
   final String? fallbackUsername;
@@ -47,6 +54,8 @@ class ProfileHeaderCardWidget extends StatelessWidget {
     final normal = context.sized.normalValue;
     final followersCount = followCountModel?.followersCount ?? followers.length;
     final followingCount = followCountModel?.followingCount ?? following.length;
+    final followerItems = _validFollowerItems();
+    final followingItems = _validFollowingItems();
 
     return AppSurfaceCard(
       padding: EdgeInsets.all(context.sized.height * 0.03),
@@ -66,24 +75,37 @@ class ProfileHeaderCardWidget extends StatelessWidget {
             isFollowing: followStatusModel?.isFollowing ?? false,
             isFollowActionLoading: isFollowActionLoading,
             onFollowersTap: () {
-              _showFollowListPopup(
-                context,
-                title: LocaleKeys.auth_profile_followers_popup_title.tr(),
-                emptyMessage:
-                    LocaleKeys.auth_profile_followers_empty_message.tr(),
-                userNames: _extractFollowerNames(),
+              unawaited(
+                _showFollowListPopup(
+                  context,
+                  title: LocaleKeys.auth_profile_followers_popup_title.tr(),
+                  emptyMessage:
+                      LocaleKeys.auth_profile_followers_empty_message.tr(),
+                  userNames: _extractFollowerNames(followerItems),
+                  onUserTap: onFollowerSelected == null
+                      ? null
+                      : (index) =>
+                          onFollowerSelected?.call(followerItems[index]),
+                ),
               );
             },
             onFollowingTap: () {
-              _showFollowListPopup(
-                context,
-                title: LocaleKeys.auth_profile_following_popup_title.tr(),
-                emptyMessage:
-                    LocaleKeys.auth_profile_following_empty_message.tr(),
-                userNames: _extractFollowingNames(),
+              unawaited(
+                _showFollowListPopup(
+                  context,
+                  title: LocaleKeys.auth_profile_following_popup_title.tr(),
+                  emptyMessage:
+                      LocaleKeys.auth_profile_following_empty_message.tr(),
+                  userNames: _extractFollowingNames(followingItems),
+                  onUserTap: onFollowingSelected == null
+                      ? null
+                      : (index) =>
+                          onFollowingSelected?.call(followingItems[index]),
+                ),
               );
             },
             onToggleFollow: onToggleFollow,
+            onMessageTap: onMessageTap,
           );
           final quickActions = _ProfileQuickActions(onLogout: onLogout);
 
@@ -138,17 +160,31 @@ class ProfileHeaderCardWidget extends StatelessWidget {
     return LocaleKeys.general_fallback_unknown_user.tr();
   }
 
-  List<String> _extractFollowerNames() {
-    return followers
-        .map((item) => item.followerUserName?.trim() ?? '')
-        .where((name) => name.isNotEmpty)
+  List<FollowUserItemModel> _validFollowerItems() {
+    return followers.where((item) => (item.followerUserId ?? 0) > 0).toList();
+  }
+
+  List<FollowUserItemModel> _validFollowingItems() {
+    return following.where((item) => (item.followingUserId ?? 0) > 0).toList();
+  }
+
+  List<String> _extractFollowerNames(List<FollowUserItemModel> items) {
+    return items
+        .map(
+          (item) => item.followerUserName?.trim().isNotEmpty ?? false
+              ? item.followerUserName!.trim()
+              : LocaleKeys.general_fallback_unknown_user.tr(),
+        )
         .toList();
   }
 
-  List<String> _extractFollowingNames() {
-    return following
-        .map((item) => item.followingUserName?.trim() ?? '')
-        .where((name) => name.isNotEmpty)
+  List<String> _extractFollowingNames(List<FollowUserItemModel> items) {
+    return items
+        .map(
+          (item) => item.followingUserName?.trim().isNotEmpty ?? false
+              ? item.followingUserName!.trim()
+              : LocaleKeys.general_fallback_unknown_user.tr(),
+        )
         .toList();
   }
 
@@ -157,6 +193,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
     required String title,
     required String emptyMessage,
     required List<String> userNames,
+    ValueChanged<int>? onUserTap,
   }) async {
     await showDialog<void>(
       context: context,
@@ -164,6 +201,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
         title: title,
         userNames: userNames,
         emptyMessage: emptyMessage,
+        onUserTap: onUserTap,
       ),
     );
   }
@@ -183,6 +221,7 @@ class _ProfileSummary extends StatelessWidget {
     required this.isFollowActionLoading,
     required this.onFollowersTap,
     required this.onFollowingTap,
+    this.onMessageTap,
     this.onToggleFollow,
   });
 
@@ -198,6 +237,7 @@ class _ProfileSummary extends StatelessWidget {
   final bool isFollowActionLoading;
   final VoidCallback onFollowersTap;
   final VoidCallback onFollowingTap;
+  final VoidCallback? onMessageTap;
   final VoidCallback? onToggleFollow;
 
   @override
@@ -287,49 +327,23 @@ class _ProfileSummary extends StatelessWidget {
             ),
           ],
         ),
-        if (isPublicProfile && onToggleFollow != null) ...[
+        if (isPublicProfile &&
+            (onToggleFollow != null || onMessageTap != null)) ...[
           SizedBox(height: normal * 0.92),
-          SizedBox(
-            width: double.infinity,
-            child: isFollowing
-                ? OutlinedButton.icon(
-                    onPressed: isFollowActionLoading ? null : onToggleFollow,
-                    icon: isFollowActionLoading
-                        ? SizedBox(
-                            width: context.sized.normalValue,
-                            height: context.sized.normalValue,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: colorScheme.primary,
-                            ),
-                          )
-                        : const Icon(Icons.check_rounded),
-                    label: Text(
-                      LocaleKeys.auth_profile_following_button.tr(),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      minimumSize:
-                          Size.fromHeight(context.sized.height * 0.056),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(normal * 1.05),
-                      ),
-                    ),
-                  )
-                : FilledButton.icon(
-                    onPressed: isFollowActionLoading ? null : onToggleFollow,
-                    icon: isFollowActionLoading
-                        ? SizedBox(
-                            width: context.sized.normalValue,
-                            height: context.sized.normalValue,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: colorScheme.onPrimary,
-                            ),
-                          )
-                        : const Icon(Icons.person_add_alt_1_rounded),
-                    label: Text(
-                      LocaleKeys.auth_profile_follow_button.tr(),
-                    ),
+          Row(
+            children: [
+              if (onToggleFollow != null)
+                Expanded(
+                  child: _buildFollowButton(context),
+                ),
+              if (onToggleFollow != null && onMessageTap != null)
+                SizedBox(width: low * 0.75),
+              if (onMessageTap != null)
+                Expanded(
+                  child: FilledButton.tonalIcon(
+                    onPressed: onMessageTap,
+                    icon: const Icon(Icons.chat_bubble_outline_rounded),
+                    label: Text(LocaleKeys.custom_card_send_message.tr()),
                     style: FilledButton.styleFrom(
                       minimumSize:
                           Size.fromHeight(context.sized.height * 0.056),
@@ -338,9 +352,64 @@ class _ProfileSummary extends StatelessWidget {
                       ),
                     ),
                   ),
+                ),
+            ],
           ),
         ],
       ],
+    );
+  }
+
+  Widget _buildFollowButton(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final normal = context.sized.normalValue;
+
+    if (isFollowing) {
+      return OutlinedButton.icon(
+        onPressed: isFollowActionLoading ? null : onToggleFollow,
+        icon: isFollowActionLoading
+            ? SizedBox(
+                width: context.sized.normalValue,
+                height: context.sized.normalValue,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: colorScheme.primary,
+                ),
+              )
+            : const Icon(Icons.check_rounded),
+        label: Text(
+          LocaleKeys.auth_profile_following_button.tr(),
+        ),
+        style: OutlinedButton.styleFrom(
+          minimumSize: Size.fromHeight(context.sized.height * 0.056),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(normal * 1.05),
+          ),
+        ),
+      );
+    }
+
+    return FilledButton.icon(
+      onPressed: isFollowActionLoading ? null : onToggleFollow,
+      icon: isFollowActionLoading
+          ? SizedBox(
+              width: context.sized.normalValue,
+              height: context.sized.normalValue,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: colorScheme.onPrimary,
+              ),
+            )
+          : const Icon(Icons.person_add_alt_1_rounded),
+      label: Text(
+        LocaleKeys.auth_profile_follow_button.tr(),
+      ),
+      style: FilledButton.styleFrom(
+        minimumSize: Size.fromHeight(context.sized.height * 0.056),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(normal * 1.05),
+        ),
+      ),
     );
   }
 }

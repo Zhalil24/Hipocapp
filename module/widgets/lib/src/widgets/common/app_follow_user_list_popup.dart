@@ -7,11 +7,13 @@ class AppFollowUserListPopup extends StatelessWidget {
     required this.title,
     required this.userNames,
     required this.emptyMessage,
+    this.onUserTap,
   });
 
   final String title;
   final List<String> userNames;
   final String emptyMessage;
+  final ValueChanged<int>? onUserTap;
 
   @override
   Widget build(BuildContext context) {
@@ -92,39 +94,61 @@ class AppFollowUserListPopup extends StatelessWidget {
                             SizedBox(height: low * 0.55),
                         itemBuilder: (context, index) {
                           final userName = userNames[index];
-                          return Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: normal * 0.82,
-                              vertical: low * 0.78,
-                            ),
-                            decoration: BoxDecoration(
-                              color: colorScheme.primary.withValues(alpha: 0.06),
+                          return Material(
+                            color: Colors.transparent,
+                            child: InkWell(
                               borderRadius:
                                   BorderRadius.circular(normal * 1.05),
-                            ),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: context.sized.height * 0.018,
-                                  backgroundColor: colorScheme.primary
-                                      .withValues(alpha: 0.14),
-                                  child: Icon(
-                                    Icons.person_outline_rounded,
-                                    size: context.sized.normalValue * 0.82,
-                                    color: colorScheme.primary,
-                                  ),
+                              onTap: onUserTap == null
+                                  ? null
+                                  : () {
+                                      Navigator.of(context).pop();
+                                      onUserTap?.call(index);
+                                    },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: normal * 0.82,
+                                  vertical: low * 0.78,
                                 ),
-                                SizedBox(width: low * 0.7),
-                                Expanded(
-                                  child: Text(
-                                    userName,
-                                    style:
-                                        theme.textTheme.bodyMedium?.copyWith(
-                                      fontWeight: FontWeight.w600,
+                                decoration: BoxDecoration(
+                                  color: colorScheme.primary
+                                      .withValues(alpha: 0.06),
+                                  borderRadius:
+                                      BorderRadius.circular(normal * 1.05),
+                                ),
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: context.sized.height * 0.018,
+                                      backgroundColor: colorScheme.primary
+                                          .withValues(alpha: 0.14),
+                                      child: Icon(
+                                        Icons.person_outline_rounded,
+                                        size: context.sized.normalValue * 0.82,
+                                        color: colorScheme.primary,
+                                      ),
                                     ),
-                                  ),
+                                    SizedBox(width: low * 0.7),
+                                    Expanded(
+                                      child: Text(
+                                        userName,
+                                        style: theme.textTheme.bodyMedium
+                                            ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    if (onUserTap != null) ...[
+                                      SizedBox(width: low * 0.6),
+                                      Icon(
+                                        Icons.open_in_new_rounded,
+                                        size: context.sized.normalValue * 0.88,
+                                        color: colorScheme.primary,
+                                      ),
+                                    ],
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           );
                         },

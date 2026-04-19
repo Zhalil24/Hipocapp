@@ -27,6 +27,16 @@ class CustomDrawerHeader extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final normal = context.sized.normalValue;
     final low = context.sized.lowValue;
+    final segmentTextStyle = theme.textTheme.labelSmall?.copyWith(
+          color: Colors.white,
+          fontSize: (theme.textTheme.labelSmall?.fontSize ?? normal * 0.5) - 1,
+          fontWeight: FontWeight.w600,
+        ) ??
+        TextStyle(
+          color: Colors.white,
+          fontSize: normal * 0.42,
+          fontWeight: FontWeight.w600,
+        );
     final selectedLocale =
         context.locale.languageCode == Locales.en.locale.languageCode
             ? Locales.en
@@ -137,12 +147,14 @@ class CustomDrawerHeader extends StatelessWidget {
                                   value: ThemeMode.light,
                                   label: Text(
                                     LocaleKeys.general_theme_light.tr(),
+                                    style: segmentTextStyle,
                                   ),
                                 ),
                                 ButtonSegment(
                                   value: ThemeMode.dark,
                                   label: Text(
                                     LocaleKeys.general_theme_dark.tr(),
+                                    style: segmentTextStyle,
                                   ),
                                 ),
                               ],
@@ -176,11 +188,17 @@ class CustomDrawerHeader extends StatelessWidget {
                               segments: [
                                 ButtonSegment(
                                   value: Locales.tr,
-                                  label: Text(LocaleKeys.terms_language_tr.tr()),
+                                  label: Text(
+                                    LocaleKeys.terms_language_tr.tr(),
+                                    style: segmentTextStyle,
+                                  ),
                                 ),
                                 ButtonSegment(
                                   value: Locales.en,
-                                  label: Text(LocaleKeys.terms_language_en.tr()),
+                                  label: Text(
+                                    LocaleKeys.terms_language_en.tr(),
+                                    style: segmentTextStyle,
+                                  ),
                                 ),
                               ],
                               selected: {selectedLocale},
