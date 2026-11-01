@@ -4,7 +4,6 @@ import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/chat/view/widget/group_message_container_widget.dart';
 import 'package:hipocapp/feature/chat/view/widget/message_container_widget.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
-import 'package:hipocapp/product/utility/decrypt/chat_crypto_utils.dart';
 import 'package:hipocapp/product/widget/skeleton/app_skeleton_box.dart';
 import 'package:hipocapp/product/widget/skeleton/app_skeleton_shimmer.dart';
 import 'package:kartal/kartal.dart';
@@ -187,23 +186,21 @@ class ChatMessageListWidget extends StatelessWidget {
           final reversedIndex = groupMessageList.length - 1 - index;
           final message = groupMessageList[reversedIndex];
           final isMe = message.fromUserId == currentUserId;
-          final decryptedText = decryptMessageSafe(message.messageText ?? '');
           return GroupMessageContainerWidget(
             userName: message.fromUserName ?? '',
             isMe: isMe,
             date: message.sentOn ?? '',
-            message: decryptedText,
+            message: message.messageText ?? '',
           );
         }
 
         final reversedIndex = messageList.length - 1 - index;
         final message = messageList[reversedIndex];
         final isMe = message.fromUserId == currentUserId;
-        final decryptedText = decryptMessageSafe(message.messageText ?? '');
         return MessageContainerWidget(
           isMe: isMe,
           date: message.sentAt ?? '',
-          message: decryptedText,
+          message: message.messageText ?? '',
         );
       },
     );

@@ -108,7 +108,7 @@ class _ChatUserListViewState extends BaseState<ChatUserListView>
 
   Future<void> _openGroupChat(GroupModel group) async {
     final router = context.router;
-    await chatUserListViewModel.joinGroup(group.groupName ?? '');
+    await chatUserListViewModel.joinGroup(group.id ?? 0);
     await router.push(
       ChatRoute(
         groupId: group.id,

@@ -9,6 +9,7 @@ import 'package:hipocapp/product/service/interface/follow_operation.dart';
 import 'package:hipocapp/product/service/interface/message_operation.dart';
 import 'package:hipocapp/product/service/interface/user_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
+import 'package:hipocapp/product/state/container/product_satate_items.dart';
 import 'package:hipocapp/product/utility/constans/hub_constants/hub_methods.dart';
 import 'package:hipocapp/product/utility/enums/chat_tab_type.dart';
 import 'package:signalr_netcore/hub_connection.dart';
@@ -157,11 +158,9 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
   }
 
   Future<void> connect() async {
-    final userId = await _getUserId();
     if (!isConnected) {
       await _hubConnection.start();
     }
-    await _hubConnection.invoke(HubMethods.registerUser, args: [userId]);
     if (!_eventsRegistered) {
       _setupSignalREvents();
       _eventsRegistered = true;
@@ -174,11 +173,6 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
       if (!isConnected) {
         return;
       }
-      final userId = await _getUserId();
-      await _hubConnection.invoke(
-        HubMethods.disconnectUserMobil,
-        args: [userId],
-      );
       await _hubConnection.stop();
     } catch (error, stackTrace) {
       debugPrint('[CHAT_LIST][SIGNALR][DISCONNECT] $error');
@@ -186,8 +180,8 @@ final class ChatUserListViewModel extends BaseCubit<ChatUserListViewState> {
     }
   }
 
-  Future<void> joinGroup(String groupName) async {
-    await _hubConnection.invoke(HubMethods.joinGroup, args: [groupName]);
+  Future<void> joinGroup(int groupId) async {
+    await ProductStateItems.signalRService.joinGroup(groupId);
   }
 
   Future<List<ProfileModel>> _fetchFollowingUsers() async {

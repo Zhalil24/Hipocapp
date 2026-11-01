@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:core/core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gen/gen.dart';
@@ -7,6 +5,7 @@ import 'package:hipocapp/feature/chat/view_model/state/chat_view_state.dart';
 import 'package:hipocapp/product/cache/model/user_cache_model.dart';
 import 'package:hipocapp/product/service/interface/message_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
+import 'package:hipocapp/product/state/container/product_satate_items.dart';
 import 'package:hipocapp/product/utility/constans/hub_constants/hub_methods.dart';
 import 'package:signalr_netcore/hub_connection.dart';
 
@@ -33,6 +32,7 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
   late final HubConnection _hubConnection;
   final bool _manageSignalRLifecycle;
   bool _isListening = false;
+  int? _activeGroupId;
   MethodInvocationFunc? _privateMessageHandler;
   MethodInvocationFunc? _groupMessageHandler;
 
@@ -56,8 +56,9 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
   }) async {
     _setLoading(true);
     try {
-      final currentUserId = await _getUserId();
-      await _ensureConnection(currentUserId);
+      await _getUserId();
+      _activeGroupId = groupId;
+      await _ensureConnection();
       startListeningMessages();
       if (groupId != null) {
         await getGroupMessage(groupId);
@@ -71,12 +72,10 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     }
   }
 
-  Future<void> _ensureConnection(int userId) async {
+  Future<void> _ensureConnection() async {
     if (!isConnected) {
       await _hubConnection.start();
     }
-
-    await _hubConnection.invoke(HubMethods.registerUser, args: [userId]);
   }
 
   Future<int> _getUserId() async {
@@ -106,39 +105,19 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     required int toUserId,
     required String messageText,
   }) async {
-    final fromUserId = await _getUserId();
-    final sentAt = DateTime.now().toIso8601String();
-    final messageDto = {
-      'fromUserId': fromUserId,
-      'toUserId': toUserId,
-      'messageText': messageText,
-      'sentAt': sentAt,
-      'isRead': false,
-    };
-
-    await _hubConnection.invoke(
+    await _getUserId();
+    // The server saves the message before delivering it and answers with the saved copy.
+    final saved = await _hubConnection.invoke(
       HubMethods.sendPrivateMessage,
-      args: [toUserId, messageDto],
+      args: [toUserId, messageText],
     );
-
-    final newMessage = MessageListModel(
-      fromUserId: fromUserId,
-      toUserId: toUserId,
-      messageText: messageText,
-      sentAt: sentAt,
-      isRead: false,
-    );
+    if (saved is! Map<String, dynamic>) {
+      return;
+    }
 
     final updatedList = List<MessageListModel>.from(state.messageList ?? [])
-      ..add(newMessage);
+      ..add(MessageListModel.fromJson(saved));
     emit(state.copyWith(messageList: updatedList));
-    await _saveMessage(
-      newMessage.fromUserId,
-      newMessage.toUserId,
-      newMessage.messageText,
-      newMessage.sentAt,
-      newMessage.isRead,
-    );
   }
 
   void startListeningMessages() {
@@ -157,7 +136,6 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
         if (fromUserId == toUserId) {
           final message = MessageListModel.fromJson(data).copyWith(
             messageText: (data['messageText'] ?? '').toString(),
-            sentAt: DateTime.now().toIso8601String(),
           );
           final updatedList = List<MessageListModel>.from(
             state.messageList ?? [],
@@ -171,14 +149,12 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
       if (args == null || args.isEmpty) {
         return;
       }
-      final rawData = args.first;
-      if (rawData is! String) {
+      final data = args.first;
+      if (data is! Map<String, dynamic> || data['groupId'] != _activeGroupId) {
         return;
       }
 
-      final jsonMap = jsonDecode(rawData) as Map<String, dynamic>;
-      jsonMap['sentOn'] ??= DateTime.now().toIso8601String();
-      final message = GroupMessageModel.fromJson(jsonMap);
+      final message = GroupMessageModel.fromJson(data);
       final updatedList = List<GroupMessageModel>.from(
         state.groupMessageList ?? [],
       )..add(message);
@@ -193,24 +169,6 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
       HubMethods.receiveGroupMessage,
       _groupMessageHandler!,
     );
-  }
-
-  Future<void> _saveMessage(
-    int? fromUserId,
-    int? toUserId,
-    String? messageText,
-    String? sentAt,
-    bool? isRead,
-  ) async {
-    final model = MessageModel(
-      id: 0,
-      fromUserId: fromUserId,
-      toUserId: toUserId,
-      messageText: messageText,
-      isRead: isRead,
-      sentAt: sentAt,
-    );
-    await _messageOperation.saveMesage(model);
   }
 
   Future<void> markMessage(int toUserId) async {
@@ -228,39 +186,22 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
   }
 
   Future<void> sendMessageGroup({
-    required String groupName,
     required String message,
     required int groupId,
   }) async {
-    await _getUserId();
-    final model = GroupMessageModel(
-      fromUserId: state.currentUserId,
-      messageText: message,
-      groupId: groupId,
-      fromUserName: state.userName,
-      sentOn: DateTime.now().toIso8601String(),
-    );
-    final jsonString = jsonEncode(model.toJson());
+    // The server saves the message and sends it back to every member, this device included.
     await _hubConnection.invoke(
       HubMethods.sendGroupMessage,
-      args: [groupName, jsonString],
+      args: [groupId, message],
     );
-    await _messageOperation.groupMessageSave(model);
-  }
-
-  Future<void> leaveGroup(String groupName) async {
-    if (groupName.isEmpty || !isConnected) {
-      return;
-    }
-    await _hubConnection.invoke(HubMethods.leaveGroup, args: [groupName]);
   }
 
   Future<void> disposeLifecycle({
-    String? groupName,
+    int? groupId,
   }) async {
     try {
-      if (groupName?.isNotEmpty ?? false) {
-        await leaveGroup(groupName ?? '');
+      if (groupId != null) {
+        await ProductStateItems.signalRService.leaveGroup(groupId);
       }
 
       _removeMessageListeners();
@@ -269,11 +210,6 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
         return;
       }
 
-      final currentUserId = state.currentUserId ?? await _getUserId();
-      await _hubConnection.invoke(
-        HubMethods.disconnectUserMobil,
-        args: [currentUserId],
-      );
       await _hubConnection.stop();
     } catch (error, stackTrace) {
       debugPrint('[CHAT][SIGNALR][DISPOSE] $error');

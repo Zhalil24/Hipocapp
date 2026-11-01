@@ -24,6 +24,11 @@ final class SplashViewModel extends BaseCubit<SplashViewState> {
     emit(state.copyWith(isLoggedIn: isLoggedIn));
   }
 
+  Future<bool> hasToken() async {
+    final cachedUser = await _userCacheOperation.get('user_token');
+    return cachedUser?.token.isNotEmpty ?? false;
+  }
+
   /// Retrieves the onboarding cache from the local storage.
   ///
   /// Returns a [Future] that resolves with the onboarding cache model

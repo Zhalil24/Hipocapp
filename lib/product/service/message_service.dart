@@ -38,17 +38,6 @@ final class MessageService extends MessageOperation {
   }
 
   @override
-  Future<MessageResponseModel?> saveMesage(MessageModel model) async {
-    final response = await _networkManager.send<MessageResponseModel, MessageResponseModel>(
-      ProductServicePath.saveMessage.value,
-      parseModel: MessageResponseModel(),
-      method: RequestType.POST,
-      data: model,
-    );
-    return response.data;
-  }
-
-  @override
   Future<String?> markMessage(MarkMessageModel model) async {
     final dio = Dio();
     final fullUrl = '${AppEnvironmentItems.baseUrl.value + ProductServicePath.markMessage.value}';
@@ -83,20 +72,6 @@ final class MessageService extends MessageOperation {
         'userId': userId,
       },
     );
-    return response.data;
-  }
-
-  @override
-  Future<GroupMessageResponseModel?> groupMessageSave(GroupMessageModel model) async {
-    print('📤 Gönderilen JSON: ${model.toJson()}');
-
-    final response = await _networkManager.send<GroupMessageResponseModel, GroupMessageResponseModel>(
-      ProductServicePath.gorupMessageSave.value,
-      parseModel: GroupMessageResponseModel(),
-      method: RequestType.POST,
-      data: model,
-    );
-
     return response.data;
   }
 

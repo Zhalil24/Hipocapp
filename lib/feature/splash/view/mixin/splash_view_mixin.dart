@@ -36,8 +36,10 @@ mixin SplashViewMixin on BaseState<SplashView> {
       if (!mounted) return;
       await AutoRouter.of(context).replace(const IntroductionRoute());
     } else {
+      final isLoggedIn = await splashViewModel.hasToken();
       if (!mounted) return;
-      await AutoRouter.of(context).replace(const HomeRoute());
+      await AutoRouter.of(context)
+          .replace(isLoggedIn ? const HomeRoute() : const LoginRoute());
     }
   }
 
