@@ -9,12 +9,14 @@ class MyEntriesWidget extends StatelessWidget {
     super.key,
     required this.titleName,
     required this.desc,
-    required this.onPressed,
+    this.onPressed,
+    this.canDelete = true,
   });
 
   final String titleName;
   final String desc;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
+  final bool canDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -75,24 +77,26 @@ class MyEntriesWidget extends StatelessWidget {
               height: 1.55,
             ),
           ),
-          SizedBox(height: normal),
-          Align(
-            alignment: Alignment.centerRight,
-            child: OutlinedButton.icon(
-              onPressed: () => _showDeleteDialog(context),
-              icon: const Icon(Icons.delete_outline_rounded),
-              label: Text(LocaleKeys.auth_profile_delete_entry_button.tr()),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: colorScheme.error,
-                side: BorderSide(
-                  color: colorScheme.error.withValues(alpha: 0.42),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(normal),
+          if (canDelete) ...[
+            SizedBox(height: normal),
+            Align(
+              alignment: Alignment.centerRight,
+              child: OutlinedButton.icon(
+                onPressed: () => _showDeleteDialog(context),
+                icon: const Icon(Icons.delete_outline_rounded),
+                label: Text(LocaleKeys.auth_profile_delete_entry_button.tr()),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: colorScheme.error,
+                  side: BorderSide(
+                    color: colorScheme.error.withValues(alpha: 0.42),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(normal),
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ],
       ),
     );
@@ -121,8 +125,8 @@ class MyEntriesWidget extends StatelessWidget {
       },
     );
 
-    if (result ?? false) {
-      onPressed();
+    if ((result ?? false) && onPressed != null) {
+      onPressed?.call();
     }
   }
 }

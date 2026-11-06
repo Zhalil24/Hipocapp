@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hipocapp/feature/chat_user_list/view/chat_user_list_view.dart';
 import 'package:hipocapp/feature/chat_user_list/view_model/chat_user_list_view_model.dart';
+import 'package:hipocapp/product/service/follow_service.dart';
 import 'package:hipocapp/product/service/manager/product_network_error_manager.dart';
 import 'package:hipocapp/product/service/message_service.dart';
 import 'package:hipocapp/product/service/user_service.dart';
@@ -12,7 +13,6 @@ import 'package:hipocapp/product/state/container/product_satate_items.dart';
 mixin ChatUserListViewMixin on BaseState<ChatUserListView> {
   late final ProductNetworkErrorManager _productNetworkErrorManager;
   late final ChatUserListViewModel _chatUserListViewModel;
-  final TextEditingController searchController = TextEditingController();
 
   ChatUserListViewModel get chatUserListViewModel => _chatUserListViewModel;
 
@@ -28,13 +28,10 @@ mixin ChatUserListViewMixin on BaseState<ChatUserListView> {
       userOperation: UserService(ProductStateItems.productNetworkManager),
       hubConnection: ProductStateItems.signalRService.connection,
       messageOperation: MessageService(ProductStateItems.productNetworkManager),
+      followOperation: FollowService(ProductStateItems.productNetworkManager),
     );
 
     final initialQuery = widget.query?.trim() ?? '';
-    if (initialQuery.isNotEmpty) {
-      searchController.text = initialQuery;
-    }
-
     unawaited(
       Future.microtask(() async {
         await chatUserListViewModel.initialize(
@@ -47,7 +44,6 @@ mixin ChatUserListViewMixin on BaseState<ChatUserListView> {
 
   @override
   void dispose() {
-    searchController.dispose();
     unawaited(chatUserListViewModel.disconnect());
     super.dispose();
   }

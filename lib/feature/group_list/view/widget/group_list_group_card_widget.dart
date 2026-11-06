@@ -30,8 +30,8 @@ class GroupListGroupCardWidget extends StatelessWidget {
     final description = _description;
 
     return AppSurfaceCard(
-      padding: EdgeInsets.all(context.sized.height * 0.024),
-      margin: EdgeInsets.only(bottom: low * 0.9),
+      padding: EdgeInsets.all(context.sized.height * 0.022),
+      margin: EdgeInsets.only(bottom: low * 0.75),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

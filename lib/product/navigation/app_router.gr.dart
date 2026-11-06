@@ -66,20 +66,24 @@ class ChatUserListRouteArgs {
 /// [ChatView]
 class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
   ChatRoute({
+    Key? key,
     int? toUserId,
     String? toUserName,
     bool? isOnline,
     int? groupId,
     String? groupName,
+    bool manageSignalRLifecycle = true,
     List<PageRouteInfo>? children,
   }) : super(
           ChatRoute.name,
           args: ChatRouteArgs(
+            key: key,
             toUserId: toUserId,
             toUserName: toUserName,
             isOnline: isOnline,
             groupId: groupId,
             groupName: groupName,
+            manageSignalRLifecycle: manageSignalRLifecycle,
           ),
           initialChildren: children,
         );
@@ -93,11 +97,13 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
         orElse: () => const ChatRouteArgs(),
       );
       return ChatView(
+        key: args.key,
         toUserId: args.toUserId,
         toUserName: args.toUserName,
         isOnline: args.isOnline,
         groupId: args.groupId,
         groupName: args.groupName,
+        manageSignalRLifecycle: args.manageSignalRLifecycle,
       );
     },
   );
@@ -105,12 +111,16 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
 
 class ChatRouteArgs {
   const ChatRouteArgs({
+    this.key,
     this.toUserId,
     this.toUserName,
     this.isOnline,
     this.groupId,
     this.groupName,
+    this.manageSignalRLifecycle = true,
   });
+
+  final Key? key;
 
   final int? toUserId;
 
@@ -122,47 +132,53 @@ class ChatRouteArgs {
 
   final String? groupName;
 
+  final bool manageSignalRLifecycle;
+
   @override
   String toString() {
-    return 'ChatRouteArgs{toUserId: $toUserId, toUserName: $toUserName, isOnline: $isOnline, groupId: $groupId, groupName: $groupName}';
+    return 'ChatRouteArgs{key: $key, toUserId: $toUserId, toUserName: $toUserName, isOnline: $isOnline, groupId: $groupId, groupName: $groupName, manageSignalRLifecycle: $manageSignalRLifecycle}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! ChatRouteArgs) return false;
-    return toUserId == other.toUserId &&
+    return key == other.key &&
+        toUserId == other.toUserId &&
         toUserName == other.toUserName &&
         isOnline == other.isOnline &&
         groupId == other.groupId &&
-        groupName == other.groupName;
+        groupName == other.groupName &&
+        manageSignalRLifecycle == other.manageSignalRLifecycle;
   }
 
   @override
   int get hashCode =>
+      key.hashCode ^
       toUserId.hashCode ^
       toUserName.hashCode ^
       isOnline.hashCode ^
       groupId.hashCode ^
-      groupName.hashCode;
+      groupName.hashCode ^
+      manageSignalRLifecycle.hashCode;
 }
 
 /// generated route for
 /// [EntryListView]
 class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
   EntryListRoute({
-    Key? key,
     required String titleName,
     required int headerId,
     required int userId,
+    Key? key,
     List<PageRouteInfo>? children,
   }) : super(
           EntryListRoute.name,
           args: EntryListRouteArgs(
-            key: key,
             titleName: titleName,
             headerId: headerId,
             userId: userId,
+            key: key,
           ),
           initialChildren: children,
         );
@@ -174,10 +190,10 @@ class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
     builder: (data) {
       final args = data.argsAs<EntryListRouteArgs>();
       return EntryListView(
-        key: args.key,
         titleName: args.titleName,
         headerId: args.headerId,
         userId: args.userId,
+        key: args.key,
       );
     },
   );
@@ -185,13 +201,11 @@ class EntryListRoute extends PageRouteInfo<EntryListRouteArgs> {
 
 class EntryListRouteArgs {
   const EntryListRouteArgs({
-    this.key,
     required this.titleName,
     required this.headerId,
     required this.userId,
+    this.key,
   });
-
-  final Key? key;
 
   final String titleName;
 
@@ -199,24 +213,26 @@ class EntryListRouteArgs {
 
   final int userId;
 
+  final Key? key;
+
   @override
   String toString() {
-    return 'EntryListRouteArgs{key: $key, titleName: $titleName, headerId: $headerId, userId: $userId}';
+    return 'EntryListRouteArgs{titleName: $titleName, headerId: $headerId, userId: $userId, key: $key}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EntryListRouteArgs) return false;
-    return key == other.key &&
-        titleName == other.titleName &&
+    return titleName == other.titleName &&
         headerId == other.headerId &&
-        userId == other.userId;
+        userId == other.userId &&
+        key == other.key;
   }
 
   @override
   int get hashCode =>
-      key.hashCode ^ titleName.hashCode ^ headerId.hashCode ^ userId.hashCode;
+      titleName.hashCode ^ headerId.hashCode ^ userId.hashCode ^ key.hashCode;
 }
 
 /// generated route for
@@ -301,18 +317,60 @@ class LoginRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [ProfilView]
-class ProfilRoute extends PageRouteInfo<void> {
-  const ProfilRoute({List<PageRouteInfo>? children})
-      : super(ProfilRoute.name, initialChildren: children);
+class ProfilRoute extends PageRouteInfo<ProfilRouteArgs> {
+  ProfilRoute({
+    Key? key,
+    int? userId,
+    String? username,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ProfilRoute.name,
+          args: ProfilRouteArgs(key: key, userId: userId, username: username),
+          initialChildren: children,
+        );
 
   static const String name = 'ProfilRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const ProfilView();
+      final args = data.argsAs<ProfilRouteArgs>(
+        orElse: () => const ProfilRouteArgs(),
+      );
+      return ProfilView(
+        key: args.key,
+        userId: args.userId,
+        username: args.username,
+      );
     },
   );
+}
+
+class ProfilRouteArgs {
+  const ProfilRouteArgs({this.key, this.userId, this.username});
+
+  final Key? key;
+
+  final int? userId;
+
+  final String? username;
+
+  @override
+  String toString() {
+    return 'ProfilRouteArgs{key: $key, userId: $userId, username: $username}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ProfilRouteArgs) return false;
+    return key == other.key &&
+        userId == other.userId &&
+        username == other.username;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ userId.hashCode ^ username.hashCode;
 }
 
 /// generated route for

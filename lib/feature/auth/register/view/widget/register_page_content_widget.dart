@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
-import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
 
 import 'register_background_widget.dart';
 import 'register_form_widget.dart';
 import 'register_hero_panel_widget.dart';
+import 'register_page_skeleton_widget.dart';
 
 class RegisterPageContentWidget extends StatelessWidget {
   const RegisterPageContentWidget({
@@ -90,7 +90,8 @@ class RegisterPageContentWidget extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsets.only(right: normal * 1.75),
+                                    padding:
+                                        EdgeInsets.only(right: normal * 1.75),
                                     child: const RegisterHeroPanelWidget(),
                                   ),
                                 ),
@@ -150,13 +151,11 @@ class RegisterPageContentWidget extends StatelessWidget {
         ),
         if (showBlockingLoader)
           const Positioned.fill(
-            child: ColoredBox(
-              color: Color(0x33000000),
+            child: IgnorePointer(
+              child: RegisterPageSkeletonWidget(
+                showBackground: false,
+              ),
             ),
-          ),
-        if (showBlockingLoader)
-          const Center(
-            child: CustomLoader(),
           ),
       ],
     );

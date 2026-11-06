@@ -9,11 +9,13 @@ class ProfileEntriesTabWidget extends StatelessWidget {
   const ProfileEntriesTabWidget({
     super.key,
     required this.profileModel,
-    required this.onDelete,
+    this.onDelete,
+    this.canDeleteEntries = true,
   });
 
   final ProfileModel? profileModel;
-  final ValueChanged<int> onDelete;
+  final ValueChanged<int>? onDelete;
+  final bool canDeleteEntries;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,10 @@ class ProfileEntriesTabWidget extends StatelessWidget {
           titleName: entry.titleName ??
               LocaleKeys.general_fallback_title_not_found.tr(),
           desc: entry.description ?? '',
-          onPressed: () => onDelete(entry.id ?? 0),
+          canDelete: canDeleteEntries,
+          onPressed: onDelete == null
+              ? null
+              : () => onDelete!.call(entry.id ?? 0),
         );
       }).toList(),
     );

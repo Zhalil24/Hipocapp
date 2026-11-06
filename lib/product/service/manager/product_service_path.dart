@@ -17,17 +17,21 @@ enum ProductServicePath {
   allUser('api/user/all'),
   getByUserId('api/chat/GetByUserId'),
   lastMessageList('api/chat/LastMessages'),
-  saveMessage('api/chat/MessageSave'),
   unReadMessageCount('api/chat/GetUnreadMessagesForUser'),
   groups('api/chat/GetGroupsForMobile'),
   getGroupMessages('api/chat/GroupMessagesList'),
-  gorupMessageSave('api/chat/GroupMessageSave'),
   markMessage('api/chat/MarkMessagesAsRead'),
   getdegree('api/degree/GetDegree'),
   getMessageList('api/chat/MessageList'),
   getGroupList('api/chat/GetAllGroups'),
   requestGroup('api/chat/SendToRequestGroup'),
-  profile('api/User/GetProfile');
+  profile('api/User/GetProfile'),
+  follow('api/follow/Follow'),
+  unfollow('api/follow/Unfollow'),
+  getFollowers('api/follow/GetFollowers'),
+  getFollowing('api/follow/GetFollowing'),
+  getFollowCounts('api/follow/GetCounts'),
+  getFollowStatus('api/follow/GetStatus');
 
   final String value;
   const ProductServicePath(this.value);

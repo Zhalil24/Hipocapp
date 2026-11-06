@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 
 enum ChatTabType {
-  users(LocaleKeys.chat_user_list_tab_users, Icons.chat),
+  following(LocaleKeys.chat_user_list_tab_users, Icons.people_alt_rounded),
   pastMessages(LocaleKeys.chat_user_list_tab_past_messages, Icons.star),
   groups(LocaleKeys.chat_user_list_tab_groups, Icons.group);
 

@@ -25,10 +25,10 @@ class GroupListWidget extends StatelessWidget {
 
     return AppSurfaceCard(
       padding: EdgeInsets.symmetric(
-        horizontal: normal,
-        vertical: low * 0.95,
+        horizontal: normal * 0.88,
+        vertical: low * 0.9,
       ),
-      margin: EdgeInsets.only(bottom: low * 0.85),
+      margin: EdgeInsets.only(bottom: low * 0.7),
       child: Material(
         color: Colors.transparent,
         child: InkWell(

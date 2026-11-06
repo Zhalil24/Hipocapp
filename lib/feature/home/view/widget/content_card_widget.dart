@@ -23,8 +23,7 @@ class ContentCard extends StatefulWidget {
   State<ContentCard> createState() => _ContentCardState();
 }
 
-class _ContentCardState extends State<ContentCard>
-    with SingleTickerProviderStateMixin {
+class _ContentCardState extends State<ContentCard> with SingleTickerProviderStateMixin {
   late AnimationController _hoverController;
   late Animation<double> _scaleAnimation;
 
@@ -51,12 +50,10 @@ class _ContentCardState extends State<ContentCard>
     final theme = Theme.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = theme.brightness == Brightness.dark;
-    final shadowColor = isDark
-        ? Colors.black.withValues(alpha: 0.08)
-        : Colors.white.withValues(alpha: 0.72);
+    final shadowColor = isDark ? Colors.black.withValues(alpha: 0.08) : Colors.white.withValues(alpha: 0.72);
 
     return Padding(
-      padding: EdgeInsets.only(bottom: context.sized.normalValue * 1.5),
+      padding: EdgeInsets.only(bottom: context.sized.normalValue * 1.15),
       child: MouseRegion(
         onEnter: (_) => _hoverController.forward(),
         onExit: (_) => _hoverController.reverse(),
@@ -132,12 +129,12 @@ class _ContentCardState extends State<ContentCard>
 
   Widget _buildContentSection(BuildContext context, ColorScheme colorScheme) {
     return Padding(
-      padding: EdgeInsets.all(context.sized.normalValue * 1.2),
+      padding: EdgeInsets.all(context.sized.normalValue),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.title,
+            _displayTitle(widget.title),
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w700,
                   color: colorScheme.onSurface,
@@ -146,7 +143,7 @@ class _ContentCardState extends State<ContentCard>
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(height: context.sized.lowValue * 1.2),
+          SizedBox(height: context.sized.lowValue),
           Row(
             children: [
               Icon(
@@ -160,9 +157,9 @@ class _ContentCardState extends State<ContentCard>
               ),
             ],
           ),
-          SizedBox(height: context.sized.lowValue * 1.2),
+          SizedBox(height: context.sized.lowValue),
           Container(
-            padding: EdgeInsets.all(context.sized.lowValue),
+            padding: EdgeInsets.all(context.sized.lowValue * 0.9),
             decoration: BoxDecoration(
               color: colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(context.sized.lowValue * 0.8),
@@ -180,5 +177,12 @@ class _ContentCardState extends State<ContentCard>
         ],
       ),
     );
+  }
+
+  String _displayTitle(String value) {
+    if (value.trim().toLowerCase() == 'daily stream') {
+      return 'Daily Stream';
+    }
+    return value;
   }
 }

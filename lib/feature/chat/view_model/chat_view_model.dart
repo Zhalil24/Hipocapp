@@ -1,11 +1,11 @@
-import 'dart:convert';
-
 import 'package:core/core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/chat/view_model/state/chat_view_state.dart';
 import 'package:hipocapp/product/cache/model/user_cache_model.dart';
 import 'package:hipocapp/product/service/interface/message_operation.dart';
 import 'package:hipocapp/product/state/base/base_cuibt.dart';
+import 'package:hipocapp/product/state/container/product_satate_items.dart';
 import 'package:hipocapp/product/utility/constans/hub_constants/hub_methods.dart';
 import 'package:signalr_netcore/hub_connection.dart';
 
@@ -15,9 +15,11 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     required SharedCacheOperation<UserCacheModel> userCacheOperation,
     required HubConnection hubConnection,
     required this.toUserId,
+    required bool manageSignalRLifecycle,
   })  : _messageOperation = messageOperation,
         _hubConnection = hubConnection,
         _userCacheOperation = userCacheOperation,
+        _manageSignalRLifecycle = manageSignalRLifecycle,
         super(
           const ChatViewState(
             isLoading: false,
@@ -28,7 +30,11 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
   late final MessageOperation _messageOperation;
   late final SharedCacheOperation<UserCacheModel> _userCacheOperation;
   late final HubConnection _hubConnection;
+  final bool _manageSignalRLifecycle;
   bool _isListening = false;
+  int? _activeGroupId;
+  MethodInvocationFunc? _privateMessageHandler;
+  MethodInvocationFunc? _groupMessageHandler;
 
   bool get isConnected => _hubConnection.state == HubConnectionState.Connected;
 
@@ -51,6 +57,8 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     _setLoading(true);
     try {
       await _getUserId();
+      _activeGroupId = groupId;
+      await _ensureConnection();
       startListeningMessages();
       if (groupId != null) {
         await getGroupMessage(groupId);
@@ -61,6 +69,12 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
       }
     } finally {
       _setLoading(false);
+    }
+  }
+
+  Future<void> _ensureConnection() async {
+    if (!isConnected) {
+      await _hubConnection.start();
     }
   }
 
@@ -76,46 +90,34 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     final fromUserId = await _getUserId();
     final response =
         await _messageOperation.getMessageList(fromUserId, toUserId);
-    emit(state.copyWith(messageList: response));
+    final normalizedMessages = response
+        .map(
+          (message) => _withVisiblePrivateMessageTime(
+            message,
+            currentUserId: fromUserId,
+          ),
+        )
+        .toList();
+    emit(state.copyWith(messageList: normalizedMessages));
   }
 
   Future<void> sendPrivateMessage({
     required int toUserId,
     required String messageText,
   }) async {
-    final fromUserId = await _getUserId();
-    final sentAt = DateTime.now().toIso8601String();
-    final messageDto = {
-      'fromUserId': fromUserId,
-      'toUserId': toUserId,
-      'messageText': messageText,
-      'sentAt': sentAt,
-      'isRead': false,
-    };
-
-    await _hubConnection.invoke(
+    await _getUserId();
+    // The server saves the message before delivering it and answers with the saved copy.
+    final saved = await _hubConnection.invoke(
       HubMethods.sendPrivateMessage,
-      args: [toUserId, messageDto],
+      args: [toUserId, messageText],
     );
-
-    final newMessage = MessageListModel(
-      fromUserId: fromUserId,
-      toUserId: toUserId,
-      messageText: messageText,
-      sentAt: sentAt,
-      isRead: false,
-    );
+    if (saved is! Map<String, dynamic>) {
+      return;
+    }
 
     final updatedList = List<MessageListModel>.from(state.messageList ?? [])
-      ..add(newMessage);
+      ..add(MessageListModel.fromJson(saved));
     emit(state.copyWith(messageList: updatedList));
-    await _saveMessage(
-      newMessage.fromUserId,
-      newMessage.toUserId,
-      newMessage.messageText,
-      newMessage.sentAt,
-      newMessage.isRead,
-    );
   }
 
   void startListeningMessages() {
@@ -124,61 +126,49 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
     }
     _isListening = true;
 
-    _hubConnection
-      ..on(HubMethods.receivePrivateMessage, (List<Object?>? args) {
-        if (args == null || args.isEmpty) {
-          return;
+    _privateMessageHandler ??= (List<Object?>? args) {
+      if (args == null || args.isEmpty) {
+        return;
+      }
+      final data = args.first;
+      if (data is Map<String, dynamic>) {
+        final fromUserId = data['fromUserId'];
+        if (fromUserId == toUserId) {
+          final message = MessageListModel.fromJson(data).copyWith(
+            messageText: (data['messageText'] ?? '').toString(),
+          );
+          final updatedList = List<MessageListModel>.from(
+            state.messageList ?? [],
+          )..add(message);
+          emit(state.copyWith(messageList: updatedList));
         }
-        final data = args.first;
-        if (data is Map<String, dynamic>) {
-          final fromUserId = data['fromUserId'];
-          if (fromUserId == toUserId) {
-            final message = MessageListModel.fromJson(data).copyWith(
-              messageText: (data['messageText'] ?? '').toString(),
-              sentAt: (data['sentAt'] ?? '').toString(),
-            );
-            final updatedList =
-                List<MessageListModel>.from(state.messageList ?? [])
-                  ..add(message);
-            emit(state.copyWith(messageList: updatedList));
-          }
-        }
-      })
-      ..on(HubMethods.receiveGroupMessage, (args) {
-        if (args == null || args.isEmpty) {
-          return;
-        }
-        final rawData = args.first;
-        if (rawData is! String) {
-          return;
-        }
+      }
+    };
 
-        final jsonMap = jsonDecode(rawData) as Map<String, dynamic>;
-        jsonMap['sentOn'] ??= DateTime.now().toIso8601String();
-        final message = GroupMessageModel.fromJson(jsonMap);
-        final updatedList =
-            List<GroupMessageModel>.from(state.groupMessageList ?? [])
-              ..add(message);
-        emit(state.copyWith(groupMessageList: updatedList));
-      });
-  }
+    _groupMessageHandler ??= (List<Object?>? args) {
+      if (args == null || args.isEmpty) {
+        return;
+      }
+      final data = args.first;
+      if (data is! Map<String, dynamic> || data['groupId'] != _activeGroupId) {
+        return;
+      }
 
-  Future<void> _saveMessage(
-    int? fromUserId,
-    int? toUserId,
-    String? messageText,
-    String? sentAt,
-    bool? isRead,
-  ) async {
-    final model = MessageModel(
-      id: 0,
-      fromUserId: fromUserId,
-      toUserId: toUserId,
-      messageText: messageText,
-      isRead: isRead,
-      sentAt: sentAt,
+      final message = GroupMessageModel.fromJson(data);
+      final updatedList = List<GroupMessageModel>.from(
+        state.groupMessageList ?? [],
+      )..add(message);
+      emit(state.copyWith(groupMessageList: updatedList));
+    };
+
+    _hubConnection.on(
+      HubMethods.receivePrivateMessage,
+      _privateMessageHandler!,
     );
-    await _messageOperation.saveMesage(model);
+    _hubConnection.on(
+      HubMethods.receiveGroupMessage,
+      _groupMessageHandler!,
+    );
   }
 
   Future<void> markMessage(int toUserId) async {
@@ -196,30 +186,68 @@ final class ChatViewModel extends BaseCubit<ChatViewState> {
   }
 
   Future<void> sendMessageGroup({
-    required String groupName,
     required String message,
     required int groupId,
   }) async {
-    await _getUserId();
-    final model = GroupMessageModel(
-      fromUserId: state.currentUserId,
-      messageText: message,
-      groupId: groupId,
-      fromUserName: state.userName,
-      sentOn: DateTime.now().toIso8601String(),
-    );
-    final jsonString = jsonEncode(model.toJson());
+    // The server saves the message and sends it back to every member, this device included.
     await _hubConnection.invoke(
       HubMethods.sendGroupMessage,
-      args: [groupName, jsonString],
+      args: [groupId, message],
     );
-    await _messageOperation.groupMessageSave(model);
   }
 
-  Future<void> leaveGroup(String groupName) async {
-    if (groupName.isEmpty || !isConnected) {
+  Future<void> disposeLifecycle({
+    int? groupId,
+  }) async {
+    try {
+      if (groupId != null) {
+        await ProductStateItems.signalRService.leaveGroup(groupId);
+      }
+
+      _removeMessageListeners();
+
+      if (!_manageSignalRLifecycle || !isConnected) {
+        return;
+      }
+
+      await _hubConnection.stop();
+    } catch (error, stackTrace) {
+      debugPrint('[CHAT][SIGNALR][DISPOSE] $error');
+      debugPrint('[CHAT][SIGNALR][STACK] $stackTrace');
+    }
+  }
+
+  void _removeMessageListeners() {
+    if (!_isListening) {
       return;
     }
-    await _hubConnection.invoke(HubMethods.leaveGroup, args: [groupName]);
+
+    if (_privateMessageHandler != null) {
+      _hubConnection.off(
+        HubMethods.receivePrivateMessage,
+        method: _privateMessageHandler,
+      );
+    }
+    if (_groupMessageHandler != null) {
+      _hubConnection.off(
+        HubMethods.receiveGroupMessage,
+        method: _groupMessageHandler,
+      );
+    }
+
+    _isListening = false;
+  }
+
+  MessageListModel _withVisiblePrivateMessageTime(
+    MessageListModel message, {
+    required int currentUserId,
+  }) {
+    if (message.fromUserId == currentUserId) {
+      return message;
+    }
+
+    return message.copyWith(
+      sentAt: DateTime.now().toIso8601String(),
+    );
   }
 }

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/profile_background_widget.dart';
 import 'package:hipocapp/feature/auth/profile/view/widget/profile_header_card_widget.dart';
+import 'package:hipocapp/feature/auth/profile/view/widget/profile_page_skeleton_widget.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/utility/enums/profile_tab_type.dart';
-import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -21,6 +21,17 @@ class ProfilePageContentWidget extends StatelessWidget {
     required this.onTabChanged,
     required this.child,
     required this.showBlockingLoader,
+    required this.isOwnProfile,
+    required this.followers,
+    required this.following,
+    this.onFollowerSelected,
+    this.onFollowingSelected,
+    this.followCountModel,
+    this.followStatusModel,
+    this.onToggleFollow,
+    this.onMessageTap,
+    this.isFollowActionLoading = false,
+    this.fallbackUsername,
   });
 
   final ProfileModel? profileModel;
@@ -30,11 +41,27 @@ class ProfilePageContentWidget extends StatelessWidget {
   final ValueChanged<ProfileTabType> onTabChanged;
   final Widget child;
   final bool showBlockingLoader;
+  final bool isOwnProfile;
+  final List<FollowUserItemModel> followers;
+  final List<FollowUserItemModel> following;
+  final ValueChanged<FollowUserItemModel>? onFollowerSelected;
+  final ValueChanged<FollowUserItemModel>? onFollowingSelected;
+  final FollowCountModel? followCountModel;
+  final FollowStatusModel? followStatusModel;
+  final VoidCallback? onToggleFollow;
+  final VoidCallback? onMessageTap;
+  final bool isFollowActionLoading;
+  final String? fallbackUsername;
 
   @override
   Widget build(BuildContext context) {
     final normal = context.sized.normalValue;
-    final low = context.sized.lowValue;
+    final tabItems = isOwnProfile
+        ? ProfileTabType.values
+        : const [
+            ProfileTabType.profile,
+            ProfileTabType.entries,
+          ];
 
     return Stack(
       children: [
@@ -42,9 +69,9 @@ class ProfilePageContentWidget extends StatelessWidget {
         Positioned.fill(
           child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-              normal + (low * 0.5),
+              normal * 0.82,
               normal * 1.2,
-              normal + (low * 0.5),
+              normal * 0.82,
               normal * 1.5,
             ),
             child: Center(
@@ -57,10 +84,21 @@ class ProfilePageContentWidget extends StatelessWidget {
                       profileModel: profileModel,
                       selectedPhoto: selectedPhoto,
                       onLogout: onLogout,
+                      followers: followers,
+                      following: following,
+                      onFollowerSelected: onFollowerSelected,
+                      onFollowingSelected: onFollowingSelected,
+                      followCountModel: followCountModel,
+                      followStatusModel: followStatusModel,
+                      onToggleFollow: onToggleFollow,
+                      onMessageTap: onMessageTap,
+                      isFollowActionLoading: isFollowActionLoading,
+                      isOwnProfile: isOwnProfile,
+                      fallbackUsername: fallbackUsername,
                     ),
                     SizedBox(height: normal * 1.25),
                     AppSegmentedTabBar<ProfileTabType>(
-                      items: ProfileTabType.values,
+                      items: tabItems,
                       selectedItem: activeTab,
                       labelBuilder: _tabLabel,
                       iconBuilder: (item) => item.icon,
@@ -75,14 +113,14 @@ class ProfilePageContentWidget extends StatelessWidget {
           ),
         ),
         if (showBlockingLoader)
-          const Positioned.fill(
-            child: ColoredBox(
-              color: Color(0x33000000),
+          Positioned.fill(
+            child: IgnorePointer(
+              child: ProfilePageSkeletonWidget(
+                isOwnProfile: isOwnProfile,
+                activeTab: activeTab,
+                showBackground: false,
+              ),
             ),
-          ),
-        if (showBlockingLoader)
-          const Center(
-            child: CustomLoader(),
           ),
       ],
     );

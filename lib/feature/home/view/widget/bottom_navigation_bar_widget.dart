@@ -34,7 +34,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       ),
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        iconSize: context.sized.normalValue,
+        iconSize: context.sized.normalValue * 1.14,
         selectedFontSize: context.sized.lowValue * 1.3,
         unselectedFontSize: context.sized.lowValue,
         backgroundColor: colorScheme.onPrimary,

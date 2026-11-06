@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
 import 'package:hipocapp/product/navigation/app_router.dart';
-import 'package:hipocapp/product/widget/custom_loader/custom_loader_widget.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_box.dart';
+import 'package:hipocapp/product/widget/skeleton/app_skeleton_shimmer.dart';
 import 'package:kartal/kartal.dart';
 import 'package:widgets/widgets.dart';
 
@@ -36,30 +37,11 @@ class DrawerTitlesWidget extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      LocaleKeys.drawer_titles_title.tr(),
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(height: low * 0.45),
-                    Text(
-                      hasSelection
-                          ? LocaleKeys.drawer_titles_description_selected.tr(
-                              namedArgs: {
-                                'category': selectedHeaderText!.trim(),
-                              },
-                            )
-                          : LocaleKeys.drawer_titles_description_default.tr(),
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                        height: 1.45,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  LocaleKeys.drawer_titles_title.tr(),
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
               if (titles.isNotEmpty)
@@ -82,12 +64,59 @@ class DrawerTitlesWidget extends StatelessWidget {
                 ),
             ],
           ),
-          SizedBox(height: normal),
+          SizedBox(height: normal * 0.9),
           if (isLoading)
-            SizedBox(
-              height: context.sized.height * 0.18,
-              child: const Center(
-                child: CustomLoader(),
+            AppSkeletonShimmer(
+              child: Column(
+                children: List.generate(
+                  3,
+                  (index) => Padding(
+                    padding:
+                        EdgeInsets.only(bottom: index == 2 ? 0 : low * 0.75),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: normal * 0.9,
+                        vertical: low * 0.9,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary.withValues(alpha: 0.04),
+                        borderRadius: BorderRadius.circular(normal * 1.2),
+                      ),
+                      child: Row(
+                        children: [
+                          AppSkeletonBox(
+                            width: context.sized.height * 0.05,
+                            height: context.sized.height * 0.05,
+                            radius: normal,
+                          ),
+                          SizedBox(width: normal * 0.85),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AppSkeletonBox(
+                                  width: double.infinity,
+                                  height: context.sized.height * 0.02,
+                                ),
+                                SizedBox(height: low * 0.35),
+                                AppSkeletonBox(
+                                  width: context.sized.width * 0.32,
+                                  height: context.sized.height * 0.015,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: low * 0.8),
+                          AppSkeletonBox(
+                            width: normal,
+                            height: normal,
+                            radius: normal,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             )
           else if (titles.isEmpty)
@@ -122,8 +151,8 @@ class DrawerTitlesWidget extends StatelessWidget {
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: normal,
-                          vertical: low,
+                          horizontal: normal * 0.9,
+                          vertical: low * 0.9,
                         ),
                         child: Row(
                           children: [

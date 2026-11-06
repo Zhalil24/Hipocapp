@@ -7,7 +7,6 @@ import 'package:hipocapp/product/service/manager/product_network_error_manager.d
 import 'package:hipocapp/product/service/message_service.dart';
 import 'package:hipocapp/product/state/base/base_state.dart';
 import 'package:hipocapp/product/state/container/product_satate_items.dart';
-import 'package:hipocapp/product/utility/decrypt/chat_crypto_utils.dart';
 
 mixin ChatViewMixin on BaseState<ChatView> {
   late final ProductNetworkErrorManager _productNetworkErrorManager;
@@ -30,6 +29,7 @@ mixin ChatViewMixin on BaseState<ChatView> {
     );
     _chatViewModel = ChatViewModel(
       toUserId: widget.toUserId ?? 0,
+      manageSignalRLifecycle: widget.manageSignalRLifecycle,
       hubConnection: ProductStateItems.signalRService.connection,
       userCacheOperation: ProductStateItems.productCache.userCacheOperation,
       messageOperation: MessageService(ProductStateItems.productNetworkManager),
@@ -52,17 +52,15 @@ mixin ChatViewMixin on BaseState<ChatView> {
       return;
     }
 
-    final encryptedMessage = encryptMessageSafe(plainText);
     if (widget.groupId == null) {
       await chatViewModel.sendPrivateMessage(
         toUserId: widget.toUserId ?? 0,
-        messageText: encryptedMessage,
+        messageText: plainText,
       );
     } else {
       await chatViewModel.sendMessageGroup(
         groupId: widget.groupId ?? 0,
-        groupName: widget.groupName ?? '',
-        message: encryptedMessage,
+        message: plainText,
       );
     }
     controller.clear();
@@ -97,9 +95,11 @@ mixin ChatViewMixin on BaseState<ChatView> {
     controller.dispose();
     inputFocusNode.dispose();
     scrollController.dispose();
-    if (widget.groupName?.isNotEmpty ?? false) {
-      unawaited(chatViewModel.leaveGroup(widget.groupName ?? ''));
-    }
+    unawaited(
+      chatViewModel.disposeLifecycle(
+        groupId: widget.groupId,
+      ),
+    );
     super.dispose();
   }
 }

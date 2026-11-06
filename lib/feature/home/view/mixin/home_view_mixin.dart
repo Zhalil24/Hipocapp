@@ -15,6 +15,7 @@ mixin HomeViewMixin on BaseState<HomeView> {
   late final ProductNetworkErrorManager _productNetworkErrorManager;
   late final HomeViewModel _homeViewModel;
   late final TextEditingController textController;
+  late final TextEditingController contentSearchController;
   late Timer? timer;
 
   HomeViewModel get homeViewModel => _homeViewModel;
@@ -34,6 +35,7 @@ mixin HomeViewMixin on BaseState<HomeView> {
         titleOperation: TitleService(ProductStateItems.productNetworkManager));
     _homeViewModel.changeEntries(true);
     textController = TextEditingController();
+    contentSearchController = TextEditingController();
     _homeViewModel.getGroupList();
     timer = null;
   }
@@ -41,6 +43,7 @@ mixin HomeViewMixin on BaseState<HomeView> {
   @override
   void dispose() {
     textController.dispose();
+    contentSearchController.dispose();
     scrollController.dispose();
     timer?.cancel();
     super.dispose();

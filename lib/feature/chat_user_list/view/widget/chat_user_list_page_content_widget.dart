@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/chat_user_list_header_card_widget.dart';
-import 'package:hipocapp/feature/chat_user_list/view/widget/chat_user_search_card_widget.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/group_list_widget.dart';
 import 'package:hipocapp/feature/chat_user_list/view/widget/user_list_widget.dart';
 import 'package:hipocapp/product/init/language/locale_keys.g.dart';
@@ -16,8 +15,6 @@ class ChatUserListPageContentWidget extends StatelessWidget {
   const ChatUserListPageContentWidget({
     super.key,
     required this.state,
-    required this.searchController,
-    required this.onSearchChanged,
     required this.onTabChanged,
     required this.onUserSelected,
     required this.onRecentChatSelected,
@@ -26,8 +23,6 @@ class ChatUserListPageContentWidget extends StatelessWidget {
   });
 
   final ChatUserListViewState state;
-  final TextEditingController searchController;
-  final ValueChanged<String> onSearchChanged;
   final ValueChanged<ChatTabType> onTabChanged;
   final Future<void> Function(ProfileModel profile) onUserSelected;
   final Future<void> Function(ProfileModel profile) onRecentChatSelected;
@@ -40,20 +35,15 @@ class ChatUserListPageContentWidget extends StatelessWidget {
     final users = state.filteredProfiles ?? <ProfileModel>[];
     final recentUsers = state.lastMessageUsers ?? <ProfileModel>[];
     final groups = state.groups ?? <GroupModel>[];
-    final unreadTotal = state.unreadCount?.fold<int>(
-          0,
-          (sum, item) => sum + (item.count ?? 0),
-        ) ??
-        0;
 
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
-            normal,
+            normal * 0.82,
             normal * 0.7,
-            normal,
+            normal * 0.82,
             normal * 1.4,
           ),
           sliver: SliverToBoxAdapter(
@@ -61,11 +51,9 @@ class ChatUserListPageContentWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ChatUserListHeaderCardWidget(
-                  activeTab: state.activeTab,
                   usersCount: state.profileModel?.length ?? 0,
                   conversationCount: recentUsers.length,
-                  groupCount: groups.length,
-                  unreadTotal: unreadTotal,
+                  channelCount: groups.length,
                 ),
                 SizedBox(height: normal),
                 AppSurfaceCard(
@@ -78,14 +66,6 @@ class ChatUserListPageContentWidget extends StatelessWidget {
                     onChanged: onTabChanged,
                   ),
                 ),
-                if (state.activeTab == ChatTabType.users) ...[
-                  SizedBox(height: normal),
-                  ChatUserSearchCardWidget(
-                    searchController: searchController,
-                    searchQuery: state.searchQuery,
-                    onChanged: onSearchChanged,
-                  ),
-                ],
               ],
             ),
           ),
@@ -107,33 +87,16 @@ class ChatUserListPageContentWidget extends StatelessWidget {
     required List<GroupModel> groups,
   }) {
     if (state.isLoading) {
-      return SliverFillRemaining(
+      return const SliverFillRemaining(
         hasScrollBody: false,
         child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(context.sized.normalValue),
-            child: AppSurfaceCard(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CustomLoader(),
-                  SizedBox(height: context.sized.normalValue),
-                  Text(
-                    LocaleKeys.chat_user_list_loading.tr(),
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          child: CustomLoader(),
         ),
       );
     }
 
     switch (state.activeTab) {
-      case ChatTabType.users:
+      case ChatTabType.following:
         if (users.isEmpty) {
           return _buildEmptyState(
             context: context,
@@ -144,22 +107,13 @@ class ChatUserListPageContentWidget extends StatelessWidget {
             message: state.searchQuery.isNotEmpty
                 ? LocaleKeys.chat_user_list_empty_search_message.tr()
                 : LocaleKeys.chat_user_list_empty_users_message.tr(),
-            actionLabel: state.searchQuery.isNotEmpty
-                ? LocaleKeys.general_button_clear_search.tr()
-                : null,
-            onAction: state.searchQuery.isNotEmpty
-                ? () {
-                    searchController.clear();
-                    onSearchChanged('');
-                  }
-                : null,
           );
         }
         return SliverPadding(
           padding: EdgeInsets.fromLTRB(
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             0,
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             context.sized.normalValue * 1.6,
           ),
           sliver: SliverList.builder(
@@ -167,8 +121,7 @@ class ChatUserListPageContentWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               final profile = users[index];
               return UserListWidget(
-                username: profile.username ??
-                    LocaleKeys.general_fallback_unknown_user.tr(),
+                username: _resolveUserName(profile.username),
                 photoURL: profile.photoURL ?? '',
                 isOnline: profile.isOnline,
                 onTap: () async {
@@ -189,9 +142,9 @@ class ChatUserListPageContentWidget extends StatelessWidget {
         }
         return SliverPadding(
           padding: EdgeInsets.fromLTRB(
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             0,
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             context.sized.normalValue * 1.6,
           ),
           sliver: SliverList.builder(
@@ -202,8 +155,7 @@ class ChatUserListPageContentWidget extends StatelessWidget {
               return UserListWidget(
                 unreadMessageCount: unreadCount,
                 isOnline: profile.isOnline,
-                username: profile.username ??
-                    LocaleKeys.general_fallback_unknown_user.tr(),
+                username: _resolveUserName(profile.username),
                 photoURL: profile.photoURL ?? '',
                 onTap: () async {
                   await onRecentChatSelected(profile);
@@ -223,9 +175,9 @@ class ChatUserListPageContentWidget extends StatelessWidget {
         }
         return SliverPadding(
           padding: EdgeInsets.fromLTRB(
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             0,
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             context.sized.normalValue * 1.6,
           ),
           sliver: SliverList.builder(
@@ -258,9 +210,9 @@ class ChatUserListPageContentWidget extends StatelessWidget {
       child: Center(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             0,
-            context.sized.normalValue,
+            context.sized.normalValue * 0.82,
             context.sized.normalValue * 1.6,
           ),
           child: AppEmptyStateCard(
@@ -277,7 +229,7 @@ class ChatUserListPageContentWidget extends StatelessWidget {
 
   String _tabLabel(ChatTabType tab) {
     switch (tab) {
-      case ChatTabType.users:
+      case ChatTabType.following:
         return LocaleKeys.chat_user_list_tab_users.tr();
       case ChatTabType.pastMessages:
         return LocaleKeys.chat_user_list_tab_past_messages.tr();
@@ -288,12 +240,21 @@ class ChatUserListPageContentWidget extends StatelessWidget {
 
   IconData _tabIcon(ChatTabType tab) {
     switch (tab) {
-      case ChatTabType.users:
+      case ChatTabType.following:
         return Icons.people_alt_rounded;
       case ChatTabType.pastMessages:
         return Icons.chat_rounded;
       case ChatTabType.groups:
         return Icons.groups_rounded;
     }
+  }
+
+  String _resolveUserName(String? userName) {
+    final normalized = userName?.trim() ?? '';
+    if (normalized.isNotEmpty) {
+      return normalized;
+    }
+
+    return LocaleKeys.general_fallback_unknown_user.tr();
   }
 }

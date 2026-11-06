@@ -12,7 +12,9 @@ final class HomeViewState extends Equatable {
       this.isLoadingSearchbar = false,
       this.contentType = 'Anasayfa',
       this.titleModel = const [],
-      this.contentModel = const []});
+      this.contentModel = const [],
+      this.filteredContentModel = const [],
+      this.contentSearchQuery = ''});
 
   final bool isLoading;
   final bool isLoadingSearchbar;
@@ -21,6 +23,8 @@ final class HomeViewState extends Equatable {
   final List<LastEntriesModel>? lastEntries;
   final List<RandomEntriesModel>? randomEntries;
   final List<ContentModel> contentModel;
+  final List<ContentModel> filteredContentModel;
+  final String contentSearchQuery;
   final List<TitleModel> titleModel;
   final String contentType;
   final List<GroupListModel>? groupListModel;
@@ -35,6 +39,8 @@ final class HomeViewState extends Equatable {
         randomEntries,
         contentType,
         contentModel,
+        filteredContentModel,
+        contentSearchQuery,
         titleModel,
         isLoadingSearchbar,
       ];
@@ -47,9 +53,11 @@ final class HomeViewState extends Equatable {
       bool? isLastEntries,
       bool? isRandomEntries,
       List<ContentModel>? contentModel,
+      List<ContentModel>? filteredContentModel,
       List<TitleModel>? titleModel,
       bool? isLoadingSearchbar,
-      String? contentType}) {
+      String? contentType,
+      String? contentSearchQuery}) {
     return HomeViewState(
         isLoading: isLoading ?? this.isLoading,
         isLoadingSearchbar: isLoadingSearchbar ?? this.isLoadingSearchbar,
@@ -60,6 +68,8 @@ final class HomeViewState extends Equatable {
         randomEntries: randomEntries ?? this.randomEntries,
         titleModel: titleModel ?? this.titleModel,
         groupListModel: groupListModel ?? this.groupListModel,
-        contentModel: contentModel ?? this.contentModel);
+        contentModel: contentModel ?? this.contentModel,
+        filteredContentModel: filteredContentModel ?? this.filteredContentModel,
+        contentSearchQuery: contentSearchQuery ?? this.contentSearchQuery);
   }
 }

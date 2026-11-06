@@ -10,8 +10,14 @@
     "group_fallback_title": "Kanal",
     "group_fallback_description": "Kanal açıklaması",
     "group_join_cta": "Katılmak İçin",
+    "content_search": {
+      "market": "Market iÃ§i ara",
+      "announcements": "İlan ara",
+      "partners": "Partner ara",
+      "trainings": "Eğitim ara"
+    },
     "entry_filter_latest": "daily",
-    "entry_filter_random": "scrum",
+    "entry_filter_random": "stream",
     "bottom_nav": {
       "home": "Anasayfa",
       "market": "Market",
@@ -39,7 +45,7 @@
       "join_channel": "Kanala katıl",
       "clear_search": "Aramayı temizle",
       "show_details": "Detayları Gör",
-      "create_title": "Yeni başlık ekle",
+      "create_title": "Başlık Aç",
       "sending": "Gönderiliyor"
     },
     "dialog": {
@@ -209,6 +215,15 @@
       "delete_entry_message": "Bu işlem geri alınmaz. Entryi silmek istediğine emin misin?",
       "entries_empty_title": "Henüz entry yok",
       "entries_empty_message": "Paylaştığın entryler burada listelenecek. İlk içeriğini oluşturduğunda bu alan hareketlenecek.",
+      "followers": "Takipçi",
+      "following": "Takip",
+      "follow_button": "Takip Et",
+      "following_button": "Takip Ediliyor",
+      "followers_popup_title": "Takipçiler",
+      "following_popup_title": "Takip Edilenler",
+      "followers_empty_message": "Henüz takipçi yok.",
+      "following_empty_message": "Henüz takip edilen kullanıcı yok.",
+      "follow_action_failed": "Takip işlemi şu anda tamamlanamadı.",
       "logout_success": "Başarıyla çıkış yapıldı",
       "tab": {
         "profile": "Profil",
@@ -230,32 +245,32 @@
   },
   "chat_user_list": {
     "title": "Mesajlar",
-    "search_title": "Kullanıcı ara",
-    "search_description": "Bir kullanıcı adı yazarak uygun sohbet kişilerini hızlıca filtrele.",
-    "search_hint": "Kullanıcı ara",
+    "search_title": "Takip ettiklerini ara",
+    "search_description": "Takip ettiğin kullanıcıları filtreleyip doğrudan sohbet başlatabilirsin.",
+    "search_hint": "Takip edilen ara",
     "loading": "Sohbet akışı hazırlanıyor",
     "tab": {
-      "users": "Kişiler",
-      "past_messages": "Sohbetler",
-      "groups": "Gruplar"
+      "users": "Takip Edilenler",
+      "past_messages": "Geçmiş Sohbetler",
+      "groups": "Kanallar"
     },
     "header": {
       "users_title": "Topluluktaki kişiler",
-      "past_messages_title": "Devam eden sohbetler",
-      "groups_title": "Gruplar ve odalar",
+      "past_messages_title": "Geçmiş sohbetler",
+      "groups_title": "Kanallar",
       "users_description": "Yeni bir sohbet başlatmak için uygun kişiyi seç ve anında mesaja geç.",
       "past_messages_description": "Son konuşmalarını tek ekranda takip et, okunmamış mesajları hızlıca yakala.",
       "groups_description": "Dahil olduğun topluluk odalarına katıl ve ortak sohbetleri kesintisiz sürdür."
     },
     "empty": {
       "search_title": "Eşleşen kullanıcı yok",
-      "users_title": "Henüz kullanıcı listelenmiyor",
-      "search_message": "Aramanı biraz sadeletip tekrar denersen daha fazla kişi görebilirsin.",
-      "users_message": "Topluluktaki yeni kişiler burada görünecek.",
+        "users_title": "Henüz takip ettiğin kullanıcı yok",
+        "search_message": "Aramanı sadeleştirerek mesajlaşmak istediğin takip edilen kişiyi daha kolay bulabilirsin.",
+        "users_message": "Takip ettiğin kullanıcılar burada doğrudan mesajlaşmaya hazır görünecek.",
       "conversations_title": "Henüz bir sohbet başlatılmamış",
-      "conversations_message": "Konuştuğun kişiler burada toplanır. Yeni bir sohbet başlatmak için kullanıcılar sekmesine geçebilirsin.",
-      "groups_title": "Henüz grup bulunmuyor",
-      "groups_message": "Katılım sağladığın topluluk odaları burada listelenecek."
+        "conversations_message": "Son konuşmaların burada toplanır. Yeni bir sohbet başlatmak için takip edilenler sekmesine geçebilirsin.",
+      "groups_title": "Henüz kanal bulunmuyor",
+      "groups_message": "Katıldığın kanallar burada listelenecek."
     },
     "user": {
       "active": "Şu an aktif, mesaja hazır görünüyor",
@@ -263,7 +278,7 @@
       "unread_count": "{count} okunmamış mesaj var"
     },
     "group": {
-      "member_count": "{count} üye ile ortak sohbete katıl",
+      "member_count": "{count} kişiyle kanal sohbetine katıl",
       "open_direct": "Topluluk kanalını aç ve sohbete doğrudan bağlan"
     }
   },
@@ -326,7 +341,7 @@
     "empty_message_logged_out": "Bu başlık henüz boş. Giriş yaptığında ilk yorumu sen paylaşabilirsin."
   },
   "drawer": {
-    "header_title": "HipocApp navigasyonu",
+    "header_title": "Menü",
     "header_description_logged_in": "Hoş geldin {user}, akışını hızlıca şekillendir.",
     "header_description_logged_out": "Keşfet, kategori seç ve ilgini çeken başlıklara tek yerden ulaş.",
     "badge_member_mode": "Üye modu",

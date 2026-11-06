@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:gen/gen.dart';
 import 'package:hipocapp/feature/home/view_model/state/home_view_state.dart';
 import 'package:hipocapp/product/service/interface/content_operarion.dart';
 import 'package:hipocapp/product/service/interface/entry_operation.dart';
@@ -64,7 +64,7 @@ final class HomeViewModel extends BaseCubit<HomeViewState> {
   }
 
   /// Change contet type
-  void handleNavigation(BuildContext context, int index) {
+  void handleNavigation(int index) {
     final contentTypes = <ContentTypeEnum>[
       ContentTypeEnum.home,
       ContentTypeEnum.getCampains,
@@ -76,11 +76,23 @@ final class HomeViewModel extends BaseCubit<HomeViewState> {
     final selectedContentType = contentTypes[index];
 
     if (selectedContentType == ContentTypeEnum.home) {
-      emit(state.copyWith(contentType: selectedContentType.value));
+      emit(
+        state.copyWith(
+          contentType: selectedContentType.value,
+          contentSearchQuery: '',
+          filteredContentModel: const [],
+        ),
+      );
       return;
     }
 
-    emit(state.copyWith(contentType: selectedContentType.value));
+    emit(
+      state.copyWith(
+        contentType: selectedContentType.value,
+        contentSearchQuery: '',
+        filteredContentModel: const [],
+      ),
+    );
     getContentList(selectedContentType.value);
   }
 
@@ -88,8 +100,41 @@ final class HomeViewModel extends BaseCubit<HomeViewState> {
   Future<void> getContentList(String contentName) async {
     changeLoading();
     final resp = await _contentOperarion.getContentList(contentName);
-    emit(state.copyWith(contentModel: resp));
+    emit(
+      state.copyWith(
+        contentModel: resp ?? const <ContentModel>[],
+        filteredContentModel: resp ?? const <ContentModel>[],
+        contentSearchQuery: '',
+      ),
+    );
     changeLoading();
+  }
+
+  void filterContentList(String query) {
+    final normalizedQuery = query.trim().toLowerCase();
+    final source = state.contentModel;
+
+    if (normalizedQuery.isEmpty) {
+      emit(
+        state.copyWith(
+          filteredContentModel: source,
+          contentSearchQuery: '',
+        ),
+      );
+      return;
+    }
+
+    final filtered = source.where((item) {
+      final title = item.title?.toLowerCase() ?? '';
+      return title.contains(normalizedQuery);
+    }).toList();
+
+    emit(
+      state.copyWith(
+        filteredContentModel: filtered,
+        contentSearchQuery: query,
+      ),
+    );
   }
 
   /// Searches for entries by title name.

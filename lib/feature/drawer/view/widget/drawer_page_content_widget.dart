@@ -14,6 +14,8 @@ class DrawerPageContentWidget extends StatelessWidget {
     required this.isLoggedIn,
     required this.userName,
     required this.themeMode,
+    required this.scrollController,
+    required this.contributionSectionKey,
     required this.onThemeChanged,
     required this.titleController,
     required this.descController,
@@ -26,6 +28,8 @@ class DrawerPageContentWidget extends StatelessWidget {
   final bool isLoggedIn;
   final String? userName;
   final ThemeMode themeMode;
+  final ScrollController scrollController;
+  final GlobalKey contributionSectionKey;
   final ValueChanged<ThemeMode> onThemeChanged;
   final TextEditingController titleController;
   final TextEditingController descController;
@@ -39,11 +43,12 @@ class DrawerPageContentWidget extends StatelessWidget {
     final selectedHeaderText = state.headers.text?.trim();
 
     return SingleChildScrollView(
+      controller: scrollController,
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.fromLTRB(
-        normal + (low * 0.35),
+        normal,
         normal + (low * 0.25),
-        normal + (low * 0.55),
+        normal,
         normal * 1.4,
       ),
       child: Column(
@@ -63,13 +68,16 @@ class DrawerPageContentWidget extends StatelessWidget {
           ),
           if (state.isSubItemSelected) ...[
             SizedBox(height: normal),
-            SubItemSelectionWidget(
-              isSubItemSelected: state.isSubItemSelected,
-              isLoggedIn: isLoggedIn,
-              selectedHeaderText: selectedHeaderText,
-              titleController: titleController,
-              descController: descController,
-              onCreateEntry: onCreateEntry,
+            KeyedSubtree(
+              key: contributionSectionKey,
+              child: SubItemSelectionWidget(
+                isSubItemSelected: state.isSubItemSelected,
+                isLoggedIn: isLoggedIn,
+                selectedHeaderText: selectedHeaderText,
+                titleController: titleController,
+                descController: descController,
+                onCreateEntry: onCreateEntry,
+              ),
             ),
           ],
           SizedBox(height: normal),

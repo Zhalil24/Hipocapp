@@ -11,6 +11,11 @@ final class ProfileViewState extends Equatable {
     this.activeTab = ProfileTabType.profile,
     this.photo,
     this.serviceResponseMessage,
+    this.followCountModel,
+    this.followStatusModel,
+    this.followers = const <FollowUserItemModel>[],
+    this.following = const <FollowUserItemModel>[],
+    this.isFollowActionLoading = false,
   });
 
   static const Object _sentinel = Object();
@@ -20,8 +25,24 @@ final class ProfileViewState extends Equatable {
   final ProfileTabType activeTab;
   final File? photo;
   final String? serviceResponseMessage;
+  final FollowCountModel? followCountModel;
+  final FollowStatusModel? followStatusModel;
+  final List<FollowUserItemModel> followers;
+  final List<FollowUserItemModel> following;
+  final bool isFollowActionLoading;
   @override
-  List<Object?> get props => [isLoading, profileModel, activeTab, photo, serviceResponseMessage];
+  List<Object?> get props => [
+        isLoading,
+        profileModel,
+        activeTab,
+        photo,
+        serviceResponseMessage,
+        followCountModel,
+        followStatusModel,
+        followers,
+        following,
+        isFollowActionLoading,
+      ];
 
   ProfileViewState copyWith({
     bool? isLoading,
@@ -29,6 +50,11 @@ final class ProfileViewState extends Equatable {
     ProfileTabType? activeTab,
     Object? photo = _sentinel,
     Object? serviceResponseMessage = _sentinel,
+    Object? followCountModel = _sentinel,
+    Object? followStatusModel = _sentinel,
+    List<FollowUserItemModel>? followers,
+    List<FollowUserItemModel>? following,
+    bool? isFollowActionLoading,
   }) {
     return ProfileViewState(
       isLoading: isLoading ?? this.isLoading,
@@ -38,6 +64,16 @@ final class ProfileViewState extends Equatable {
       serviceResponseMessage: identical(serviceResponseMessage, _sentinel)
           ? this.serviceResponseMessage
           : serviceResponseMessage as String?,
+      followCountModel: identical(followCountModel, _sentinel)
+          ? this.followCountModel
+          : followCountModel as FollowCountModel?,
+      followStatusModel: identical(followStatusModel, _sentinel)
+          ? this.followStatusModel
+          : followStatusModel as FollowStatusModel?,
+      followers: followers ?? this.followers,
+      following: following ?? this.following,
+      isFollowActionLoading:
+          isFollowActionLoading ?? this.isFollowActionLoading,
     );
   }
 }
