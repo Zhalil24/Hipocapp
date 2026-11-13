@@ -1,16 +1,62 @@
-# my_architecture_template
+# HipocApp Mobile
 
-A new Flutter project.
+Flutter client for HipocApp. It talks to the
+[backend API](https://github.com/Zhalil24/hipocapp-backend) over REST and to its SignalR hub for chat.
 
-## Getting Started
+## Requirements
 
-This project is a starting point for a Flutter application.
+- Flutter (stable channel)
+- Android Studio or Xcode for running on a device or emulator
+- A running HipocApp backend
 
-A few resources to get you started if this is your first Flutter project:
+## Setup
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Create the env files. They are ignored by git:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   ```
+   module/gen/assets/env/.dev.env
+   module/gen/assets/env/.prod.env
+   ```
+
+   Each file contains the API address:
+
+   ```
+   BASE_URL=http://10.0.2.2:5000
+   ```
+
+   `10.0.2.2` is the host machine as seen from the Android emulator. Debug builds use
+   `.dev.env`, release builds use `.prod.env`.
+
+2. Install packages and generate code:
+
+   ```bash
+   flutter pub get
+   cd module/gen && dart run build_runner build --delete-conflicting-outputs && cd ../..
+   dart run build_runner build --delete-conflicting-outputs
+   ```
+
+   Run the generators again after changing env files, models or routes.
+
+3. Run:
+
+   ```bash
+   flutter run
+   ```
+
+## Project layout
+
+| Folder | Purpose |
+|---|---|
+| `lib/feature` | Screens, one folder per feature (view, view model, widgets) |
+| `lib/product` | App-wide code: services, navigation, state, cache, theme, SignalR |
+| `module/core` | Cache infrastructure |
+| `module/gen` | Generated assets, env configuration and API models |
+| `module/widgets` | Shared widgets |
+| `module/common` | Shared package wrappers (e.g. custom image) |
+
+## Checks
+
+```bash
+flutter analyze
+flutter test
+```
