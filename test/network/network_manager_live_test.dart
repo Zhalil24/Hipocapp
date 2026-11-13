@@ -12,7 +12,7 @@ import 'package:vexana/vexana.dart';
 void main() {
   late ProductNetworkManager manager;
 
-  setUp(() {
+  setUpAll(() {
     AppEnvironment.general();
     manager = ProductNetworkManager.base();
   });
