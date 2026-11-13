@@ -33,6 +33,7 @@ Flutter client for HipocApp. It talks to the
    flutter pub get
    cd module/gen && dart run build_runner build --delete-conflicting-outputs && cd ../..
    dart run build_runner build --delete-conflicting-outputs
+   sh script/lang.sh   # translation keys (locale_keys.g.dart)
    ```
 
    Run the generators again after changing env files, models or routes.

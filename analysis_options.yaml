@@ -11,9 +11,9 @@ include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
   exclude:
-    - "/*.g.dart"
-    - "*.g.dart"
-    - "/*.gen.dart"
+    - "**/*.g.dart"
+    - "**/*.gen.dart"
+    - "**/*.gr.dart"
     - "test/.test_coverage.dart"
     - "bin/cache/**"
     - "lib/generated_plugin_registrant.dart"
