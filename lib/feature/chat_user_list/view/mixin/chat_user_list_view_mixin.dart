@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:hipocapp/feature/chat_user_list/view/chat_user_list_view.dart';
 import 'package:hipocapp/feature/chat_user_list/view_model/chat_user_list_view_model.dart';
 import 'package:hipocapp/product/service/follow_service.dart';
