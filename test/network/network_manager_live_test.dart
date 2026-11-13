@@ -1,12 +1,16 @@
+// These tests call the real API, so CI skips them (--exclude-tags live).
+@Tags(['live'])
+library;
+
 import 'package:gen/gen.dart';
 import 'package:hipocapp/product/init/config/app_environment.dart';
-import 'package:hipocapp/product/service/manager/product_network_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hipocapp/product/service/manager/product_network_manager.dart';
 import 'package:hipocapp/product/service/manager/product_service_path.dart';
 import 'package:vexana/vexana.dart';
 
 void main() {
-  ProductNetworkManager? manager = ProductNetworkManager.base();
+  late ProductNetworkManager manager;
 
   setUp(() {
     AppEnvironment.general();
@@ -19,7 +23,7 @@ void main() {
       password: '',
     );
 
-    final networkResult = await manager!.sendRequest<UserResponseModel, dynamic>(
+    final networkResult = await manager.sendRequest<UserResponseModel, dynamic>(
       ProductServicePath.login.value,
       parseModel: UserResponseModel(),
       method: RequestType.POST,
@@ -31,7 +35,7 @@ void main() {
   });
 
   test('Get Last Entries', () async {
-    final response = await manager!.send<LastEntiresResponseModel, dynamic>(
+    final response = await manager.send<LastEntiresResponseModel, dynamic>(
       ProductServicePath.lastEntries.value,
       parseModel: LastEntiresResponseModel(),
       method: RequestType.GET,
