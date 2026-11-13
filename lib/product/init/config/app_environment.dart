@@ -13,17 +13,16 @@ final class AppEnvironment {
 /// Get application environment item
 enum AppEnvironmentItems {
   /// Network base url
-  baseUrl,
-
-  /// Network api key
-  apiKey;
+  baseUrl;
 
   /// Get application environment item value
   String get value {
     try {
-      return AppEnvironment._config.baseUrl;
+      return switch (this) {
+        AppEnvironmentItems.baseUrl => AppEnvironment._config.baseUrl,
+      };
     } catch (e) {
-      throw Exception('AppEnvironment is not initalized');
+      throw Exception('AppEnvironment is not initialized');
     }
   }
 }
